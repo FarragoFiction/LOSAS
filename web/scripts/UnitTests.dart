@@ -21,6 +21,9 @@ abstract class UnitTests {
 
     static void runTests(Element element) {
         runTargetFilterTests(element);
+        runActionEffectTests(element);
+        //TODO run generator tests
+        runIntegrationTest(element);
         DivElement results = new DivElement()..setInnerHtml("$testsRan tests ran.");
         SpanElement span = new SpanElement()..style.background = "black"..style.color="red"..text = "WARNING: $testFailed failed.";
 
@@ -40,6 +43,10 @@ abstract class UnitTests {
         testTFNumIsValue(element);
         testTFStringExists(element);
         testTFStringIsValue(element);
+    }
+
+    static void runActionEffectTests(Element element) {
+
     }
 
     static void processTest(String label, dynamic expected, dynamic value, Element element) {
