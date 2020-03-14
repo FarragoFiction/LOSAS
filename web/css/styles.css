@@ -1,0 +1,42 @@
+@font-face {
+    font-family: cabin;
+    src: url("../Fonts/cabin.regular.ttf");
+}
+
+@font-face {
+    font-family: nunito;
+    src: url("../Fonts/nunito/Nunito-Regular.ttf");
+}
+
+@font-face {
+    font-family: land;
+    src: url("../Fonts/CARIMA.TTF");
+}
+
+
+@font-face {
+    font-family: norse;
+    src: url("../Fonts/viking/Viking.ttf");
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #C33700;
+  color: #FEFD49;
+  font-family: 'nunito', sans-serif;
+}
+
+#output {
+  margin: 25px;
+  padding: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  border: 13px solid #FF8800f;
+  background-color: #D66E04;
+  border-radius: 13px;
+  width: 1000px;
+}
+}
