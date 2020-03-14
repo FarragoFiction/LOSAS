@@ -8,7 +8,7 @@ class TFNumIsGreaterThanValue extends TargetFilter {
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
     num currentValue = possibleTarget.getNumMemory(importantWord);
-    if(currentValue == null) return true; //filter me i don't even have this
+    if(currentValue == null) return false; //filter me i don't even have this
     return currentValue >= importantNum;
   }
 
