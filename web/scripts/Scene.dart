@@ -19,10 +19,12 @@ class Scene {
 
     bool checkIfActivated(List<Entity> entities) {
         targets.clear();
+        if(targetFilters.isEmpty) return true;
 
         for(TargetFilter tc in targetFilters) {
             targets = new Set<Entity>.from(tc.filter(this,entities));
         }
-        return targetFilters.isNotEmpty && targets.isNotEmpty;
+        print("found targets $targets");
+        return targets.isNotEmpty;
     }
 }

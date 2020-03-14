@@ -7,7 +7,7 @@ class TFStringExists extends TargetFilter {
 
   TFStringExists(String importantWord, num importantNum) : super(importantWord, importantNum);
   @override
-  bool conditionForRemove(Entity actor, Entity possibleTarget) {
+  bool conditionForKeep(Entity actor, Entity possibleTarget) {
     return possibleTarget.getStringMemory(importantWord) != value;
   }
 

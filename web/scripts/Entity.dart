@@ -21,6 +21,11 @@ class Entity {
         return _stringMemory[key];
     }
 
+    @override
+    String toString() {
+        return name;
+    }
+
     void setStringMemory(String key, String value) {
         _stringMemory[key] = value;
     }

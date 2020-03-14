@@ -6,8 +6,8 @@ class TFFalse extends TargetFilter {
   TFFalse(String importantWord, num importantNum) : super(importantWord, importantNum);
 
   @override
-  bool conditionForRemove(Entity actor, Entity possibleTarget) {
-    return false;
+  bool conditionForKeep(Entity actor, Entity possibleTarget) {
+    return true;
   }
 
 }

@@ -3,11 +3,13 @@ we are fucking doings this right. for each target filter, action effect, etc we 
  */
 import 'dart:html';
 
+import 'Entity.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
-import 'TargetFilters/TFFalse.dart';
-import 'TargetFilters/TFNumExists.dart';
-import 'TargetFilters/TFNumIsGreaterThanValue.dart';
+import 'TargetFilters/KeepIfTrue.dart';
+import 'TargetFilters/KeepIfNumExists.dart';
+import 'TargetFilters/KeepIfNumIsGreaterThanValue.dart';
+import 'TargetFilters/KeepIfNumIsValue.dart';
 import 'TargetFilters/TargetFilter.dart';
 
 abstract class UnitTests {
@@ -56,10 +58,12 @@ abstract class UnitTests {
         scenario.entities.first.scenes.add(scene);
         bool result = scene.checkIfActivated(scenario.entities);
         processTest("testTFFalse", result, true, element);
+        processTest("testTFFalse 3 targets", scene.targets.length, 3, element);
 
         filter.not = true;
         result = scene.checkIfActivated(scenario.entities);
         processTest("testTFFalse Not Test", result, false, element);
+
     }
 
     static void testTFNumExists(Element element) {
@@ -69,12 +73,15 @@ abstract class UnitTests {
         scene.targetFilters.add(filter);
         scenario.entities.first.scenes.add(scene);
         bool result = scene.checkIfActivated(scenario.entities);
-        processTest("testTFNumExists Test1", result, false, element);
+        processTest("testTFNumExists Test1", result, true, element);
+        processTest("testTFNumExists 3 targets", scene.targets.length, 3, element);
 
 
         scenario.entities[1].setNumMemory("secretNumber",85);
         result = scene.checkIfActivated(scenario.entities);
         processTest("testTFNumExists Test2", result, true, element);
+        processTest("testTFNumExists 2 targets", scene.targets.length, 2, element);
+
     }
 
     static void testTFNumIsGreaterThanValue(Element element) {
@@ -97,7 +104,22 @@ abstract class UnitTests {
     }
 
     static void testTFNumIsValue(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        TargetFilter filter = new TFNumIsValue("secretNumber",3);
+        scene.targetFilters.add(filter);
+        scenario.entities.first.scenes.add(scene);
+        bool result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNumIsValue Test1", result, false, element);
 
+        scenario.entities[1].setNumMemory("secretNumber",85);
+        result = scene.checkIfActivated(scenario.entities);
+        print("result 2 is $result");
+        processTest("testTFNumIsValue Test2", result, true, element);
+
+        scenario.entities[1].setNumMemory("secretNumber",113);
+        result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNumIsValue Test3", result, true, element);
     }
 
     static void testTFStringExists(Element element) {

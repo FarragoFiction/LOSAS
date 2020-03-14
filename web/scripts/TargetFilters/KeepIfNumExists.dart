@@ -6,8 +6,8 @@ class TFNumExists extends TargetFilter {
   TFNumExists(String importantWord, num importantNum) : super(importantWord, importantNum);
 
   @override
-  bool conditionForRemove(Entity actor, Entity possibleTarget) {
-    return possibleTarget.getNumMemory(importantWord) == null;
+  bool conditionForKeep(Entity actor, Entity possibleTarget) {
+    return possibleTarget.getNumMemory(importantWord) != null;
   }
 
 }
