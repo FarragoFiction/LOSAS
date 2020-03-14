@@ -6,7 +6,11 @@ abstract class TargetFilter {
     bool not = false;
     //should I apply my condition to myself, rather than my targets? (i.e. if I meet the condition I allow all targets to pass through to the next condition).
     bool vriska = false;
-    bool conditionForFilter(Entity actor, Entity possibleTarget);
+    bool conditionForRemove(Entity actor, Entity possibleTarget);
+    String importantWord;
+    num importantNum;
+
+    TargetFilter(this.importantWord, this.importantNum);
 
 
     List<Entity> filter(Scene scene, List<Entity> readOnlyEntities) {
@@ -15,17 +19,17 @@ abstract class TargetFilter {
         if(not) {
             if(vriska) {
                 //reject all if my condition isn't met
-                if(!conditionForFilter(scene.owner,scene.owner)) entities.clear();
+                if(!conditionForRemove(scene.owner,scene.owner)) entities.clear();
             }else {
-                entities.removeWhere((Entity item) => !conditionForFilter(scene.owner,item));
+                entities.removeWhere((Entity item) => !conditionForRemove(scene.owner,item));
             }
 
         }else {
             if(vriska) {
                 //reject all if my condition is met
-                if(conditionForFilter(scene.owner,scene.owner)) entities.clear();
+                if(conditionForRemove(scene.owner,scene.owner)) entities.clear();
             }else {
-                entities.removeWhere((Entity item) => conditionForFilter(scene.owner,item));
+                entities.removeWhere((Entity item) => conditionForRemove(scene.owner,item));
             }
         }
         print("entities remain after I filter ${entities.length}");

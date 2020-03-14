@@ -8,7 +8,7 @@ class Scene {
     Entity owner;
     String flavorText;
     String name;
-    List<TargetFilter> targetConditions = new List<TargetFilter>();
+    List<TargetFilter> targetFilters = new List<TargetFilter>();
     Set<Entity> targets = new Set<Entity>();
     Scene(this.name, this.flavorText);
 
@@ -21,10 +21,10 @@ class Scene {
         print("Trying to check if $name is activated");
         targets.clear();
 
-        for(TargetFilter tc in targetConditions) {
+        for(TargetFilter tc in targetFilters) {
             print("checking if $tc is met");
             targets = new Set<Entity>.from(tc.filter(this,entities));
         }
-        return targetConditions.isNotEmpty && targets.isNotEmpty;
+        return targetFilters.isNotEmpty && targets.isNotEmpty;
     }
 }

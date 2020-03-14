@@ -27,12 +27,8 @@ class Scenario {
 
     Scenario.testScenario(){
         Entity alice = new Entity("Alice")..isActive = true;
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
-        TargetFilter condition = new TFFalse();
-        scene.targetConditions.add(condition);
-        alice.scenes.add(scene);
-        Entity bob = new Entity("Bob");
-        Entity carol = new Entity("Carol");
+        Entity bob = new Entity("Bob")..isActive = true;
+        Entity carol = new Entity("Carol")..isActive = true;
         entities.add(alice);
         entities.add(bob);
         entities.add(carol);

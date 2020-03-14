@@ -2,12 +2,12 @@ import '../Entity.dart';
 import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
-class TFFalse extends TargetFilter {
-  TFFalse(String importantWord, num importantNum) : super(importantWord, importantNum);
+class TFNumExists extends TargetFilter {
+  TFNumExists(String importantWord, num importantNum) : super(importantWord, importantNum);
 
   @override
   bool conditionForRemove(Entity actor, Entity possibleTarget) {
-    return false;
+    return possibleTarget.getNumMemory(importantWord) == null;
   }
 
 }

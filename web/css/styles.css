@@ -31,7 +31,6 @@ html, body {
 #output {
   margin: 25px;
   padding: 20px;
-  text-align: center;
   margin-left: auto;
   margin-right: auto;
   border: 13px solid #FF8800f;
@@ -39,4 +38,13 @@ html, body {
   border-radius: 13px;
   width: 1000px;
 }
+
+.passed{
+    background-color: green;
+    padding: 5px;
+}
+
+.failed{
+    background-color: red;
+    padding: 5px;
 }
