@@ -7,6 +7,7 @@ import 'Scenario.dart';
 import 'Scene.dart';
 import 'TargetFilters/TFFalse.dart';
 import 'TargetFilters/TFNumExists.dart';
+import 'TargetFilters/TFNumIsGreaterThanValue.dart';
 import 'TargetFilters/TargetFilter.dart';
 
 abstract class UnitTests {
@@ -55,6 +56,10 @@ abstract class UnitTests {
         scenario.entities.first.scenes.add(scene);
         bool result = scene.checkIfActivated(scenario.entities);
         processTest("testTFFalse", result, true, element);
+
+        filter.not = true;
+        result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFFalse Not Test", result, false, element);
     }
 
     static void testTFNumExists(Element element) {
@@ -66,17 +71,28 @@ abstract class UnitTests {
         bool result = scene.checkIfActivated(scenario.entities);
         processTest("testTFNumExists Test1", result, false, element);
 
-        filter.not = true;
-        result = scene.checkIfActivated(scenario.entities);
-        processTest("testTFNumExists Test2", result, true, element);
 
-        filter.not = false;
         scenario.entities[1].setNumMemory("secretNumber",85);
         result = scene.checkIfActivated(scenario.entities);
-        processTest("testTFNumExists Test3", result, true, element);
+        processTest("testTFNumExists Test2", result, true, element);
     }
 
     static void testTFNumIsGreaterThanValue(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        TargetFilter filter = new TFNumIsGreaterThanValue("secretNumber",113);
+        scene.targetFilters.add(filter);
+        scenario.entities.first.scenes.add(scene);
+        bool result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNumIsGreaterThanValue Test1", result, false, element);
+
+        scenario.entities[1].setNumMemory("secretNumber",85);
+        result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNumIsGreaterThanValue Test2", result, true, element);
+
+        filter.importantNum = 1;
+        result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNumIsGreaterThanValue Test3", result, false, element);
 
     }
 
@@ -93,3 +109,4 @@ abstract class UnitTests {
     }
 
 }
+

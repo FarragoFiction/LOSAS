@@ -15,7 +15,6 @@ abstract class TargetFilter {
 
     List<Entity> filter(Scene scene, List<Entity> readOnlyEntities) {
         List<Entity> entities = new List.from(readOnlyEntities);
-        print("Checking what entities remain before I filter ${entities.length}");
         if(not) {
             if(vriska) {
                 //reject all if my condition isn't met
@@ -32,7 +31,6 @@ abstract class TargetFilter {
                 entities.removeWhere((Entity item) => conditionForRemove(scene.owner,item));
             }
         }
-        print("entities remain after I filter ${entities.length}");
         return entities;
     }
 

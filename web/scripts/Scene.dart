@@ -18,11 +18,9 @@ class Scene {
     }
 
     bool checkIfActivated(List<Entity> entities) {
-        print("Trying to check if $name is activated");
         targets.clear();
 
         for(TargetFilter tc in targetFilters) {
-            print("checking if $tc is met");
             targets = new Set<Entity>.from(tc.filter(this,entities));
         }
         return targetFilters.isNotEmpty && targets.isNotEmpty;
