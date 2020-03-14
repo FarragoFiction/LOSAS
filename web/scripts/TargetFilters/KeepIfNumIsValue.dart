@@ -2,10 +2,10 @@ import '../Entity.dart';
 import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
-class TFNumIsValue extends TargetFilter {
+class KeepIfNumIsValue extends TargetFilter {
   num value;
 
-  TFNumIsValue(String importantWord, num importantNum) : super(importantWord, importantNum);
+  KeepIfNumIsValue(String importantWord, num importantNum) : super(importantWord, importantNum);
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
     num currentValue = possibleTarget.getNumMemory(importantWord);
