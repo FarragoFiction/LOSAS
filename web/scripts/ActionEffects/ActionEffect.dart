@@ -4,6 +4,10 @@ import '../Scene.dart';
 abstract class ActionEffect {
     //are we applying this to my targets, or to myself?
     bool vriska = false;
+    num importantNum;
+    String importantString;
+
+    ActionEffect(this.importantString, this.importantNum);
 
     void effectEntities(Entity effector, List<Entity> entities);
 

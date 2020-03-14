@@ -9,7 +9,10 @@ class KeepIfNumIsValue extends TargetFilter {
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
     num currentValue = possibleTarget.getNumMemory(importantWord);
-    if(currentValue == null) return false;
+    if(currentValue == null) {
+        print("Warning: Are you SURE you want to ask for $importantWord? It's not set for $possibleTarget...");
+        return false;
+    }
     print("comparing $currentValue and $importantNum ${currentValue == importantNum}");
     return currentValue == importantNum;
   }
