@@ -1,0 +1,25 @@
+name: LOSAS
+description: An absolute bare-bones web app.
+# version: 1.0.0
+#homepage: https://www.example.com
+#author: jadedResearcher <gtg287y@gmail.com>
+
+environment:
+  sdk: '>=2.2.0 <3.0.0'
+
+#dependencies:
+#  path: ^1.4.1
+
+dev_dependencies:
+  CommonLib:
+    git: git://github.com/FarragoFiction/CommonLib.git
+  LoaderLib:
+    git: git://github.com/FarragoFiction/LoaderLib.git
+  RenderingLib:
+    git: git://github.com/FarragoFiction/RenderingLib
+  TextEngine:
+    git: git://github.com/FarragoFiction/TextEngine.git
+  recase: ^2.0.1
+  build_runner: ^1.0.0
+  build_test: ^0.10.2
+  build_web_compilers: ^0.4.0
