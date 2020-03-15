@@ -1,6 +1,10 @@
 import '../Entity.dart';
 import '../Scene.dart';
 
+/*
+    TODO Pile:
+     add serialied scene
+ */
 abstract class ActionEffect {
     //are we applying this to my targets, or to myself?
     bool vriska = false;

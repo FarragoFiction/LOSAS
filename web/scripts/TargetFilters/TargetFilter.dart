@@ -1,6 +1,10 @@
 import '../Entity.dart';
 import '../Scene.dart';
-
+/*
+    TODOPILE:
+    random value (how did sburbsim do this)
+    has scene that serializes to X
+ */
 abstract class TargetFilter {
     //should I invert my value?
     bool not = false;

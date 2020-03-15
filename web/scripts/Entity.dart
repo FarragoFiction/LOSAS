@@ -23,6 +23,23 @@ class Entity {
         return name;
     }
 
+    //if no scene can be performed, thems the breaks kids
+    Scene performScene(List<Entity> everyone) {
+        for(Scene scene in scenes) {
+            if(scene.checkIfActivated(everyone)){
+                return scene;
+            }
+        }
+    }
+
+    Scene checkForActivationScenes(List<Entity> everyone) {
+        for(Scene scene in activationScenes) {
+            if(scene.checkIfActivated(everyone)){
+                return scene;
+            }
+        }
+    }
+
     String getStringMemory(String key) {
         return _stringMemory[key];
     }
