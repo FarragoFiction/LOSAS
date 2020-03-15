@@ -8,6 +8,7 @@ import 'ActionEffects/AEAppendString.dart';
 import 'ActionEffects/AESetNum.dart';
 import 'ActionEffects/AESetString.dart';
 import 'ActionEffects/AEUnAppendString.dart';
+import 'ActionEffects/AEUnSetString.dart';
 import 'ActionEffects/ActionEffect.dart';
 import 'Entity.dart';
 import 'Scenario.dart';
@@ -47,7 +48,13 @@ abstract class UnitTests {
 
 
     static void runIntegrationTest(Element element) {
-        window.console.error("TODO: need to actually have the scenes ticking so alice can try to send bob a secret message that carol tries to intercept");
+        Scenario scenario = Scenario.testScenario();
+
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
+        TargetFilter filter = new KeepIfStringExists("secretMessage",null);
+
+
         //if bob does not have a secret message, alice sends a message to bob. this sets his secretMessage string and increments his secretMessageCounter
         //if bob has a secret message, carol reads it.
         //if bob has a secret message, bob reads it, and clears it out.
@@ -71,6 +78,7 @@ abstract class UnitTests {
         testSetNum(element);
         testAddNum(element);
         testSetString(element);
+        testUnSetString(element);
         testAppendString(element);
         testUnAppendString(element);
 
@@ -125,6 +133,21 @@ abstract class UnitTests {
         processTest("testSetString ", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
         processTest("testSetString text is replaced", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
+    }
+
+    static void testUnSetString(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Bob reads", "Bob reads his secret message.");
+        ActionEffect effect = new AEUnSetString("secretMessage",null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entities[1]);
+        scenario.entities[1].setStringMemory("secretMessage","Carol kind of sucks.");
+        processTest("testUnSetString message initializes fine", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
+
+        scene.applyEffects();
+        processTest("testUnSetString message is removed", null, scenario.entities[1].getStringMemory("secretMessage"), element);
+        scene.applyEffects();
+        processTest("testUnSetString nothing crashes trying to remove existing message", null, scenario.entities[1].getStringMemory("secretMessage"), element);
     }
 
     static void testAppendString(element) {

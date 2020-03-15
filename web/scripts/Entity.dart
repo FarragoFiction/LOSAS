@@ -44,6 +44,10 @@ class Entity {
         return _stringMemory[key];
     }
 
+    String removeStringMemoryKey(String key) {
+        return _stringMemory.remove(key);
+    }
+
     void setStringMemory(String key, String value) {
         _stringMemory[key] = value;
     }

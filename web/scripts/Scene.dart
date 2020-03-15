@@ -27,7 +27,7 @@ class Scene {
 
     Element render() {
         container = new DivElement()..classes.add("scene")..setInnerHtml(flavorText);
-        //TODO need to render the owner on the left and the targets on the right, text is above?
+        //TODO need to render the owner on the left and the targets on the right, text is above? plus name labels underneath
         return container;
     }
 
