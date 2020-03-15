@@ -53,8 +53,8 @@ class Scenario {
     void renderNavigationArrows() {
         String rightArrow ='<svg class = "arrow" id = "right-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 7v-6l11 11-11 11v-6h-13v-10z"/></svg>';
         String leftArrow = '<svg class = "arrow" id = "left-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 7v-6l11 11-11 11v-6h-13v-10z"/></svg>';
-        DivElement rightArrowDiv = new DivElement()..setInnerHtml(rightArrow);
-        DivElement leftArrowDiv = new DivElement()..setInnerHtml(leftArrow);
+        DivElement rightArrowDiv = new DivElement()..setInnerHtml(rightArrow, treeSanitizer: NodeTreeSanitizer.trusted);
+        DivElement leftArrowDiv = new DivElement()..setInnerHtml(leftArrow, treeSanitizer: NodeTreeSanitizer.trusted);
         container.append(rightArrowDiv);
         container.append(leftArrowDiv);
         /* TODO
@@ -63,6 +63,30 @@ class Scenario {
             and right goes forwards a page
             if there IS no next page and we're not in the end, we need to call lookForNextScene
          */
+    }
+
+    void goRight() {
+        sceneElements[currentSceneIndex].remove();
+        currentSceneIndex ++;
+        if(currentSceneIndex > sceneElements.length && !theEnd) {
+            lookForNextScene();
+        }else {
+            renderCurrentScene();
+        }
+
+    }
+
+    void goLeft() {
+        sceneElements[currentSceneIndex].remove();
+        currentSceneIndex += -1;
+        if(currentSceneIndex < 0) {
+            currentSceneIndex = 0;
+        }
+        renderCurrentScene();
+    }
+
+    void renderCurrentScene() {
+        container.append(sceneElements[currentSceneIndex]);
     }
 
     //unlike sburbsim this doesn't just tick infinitely. instead it renders a button for next.

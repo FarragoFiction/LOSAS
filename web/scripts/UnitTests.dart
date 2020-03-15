@@ -13,6 +13,7 @@ import 'ActionEffects/ActionEffect.dart';
 import 'Entity.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
+import 'TargetFilters/KeepIfNameIsValue.dart';
 import 'TargetFilters/KeepIfStringContainsValue.dart';
 import 'TargetFilters/KeepIfStringExists.dart';
 import 'TargetFilters/KeepIfStringIsValue.dart';
@@ -49,16 +50,48 @@ abstract class UnitTests {
 
     static void runIntegrationTest(Element element) {
         Scenario scenario = Scenario.testScenario();
-
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        //if bob does not have a secret message, alice sends a message to bob.
+        // this sets his secretMessage string and increments his secretMessageCounter
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.")..targetOne=true;
         ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
-        TargetFilter filter = new KeepIfStringExists("secretMessage",null);
+        ActionEffect effect2 = new AEAddNum("secretMessageCount",1);
+
+        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
+        TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
+
+        scene.effects.add(effect);
+        scene.effects.add(effect2);
+        scene.targetFilters.add(filter2);
+        scene.targetFilters.add(filter);
+        scenario.entities.first.scenes.add(scene);
 
 
-        //if bob does not have a secret message, alice sends a message to bob. this sets his secretMessage string and increments his secretMessageCounter
-        //if bob has a secret message, carol reads it.
+        //if bob has a secret message, eve reads it.
+        Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message. She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage].")..targetOne=true;
+
+        TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
+        TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
+        scene2.targetFilters = [filter3, filter4];
+        scenario.entities.last.scenes.add(scene2);
+
+
         //if bob has a secret message, bob reads it, and clears it out.
+        Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage].")..targetOne=true;
+
+        TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
+        scene3.targetFilters.add(filter5);
+        scenario.entities[1].scenes.add(scene3);
+
+
         //the scenario ends after 8 secret messages have been sent.
+
+        Scene finalScene = new Scene("The End", "The cycle of messages ends.")..targetOne=true;
+        //if anyone has this greater than 5
+        TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",5);
+        finalScene.targetFilters.add(filter6);
+        scenario.stopScenes.add(scene3);
+
+        scenario.curtainsUp(querySelector("#output"));
     }
 
     //only filters, no effects
@@ -69,8 +102,9 @@ abstract class UnitTests {
         testTFNumIsValue(element);
         testTFStringExists(element);
         testTFStringIsValue(element);
-        //TODO why isn't this doing anything?
         testTFStringContainsValue(element);
+        testTFNameIsValue(element);
+
     }
 
     //only effects, no filters
@@ -202,6 +236,10 @@ abstract class UnitTests {
         processTest("testTFNumExists TestNot", true, result, element);
         processTest("testTFNumExists 2 targets", "{Alice, Eve}", scene.targets.toString(), element);
 
+        scene.targetOne = true;
+        result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNumExists can set it to target only one even though it just targeted 2", 1, scene.targets.length, element);
+
     }
 
     static void testTFNumIsGreaterThanValue(Element element) {
@@ -288,6 +326,18 @@ abstract class UnitTests {
         result = scene.checkIfActivated(scenario.entities);
         processTest("testTFStringIsValue Test3", false, result, element);
         processTest("testTFStringIsValue 0 targets", "{}", scene.targets.toString(), element);
+    }
+
+    static void testTFNameIsValue(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        TargetFilter filter = new KeepIfNameIsValue("Bob",null);
+        scene.targetFilters.add(filter);
+        scenario.entities.first.scenes.add(scene);
+        bool result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFStringIsValue Test1", true, result, element);
+        processTest("testTFStringIsValue 0 targets", "{Bob}", scene.targets.toString(), element);
+
     }
 
     static void testTFStringContainsValue(Element element) {
