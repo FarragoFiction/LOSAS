@@ -40,6 +40,8 @@ class Scene {
         container.append(afterSpan);
 
         //TODO need to render the owner on the left and the targets on the right, text is above? plus name labels underneath
+        //rendering should happen AFTER apply effects.
+        //wait, no what if its lightly animated? two renders, one before and one after, cycles between them
         return container;
     }
 
@@ -47,6 +49,7 @@ class Scene {
         for(final ActionEffect e in effects) {
             e.applyEffect(this);
         }
+        //TODO capture the state of the scenario after this
     }
 
     bool checkIfActivated(List<Entity> entities) {

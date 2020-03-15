@@ -112,9 +112,11 @@ class Scenario {
         if(spotLightEntity != null) {
             entitiesToCheck = entities.sublist(entities.indexOf(spotLightEntity)+1);
         }else {
+            //every time we get to the start of entities, we shuffle so its not so samey
+            entities.shuffle(rand);
             entitiesToCheck = entities;
         }
-        spotlightScene = checkEntitiesForScene(entitiesToCheck, spotlightScene);
+        spotlightScene = checkEntitiesForScene(entitiesToCheck);
         if(spotlightScene != null) {
             showScene(spotlightScene);
         }else {
@@ -146,20 +148,21 @@ class Scenario {
         container.append(sceneElement);
     }
 
-    Scene checkEntitiesForScene(List<Entity> entitiesToCheck, Scene spotlightScene) {
+    Scene checkEntitiesForScene(List<Entity> entitiesToCheck) {
+        Scene ret;
        for(final Entity e in entitiesToCheck) {
           if(e.isActive) {
               //yes it includes yourself, what if you're gonna buff your party or something
-              spotlightScene = e.performScene(activeEntities);
-              if(spotlightScene != null) {
+              ret = e.performScene(activeEntities);
+              if(ret != null) {
                   spotLightEntity = e;
-                  return spotlightScene;
+                  return ret;
               }
           }else{
-              spotlightScene = e.checkForActivationScenes(activeEntities);
-              if(spotlightScene != null) {
+              ret = e.checkForActivationScenes(activeEntities);
+              if(ret != null) {
                   spotLightEntity = e;
-                  return spotlightScene;
+                  return ret;
               }
           }
       }

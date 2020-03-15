@@ -92,7 +92,7 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. He posts a bear.","He clears his messages out.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. ","He posts a bear, then clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
