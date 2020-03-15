@@ -21,6 +21,7 @@ import 'TargetFilters/KeepIfNumExists.dart';
 import 'TargetFilters/KeepIfNumIsGreaterThanValue.dart';
 import 'TargetFilters/KeepIfNumIsValue.dart';
 import 'TargetFilters/TargetFilter.dart';
+import 'Util.dart';
 
 abstract class UnitTests {
 
@@ -35,6 +36,7 @@ abstract class UnitTests {
             element.append(div);
         });
         print("todo test VRISKA for one filter and one effect");
+        runUtilTests(element);
         runTargetFilterTests(element);
         runActionEffectTests(element);
         //TODO run generator tests
@@ -128,6 +130,12 @@ abstract class UnitTests {
       scene.targetFilters.add(filter2);
       scene.targetFilters.add(filter);
       scenario.entities.first.addScene(scene);
+    }
+
+    static void runUtilTests(Element element) {
+        List<String> parts = Util.getTagsForKey("Alice, having sent [OWNER.STRINGMEMORY.secretMessage] as a message. And her email is [OWNER.STRINGMEMORY.email] ",Scene.OWNERSTRINGMEMORYTAG);
+        processTest("Util Tests ", ["secretMessage","email"].toString(), parts.toString(), element);
+
     }
 
     //only filters, no effects
