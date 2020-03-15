@@ -28,7 +28,8 @@ class NumGenerator extends Generator {
 
   @override
   dynamic generateValue(Random rand) {
-    if(min is int && max is int) {
+    //shitty hack to detect if int even in javascript
+    if(min == min.floor() && max == max.floor()) {
         return rand.nextIntRange(min,max);
     }else {
        return rand.nextDoubleRange(min,max);
