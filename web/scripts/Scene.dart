@@ -1,4 +1,5 @@
 import "dart:html";
+import 'ActionEffects/ActionEffect.dart';
 import "TargetFilters/TargetFilter.dart";
 import 'Entity.dart';
 //TODO scenes have optional background imagery
@@ -11,6 +12,7 @@ class Scene {
     String flavorText;
     String name;
     List<TargetFilter> targetFilters = new List<TargetFilter>();
+    List<ActionEffect> effects = new List<ActionEffect>();
     Set<Entity> targets = new Set<Entity>();
 
     Set<Entity> get finalTargets {
@@ -26,6 +28,12 @@ class Scene {
     void display(Element parent) {
         container = new DivElement()..classes.add("scene")..setInnerHtml(flavorText);
         parent.append(container);
+    }
+
+    void applyEffects() {
+        for(final ActionEffect e in effects) {
+            e.applyEffect(this);
+        }
     }
 
     bool checkIfActivated(List<Entity> entities) {

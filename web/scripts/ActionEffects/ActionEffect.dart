@@ -20,6 +20,7 @@ abstract class ActionEffect {
         }else {
             targets = new List.from(scene.finalTargets);
         }
+        print("Attempting to effect targets ${targets}");
         effectEntities(scene.owner,targets);
     }
 

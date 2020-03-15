@@ -3,6 +3,12 @@ we are fucking doings this right. for each target filter, action effect, etc we 
  */
 import 'dart:html';
 
+import 'ActionEffects/AEAddNum.dart';
+import 'ActionEffects/AEAppendString.dart';
+import 'ActionEffects/AESetNum.dart';
+import 'ActionEffects/AESetString.dart';
+import 'ActionEffects/AEUnAppendString.dart';
+import 'ActionEffects/ActionEffect.dart';
 import 'Entity.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
@@ -26,6 +32,7 @@ abstract class UnitTests {
             div.classes.add("failed");
             element.append(div);
         });
+        print("todo test VRISKA for one filter and one effect");
         runTargetFilterTests(element);
         runActionEffectTests(element);
         //TODO run generator tests
@@ -38,6 +45,7 @@ abstract class UnitTests {
 
     }
 
+
     static void runIntegrationTest(Element element) {
         window.console.error("TODO: need to actually have the scenes ticking so alice can try to send bob a secret message that carol tries to intercept");
         //if bob does not have a secret message, alice sends a message to bob. this sets his secretMessage string and increments his secretMessageCounter
@@ -46,6 +54,7 @@ abstract class UnitTests {
         //the scenario ends after 8 secret messages have been sent.
     }
 
+    //only filters, no effects
     static void runTargetFilterTests(Element element) {
         testBasic(element);
         testTFNumExists(element);
@@ -57,8 +66,14 @@ abstract class UnitTests {
         testTFStringContainsValue(element);
     }
 
+    //only effects, no filters
     static void runActionEffectTests(Element element) {
         testSetNum(element);
+        testAddNum(element);
+        testSetString(element);
+        testAppendString(element);
+        testUnAppendString(element);
+
     }
 
     static void processTest(String label, dynamic expected, dynamic value, Element element) {
@@ -78,6 +93,62 @@ abstract class UnitTests {
     static void testSetNum(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        ActionEffect effect = new AESetNum("secretNumber",13);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entities[1]);
+        scene.applyEffects();
+        processTest("testSetNum ", 13, scenario.entities[1].getNumMemory("secretNumber"), element);
+    }
+
+    static void testAddNum(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        ActionEffect effect = new AEAddNum("secretNumber",13);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entities[1]);
+        scene.applyEffects();
+        processTest("testAddNum ", 13, scenario.entities[1].getNumMemory("secretNumber"), element);
+        scene.applyEffects();
+        processTest("testAddNum ", 26, scenario.entities[1].getNumMemory("secretNumber"), element);
+        effect.importantNum = -13;
+        scene.applyEffects();
+        processTest("testAddNum ", 13, scenario.entities[1].getNumMemory("secretNumber"), element);
+    }
+
+    static void testSetString(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks.",null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entities[1]);
+        scene.applyEffects();
+        print("hey i applied the effects and got ${scenario.entities[1].getStringMemory("secretMessage")} for ${scenario.entities[1]} his memory is ${scenario.entities[1].debugMemory} ");
+        processTest("testSetString ", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
+        scene.applyEffects();
+        processTest("testSetString text is replaced", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
+    }
+
+    static void testAppendString(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        ActionEffect effect = new AEAppendString("secretMessage","Carol kind of sucks.",null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entities[1]);
+        scene.applyEffects();
+        processTest("testAppendString text is set once", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
+        scene.applyEffects();
+        processTest("testAppendString text is set twice ", "Carol kind of sucks.Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
+    }
+    static void testUnAppendString(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        ActionEffect effect = new AEUnAppendString("secretMessage","Carol kind of sucks.",null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entities[1]);
+        scenario.entities[1].setStringMemory("secretMessage","Carol kind of sucks.");
+        processTest("testUnAppendString text is there ", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
+        scene.applyEffects();
+        processTest("testUnAppendString text is not", "", scenario.entities[1].getStringMemory("secretMessage"), element);
     }
 
     static void testBasic(Element element) {
@@ -98,8 +169,6 @@ abstract class UnitTests {
         bool result = scene.checkIfActivated(scenario.entities);
         processTest("testTFNumExists Test1", false, result, element);
         processTest("testTFNumExists 0 targets", "{}", scene.targets.toString(), element);
-
-
 
         scenario.entities[1].setNumMemory("secretNumber",85);
         result = scene.checkIfActivated(scenario.entities);

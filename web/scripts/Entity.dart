@@ -10,6 +10,7 @@ import 'Scene.dart';
 class Entity {
     String name;
     Map<String,String> _stringMemory = new Map<String,String>();
+    Map<String,dynamic> get debugMemory => new Map<String,dynamic>.from(_stringMemory)..addAll(_numMemory);
     Map<String,num> _numMemory = new Map<String, int>();
     bool isActive = false;
     //once active, these will be checked each tick
@@ -17,13 +18,13 @@ class Entity {
     //before activation, these will be checked each tick
     List<Scene> activationScenes = new List<Scene>();
 
-    String getStringMemory(String key) {
-        return _stringMemory[key];
-    }
-
     @override
     String toString() {
         return name;
+    }
+
+    String getStringMemory(String key) {
+        return _stringMemory[key];
     }
 
     void setStringMemory(String key, String value) {

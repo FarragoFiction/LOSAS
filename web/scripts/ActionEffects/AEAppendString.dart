@@ -8,9 +8,9 @@ class AEAppendString extends ActionEffect {
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
     for(final Entity e in entities) {
-      String oldValue = e.getStringMemory(importantString);
+      String oldValue = e.getStringMemory(value);
       oldValue ??="";
-      e.setStringMemory(importantString,"$oldValue$value");
+      e.setStringMemory(value,"$oldValue$importantString");
     }
   }
 

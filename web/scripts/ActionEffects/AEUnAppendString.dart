@@ -8,10 +8,10 @@ class AEUnAppendString extends ActionEffect {
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
     for(final Entity e in entities) {
-      String oldValue = e.getStringMemory(importantString);
+      String oldValue = e.getStringMemory(value);
       oldValue ??="";
-      String newValue = oldValue.replaceAll(value,"");
-      e.setStringMemory(importantString,newValue);
+      String newValue = oldValue.replaceAll(importantString,"");
+      e.setStringMemory(value,newValue);
     }
   }
 

@@ -7,7 +7,8 @@ class AESetString extends ActionEffect {
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.setStringMemory(importantString, value));
+    print("I'm trying to set the string ${importantString} to $value for $entities");
+    entities.forEach((Entity e) => e.setStringMemory(value, importantString));
   }
 
 }
