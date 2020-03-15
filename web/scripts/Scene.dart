@@ -7,7 +7,6 @@ import 'Entity.dart';
 //TODO stretch goal, can put these scripting tags in as input for filters and effects, too. "your best friend is now me" or hwatever.
 class Scene {
     Element container;
-    //TODO when an entity is about to begin ticking, make sure they are marked as the owner of their scenes
     Entity owner;
     //target everything that meets this condition, or just a single one?
     bool targetOne = false;

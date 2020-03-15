@@ -14,18 +14,31 @@ class Entity {
     Map<String,num> _numMemory = new Map<String, int>();
     bool isActive = false;
     //once active, these will be checked each tick
-    List<Scene> scenes = new List<Scene>();
+    List<Scene> _scenes = new List<Scene>();
     //before activation, these will be checked each tick
-    List<Scene> activationScenes = new List<Scene>();
+    List<Scene> _activationScenes = new List<Scene>();
+
+    List<Scene> get readOnlyScenes => _scenes;
+    List<Scene> get readOnlyActivationScenes => _activationScenes;
 
     @override
     String toString() {
         return name;
     }
 
+    void addScene(Scene scene) {
+        scene.owner = this;
+        _scenes.add(scene);
+    }
+
+    void addActivationScene(Scene scene) {
+        scene.owner = this;
+        _activationScenes.add(scene);
+    }
+
     //if no scene can be performed, thems the breaks kids
     Scene performScene(List<Entity> everyone) {
-        for(Scene scene in scenes) {
+        for(Scene scene in _scenes) {
             if(scene.checkIfActivated(everyone)){
                 return scene;
             }
@@ -33,11 +46,11 @@ class Entity {
     }
 
     String debugString() {
-        return "Entity Name: $name, Memory: $debugMemory, Scenes: ${scenes.map((Scene s)=> s.debugString())}";
+        return "Entity Name: $name, Memory: $debugMemory, Scenes: ${_scenes.map((Scene s)=> s.debugString())}";
     }
 
     Scene checkForActivationScenes(List<Entity> everyone) {
-        for(Scene scene in activationScenes) {
+        for(Scene scene in _activationScenes) {
             if(scene.checkIfActivated(everyone)){
                 return scene;
             }
