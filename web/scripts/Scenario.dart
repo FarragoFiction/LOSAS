@@ -57,6 +57,13 @@ class Scenario {
         DivElement leftArrowDiv = new DivElement()..setInnerHtml(leftArrow, treeSanitizer: NodeTreeSanitizer.trusted);
         container.append(rightArrowDiv);
         container.append(leftArrowDiv);
+        rightArrowDiv.onClick.listen((Event e) {
+            goRight();
+        });
+
+        leftArrowDiv.onClick.listen((Event e) {
+            goLeft();
+        });
         /* TODO
             want to have a left and right arrow here.
             left goes back a page (unless you are the first one)
@@ -91,43 +98,67 @@ class Scenario {
 
     //unlike sburbsim this doesn't just tick infinitely. instead it renders a button for next.
     //if you try to page to the right and the scene doesn't exist and we aren't ended, do this
+    //first you check all your entities
+    //then you check your stop scenes
+    //then you repeat
     void lookForNextScene() {
         //could be some amount of randomness baked in
         if(numberTriesForScene > maxNumberTriesForScene) {
-            window.alert("something has gone wrong");
+            window.alert("something has gone wrong, went $numberTriesForScene loops without anything happening");
         }
-        /*
-            TODO
-            go through all known entities until you find a scene (either intro or active)
-            mark that entity as having the current spotlight.
-            render their scene, and apply its effect, add it the list
-            when you are out of entities to check, loop through your endings and if you find one render it and mark yourself as complete
-         */
         Scene spotlightScene;
-        for(final Entity e in entities) {
-            if(e.isActive) {
-                //yes it includes yourself, what if you're gonna buff your party or something
-                spotlightScene = e.performScene(entities);
-                if(spotlightScene != null) {
-                    spotLightEntity = e;
-                    break;
-                }
-            }else{
-                spotlightScene = e.checkForActivationScenes(entities);
-                if(spotlightScene != null) {
-                    spotLightEntity = e;
-                    break;
-                }
+        List<Entity> entitiesToCheck = null;
+        if(spotLightEntity != null) {
+            entitiesToCheck = entities.sublist(entities.indexOf(spotLightEntity));
+        }else {
+            entitiesToCheck = entities;
+        }
+        spotlightScene = checkEntitiesForScene(entitiesToCheck, spotlightScene);
+        if(spotlightScene != null) {
+            showScene(spotlightScene);
+        }else {
+            spotlightScene = checkStopScenes();
+            if(spotlightScene == null) {
+                numberTriesForScene ++;
+                spotLightEntity = null;
+                lookForNextScene();
+            }else {
+                showScene(spotlightScene);
             }
         }
-        if(spotlightScene != null) {
-            Element sceneElement = spotlightScene.render();
-            sceneElements.add(sceneElement);
-            container.append(sceneElement);
-        }else {
-            numberTriesForScene ++;
-            lookForNextScene();
-        }
+    }
+
+    Scene checkStopScenes() {
+      for(final Scene scene in stopScenes) {
+          if(scene.checkIfActivated(activeEntities)){
+              return  scene;
+          }
+      }
+    }
+
+    void showScene(Scene spotlightScene) {
+        numberTriesForScene = 0;
+        Element sceneElement = spotlightScene.render();
+        sceneElements.add(sceneElement);
+        container.append(sceneElement);
+    }
+
+    Scene checkEntitiesForScene(List<Entity> entitiesToCheck, Scene spotlightScene) {
+       for(final Entity e in entitiesToCheck) {
+          if(e.isActive) {
+              //yes it includes yourself, what if you're gonna buff your party or something
+              spotlightScene = e.performScene(activeEntities);
+              if(spotlightScene != null) {
+                  return spotlightScene;
+              }
+          }else{
+              spotlightScene = e.checkForActivationScenes(activeEntities);
+              if(spotlightScene != null) {
+                  spotLightEntity = e;
+                  return spotlightScene;
+              }
+          }
+      }
     }
 
     Scenario.testScenario(){
