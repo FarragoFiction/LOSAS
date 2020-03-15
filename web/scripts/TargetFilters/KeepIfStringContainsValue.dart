@@ -8,7 +8,9 @@ class KeepIfStringContainsValue extends TargetFilter {
   KeepIfStringContainsValue(String importantWord, this.value, num importantNum) : super(importantWord, importantNum);
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    return possibleTarget.getStringMemory(importantWord).contains(value);
+    String currentValue = possibleTarget.getStringMemory(importantWord);
+    if(currentValue == null) return false;
+    return currentValue.toLowerCase().contains(value.toLowerCase());
   }
 
 }

@@ -30,7 +30,10 @@ class Scene {
 
     bool checkIfActivated(List<Entity> entities) {
         targets.clear();
-        if(targetFilters.isEmpty) return true;
+        if(targetFilters.isEmpty) {
+            targets = new Set<Entity>.from(entities);
+            return true;
+        }
 
         for(TargetFilter tc in targetFilters) {
             targets = new Set<Entity>.from(tc.filter(this,entities));

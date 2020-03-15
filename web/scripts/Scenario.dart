@@ -2,9 +2,6 @@
 import 'package:CommonLib/Random.dart';
 
 import 'Entity.dart';
-import 'Scene.dart';
-import "TargetFilters/TargetFilter.dart";
-import "TargetFilters/KeepIfTrue.dart";
 /*
     Scenario List
     SBURB/Farragnarok
@@ -28,7 +25,7 @@ class Scenario {
     Scenario.testScenario(){
         Entity alice = new Entity("Alice")..isActive = true;
         Entity bob = new Entity("Bob")..isActive = true;
-        Entity carol = new Entity("Carol")..isActive = true;
+        Entity carol = new Entity("Eve")..isActive = true;
         entities.add(alice);
         entities.add(bob);
         entities.add(carol);
