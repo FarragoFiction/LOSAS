@@ -64,18 +64,12 @@ class Scenario {
         leftArrowDiv.onClick.listen((Event e) {
             goLeft();
         });
-        /* TODO
-            want to have a left and right arrow here.
-            left goes back a page (unless you are the first one)
-            and right goes forwards a page
-            if there IS no next page and we're not in the end, we need to call lookForNextScene
-         */
     }
 
     void goRight() {
         sceneElements[currentSceneIndex].remove();
         currentSceneIndex ++;
-        if(currentSceneIndex > sceneElements.length && !theEnd) {
+        if(currentSceneIndex >= sceneElements.length && !theEnd) {
             lookForNextScene();
         }else {
             renderCurrentScene();
@@ -92,6 +86,10 @@ class Scenario {
         renderCurrentScene();
     }
 
+    void debugScenario() {
+        entities.forEach((Entity e)=> print(e.debugString()));
+    }
+
     void renderCurrentScene() {
         container.append(sceneElements[currentSceneIndex]);
     }
@@ -102,6 +100,8 @@ class Scenario {
     //then you check your stop scenes
     //then you repeat
     void lookForNextScene() {
+        print("looking for next scene");
+        debugScenario();
         //could be some amount of randomness baked in
         if(numberTriesForScene > maxNumberTriesForScene) {
             window.alert("something has gone wrong, went $numberTriesForScene loops without anything happening");
@@ -109,20 +109,26 @@ class Scenario {
         Scene spotlightScene;
         List<Entity> entitiesToCheck = null;
         if(spotLightEntity != null) {
-            entitiesToCheck = entities.sublist(entities.indexOf(spotLightEntity));
+            print("spotlight entity is not null, so check starting at index ${entities.indexOf(spotLightEntity)+1} ");
+            entitiesToCheck = entities.sublist(entities.indexOf(spotLightEntity)+1);
+            print("I'm going to check $entitiesToCheck");
         }else {
+            print("spotlight entity is null, so check whole list");
             entitiesToCheck = entities;
         }
         spotlightScene = checkEntitiesForScene(entitiesToCheck, spotlightScene);
         if(spotlightScene != null) {
+            print("I found an entity scene, $spotlightScene");
             showScene(spotlightScene);
         }else {
             spotlightScene = checkStopScenes();
             if(spotlightScene == null) {
+                print("I found an no scene,going to try again");
                 numberTriesForScene ++;
                 spotLightEntity = null;
                 lookForNextScene();
             }else {
+                print("I found a stop scene, $spotlightScene");
                 showScene(spotlightScene);
             }
         }
@@ -138,17 +144,21 @@ class Scenario {
 
     void showScene(Scene spotlightScene) {
         numberTriesForScene = 0;
-        Element sceneElement = spotlightScene.render();
+        print("entity $spotLightEntity is in the spotlight with memory ${spotLightEntity.debugMemory}");
+        Element sceneElement = spotlightScene.render(sceneElements.length);
+        spotlightScene.applyEffects(); //might have additional rendering?
         sceneElements.add(sceneElement);
         container.append(sceneElement);
     }
 
     Scene checkEntitiesForScene(List<Entity> entitiesToCheck, Scene spotlightScene) {
        for(final Entity e in entitiesToCheck) {
+           print("checking Entity $e for scenes");
           if(e.isActive) {
               //yes it includes yourself, what if you're gonna buff your party or something
               spotlightScene = e.performScene(activeEntities);
               if(spotlightScene != null) {
+                  spotLightEntity = e;
                   return spotlightScene;
               }
           }else{
@@ -159,12 +169,13 @@ class Scenario {
               }
           }
       }
+       return null;
     }
 
     Scenario.testScenario(){
-        Entity alice = new Entity("Alice")..isActive = true;
-        Entity bob = new Entity("Bob")..isActive = true;
-        Entity carol = new Entity("Eve")..isActive = true;
+        final Entity alice = new Entity("Alice")..isActive = true;
+        final Entity bob = new Entity("Bob")..isActive = true;
+        final Entity carol = new Entity("Eve")..isActive = true;
         entities.add(alice);
         entities.add(bob);
         entities.add(carol);

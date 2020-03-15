@@ -32,6 +32,10 @@ class Entity {
         }
     }
 
+    String debugString() {
+        return "Entity Name: $name, Memory: $debugMemory, Scenes: ${scenes.map((Scene s)=> s.debugString())}";
+    }
+
     Scene checkForActivationScenes(List<Entity> everyone) {
         for(Scene scene in activationScenes) {
             if(scene.checkIfActivated(everyone)){

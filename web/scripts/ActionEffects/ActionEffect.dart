@@ -4,6 +4,7 @@ import '../Scene.dart';
 /*
     TODO Pile:
      add serialied scene
+     forget memory key at random
  */
 abstract class ActionEffect {
     //are we applying this to my targets, or to myself?
@@ -14,6 +15,10 @@ abstract class ActionEffect {
     ActionEffect(this.importantString, this.importantNum);
 
     void effectEntities(Entity effector, List<Entity> entities);
+
+    String debugString() {
+        return "Effect: ${runtimeType} $importantString, $importantNum , Vriska: $vriska";
+    }
 
 
     void applyEffect(Scene scene) {

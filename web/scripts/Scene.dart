@@ -27,13 +27,18 @@ class Scene {
     }
     Scene(this.name, this.flavorText);
 
-    Element render() {
-        container = new DivElement()..classes.add("scene")..setInnerHtml(flavorText);
+    String debugString() {
+        return "Scene $name TargetOne: $targetOne Filters: ${targetFilters.map((TargetFilter f) => f.debugString())}, Effects ${effects.map((ActionEffect f) => f.debugString())}";
+    }
+
+    Element render(int debugNumber) {
+        container = new DivElement()..classes.add("scene")..setInnerHtml("$debugNumber $flavorText");
         //TODO need to render the owner on the left and the targets on the right, text is above? plus name labels underneath
         return container;
     }
 
     void applyEffects() {
+        print("I ($name) am going to apply my effects to ${targets}");
         for(final ActionEffect e in effects) {
             e.applyEffect(this);
         }
@@ -41,13 +46,19 @@ class Scene {
 
     bool checkIfActivated(List<Entity> entities) {
         targets.clear();
+        targets = new Set.from(entities);
+        //TODO shuffle the entities
+        print("TODO shuffle entities");
         if(targetFilters.isEmpty) {
             targets = new Set<Entity>.from(entities);
             return true;
         }
 
+        print("targets before filters are $targets");
         for(TargetFilter tc in targetFilters) {
-            targets = new Set<Entity>.from(tc.filter(this,entities));
+            targets = new Set<Entity>.from(tc.filter(this,targets.toList()));
+            print("targets after filter $tc are $targets");
+
         }
         return targets.isNotEmpty;
     }

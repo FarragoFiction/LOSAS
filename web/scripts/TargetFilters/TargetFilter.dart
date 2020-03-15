@@ -16,6 +16,10 @@ abstract class TargetFilter {
 
     TargetFilter(this.importantWord, this.importantNum);
 
+    String debugString() {
+        return "Filter: ${runtimeType} $importantWord, $importantNum, Vriska: $vriska Not: $not";
+    }
+
 
     List<Entity> filter(Scene scene, List<Entity> readOnlyEntities) {
         List<Entity> entities = new List.from(readOnlyEntities);

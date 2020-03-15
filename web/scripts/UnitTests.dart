@@ -38,7 +38,8 @@ abstract class UnitTests {
         runTargetFilterTests(element);
         runActionEffectTests(element);
         //TODO run generator tests
-        runIntegrationTest(element);
+        runIntegrationTests(element);
+        runDisplayTest(element);
         DivElement results = new DivElement()..setInnerHtml("$testsRan tests ran.");
         SpanElement span = new SpanElement()..style.background = "black"..style.color="red"..text = "WARNING: $testFailed failed.";
 
@@ -47,51 +48,80 @@ abstract class UnitTests {
 
     }
 
-
-    static void runIntegrationTest(Element element) {
+    static void runIntegrationTests(Element element) {
+        testTFNameIsValueAndStringDoesntExist(element);
         Scenario scenario = Scenario.testScenario();
-        //if bob does not have a secret message, alice sends a message to bob.
-        // this sets his secretMessage string and increments his secretMessageCounter
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.")..targetOne=true;
-        ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
-        ActionEffect effect2 = new AEAddNum("secretMessageCount",1);
+        setupAliceSendsMessage(scenario);
+        bool activated = scenario.entities.first.scenes.first.checkIfActivated(scenario.entities);
+        processTest("Alice's scene to send bob a message should activate.", true, activated, element);
+        processTest("Alice's should be only targeting one person. That person is Bob.", 1,scenario.entities.first.scenes.first.targets.length , element);
+        processTest("Alice should be targeting only bob.", "{Bob}", scenario.entities.first.scenes.first.targets.toString(), element);
 
-        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
-        TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
+        processTest("Alice's should be only targeting Bob.", scenario.entities[1].name,scenario.entities.first.scenes.first.targets.first.name , element);
 
-        scene.effects.add(effect);
-        scene.effects.add(effect2);
-        scene.targetFilters.add(filter2);
-        scene.targetFilters.add(filter);
-        scenario.entities.first.scenes.add(scene);
+        scenario.entities.first.scenes.first.applyEffects();
+        processTest("Bob Should have a message waiting to be read.", "{secretMessage: Carol kind of sucks..}", scenario.entities[1].debugMemory, element);
+        processTest("Alice should be aware that she has sent 1 message.", "{secretMessageCount: 1}", scenario.entities[0].debugMemory, element);
+    }
 
 
-        //if bob has a secret message, eve reads it.
-        Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message. She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage].")..targetOne=true;
+    static void runDisplayTest(Element element) {
+        Scenario scenario = Scenario.testScenario();
 
-        TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
-        TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
-        scene2.targetFilters = [filter3, filter4];
-        scenario.entities.last.scenes.add(scene2);
+        setupAliceSendsMessage(scenario);
 
+        setupEveEvesdrops(scenario);
 
-        //if bob has a secret message, bob reads it, and clears it out.
-        Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage].")..targetOne=true;
+        Scene scene3 = bobReceivesMessage(scenario);
 
-        TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
-        scene3.targetFilters.add(filter5);
-        scenario.entities[1].scenes.add(scene3);
-
-
-        //the scenario ends after 8 secret messages have been sent.
-
-        Scene finalScene = new Scene("The End", "The cycle of messages ends.")..targetOne=true;
-        //if anyone has this greater than 5
-        TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",5);
-        finalScene.targetFilters.add(filter6);
-        scenario.stopScenes.add(scene3);
+        aliceStopsAfterEnoughMessages(scenario, scene3);
 
         scenario.curtainsUp(querySelector("#output"));
+    }
+
+    //the scenario ends after 8 secret messages have been sent.
+    static void aliceStopsAfterEnoughMessages(Scenario scenario, Scene scene3) {
+      Scene finalScene = new Scene("The End", "The cycle of messages ends.")..targetOne=true;
+      //if anyone has this greater than 5
+      TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",5);
+      finalScene.targetFilters.add(filter6);
+      scenario.stopScenes.add(scene3);
+    }
+
+    //if bob has a secret message, bob reads it, and clears it out.
+    static Scene bobReceivesMessage(Scenario scenario) {
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. He posts a bear.")..targetOne=true;
+
+      TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
+      scene3.targetFilters.add(filter5);
+      scenario.entities[1].scenes.add(scene3);
+      return scene3;
+    }
+
+    //        //if bob has a secret message, eve reads it.
+    static void setupEveEvesdrops(Scenario scenario) {
+      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message. She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage].")..targetOne=true;
+
+      TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
+      TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
+      scene2.targetFilters = [filter3, filter4];
+      scenario.entities.last.scenes.add(scene2);
+    }
+
+    //if bob does not have a secret message, alice sends a message to bob.
+    // this sets his secretMessage string and increments his secretMessageCounter
+    static void setupAliceSendsMessage(Scenario scenario) {
+       Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.")..targetOne=true;
+      ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
+      ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska;
+      TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
+      TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
+
+      scene.effects.add(effect);
+      scene.effects.add(effect2);
+      scene.targetFilters.add(filter2);
+      scene.targetFilters.add(filter);
+      scenario.entities.first.scenes.add(scene);
     }
 
     //only filters, no effects
@@ -104,7 +134,7 @@ abstract class UnitTests {
         testTFStringIsValue(element);
         testTFStringContainsValue(element);
         testTFNameIsValue(element);
-
+        testTFNameIsValueAndStringDoesntExist(element);
     }
 
     //only effects, no filters
@@ -337,6 +367,25 @@ abstract class UnitTests {
         bool result = scene.checkIfActivated(scenario.entities);
         processTest("testTFStringIsValue Test1", true, result, element);
         processTest("testTFStringIsValue 0 targets", "{Bob}", scene.targets.toString(), element);
+
+    }
+
+    static void testTFNameIsValueAndStringDoesntExist(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
+        TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
+        scene.targetFilters = [filter2, filter];
+        scenario.entities.first.scenes.add(scene);
+        bool result = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNameIsValueAndStringDoesntExist Test1", true, result, element);
+        processTest("testTFNameIsValueAndStringDoesntExist 1 targets", "{Bob}", scene.targets.toString(), element);
+
+        scene.targetFilters = [filter, filter2];
+        scenario.entities.first.scenes.add(scene);
+        bool result2 = scene.checkIfActivated(scenario.entities);
+        processTest("testTFNameIsValueAndStringDoesntExist Reverse TEst", true, result2, element);
+        processTest("testTFNameIsValueAndStringDoesntExist Reverse 1 targets", "{Bob}", scene.targets.toString(), element);
 
     }
 
