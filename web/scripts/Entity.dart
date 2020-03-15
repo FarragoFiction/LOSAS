@@ -58,22 +58,27 @@ class Entity {
     }
 
     String getStringMemory(String key) {
+        key.replaceAll(" ","");
         return _stringMemory[key];
     }
 
     String removeStringMemoryKey(String key) {
+        key.replaceAll(" ","");
         return _stringMemory.remove(key);
     }
 
     void setStringMemory(String key, String value) {
+        key.replaceAll(" ","");
         _stringMemory[key] = value;
     }
 
     num getNumMemory(String key) {
+        key.replaceAll(" ","");
         return _numMemory[key];
     }
 
     void setNumMemory(String key, num value) {
+        key.replaceAll(" ","");
         _numMemory[key] = value;
     }
 

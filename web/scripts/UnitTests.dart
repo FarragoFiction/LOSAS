@@ -92,7 +92,7 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. ","He posts a bear, then clears his messages out.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. TARGET.STRINGMEMORY.secretMessage. ","He posts a bear, then clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
@@ -104,7 +104,7 @@ abstract class UnitTests {
 
     //        //if bob has a secret message, eve reads it.
     static void setupEveEvesdrops(Scenario scenario) {
-      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage]. Her scandal rating is [TARGET.NUMMEMORY.scandalRating]")..targetOne=true;
+      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads TARGET.STRINGMEMORY.secretMessage. Her scandal rating is OWNER.NUMMEMORY.scandalRating")..targetOne=true;
       ActionEffect effect2 = new AEAddNum("scandalRating",1)..vriska=true;
 
       TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
@@ -117,7 +117,7 @@ abstract class UnitTests {
     //if bob does not have a secret message, alice sends a message to bob.
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
-       Scene scene = new Scene("Alice Sends", "Alice, having sent [TARGET.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [TARGET.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
+       Scene scene = new Scene("Alice Sends", "Alice, having sent OWNER.NUMMEMORY.secretMessageCount messages, sends a new secret message to Bob.","She notes she has now sent OWNER.NUMMEMORY.secretMessageCount total messages.")..targetOne=true;
       ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
       TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;

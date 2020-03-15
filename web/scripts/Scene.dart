@@ -6,6 +6,10 @@ import 'Entity.dart';
 //TODO have scene know how to handle procedural text replacement STRINGMEMORY.secretMessage would put the value of the secret message in there, or null, for example
 //TODO stretch goal, can put these scripting tags in as input for filters and effects, too. "your best friend is now me" or hwatever.
 class Scene {
+    static String TARGETSTRINGMEMORYTAG ="TARGET.STRINGMEMORY";
+    static String TARGETNUMMEMORYTAG ="TARGET.NUMMEMORY";
+    static String OWNERSTRINGMEMORYTAG ="OWNER.STRINGMEMORY";
+    static String OWNERNUMMEMORYTAG ="OWNER.NUMMEMORY";
     Element container;
     Entity owner;
     //target everything that meets this condition, or just a single one?
@@ -25,17 +29,23 @@ class Scene {
             return targets;
         }
     }
+
+
     Scene(this.name, this.beforeFlavorText, this.afterFlavorText);
 
     String debugString() {
         return "Scene $name TargetOne: $targetOne Filters: ${targetFilters.map((TargetFilter f) => f.debugString())}, Effects ${effects.map((ActionEffect f) => f.debugString())}";
     }
 
+    static String processText(String text) {
+
+    }
+
     Element render(int debugNumber) {
         container = new DivElement()..classes.add("scene");
-        SpanElement beforeSpan= new SpanElement()..setInnerHtml(beforeFlavorText);
+        SpanElement beforeSpan= new SpanElement()..setInnerHtml(processText(beforeFlavorText));
         applyEffects(); //that way we can talk about things before someone died and after, or whatever
-        SpanElement afterSpan = new SpanElement()..setInnerHtml(afterFlavorText);
+        SpanElement afterSpan = new SpanElement()..setInnerHtml(processText(afterFlavorText));
         container.append(beforeSpan);
         container.append(afterSpan);
 
