@@ -5,6 +5,9 @@
     they have a dollstring and an originalDollString
 
  */
+import 'package:CommonLib/Random.dart';
+
+import 'Generator.dart';
 import 'Scene.dart';
 
 class Entity {
@@ -12,6 +15,8 @@ class Entity {
     Map<String,String> _stringMemory = new Map<String,String>();
     Map<String,dynamic> get debugMemory => new Map<String,dynamic>.from(_stringMemory)..addAll(_numMemory);
     Map<String,num> _numMemory = new Map<String, int>();
+    //a generator will create a value for a given key and store it in either string memory or num memory based on what it is.
+    Map<String, List<Generator>> _generators = new Map<String, List<Generator>>();
     bool isActive = false;
     //once active, these will be checked each tick
     List<Scene> _scenes = new List<Scene>();
@@ -24,6 +29,30 @@ class Entity {
     @override
     String toString() {
         return name;
+    }
+
+    void addGenerator(String key, Generator generator) {
+        if(_generators.containsKey(key)){
+            _generators[key].add(generator);
+        }else{
+            _generators[key] = <Generator>[generator];
+        }
+    }
+
+    void generateStringValueForKey(Random rand, String key, String defaultValue){
+        if(_generators.containsKey(key)){
+            setStringMemory(key,rand.pickFrom(_generators[key]).generateValue(rand));
+        }else{
+           setStringMemory(key, defaultValue);
+        }
+    }
+
+    void generateNumValueForKey(Random rand, String key, num defaultValue){
+        if(_generators.containsKey(key)){
+            setNumMemory(key,rand.pickFrom(_generators[key]).generateValue(rand));
+        }else{
+            setNumMemory(key, defaultValue);
+        }
     }
 
     void addScene(Scene scene) {
@@ -58,22 +87,18 @@ class Entity {
     }
 
     String getStringMemory(String key) {
-        key.replaceAll(" ","");
         return _stringMemory[key];
     }
 
     String removeStringMemoryKey(String key) {
-        key.replaceAll(" ","");
         return _stringMemory.remove(key);
     }
 
     void setStringMemory(String key, String value) {
-        key.replaceAll(" ","");
         _stringMemory[key] = value;
     }
 
     num getNumMemory(String key) {
-        key.replaceAll(" ","");
         if(_numMemory.containsKey(key)){
         return _numMemory[key];
         }else{
@@ -82,7 +107,6 @@ class Entity {
     }
 
     void setNumMemory(String key, num value) {
-        key.replaceAll(" ","");
         _numMemory[key] = value;
     }
 

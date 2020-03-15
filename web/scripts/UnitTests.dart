@@ -94,7 +94,7 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. ","He posts a bear, then clears his messages out.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[TARGET.STRINGMEMORY.secretMessage]'. ","He posts a bear, then clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
@@ -106,7 +106,7 @@ abstract class UnitTests {
 
     //        //if bob has a secret message, eve reads it.
     static void setupEveEvesdrops(Scenario scenario) {
-      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage]. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
+      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
       ActionEffect effect2 = new AEAddNum("scandalRating",1)..vriska=true;
 
       TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
