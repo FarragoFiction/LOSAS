@@ -10,7 +10,8 @@ class Scene {
     Entity owner;
     //target everything that meets this condition, or just a single one?
     bool targetOne = false;
-    String flavorText;
+    String beforeFlavorText;
+    String afterFlavorText;
     String name;
     List<TargetFilter> targetFilters = new List<TargetFilter>();
     List<ActionEffect> effects = new List<ActionEffect>();
@@ -24,20 +25,25 @@ class Scene {
             return targets;
         }
     }
-    Scene(this.name, this.flavorText);
+    Scene(this.name, this.beforeFlavorText, this.afterFlavorText);
 
     String debugString() {
         return "Scene $name TargetOne: $targetOne Filters: ${targetFilters.map((TargetFilter f) => f.debugString())}, Effects ${effects.map((ActionEffect f) => f.debugString())}";
     }
 
     Element render(int debugNumber) {
-        container = new DivElement()..classes.add("scene")..setInnerHtml("$debugNumber $flavorText");
+        container = new DivElement()..classes.add("scene");
+        SpanElement beforeSpan= new SpanElement()..setInnerHtml(beforeFlavorText);
+        applyEffects(); //that way we can talk about things before someone died and after, or whatever
+        SpanElement afterSpan = new SpanElement()..setInnerHtml(afterFlavorText);
+        container.append(beforeSpan);
+        container.append(afterSpan);
+
         //TODO need to render the owner on the left and the targets on the right, text is above? plus name labels underneath
         return container;
     }
 
     void applyEffects() {
-        print("I ($name) am going to apply my effects to ${targets}");
         for(final ActionEffect e in effects) {
             e.applyEffect(this);
         }
@@ -53,11 +59,8 @@ class Scene {
             return true;
         }
 
-        print("targets before filters are $targets");
         for(TargetFilter tc in targetFilters) {
             targets = new Set<Entity>.from(tc.filter(this,targets.toList()));
-            print("targets after filter $tc are $targets");
-
         }
         return targets.isNotEmpty;
     }

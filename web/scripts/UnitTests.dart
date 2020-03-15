@@ -83,7 +83,7 @@ abstract class UnitTests {
 
     //the scenario ends after 8 secret messages have been sent.
     static void aliceStopsAfterEnoughMessages(Scenario scenario, Scene scene3) {
-      Scene finalScene = new Scene("The End", "The cycle of messages ends.")..targetOne=true;
+      Scene finalScene = new Scene("The End", "The cycle of messages ends.","The End.")..targetOne=true;
       //if anyone has this greater than 5
       TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",5);
       finalScene.targetFilters.add(filter6);
@@ -92,28 +92,32 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. He posts a bear.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. He posts a bear.","He clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
+      ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
       scene3.targetFilters.add(filter5);
+      scene3.effects.add(effect);
       scenario.entities[1].addScene(scene3);
       return scene3;
     }
 
     //        //if bob has a secret message, eve reads it.
     static void setupEveEvesdrops(Scenario scenario) {
-      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message. She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage].")..targetOne=true;
+      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage]. Her scandal rating is [TARGET.NUMMEMORY.scandalRating]")..targetOne=true;
+      ActionEffect effect2 = new AEAddNum("scandalRating",1)..vriska=true;
 
       TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
       TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
       scene2.targetFilters = [filter3, filter4];
+      scene2.effects.add(effect2);
       scenario.entities.last.addScene(scene2);
     }
 
     //if bob does not have a secret message, alice sends a message to bob.
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
-       Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.")..targetOne=true;
+       Scene scene = new Scene("Alice Sends", "Alice, having sent [TARGET.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [TARGET.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
       ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
       TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
@@ -166,7 +170,7 @@ abstract class UnitTests {
 
     static void testSetNum(element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         ActionEffect effect = new AESetNum("secretNumber",13);
         scene.effects.add(effect);
         scene.targets.add(scenario.entities[1]);
@@ -176,7 +180,7 @@ abstract class UnitTests {
 
     static void testAddNum(element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         ActionEffect effect = new AEAddNum("secretNumber",13);
         scene.effects.add(effect);
         scene.targets.add(scenario.entities[1]);
@@ -191,7 +195,7 @@ abstract class UnitTests {
 
     static void testSetString(element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks.",null);
         scene.effects.add(effect);
         scene.targets.add(scenario.entities[1]);
@@ -203,7 +207,7 @@ abstract class UnitTests {
 
     static void testUnSetString(element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Bob reads", "Bob reads his secret message.");
+        Scene scene = new Scene("Bob reads", "Bob reads his secret message.","");
         ActionEffect effect = new AEUnSetString("secretMessage",null);
         scene.effects.add(effect);
         scene.targets.add(scenario.entities[1]);
@@ -218,7 +222,7 @@ abstract class UnitTests {
 
     static void testAppendString(element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         ActionEffect effect = new AEAppendString("secretMessage","Carol kind of sucks.",null);
         scene.effects.add(effect);
         scene.targets.add(scenario.entities[1]);
@@ -229,7 +233,7 @@ abstract class UnitTests {
     }
     static void testUnAppendString(element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         ActionEffect effect = new AEUnAppendString("secretMessage","Carol kind of sucks.",null);
         scene.effects.add(effect);
         scene.targets.add(scenario.entities[1]);
@@ -241,7 +245,7 @@ abstract class UnitTests {
 
     static void testBasic(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         scenario.entities.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entities);
         processTest("testTFFalse", true, result, element);
@@ -250,7 +254,7 @@ abstract class UnitTests {
 
     static void testTFNumExists(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfNumExists("secretNumber",null);
         scene.targetFilters.add(filter);
         scenario.entities.first.addScene(scene);
@@ -276,7 +280,7 @@ abstract class UnitTests {
 
     static void testTFNumIsGreaterThanValue(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfNumIsGreaterThanValue("secretNumber",13);
         scene.targetFilters.add(filter);
         scenario.entities.first.addScene(scene);
@@ -299,7 +303,7 @@ abstract class UnitTests {
 
     static void testTFNumIsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfNumIsValue("secretNumber",85);
         scene.targetFilters.add(filter);
         scenario.entities.first.addScene(scene);
@@ -321,7 +325,7 @@ abstract class UnitTests {
 
     static void testTFStringExists(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfStringExists("secretMessage",null);
         scene.targetFilters.add(filter);
         scenario.entities.first.addScene(scene);
@@ -339,7 +343,7 @@ abstract class UnitTests {
 
     static void testTFStringIsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfStringIsValue("secretMessage","Carol kind of sucks.",null);
         scene.targetFilters.add(filter);
         scenario.entities.first.addScene(scene);
@@ -362,7 +366,7 @@ abstract class UnitTests {
 
     static void testTFNameIsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfNameIsValue("Bob",null);
         scene.targetFilters.add(filter);
         scenario.entities.first.addScene(scene);
@@ -378,7 +382,7 @@ abstract class UnitTests {
     //both are wrong
     static void testTFNameIsValueAndStringDoesntExist(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
         TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
         scene.targetFilters = [filter2, filter];
@@ -397,7 +401,7 @@ abstract class UnitTests {
 
     static void testTFStringContainsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.");
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
         TargetFilter filter = new KeepIfStringContainsValue("secretMessage","carol",null);
         scene.targetFilters.add(filter);
         scenario.entities.first.addScene(scene);

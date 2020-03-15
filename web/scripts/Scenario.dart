@@ -35,6 +35,9 @@ class Scenario {
     List<Entity> get activeEntities => entities.where((Entity entity) =>entity.isActive).toList();
 
     //if ANY of these trigger, then its time to stop ticking
+    List<Scene> frameScenes = new List<Scene>();
+
+    //if ANY of these trigger, then its time to stop ticking
     List<Scene> stopScenes = new List<Scene>();
 
     Scenario(this.seed) {
@@ -100,8 +103,6 @@ class Scenario {
     //then you check your stop scenes
     //then you repeat
     void lookForNextScene() {
-        print("looking for next scene");
-        debugScenario();
         //could be some amount of randomness baked in
         if(numberTriesForScene > maxNumberTriesForScene) {
             window.alert("something has gone wrong, went $numberTriesForScene loops without anything happening");
@@ -109,26 +110,21 @@ class Scenario {
         Scene spotlightScene;
         List<Entity> entitiesToCheck = null;
         if(spotLightEntity != null) {
-            print("spotlight entity is not null, so check starting at index ${entities.indexOf(spotLightEntity)+1} ");
             entitiesToCheck = entities.sublist(entities.indexOf(spotLightEntity)+1);
-            print("I'm going to check $entitiesToCheck");
         }else {
-            print("spotlight entity is null, so check whole list");
             entitiesToCheck = entities;
         }
         spotlightScene = checkEntitiesForScene(entitiesToCheck, spotlightScene);
         if(spotlightScene != null) {
-            print("I found an entity scene, $spotlightScene");
             showScene(spotlightScene);
         }else {
+            print("Time to check stop scenes");
             spotlightScene = checkStopScenes();
             if(spotlightScene == null) {
-                print("I found an no scene,going to try again");
                 numberTriesForScene ++;
                 spotLightEntity = null;
                 lookForNextScene();
             }else {
-                print("I found a stop scene, $spotlightScene");
                 showScene(spotlightScene);
             }
         }
@@ -136,6 +132,7 @@ class Scenario {
 
     Scene checkStopScenes() {
       for(final Scene scene in stopScenes) {
+          print("checking stop scene $scene");
           if(scene.checkIfActivated(activeEntities)){
               return  scene;
           }
@@ -144,16 +141,13 @@ class Scenario {
 
     void showScene(Scene spotlightScene) {
         numberTriesForScene = 0;
-        print("entity $spotLightEntity is in the spotlight with memory ${spotLightEntity.debugMemory}");
         Element sceneElement = spotlightScene.render(sceneElements.length);
-        spotlightScene.applyEffects(); //might have additional rendering?
         sceneElements.add(sceneElement);
         container.append(sceneElement);
     }
 
     Scene checkEntitiesForScene(List<Entity> entitiesToCheck, Scene spotlightScene) {
        for(final Entity e in entitiesToCheck) {
-           print("checking Entity $e for scenes");
           if(e.isActive) {
               //yes it includes yourself, what if you're gonna buff your party or something
               spotlightScene = e.performScene(activeEntities);
