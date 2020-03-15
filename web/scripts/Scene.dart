@@ -38,37 +38,50 @@ class Scene {
         return "Scene $name TargetOne: $targetOne Filters: ${targetFilters.map((TargetFilter f) => f.debugString())}, Effects ${effects.map((ActionEffect f) => f.debugString())}";
     }
 
-     String processText(String text) {
+    String get proccessedBeforeText => processText(beforeFlavorText);
+    String get proccessedAfterText => processText(afterFlavorText);
+
+
+    String processText(String text) {
+        print("Step 0: I'm going to process text. $text");
         text = processTargetStringTags(text);
+        print("Step 1: $text");
         text = processTargetNumTags(text);
+        print("Step 2: $text");
         text = processOwnerStringTags(text);
+        print("Step 3: $text");
         text = processOwnerNumTags(text);
+        print("Step 4: $text");
+        //look [ and ] are reserved characters here. deal with it.
+        text = text.replaceAll("]","");
         return text;
     }
 
     String processTargetStringTags(String text) {
         List<String> tags = Util.getTagsForKey(text, TARGETSTRINGMEMORYTAG);
         for(Entity target in finalTargets) {
-            tags.forEach((String tag) =>text.replaceAll("$TARGETSTRINGMEMORYTAG$tag","${target.getStringMemory(tag)}"));
+            tags.forEach((String tag) =>text = text.replaceAll("$TARGETSTRINGMEMORYTAG$tag","${target.getStringMemory(tag)}"));
         }
+        return text;
     }
 
     String processTargetNumTags(String text) {
         List<String> tags = Util.getTagsForKey(text, TARGETNUMMEMORYTAG);
         for(Entity target in finalTargets) {
-            tags.forEach((String tag) =>text.replaceAll("$TARGETNUMMEMORYTAG$tag","${target.getNumMemory(tag)}"));
+            tags.forEach((String tag) =>text = text.replaceAll("$TARGETNUMMEMORYTAG$tag","${target.getNumMemory(tag)}"));
         }
+        return text;
     }
 
     String processOwnerStringTags(String text) {
         List<String> tags = Util.getTagsForKey(text, OWNERSTRINGMEMORYTAG);
-        tags.forEach((String tag) =>text.replaceAll("$OWNERSTRINGMEMORYTAG$tag",owner.getStringMemory(tag)));
+        tags.forEach((String tag) =>text = text.replaceAll("$OWNERSTRINGMEMORYTAG$tag","${owner.getStringMemory(tag)}"));
         return text;
     }
 
     String processOwnerNumTags(String text) {
         List<String> tags = Util.getTagsForKey(text, OWNERNUMMEMORYTAG);
-        tags.forEach((String tag) =>text.replaceAll("$OWNERNUMMEMORYTAG$tag","${owner.getStringMemory(tag)}"));
+        tags.forEach((String tag) =>text =text.replaceAll("$OWNERNUMMEMORYTAG$tag","${owner.getNumMemory(tag)}"));
         return text;
     }
 
@@ -76,9 +89,9 @@ class Scene {
 
     Element render(int debugNumber) {
         container = new DivElement()..classes.add("scene");
-        SpanElement beforeSpan= new SpanElement()..setInnerHtml(processText(beforeFlavorText));
+        SpanElement beforeSpan= new SpanElement()..setInnerHtml(proccessedBeforeText);
         applyEffects(); //that way we can talk about things before someone died and after, or whatever
-        SpanElement afterSpan = new SpanElement()..setInnerHtml(processText(afterFlavorText));
+        SpanElement afterSpan = new SpanElement()..setInnerHtml(" $proccessedAfterText");
         container.append(beforeSpan);
         container.append(afterSpan);
 
@@ -92,14 +105,12 @@ class Scene {
         for(final ActionEffect e in effects) {
             e.applyEffect(this);
         }
-        //TODO capture the state of the scenario after this
+        //TODO capture the state of the scenario after this, for time shit
     }
 
     bool checkIfActivated(List<Entity> entities) {
         targets.clear();
         targets = new Set.from(entities);
-        //TODO shuffle the entities
-        print("TODO shuffle entities");
         if(targetFilters.isEmpty) {
             targets = new Set<Entity>.from(entities);
             return true;

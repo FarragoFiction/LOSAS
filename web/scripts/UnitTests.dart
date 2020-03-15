@@ -63,7 +63,7 @@ abstract class UnitTests {
         scenario.entities.first.readOnlyScenes.first.applyEffects();
         processTest("Bob Should have a message waiting to be read.", "Carol kind of sucks...", scenario.entities[1].getStringMemory("secretMessage"), element);
         processTest("Alice should be aware that she has sent 1 message.", 1, scenario.entities[0].getNumMemory("secretMessageCount"), element);
-        processTest("Bob Should not know how many messages alice has sent.", null,scenario.entities[1].getNumMemory("secretMessageCount") , element);
+        processTest("Bob Should not know how many messages alice has sent.", 0,scenario.entities[1].getNumMemory("secretMessageCount") , element);
         processTest("Alice should not know if Bob got the message.", null, scenario.entities[0].getStringMemory("secretMessage"), element);
 
     }
@@ -94,7 +94,7 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. TARGET.STRINGMEMORY.secretMessage. ","He posts a bear, then clears his messages out.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. [TARGET.STRINGMEMORY.secretMessage]. ","He posts a bear, then clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
@@ -106,7 +106,7 @@ abstract class UnitTests {
 
     //        //if bob has a secret message, eve reads it.
     static void setupEveEvesdrops(Scenario scenario) {
-      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads TARGET.STRINGMEMORY.secretMessage. Her scandal rating is OWNER.NUMMEMORY.scandalRating")..targetOne=true;
+      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads [TARGET.STRINGMEMORY.secretMessage]. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
       ActionEffect effect2 = new AEAddNum("scandalRating",1)..vriska=true;
 
       TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
@@ -119,7 +119,7 @@ abstract class UnitTests {
     //if bob does not have a secret message, alice sends a message to bob.
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
-       Scene scene = new Scene("Alice Sends", "Alice, having sent OWNER.NUMMEMORY.secretMessageCount messages, sends a new secret message to Bob.","She notes she has now sent OWNER.NUMMEMORY.secretMessageCount total messages.")..targetOne=true;
+       Scene scene = new Scene("Alice Sends", "Alice, having sent [OWNER.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [OWNER.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
       ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
       TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
@@ -135,6 +135,11 @@ abstract class UnitTests {
     static void runUtilTests(Element element) {
         List<String> parts = Util.getTagsForKey("Alice, having sent [OWNER.STRINGMEMORY.secretMessage] as a message. And her email is [OWNER.STRINGMEMORY.email] ",Scene.OWNERSTRINGMEMORYTAG);
         processTest("Util Tests ", ["secretMessage","email"].toString(), parts.toString(), element);
+        Scenario scenario = Scenario.testScenario();
+        setupAliceSendsMessage(scenario);
+        processTest("Util Tests Replacement Null ", "Alice, having sent 0 messages, sends a new secret message to Bob.", scenario.entities.first.readOnlyScenes.first.proccessedBeforeText, element);
+        scenario.entities.first.setNumMemory("secretMessageCount",3);
+        processTest("Util Tests Replacement 3 ", "Alice, having sent 3 messages, sends a new secret message to Bob.", scenario.entities.first.readOnlyScenes.first.proccessedBeforeText, element);
 
     }
 

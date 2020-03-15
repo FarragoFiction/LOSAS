@@ -74,7 +74,11 @@ class Entity {
 
     num getNumMemory(String key) {
         key.replaceAll(" ","");
+        if(_numMemory.containsKey(key)){
         return _numMemory[key];
+        }else{
+            return 0; //null isn't a real thing for numbers for display purposes.
+        }
     }
 
     void setNumMemory(String key, num value) {

@@ -7,7 +7,7 @@ class KeepIfNumExists extends TargetFilter {
 
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    return possibleTarget.getNumMemory(importantWord) != null;
+    return possibleTarget.getNumMemory(importantWord) != 0;
   }
 
 }
