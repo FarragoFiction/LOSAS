@@ -25,9 +25,10 @@ class Scene {
     }
     Scene(this.name, this.flavorText);
 
-    void display(Element parent) {
+    Element render() {
         container = new DivElement()..classes.add("scene")..setInnerHtml(flavorText);
-        parent.append(container);
+        //TODO need to render the owner on the left and the targets on the right, text is above?
+        return container;
     }
 
     void applyEffects() {
@@ -46,7 +47,6 @@ class Scene {
         for(TargetFilter tc in targetFilters) {
             targets = new Set<Entity>.from(tc.filter(this,entities));
         }
-        print("found targets $targets");
         return targets.isNotEmpty;
     }
 }

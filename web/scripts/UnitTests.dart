@@ -122,7 +122,6 @@ abstract class UnitTests {
         scene.effects.add(effect);
         scene.targets.add(scenario.entities[1]);
         scene.applyEffects();
-        print("hey i applied the effects and got ${scenario.entities[1].getStringMemory("secretMessage")} for ${scenario.entities[1]} his memory is ${scenario.entities[1].debugMemory} ");
         processTest("testSetString ", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
         processTest("testSetString text is replaced", "Carol kind of sucks.", scenario.entities[1].getStringMemory("secretMessage"), element);

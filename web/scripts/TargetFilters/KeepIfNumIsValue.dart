@@ -13,7 +13,6 @@ class KeepIfNumIsValue extends TargetFilter {
         print("Warning: Are you SURE you want to ask for $importantWord? It's not set for $possibleTarget...");
         return false;
     }
-    print("comparing $currentValue and $importantNum ${currentValue == importantNum}");
     return currentValue == importantNum;
   }
 
