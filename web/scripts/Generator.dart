@@ -32,7 +32,8 @@ class NumGenerator extends Generator {
     if(min == min.floor() && max == max.floor()) {
         return rand.nextIntRange(min,max);
     }else {
-       return rand.nextDoubleRange(min,max);
+        print("its a doubl jr");
+       return (rand.nextDoubleRange(min,max)*100).round()/100.0;
     }
   }
 

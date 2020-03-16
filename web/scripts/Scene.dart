@@ -43,15 +43,10 @@ class Scene {
 
 
     String processText(String text) {
-        print("Step 0: I'm going to process text. $text");
         text = processTargetStringTags(text);
-        print("Step 1: $text");
         text = processTargetNumTags(text);
-        print("Step 2: $text");
         text = processOwnerStringTags(text);
-        print("Step 3: $text");
         text = processOwnerNumTags(text);
-        print("Step 4: $text");
         //look [ and ] are reserved characters here. deal with it.
         text = text.replaceAll("]","");
         return text;
