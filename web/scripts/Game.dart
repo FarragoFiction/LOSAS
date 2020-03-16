@@ -3,7 +3,7 @@ import 'package:CommonLib/Random.dart';
 import 'Entity.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
-import 'UnitTests.dart';
+import 'UnitTests/UnitTests.dart';
 
 class Game {
     Element container;

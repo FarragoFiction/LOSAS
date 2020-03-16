@@ -12,7 +12,7 @@ abstract class Generator {
 
 class StringGenerator extends Generator {
     List<String> possibleValues = new List<String>();
-    StringGenerator(this.possibleValues, String key) : super(key);
+    StringGenerator(String key,this.possibleValues, ) : super(key);
 
   @override
   dynamic generateValue(Random rand) {
@@ -24,7 +24,7 @@ class StringGenerator extends Generator {
 class NumGenerator extends Generator {
     num max;
     num min;
-  NumGenerator(this.min, this.max, String key) : super(key);
+  NumGenerator(String key,this.min, this.max) : super(key);
 
   @override
   dynamic generateValue(Random rand) {
