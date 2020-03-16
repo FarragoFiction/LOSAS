@@ -1,3 +1,5 @@
+import 'package:CommonLib/Random.dart';
+
 import '../Entity.dart';
 import '../Scene.dart';
 

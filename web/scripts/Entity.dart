@@ -8,10 +8,13 @@
 import 'package:CommonLib/Random.dart';
 
 import 'Generator.dart';
+import 'Scenario.dart';
 import 'Scene.dart';
 
 class Entity {
     String name;
+    Scenario scenario;
+    Random get rand => scenario.rand;
     Map<String,String> _stringMemory = new Map<String,String>();
     Map<String,dynamic> get debugMemory => new Map<String,dynamic>.from(_stringMemory)..addAll(_numMemory);
     Map<String,num> _numMemory = new Map<String, int>();

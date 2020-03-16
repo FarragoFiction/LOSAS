@@ -1,5 +1,6 @@
 import "dart:html";
 import 'ActionEffects/ActionEffect.dart';
+import 'Scenario.dart';
 import "TargetFilters/TargetFilter.dart";
 import 'Entity.dart';
 import 'Util.dart';
@@ -12,6 +13,7 @@ class Scene {
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
+    Scenario get scenario => owner.scenario;
     Entity owner;
     //target everything that meets this condition, or just a single one?
     bool targetOne = false;

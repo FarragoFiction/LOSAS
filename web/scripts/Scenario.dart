@@ -28,11 +28,13 @@ class Scenario {
     int currentSceneIndex = 0;
     //you can go forward and back through all scenes easily.
     List<Element> sceneElements = new List<Element>();
-    List<Entity> entities = new List<Entity>();
+    List<Entity> _entities = new List<Entity>();
+    List<Entity> get entitiesReadOnly  => _entities;
+
     //the person in the spotlight is on screen right now
     Entity spotLightEntity;
     //if not entities are active on spawn, nothing can happen. I advise having at least an invisible entity, like "Skaia".
-    List<Entity> get activeEntities => entities.where((Entity entity) =>entity.isActive).toList();
+    List<Entity> get activeEntitiesReadOnly => _entities.where((Entity entity) =>entity.isActive).toList();
 
     //if ANY of these trigger, then its time to stop ticking
     List<Scene> frameScenes = new List<Scene>();
@@ -50,6 +52,11 @@ class Scenario {
         parent.append(container);
         renderNavigationArrows();
         lookForNextScene();
+    }
+
+    void addEntity(Entity entity) {
+        _entities.add(entity);
+        entity.scenario = this;
     }
 
 
@@ -90,7 +97,7 @@ class Scenario {
     }
 
     void debugScenario() {
-        entities.forEach((Entity e)=> print(e.debugString()));
+        entitiesReadOnly.forEach((Entity e)=> print(e.debugString()));
     }
 
     void renderCurrentScene() {
@@ -110,11 +117,11 @@ class Scenario {
         Scene spotlightScene;
         List<Entity> entitiesToCheck = null;
         if(spotLightEntity != null) {
-            entitiesToCheck = entities.sublist(entities.indexOf(spotLightEntity)+1);
+            entitiesToCheck = entitiesReadOnly.sublist(entitiesReadOnly.indexOf(spotLightEntity)+1);
         }else {
             //every time we get to the start of entities, we shuffle so its not so samey
-            entities.shuffle(rand);
-            entitiesToCheck = entities;
+            _entities.shuffle(rand);
+            entitiesToCheck = entitiesReadOnly;
         }
         spotlightScene = checkEntitiesForScene(entitiesToCheck);
         if(spotlightScene != null) {
@@ -135,7 +142,7 @@ class Scenario {
     Scene checkStopScenes() {
       for(final Scene scene in stopScenes) {
           print("checking stop scene $scene");
-          if(scene.checkIfActivated(activeEntities)){
+          if(scene.checkIfActivated(activeEntitiesReadOnly)){
               return  scene;
           }
       }
@@ -153,13 +160,13 @@ class Scenario {
        for(final Entity e in entitiesToCheck) {
           if(e.isActive) {
               //yes it includes yourself, what if you're gonna buff your party or something
-              ret = e.performScene(activeEntities);
+              ret = e.performScene(activeEntitiesReadOnly);
               if(ret != null) {
                   spotLightEntity = e;
                   return ret;
               }
           }else{
-              ret = e.checkForActivationScenes(activeEntities);
+              ret = e.checkForActivationScenes(activeEntitiesReadOnly);
               if(ret != null) {
                   spotLightEntity = e;
                   return ret;
@@ -173,9 +180,9 @@ class Scenario {
         final Entity alice = new Entity("Alice")..isActive = true;
         final Entity bob = new Entity("Bob")..isActive = true;
         final Entity carol = new Entity("Eve")..isActive = true;
-        entities.add(alice);
-        entities.add(bob);
-        entities.add(carol);
+        addEntity(alice);
+        addEntity(bob);
+        addEntity(carol);
 
         seed = 85;
         rand = new Random(seed);

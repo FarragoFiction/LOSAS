@@ -109,7 +109,7 @@ abstract class UnitTests {
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
       scene3.targetFilters.add(filter5);
       scene3.effects.add(effect);
-      scenario.entities[1].addScene(scene3);
+      scenario.entitiesReadOnly[1].addScene(scene3);
       return scene3;
     }
 
@@ -122,7 +122,7 @@ abstract class UnitTests {
       TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
       scene2.targetFilters = [filter3, filter4];
       scene2.effects.add(effect2);
-      scenario.entities.last.addScene(scene2);
+      scenario.entitiesReadOnly.last.addScene(scene2);
     }
 
     //if bob does not have a secret message, alice sends a message to bob.
@@ -138,7 +138,7 @@ abstract class UnitTests {
       scene.effects.add(effect2);
       scene.targetFilters.add(filter2);
       scene.targetFilters.add(filter);
-      scenario.entities.first.addScene(scene);
+      scenario.entitiesReadOnly.first.addScene(scene);
     }
 
 

@@ -9,8 +9,8 @@ abstract class UtilTests {
         UnitTests.processTest("Util Tests ", ["secretMessage","email"].toString(), parts.toString(), element);
         Scenario scenario = Scenario.testScenario();
         UnitTests.setupAliceSendsMessage(scenario);
-        UnitTests.processTest("Util Tests Replacement Null ", "Alice, having sent 0 messages, sends a new secret message to Bob.", scenario.entities.first.readOnlyScenes.first.proccessedBeforeText, element);
-        scenario.entities.first.setNumMemory("secretMessageCount",3);
-        UnitTests.processTest("Util Tests Replacement 3 ", "Alice, having sent 3 messages, sends a new secret message to Bob.", scenario.entities.first.readOnlyScenes.first.proccessedBeforeText, element);
+        UnitTests.processTest("Util Tests Replacement Null ", "Alice, having sent 0 messages, sends a new secret message to Bob.", scenario.entitiesReadOnly.first.readOnlyScenes.first.proccessedBeforeText, element);
+        scenario.entitiesReadOnly.first.setNumMemory("secretMessageCount",3);
+        UnitTests.processTest("Util Tests Replacement 3 ", "Alice, having sent 3 messages, sends a new secret message to Bob.", scenario.entitiesReadOnly.first.readOnlyScenes.first.proccessedBeforeText, element);
     }
 }
