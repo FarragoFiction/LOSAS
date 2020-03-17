@@ -13,10 +13,10 @@ abstract class GeneratorTests {
         UnitTests.processTest("Generator should pick one of two strings, picked $generatedString", true, generatedString=="hello" || generatedString=="world", element);
 
         num generatedInt = intGenerator.generateValue(new Random(13));
-        UnitTests.processTest("Generator should pick number between 0 and 10, picked $generatedInt", true, generatedInt >=-10 && generatedInt <=10, element);
+        UnitTests.processTest("Generator should pick number between -10 and 10, picked $generatedInt", true, generatedInt >=-10 && generatedInt <=10, element);
 
         num generatedDouble = doubleGenerator.generateValue(new Random(13));
-        UnitTests.processTest("Generator should pick number between 0 and 1, picked $generatedDouble", true, generatedDouble >=-1.01 && generatedDouble <=1.01, element);
+        UnitTests.processTest("Generator should pick number between -1.01 and 1.01, picked $generatedDouble", true, generatedDouble >=-1.01 && generatedDouble <=1.01, element);
 
 
     }

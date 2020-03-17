@@ -26,7 +26,11 @@ abstract class ActionEffectTests {
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scene.applyEffects();
-        UnitTests.processTest("testSetNum ", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
+        UnitTests.processTest("testSetNum is 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
+        effect.importantNum = 1.13;
+        scene.applyEffects();
+        UnitTests.processTest("testSetNum is 1.13", 1.13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
+
     }
 
     static void testAddNum(element) {
@@ -97,37 +101,39 @@ abstract class ActionEffectTests {
     static void testSetStringGenerator(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AESetStringGenerator("secretMessage","Carol kind of sucks.",null);
+        ActionEffect effect = new AESetStringGenerator("testString","Carol kind of sucks.",null);
+        scene.owner = scenario.entitiesReadOnly[1];
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
-        String generatedWord = scenario.entitiesReadOnly[1].getStringMemory("secretMessage");
         scene.applyEffects();
-        UnitTests.processTest("testSetStringGenerator $generatedWord is the default ", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+        String generatedWord = scenario.entitiesReadOnly[1].getStringMemory("testString");
+        UnitTests.processTest("testSetStringGenerator '$generatedWord' is the default ", "Carol kind of sucks.", generatedWord, element);
 
         List<String> wordSet1 = <String>["hello","world"];
         Generator stringGenerator = new StringGenerator("testString",wordSet1);
         scenario.entitiesReadOnly[1].addGenerator(stringGenerator);
         scene.applyEffects();
-        generatedWord = scenario.entitiesReadOnly[1].getStringMemory("secretMessage");
-        UnitTests.processTest("testUnAppendString $generatedWord is one of the single generator's values", true,wordSet1.contains(generatedWord) , element);
+        generatedWord = scenario.entitiesReadOnly[1].getStringMemory("testString");
+        UnitTests.processTest("testUnAppendString '$generatedWord' is one of the single generator's values", true,wordSet1.contains(generatedWord) , element);
         List<String> wordSet2 = <String>["entirely","new","words","actualyl","a","lot","of","them"];
 
         Generator stringGenerator2 = new StringGenerator("testString",wordSet2);
         scenario.entitiesReadOnly[1].addGenerator(stringGenerator2);
         scene.applyEffects();
-        generatedWord = scenario.entitiesReadOnly[1].getStringMemory("secretMessage");
-        UnitTests.processTest("testUnAppendString $generatedWord is one of the two different generators possible generated values", true, wordSet1.contains(generatedWord) || wordSet2.contains(generatedWord), element);
+        generatedWord = scenario.entitiesReadOnly[1].getStringMemory("testString");
+        UnitTests.processTest("testUnAppendString '$generatedWord' is one of the two different generators possible generated values", true, wordSet1.contains(generatedWord) || wordSet2.contains(generatedWord), element);
 
     }
 
     static void testSetNumGenerator(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        scene.owner = scenario.entitiesReadOnly[1];
         ActionEffect effect = new AESetNumGenerator("secretMessageFrequency",13);
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scene.applyEffects();
-        int generatedNum = scenario.entitiesReadOnly[1].getNumMemory("secretMessageFrequency");
+        num generatedNum = scenario.entitiesReadOnly[1].getNumMemory("secretMessageFrequency");
         UnitTests.processTest("testSetNumGenerator $generatedNum is the default ", 13, generatedNum, element);
 
         Generator numGenerator = new NumGenerator("secretMessageFrequency",0,10);
@@ -136,11 +142,11 @@ abstract class ActionEffectTests {
         generatedNum = scenario.entitiesReadOnly[1].getNumMemory("secretMessageFrequency");
         UnitTests.processTest("testSetNumGenerator $generatedNum is one of the single generator's values ", true, generatedNum >=0 && generatedNum <=10, element);
 
-        Generator numGenerator2 = new NumGenerator("secretMessageFrequency",-13.9878,102345345.4);
+        Generator numGenerator2 = new NumGenerator("secretMessageFrequency",-13.9878,5345.4);
         scenario.entitiesReadOnly[1].addGenerator(numGenerator2);
         scene.applyEffects();
         generatedNum = scenario.entitiesReadOnly[1].getNumMemory("secretMessageFrequency");
-        UnitTests.processTest("testSetNumGenerator $generatedNum is one of the single generator's values ", true, generatedNum >=-13.9878 && generatedNum <= 102345345.4, element);
+        UnitTests.processTest("testSetNumGenerator $generatedNum is one of the single generator's values ", true, generatedNum >=-13.9878 && generatedNum <= 5345.4, element);
 
     }
 
