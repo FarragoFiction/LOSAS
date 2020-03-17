@@ -4,6 +4,7 @@ import 'dart:html';
 import 'package:CommonLib/Random.dart';
 
 import 'Entity.dart';
+import 'Generator.dart';
 import 'Scene.dart';
 /*
     Scenario List
@@ -180,6 +181,13 @@ class Scenario {
         final Entity alice = new Entity("Alice")..isActive = true;
         final Entity bob = new Entity("Bob")..isActive = true;
         final Entity carol = new Entity("Eve")..isActive = true;
+        Generator messageGenerator = new StringGenerator("secretMessageDraft", <String>["Carol actually kind of sucks...","I've never really liked Carol.", "Don't you think Carol's actually a ghost in disguise?"]);
+        Generator reactionGeneratorBob = new StringGenerator("reaction", <String>["[OWNER.STRINGMEMORY.name] posts a bear","[OWNER.STRINGMEMORY.name] doesn't really react"]);
+        Generator reactionGeneratorCarol = new StringGenerator("reaction", <String>["She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'.","Reading '[TARGET.STRINGMEMORY.secretMessage]', she reaches new heights of scandalized.", "[OWNER.STRINGMEMORY.name] can not even BELIEVE Alice would say '[TARGET.STRINGMEMORY.secretMessage]' about poor Carol."]);
+
+        alice.addGenerator(messageGenerator);
+        bob.addGenerator(reactionGeneratorBob);
+        carol.addGenerator(reactionGeneratorCarol);
         addEntity(alice);
         addEntity(bob);
         addEntity(carol);

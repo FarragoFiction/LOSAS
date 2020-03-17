@@ -29,6 +29,10 @@ class Entity {
     List<Scene> get readOnlyScenes => _scenes;
     List<Scene> get readOnlyActivationScenes => _activationScenes;
 
+    Entity(this.name) {
+        setStringMemory("name",this.name);
+    }
+
     @override
     String toString() {
         return name;
@@ -113,6 +117,6 @@ class Entity {
         _numMemory[key] = value;
     }
 
-    Entity(this.name);
+
 
 }

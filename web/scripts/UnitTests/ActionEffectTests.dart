@@ -142,11 +142,15 @@ abstract class ActionEffectTests {
         generatedNum = scenario.entitiesReadOnly[1].getNumMemory("secretMessageFrequency");
         UnitTests.processTest("testSetNumGenerator $generatedNum is one of the single generator's values ", true, generatedNum >=0 && generatedNum <=10, element);
 
+        scene.applyEffects();
         Generator numGenerator2 = new NumGenerator("secretMessageFrequency",-13.9878,5345.4);
         scenario.entitiesReadOnly[1].addGenerator(numGenerator2);
         scene.applyEffects();
         generatedNum = scenario.entitiesReadOnly[1].getNumMemory("secretMessageFrequency");
         UnitTests.processTest("testSetNumGenerator $generatedNum is one of the single generator's values ", true, generatedNum >=-13.9878 && generatedNum <= 5345.4, element);
+        //make sure it isn't just generating the same value over and over again because i'm accidentally resetting rand or something. very unlikely to do the same float between -13 and five thousand here
+        num generatedNum2 = scenario.entitiesReadOnly[1].getNumMemory("secretMessageFrequency");
+        UnitTests.processTest("testSetNumGenerator $generatedNum is not the same value as $generatedNum2 ", true, generatedNum != generatedNum2, element);
 
     }
 

@@ -6,6 +6,7 @@ import '../ActionEffects/AEAddNum.dart';
 import '../ActionEffects/AEAppendString.dart';
 import '../ActionEffects/AESetNum.dart';
 import '../ActionEffects/AESetString.dart';
+import '../ActionEffects/AESetStringGenerator.dart';
 import '../ActionEffects/AEUnAppendString.dart';
 import '../ActionEffects/AEUnSetString.dart';
 export '../ActionEffects/ActionEffect.dart';
@@ -103,24 +104,29 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[TARGET.STRINGMEMORY.secretMessage]'. ","He posts a bear, then clears his messages out.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[TARGET.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], then clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
+      ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears",null)..vriska;
+
       scene3.targetFilters.add(filter5);
       scene3.effects.add(effect);
+      scene3.effects.add(effect2);
       scenario.entitiesReadOnly[1].addScene(scene3);
       return scene3;
     }
 
     //        //if bob has a secret message, eve reads it.
     static void setupEveEvesdrops(Scenario scenario) {
-      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
-      ActionEffect effect2 = new AEAddNum("scandalRating",1)..vriska=true;
+      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"[OWNER.STRINGMEMORY.reaction]. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
+      ActionEffect effect1 = new AEAddNum("scandalRating",1)..vriska=true;
+      ActionEffect effect2 = new AESetStringGenerator("reaction","She is scandalized times a million",null)..vriska;
 
       TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
       TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
       scene2.targetFilters = [filter3, filter4];
+      scene2.effects.add(effect1);
       scene2.effects.add(effect2);
       scenario.entitiesReadOnly.last.addScene(scene2);
     }
@@ -129,12 +135,14 @@ abstract class UnitTests {
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
        Scene scene = new Scene("Alice Sends", "Alice, having sent [OWNER.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [OWNER.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
-      ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks...",null);
+      ActionEffect effect = new AESetString("secretMessage","[OWNER.STRINGMEMORY.secretMessageDraft]",null);
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
-      TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
+       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolute sucks.",null)..vriska;
+       TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
       TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
 
-      scene.effects.add(effect);
+       scene.effects.add(prerequisiteEffect);
+       scene.effects.add(effect);
       scene.effects.add(effect2);
       scene.targetFilters.add(filter2);
       scene.targetFilters.add(filter);
