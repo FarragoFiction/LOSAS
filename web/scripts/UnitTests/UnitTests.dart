@@ -137,7 +137,7 @@ abstract class UnitTests {
        Scene scene = new Scene("Alice Sends", "Alice, having sent [OWNER.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [OWNER.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
       ActionEffect effect = new AESetString("secretMessage","[OWNER.STRINGMEMORY.secretMessageDraft]",null);
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
-       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolute sucks.",null)..vriska;
+       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.",null)..vriska;
        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
       TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
 
