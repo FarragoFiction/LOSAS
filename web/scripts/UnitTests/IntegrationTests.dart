@@ -14,7 +14,7 @@ abstract class IntegrationTests {
         UnitTests.processTest("Alice's should be only targeting Bob.", scenario.entitiesReadOnly[1].name,scenario.entitiesReadOnly.first.readOnlyScenes.first.targets.first.name , element);
 
         scenario.entitiesReadOnly.first.readOnlyScenes.first.applyEffects();
-        UnitTests.processTest("Bob Should have a message waiting to be read.", "Carol kind of sucks...", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+        UnitTests.processTest("Bob Should have a message waiting to be read.", "Don't you think Carol's actually a ghost in disguise?", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         UnitTests.processTest("Alice should be aware that she has sent 1 message.", 1, scenario.entitiesReadOnly[0].getNumMemory("secretMessageCount"), element);
         UnitTests.processTest("Bob Should not know how many messages alice has sent.", 0,scenario.entitiesReadOnly[1].getNumMemory("secretMessageCount") , element);
         UnitTests.processTest("Alice should not know if Bob got the message.", null, scenario.entitiesReadOnly[0].getStringMemory("secretMessage"), element);

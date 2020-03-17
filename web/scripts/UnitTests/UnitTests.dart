@@ -105,11 +105,11 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[TARGET.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], then clears his messages out.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[OWNER.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], then clears his messages out.")..targetOne=true;
 
-      TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska;
-      ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska;
-      ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears",null)..vriska;
+      TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska=true;
+      ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska=true;
+      ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears",null)..vriska=true;
 
       scene3.targetFilters.add(filter5);
       scene3.effects.add(effect);
@@ -122,7 +122,7 @@ abstract class UnitTests {
     static void setupEveEvesdrops(Scenario scenario) {
       Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"[OWNER.STRINGMEMORY.reaction]. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
       ActionEffect effect1 = new AEAddNum("scandalRating",1)..vriska=true;
-      ActionEffect effect2 = new AESetStringGenerator("reaction","She is scandalized times a million",null)..vriska;
+      ActionEffect effect2 = new AESetStringGenerator("reaction","She is scandalized times a million",null)..vriska=true;
 
       TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
       TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
@@ -136,7 +136,7 @@ abstract class UnitTests {
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
        Scene scene = new Scene("Alice Sends", "Alice, having sent [OWNER.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [OWNER.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
-       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.",null)..vriska;
+       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.",null)..vriska=true;
        ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage",null);
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
