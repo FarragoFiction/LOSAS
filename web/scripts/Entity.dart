@@ -34,11 +34,11 @@ class Entity {
         return name;
     }
 
-    void addGenerator(String key, Generator generator) {
-        if(_generators.containsKey(key)){
-            _generators[key].add(generator);
+    void addGenerator(Generator generator) {
+        if(_generators.containsKey(generator.key)){
+            _generators[generator.key].add(generator);
         }else{
-            _generators[key] = <Generator>[generator];
+            _generators[generator.key] = <Generator>[generator];
         }
     }
 
