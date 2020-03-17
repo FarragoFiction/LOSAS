@@ -1,5 +1,7 @@
 import 'dart:html';
 
+import '../ActionEffects/AECopyNumFromTarget.dart';
+import '../ActionEffects/AECopyNumToTarget.dart';
 import '../ActionEffects/AECopyStringFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
 import '../ActionEffects/AESetNumGenerator.dart';
@@ -179,11 +181,11 @@ abstract class ActionEffectTests {
     static void testCopyStringFrom(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyStringFromTarget("secretMessage","secretMessageDraft",null);
+        ActionEffect effect = new AECopyStringFromTarget("secretMessageDraft","secretMessage",null);
         scenario.entitiesReadOnly[0].setStringMemory("secretMessageDraft","Carol kind of sucks.");
         scene.owner = scenario.entitiesReadOnly[1];
         scene.effects.add(effect);
-        scene.targets.add(scenario.entitiesReadOnly[1]);
+        scene.targets.add(scenario.entitiesReadOnly[0]);
         UnitTests.processTest("testCopyStringFrom secretMessage starts out as null", null, scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
         String first= scenario.entitiesReadOnly[0].getStringMemory("secretMessageDraft");
@@ -194,34 +196,30 @@ abstract class ActionEffectTests {
     static void testCopyNumTo(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage",null);
-        scenario.entitiesReadOnly[0].setStringMemory("secretMessageDraft","Carol kind of sucks.");
+        ActionEffect effect = new AECopyNumToTarget("secretMessageDraft","secretMessage",null);
+        scenario.entitiesReadOnly[0].setNumMemory("secretMessageDraft",13);
         scene.owner = scenario.entitiesReadOnly[0];
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
-        UnitTests.processTest("TODO", null, false, element);
-
-        UnitTests.processTest("testCopyStringTo secretMessage starts out as null", null, scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+        UnitTests.processTest("testCopyNumTo secretMessage starts out as null", null, scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
-        String first= scenario.entitiesReadOnly[0].getStringMemory("secretMessageDraft");
-        String second = scenario.entitiesReadOnly[1].getStringMemory("secretMessage");
-        UnitTests.processTest("testCopyStringTo secret message ends up as $second.", first, second, element);
+        num first= scenario.entitiesReadOnly[0].getNumMemory("secretMessageDraft");
+        num second = scenario.entitiesReadOnly[1].getNumMemory("secretMessage");
+        UnitTests.processTest("testCopyNumTo secret message ends up as $second.", first, second, element);
     }
 
     static void testCopyNumFrom(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyStringFromTarget("secretMessage","secretMessageDraft",null);
-        scenario.entitiesReadOnly[0].setStringMemory("secretMessageDraft","Carol kind of sucks.");
+        ActionEffect effect = new AECopyNumFromTarget("secretMessageDraft","secretMessage",null);
+        scenario.entitiesReadOnly[0].setNumMemory("secretMessageDraft",13);
         scene.owner = scenario.entitiesReadOnly[1];
         scene.effects.add(effect);
-        scene.targets.add(scenario.entitiesReadOnly[1]);
-        UnitTests.processTest("TODO", null, false, element);
-
-        UnitTests.processTest("testCopyStringFrom secretMessage starts out as null", null, scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+        scene.targets.add(scenario.entitiesReadOnly[0]);
+        UnitTests.processTest("testCopyNumFrom secretMessage starts out as null", null, scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
-        String first= scenario.entitiesReadOnly[0].getStringMemory("secretMessageDraft");
-        String second = scenario.entitiesReadOnly[1].getStringMemory("secretMessage");
-        UnitTests.processTest("testCopyStringFrom secret message ends up as $second.", first, second, element);
+        num first= scenario.entitiesReadOnly[0].getNumMemory("secretMessageDraft");
+        num second = scenario.entitiesReadOnly[1].getNumMemory("secretMessage");
+        UnitTests.processTest("testCopyNumFrom secret message ends up as $second.", first, second, element);
     }
 }
