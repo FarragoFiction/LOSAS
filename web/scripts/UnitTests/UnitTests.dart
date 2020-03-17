@@ -4,6 +4,7 @@ we are fucking doings this right. for each target filter, action effect, etc we 
 import 'dart:html';
 import '../ActionEffects/AEAddNum.dart';
 import '../ActionEffects/AEAppendString.dart';
+import '../ActionEffects/AECopyStringToTarget.dart';
 import '../ActionEffects/AESetNum.dart';
 import '../ActionEffects/AESetString.dart';
 import '../ActionEffects/AESetStringGenerator.dart';
@@ -135,9 +136,9 @@ abstract class UnitTests {
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
        Scene scene = new Scene("Alice Sends", "Alice, having sent [OWNER.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [OWNER.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
-      ActionEffect effect = new AESetString("secretMessage","[OWNER.STRINGMEMORY.secretMessageDraft]",null);
-      ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
        ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.",null)..vriska;
+       ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage",null);
+      ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
       TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
 

@@ -3,7 +3,7 @@ import 'ActionEffect.dart';
 
 class AECopyStringFromTarget extends ActionEffect {
     String myKey;
-    AECopyStringFromTarget(String importantString, num importantNum) : super(importantString, importantNum);
+    AECopyStringFromTarget(String this.myKey,String importantString, num importantNum) : super(importantString, importantNum);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
