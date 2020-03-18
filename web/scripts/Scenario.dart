@@ -24,6 +24,8 @@ class Scenario {
 
     Element container;
 
+    int numScenes = 0;
+
     Random rand;
     //which scene are we on
     int currentSceneIndex = 0;
@@ -42,8 +44,10 @@ class Scenario {
 
     //if ANY of these trigger, then its time to stop ticking
     List<Scene> stopScenes = new List<Scene>();
+    String name;
+    Scene introduction;
 
-    Scenario(this.seed) {
+    Scenario(this.name, this.introduction, this.seed) {
         rand = new Random(seed);
 
     }
@@ -111,6 +115,10 @@ class Scenario {
     //then you check your stop scenes
     //then you repeat
     void lookForNextScene() {
+        if(numScenes == 0) {
+            showScene(introduction);
+            return;
+        }
         //could be some amount of randomness baked in
         if(numberTriesForScene > maxNumberTriesForScene) {
             window.alert("something has gone wrong, went $numberTriesForScene loops without anything happening");
@@ -150,6 +158,7 @@ class Scenario {
     }
 
     void showScene(Scene spotlightScene) {
+        numScenes++;
         numberTriesForScene = 0;
         Element sceneElement = spotlightScene.render(sceneElements.length);
         sceneElements.add(sceneElement);
@@ -191,6 +200,8 @@ class Scenario {
         addEntity(alice);
         addEntity(bob);
         addEntity(carol);
+        name = "Alice messages Bob";
+        introduction = new Scene("Introduction","In a cryptographically relevant corner of the universe...","");
 
         seed = 85;
         rand = new Random(seed);
