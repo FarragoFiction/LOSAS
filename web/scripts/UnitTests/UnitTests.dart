@@ -6,6 +6,7 @@ import '../ActionEffects/AEAddNum.dart';
 import '../ActionEffects/AEAppendString.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
 import '../ActionEffects/AESetNum.dart';
+import '../ActionEffects/AESetNumGenerator.dart';
 import '../ActionEffects/AESetString.dart';
 import '../ActionEffects/AESetStringGenerator.dart';
 import '../ActionEffects/AEUnAppendString.dart';
@@ -105,15 +106,17 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static Scene bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[OWNER.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], then clears his messages out.")..targetOne=true;
+      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[OWNER.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], thinks about the number [OWNER.NUMMEMORY.randomNumber], then clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska=true;
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska=true;
       ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears",null)..vriska=true;
+      ActionEffect effect3 = new AESetNumGenerator("randomNumber",113)..vriska=true;
 
       scene3.targetFilters.add(filter5);
       scene3.effects.add(effect);
       scene3.effects.add(effect2);
+      scene3.effects.add(effect3);
       scenario.entitiesReadOnly[1].addScene(scene3);
       return scene3;
     }

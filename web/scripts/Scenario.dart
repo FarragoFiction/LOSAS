@@ -194,8 +194,11 @@ class Scenario {
         Generator reactionGeneratorBob = new StringGenerator("reaction", <String>["[OWNER.STRINGMEMORY.name] posts a bear","[OWNER.STRINGMEMORY.name] doesn't really react"]);
         Generator reactionGeneratorCarol = new StringGenerator("reaction", <String>["She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'.","Reading '[TARGET.STRINGMEMORY.secretMessage]', she reaches new heights of scandalized.", "[OWNER.STRINGMEMORY.name] can not even BELIEVE Alice would say '[TARGET.STRINGMEMORY.secretMessage]' about poor Carol."]);
 
+        Generator randomNumber = new NumGenerator("randomNumber", -113.4,113.2);
+
         alice.addGenerator(messageGenerator);
         bob.addGenerator(reactionGeneratorBob);
+        bob.addGenerator(randomNumber);
         carol.addGenerator(reactionGeneratorCarol);
         addEntity(alice);
         addEntity(bob);
