@@ -45,11 +45,13 @@ class Scene {
 
 
     String processText(String text, [int round =0]) {
+        String originalText = "$text";
         text = processTargetStringTags(text);
         text = processTargetNumTags(text);
         text = processOwnerStringTags(text);
         text = processOwnerNumTags(text);
-        if(round < 3) {
+        //max of three times, but if at any point nothing has changed, just finish off, no more recursion.
+        if(round < 3 && text != originalText) {
             text = processText(text, round+1);
         }else {
             //look [ and ] are reserved characters here. deal with it.
