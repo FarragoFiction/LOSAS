@@ -106,13 +106,14 @@ class Scenario {
 
     void goRight() {
         if(!readyForNextScene) return;
-        sceneElements[currentSceneIndex].remove();
         currentSceneIndex ++;
-        if(currentSceneIndex > sceneElements.length && theEnd) {
-            //do nothing
+        if(currentSceneIndex >= sceneElements.length && theEnd) {
+            currentSceneIndex += -1; //take that back plz
         }else if(currentSceneIndex >= sceneElements.length && !theEnd) {
+            if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
             lookForNextScene();
         }else {
+            if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
             renderCurrentScene();
         }
 
