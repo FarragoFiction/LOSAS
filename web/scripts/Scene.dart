@@ -44,13 +44,17 @@ class Scene {
     String get proccessedAfterText => processText(afterFlavorText);
 
 
-    String processText(String text) {
+    String processText(String text, [int round =0]) {
         text = processTargetStringTags(text);
         text = processTargetNumTags(text);
         text = processOwnerStringTags(text);
         text = processOwnerNumTags(text);
-        //look [ and ] are reserved characters here. deal with it.
-        text = text.replaceAll("]","");
+        if(round < 3) {
+            text = processText(text, round+1);
+        }else {
+            //look [ and ] are reserved characters here. deal with it.
+            text = text.replaceAll("]", "");
+        }
         return text;
     }
 
