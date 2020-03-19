@@ -84,7 +84,9 @@ class Scenario {
     void goRight() {
         sceneElements[currentSceneIndex].remove();
         currentSceneIndex ++;
-        if(currentSceneIndex >= sceneElements.length && !theEnd) {
+        if(currentSceneIndex >= sceneElements.length && theEnd) {
+            currentSceneIndex += -1; //take that back plz
+        }else if(currentSceneIndex >= sceneElements.length && !theEnd) {
             lookForNextScene();
         }else {
             renderCurrentScene();
@@ -115,6 +117,7 @@ class Scenario {
     //then you check your stop scenes
     //then you repeat
     void lookForNextScene() {
+        if(theEnd) return;
         if(numScenes == 0) {
             showScene(introduction);
             return;
@@ -143,6 +146,7 @@ class Scenario {
                 spotLightEntity = null;
                 lookForNextScene();
             }else {
+                theEnd = true;
                 showScene(spotlightScene);
             }
         }
@@ -150,11 +154,14 @@ class Scenario {
 
     Scene checkStopScenes() {
       for(final Scene scene in stopScenes) {
-          print("checking stop scene $scene");
-          if(scene.checkIfActivated(activeEntitiesReadOnly)){
+          print("checking stop scene $scene with activeEntities $activeEntitiesReadOnly, btw the scene has these filters ${scene.targetFilters}");
+          final bool active = scene.checkIfActivated(activeEntitiesReadOnly);
+          print("was the stop scene activated: $active, the targets are ${scene.finalTargets}");
+          if(active){
               return  scene;
           }
       }
+      return null;
     }
 
     void showScene(Scene spotlightScene) {

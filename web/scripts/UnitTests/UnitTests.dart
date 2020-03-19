@@ -90,18 +90,18 @@ abstract class UnitTests {
 
         Scene scene3 = bobReceivesMessage(scenario);
 
-        aliceStopsAfterEnoughMessages(scenario, scene3);
+        aliceStopsAfterEnoughMessages(scenario);
 
         scenario.curtainsUp(querySelector("#output"));
     }
 
     //the scenario ends after 8 secret messages have been sent.
-    static void aliceStopsAfterEnoughMessages(Scenario scenario, Scene scene3) {
-      Scene finalScene = new Scene("The End", "The cycle of messages ends.","The End.")..targetOne=true;
+    static void aliceStopsAfterEnoughMessages(Scenario scenario) {
+      Scene finalScene = new Scene("The End", "Now that alice has sent [TARGET.NUMMEMORY.secretMessageCount] messages, the cycle of messages ends.","The End.")..targetOne=true;
       //if anyone has this greater than 5
       TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",5);
       finalScene.targetFilters.add(filter6);
-      scenario.stopScenes.add(scene3);
+      scenario.stopScenes.add(finalScene);
     }
 
     //if bob has a secret message, bob reads it, and clears it out.

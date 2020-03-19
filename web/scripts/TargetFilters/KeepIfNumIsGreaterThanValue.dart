@@ -7,7 +7,8 @@ class KeepIfNumIsGreaterThanValue extends TargetFilter {
   KeepIfNumIsGreaterThanValue(String importantWord, num importantNum) : super(importantWord, importantNum);
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    num currentValue = possibleTarget.getNumMemory(importantWord);
+    final num currentValue = possibleTarget.getNumMemory(importantWord);
+    print("The filter KeepIfNumIsGreaterThanValue is going for target $possibleTarget, but their value for $importantWord is $currentValue");
     if(currentValue == null) return false; //filter me i don't even have this
     return currentValue >= importantNum;
   }
