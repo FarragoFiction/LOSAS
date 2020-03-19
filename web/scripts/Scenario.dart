@@ -1,4 +1,5 @@
 //what are the base rules of this story? who are the characters? what are the main events? the driving forces?
+import 'dart:async';
 import 'dart:html';
 
 import 'package:CommonLib/Random.dart';
@@ -16,6 +17,7 @@ import 'Scene.dart';
 class Scenario {
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
     int seed;
+    bool readyForNextScene = true;
     //seriously if NOTHING HAPPENS for 13 ticks in a row, lets just call it
     int numberTriesForScene = 0;
     int maxNumberTriesForScene = 13;
@@ -24,7 +26,6 @@ class Scenario {
 
     Element container;
 
-    int numScenes = 0;
 
     Random rand;
     //which scene are we on
@@ -46,13 +47,35 @@ class Scenario {
     List<Scene> stopScenes = new List<Scene>();
     String name;
     Scene introduction;
+    StreamSubscription<KeyboardEvent> keyListener;
 
     Scenario(this.name, this.introduction, this.seed) {
         rand = new Random(seed);
 
     }
 
+    void setup() {
+        wireUpKeyBoardControls();
+    }
+
+    void teardown() {
+        keyListener.cancel();
+    }
+
+
+    void wireUpKeyBoardControls() {
+        keyListener = window.onKeyDown.listen((KeyboardEvent e) {
+            print("noticed a keypress of code ${e.keyCode}");
+            if(e.keyCode == KeyCode.LEFT) {
+                goLeft();
+            }else if(e.keyCode == KeyCode.RIGHT) {
+                goRight();
+            }
+        });
+    }
+
     void curtainsUp(Element parent) {
+        setup();
         container = new DivElement()..classes.add("scenario");
         parent.append(container);
         renderNavigationArrows();
@@ -82,10 +105,11 @@ class Scenario {
     }
 
     void goRight() {
+        if(!readyForNextScene) return;
         sceneElements[currentSceneIndex].remove();
         currentSceneIndex ++;
-        if(currentSceneIndex >= sceneElements.length && theEnd) {
-            currentSceneIndex += -1; //take that back plz
+        if(currentSceneIndex > sceneElements.length && theEnd) {
+            //do nothing
         }else if(currentSceneIndex >= sceneElements.length && !theEnd) {
             lookForNextScene();
         }else {
@@ -95,6 +119,7 @@ class Scenario {
     }
 
     void goLeft() {
+        if(!readyForNextScene) return;
         sceneElements[currentSceneIndex].remove();
         currentSceneIndex += -1;
         if(currentSceneIndex < 0) {
@@ -118,7 +143,8 @@ class Scenario {
     //then you repeat
     void lookForNextScene() {
         if(theEnd) return;
-        if(numScenes == 0) {
+        readyForNextScene = false;
+        if(sceneElements.length == 0) {
             showScene(introduction);
             return;
         }
@@ -165,11 +191,11 @@ class Scenario {
     }
 
     void showScene(Scene spotlightScene) {
-        numScenes++;
         numberTriesForScene = 0;
         Element sceneElement = spotlightScene.render(sceneElements.length);
         sceneElements.add(sceneElement);
         container.append(sceneElement);
+        readyForNextScene = true;
     }
 
     Scene checkEntitiesForScene(List<Entity> entitiesToCheck) {
