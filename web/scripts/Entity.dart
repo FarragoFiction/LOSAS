@@ -12,6 +12,8 @@ import 'Scenario.dart';
 import 'Scene.dart';
 
 class Entity {
+    //TODO most chars will be generated randomly but if someone wants to say "i made this" sure why not
+    String author;
     String name;
     Scenario scenario;
     Random get rand => scenario.rand;

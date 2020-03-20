@@ -8,6 +8,8 @@ import 'Util.dart';
 //TODO have scene know how to handle procedural text replacement STRINGMEMORY.secretMessage would put the value of the secret message in there, or null, for example
 //TODO stretch goal, can put these scripting tags in as input for filters and effects, too. "your best friend is now me" or hwatever.
 class Scene {
+    //TODO let people sign their work
+    String author;
     static String TARGETSTRINGMEMORYTAG ="[TARGET.STRINGMEMORY.";
     static String TARGETNUMMEMORYTAG ="[TARGET.NUMMEMORY.";
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";

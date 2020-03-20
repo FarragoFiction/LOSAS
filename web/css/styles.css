@@ -39,6 +39,10 @@ html, body {
   width: 1000px;
 }
 
+.scene{
+    padding: 10px;
+}
+
 .passed{
     background-color: green;
     padding: 5px;
@@ -61,4 +65,6 @@ html, body {
 
 .arrow{
     cursor: pointer;
+    display: inline-block;
+    padding: 5px;
 }

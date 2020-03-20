@@ -5,6 +5,7 @@ import 'dart:html';
 import 'package:CommonLib/Random.dart';
 
 import 'Entity.dart';
+import 'Game.dart';
 import 'Generator.dart';
 import 'Scene.dart';
 /*
@@ -14,24 +15,23 @@ import 'Scene.dart';
     Hogwartz
     Space Infection
  */
+//TODO refactor out all the shit we don't need here into the game class, make scenarios have games, not the other way around.
 class Scenario {
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
     int seed;
-    bool readyForNextScene = true;
+    Game game;
+    //TODO let people sign their work
+    String author;
     //seriously if NOTHING HAPPENS for 13 ticks in a row, lets just call it
     int numberTriesForScene = 0;
     int maxNumberTriesForScene = 13;
 
     bool theEnd = false;
 
-    Element container;
 
 
     Random rand;
-    //which scene are we on
-    int currentSceneIndex = 0;
-    //you can go forward and back through all scenes easily.
-    List<Element> sceneElements = new List<Element>();
+
     List<Entity> _entities = new List<Entity>();
     List<Entity> get entitiesReadOnly  => _entities;
 
@@ -46,39 +46,18 @@ class Scenario {
     //if ANY of these trigger, then its time to stop ticking
     List<Scene> stopScenes = new List<Scene>();
     String name;
+    //TODO actually make this a list of possible intros so we can have diff ones depending on what is relevant. (such as commenting on the lack of space/time)
     Scene introduction;
-    StreamSubscription<KeyboardEvent> keyListener;
 
     Scenario(this.name, this.introduction, this.seed) {
         rand = new Random(seed);
 
     }
 
-    void setup() {
-        wireUpKeyBoardControls();
-    }
-
-    void teardown() {
-        keyListener.cancel();
-    }
-
-
-    void wireUpKeyBoardControls() {
-        keyListener = window.onKeyDown.listen((KeyboardEvent e) {
-            print("noticed a keypress of code ${e.keyCode}");
-            if(e.keyCode == KeyCode.LEFT) {
-                goLeft();
-            }else if(e.keyCode == KeyCode.RIGHT) {
-                goRight();
-            }
-        });
-    }
 
     void curtainsUp(Element parent) {
-        setup();
-        container = new DivElement()..classes.add("scenario");
-        parent.append(container);
-        renderNavigationArrows();
+        game = new Game(this);
+        game.setup(parent);
         lookForNextScene();
     }
 
@@ -88,54 +67,12 @@ class Scenario {
     }
 
 
-    void renderNavigationArrows() {
-        String rightArrow ='<svg class = "arrow" id = "right-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 7v-6l11 11-11 11v-6h-13v-10z"/></svg>';
-        String leftArrow = '<svg class = "arrow" id = "left-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 7v-6l11 11-11 11v-6h-13v-10z"/></svg>';
-        DivElement rightArrowDiv = new DivElement()..setInnerHtml(rightArrow, treeSanitizer: NodeTreeSanitizer.trusted);
-        DivElement leftArrowDiv = new DivElement()..setInnerHtml(leftArrow, treeSanitizer: NodeTreeSanitizer.trusted);
-        container.append(rightArrowDiv);
-        container.append(leftArrowDiv);
-        rightArrowDiv.onClick.listen((Event e) {
-            goRight();
-        });
-
-        leftArrowDiv.onClick.listen((Event e) {
-            goLeft();
-        });
-    }
-
-    void goRight() {
-        if(!readyForNextScene) return;
-        currentSceneIndex ++;
-        if(currentSceneIndex >= sceneElements.length && theEnd) {
-            currentSceneIndex += -1; //take that back plz
-        }else if(currentSceneIndex >= sceneElements.length && !theEnd) {
-            if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
-            lookForNextScene();
-        }else {
-            if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
-            renderCurrentScene();
-        }
-
-    }
-
-    void goLeft() {
-        if(!readyForNextScene) return;
-        sceneElements[currentSceneIndex].remove();
-        currentSceneIndex += -1;
-        if(currentSceneIndex < 0) {
-            currentSceneIndex = 0;
-        }
-        renderCurrentScene();
-    }
 
     void debugScenario() {
         entitiesReadOnly.forEach((Entity e)=> print(e.debugString()));
     }
 
-    void renderCurrentScene() {
-        container.append(sceneElements[currentSceneIndex]);
-    }
+
 
     //unlike sburbsim this doesn't just tick infinitely. instead it renders a button for next.
     //if you try to page to the right and the scene doesn't exist and we aren't ended, do this
@@ -144,9 +81,9 @@ class Scenario {
     //then you repeat
     void lookForNextScene() {
         if(theEnd) return;
-        readyForNextScene = false;
-        if(sceneElements.length == 0) {
-            showScene(introduction);
+        game.readyForNextScene = false;
+        if(game.sceneElements.length == 0) {
+            game.showScene(introduction);
             return;
         }
         //could be some amount of randomness baked in
@@ -164,7 +101,7 @@ class Scenario {
         }
         spotlightScene = checkEntitiesForScene(entitiesToCheck);
         if(spotlightScene != null) {
-            showScene(spotlightScene);
+            game.showScene(spotlightScene);
         }else {
             print("Time to check stop scenes");
             spotlightScene = checkStopScenes();
@@ -174,7 +111,7 @@ class Scenario {
                 lookForNextScene();
             }else {
                 theEnd = true;
-                showScene(spotlightScene);
+                game.showScene(spotlightScene);
             }
         }
     }
@@ -191,13 +128,7 @@ class Scenario {
       return null;
     }
 
-    void showScene(Scene spotlightScene) {
-        numberTriesForScene = 0;
-        Element sceneElement = spotlightScene.render(sceneElements.length);
-        sceneElements.add(sceneElement);
-        container.append(sceneElement);
-        readyForNextScene = true;
-    }
+
 
     Scene checkEntitiesForScene(List<Entity> entitiesToCheck) {
         Scene ret;
@@ -224,6 +155,7 @@ class Scenario {
         final Entity alice = new Entity("Alice")..isActive = true;
         final Entity bob = new Entity("Bob")..isActive = true;
         final Entity carol = new Entity("Eve")..isActive = true;
+        //TODO add a fourth character who can conditionally activate
         Generator messageGenerator = new StringGenerator("secretMessageDraft", <String>["Carol actually kind of sucks...","I've never really liked Carol.", "Don't you think Carol's actually a ghost in disguise?"]);
         Generator reactionGeneratorBob = new StringGenerator("reaction", <String>["[OWNER.STRINGMEMORY.name] posts a bear","[OWNER.STRINGMEMORY.name] doesn't really react"]);
         Generator reactionGeneratorCarol = new StringGenerator("reaction", <String>["She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'.","Reading '[TARGET.STRINGMEMORY.secretMessage]', she reaches new heights of scandalized.", "[OWNER.STRINGMEMORY.name] can not even BELIEVE Alice would say '[TARGET.STRINGMEMORY.secretMessage]' about poor Carol."]);
