@@ -155,7 +155,7 @@ abstract class UnitTests {
         final Scene carolFumes = new Scene("Carol fumes","[TARGET.STRINGMEMORY.name] spreads even more juicy gossip to Carol.","Carol fumes [OWNER.NUMMEMORY.randomNumber] points, but out of how many? Her fume rating is [OWNER.NUMMEMORY.fumeRating], and she knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");
         //eve needs to have new gossip for carol to react ot it.
         TargetFilter filter3 = new KeepIfNumExists("scandalRating",null);
-        TargetFilter filter2 = new KeepIfNumIsGreaterThanValueFromMemory("scandalMemory","scandalRating",null);
+        TargetFilter filter2 = new KeepIfNumIsGreaterThanValueFromMemory("scandalRating","scandalMemory",null);
         carolFumes.targetFilters.add(filter3);
         carolFumes.targetFilters.add(filter2);
         carol.addActivationScene(carolActivates);
