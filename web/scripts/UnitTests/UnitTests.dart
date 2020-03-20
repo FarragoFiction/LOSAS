@@ -3,7 +3,9 @@ we are fucking doings this right. for each target filter, action effect, etc we 
  */
 import 'dart:html';
 import '../ActionEffects/AEAddNum.dart';
+import '../ActionEffects/AEAddNumFromMemory.dart';
 import '../ActionEffects/AEAppendString.dart';
+import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
 import '../ActionEffects/AESetNum.dart';
 import '../ActionEffects/AESetNumGenerator.dart';
@@ -15,6 +17,7 @@ export '../ActionEffects/ActionEffect.dart';
 import '../ActionEffects/ActionEffect.dart';
 import '../Entity.dart';
 import '../Generator.dart';
+import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
 import 'ActionEffectTests.dart';
 import 'GeneratorTests.dart';
 import 'IntegrationTests.dart';
@@ -88,7 +91,9 @@ abstract class UnitTests {
 
         setupEveEvesdrops(scenario);
 
-        Scene scene3 = bobReceivesMessage(scenario);
+        setupCarol(scenario);
+
+        bobReceivesMessage(scenario);
 
         aliceStopsAfterEnoughMessages(scenario);
 
@@ -99,13 +104,13 @@ abstract class UnitTests {
     static void aliceStopsAfterEnoughMessages(Scenario scenario) {
       Scene finalScene = new Scene("The End", "Now that alice has sent [TARGET.NUMMEMORY.secretMessageCount] messages, the cycle of messages ends.","The End.")..targetOne=true;
       //if anyone has this greater than 5
-      TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",5);
+      TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",13);
       finalScene.targetFilters.add(filter6);
       scenario.stopScenes.add(finalScene);
     }
 
     //if bob has a secret message, bob reads it, and clears it out.
-    static Scene bobReceivesMessage(Scenario scenario) {
+    static void bobReceivesMessage(Scenario scenario) {
       Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[OWNER.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], thinks about the number [OWNER.NUMMEMORY.randomNumber], then clears his messages out.")..targetOne=true;
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska=true;
@@ -118,7 +123,6 @@ abstract class UnitTests {
       scene3.effects.add(effect2);
       scene3.effects.add(effect3);
       scenario.entitiesReadOnly[1].addScene(scene3);
-      return scene3;
     }
 
     //        //if bob has a secret message, eve reads it.
@@ -132,7 +136,33 @@ abstract class UnitTests {
       scene2.targetFilters = [filter3, filter4];
       scene2.effects.add(effect1);
       scene2.effects.add(effect2);
-      scenario.entitiesReadOnly.last.addScene(scene2);
+      scenario.entitiesReadOnly[2].addScene(scene2);
+    }
+
+    static void setupCarol(Scenario scenario) {
+        final Entity carol = scenario.entitiesReadOnly.last;
+        final Scene carolActivates = new Scene("Carol activates","Eve spreads the juicy gossip to Carol.","Carol can't believe Alice is talking shit about her. She knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");
+        TargetFilter carolFilter = new KeepIfNumIsGreaterThanValue("scandalRating",1);
+        carolActivates.targetFilters.add(carolFilter);
+        ActionEffect effect = new AESetNumGenerator("randomNumber",3)..vriska=true;
+        ActionEffect rememberScandalRating = new AECopyNumFromTarget("scandalRating","scandalMemory",0);
+        ActionEffect rememberScandalRating2 = new AECopyNumFromTarget("scandalRating","scandalMemory",0);
+        carolActivates.effects.add(rememberScandalRating2);
+
+        ActionEffect aggregate = new AEAddNumFromMemory("fumeRating","randomNumber",null)..vriska=true;
+
+        //TODO add a random element to this
+        final Scene carolFumes = new Scene("Carol fumes","[TARGET.STRINGMEMORY.name] spreads even more juicy gossip to Carol.","Carol fumes [OWNER.NUMMEMORY.randomNumber] points, but out of how many? Her fume rating is [OWNER.NUMMEMORY.fumeRating], and she knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");
+        //eve needs to have new gossip for carol to react ot it.
+        TargetFilter filter3 = new KeepIfNumExists("scandalRating",null);
+        TargetFilter filter2 = new KeepIfNumIsGreaterThanValueFromMemory("scandalMemory","scandalRating",null);
+        carolFumes.targetFilters.add(filter3);
+        carolFumes.targetFilters.add(filter2);
+        carol.addActivationScene(carolActivates);
+        carolFumes.effects.add(effect);
+        carolFumes.effects.add(aggregate);
+        carolFumes.effects.add(rememberScandalRating);
+        carol.addScene(carolFumes);
     }
 
     //if bob does not have a secret message, alice sends a message to bob.

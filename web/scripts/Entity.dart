@@ -25,7 +25,7 @@ class Entity {
     bool isActive = false;
     //once active, these will be checked each tick
     List<Scene> _scenes = new List<Scene>();
-    //before activation, these will be checked each tick
+    //before activation, these will be checked each tick, will activate once fired, you don't need to do this explicitly
     List<Scene> _activationScenes = new List<Scene>();
 
     List<Scene> get readOnlyScenes => _scenes;
@@ -90,6 +90,7 @@ class Entity {
     Scene checkForActivationScenes(List<Entity> everyone) {
         for(Scene scene in _activationScenes) {
             if(scene.checkIfActivated(everyone)){
+                isActive = true;
                 return scene;
             }
         }

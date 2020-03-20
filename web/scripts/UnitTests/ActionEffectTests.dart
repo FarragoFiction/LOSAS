@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import '../ActionEffects/AEAddNumFromMemory.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyNumToTarget.dart';
 import '../ActionEffects/AECopyStringFromTarget.dart';
@@ -14,6 +15,7 @@ abstract class ActionEffectTests {
     static void run(Element element) {
         testSetNum(element);
         testAddNum(element);
+        testAddNumFromMemory(element);
         testSetString(element);
         testUnSetString(element);
         testAppendString(element);
@@ -55,6 +57,20 @@ abstract class ActionEffectTests {
         effect.importantNum = -13;
         scene.applyEffects();
         UnitTests.processTest("testAddNum ", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
+    }
+
+    static void testAddNumFromMemory(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AEAddNumFromMemory("secretNumberTotal","secretNumberToAdd",null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        scenario.entitiesReadOnly[1].setNumMemory("secretNumberToAdd",13);
+        UnitTests.processTest("testAddNumFromMemory starts out 0", 0, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
+        scene.applyEffects();
+        UnitTests.processTest("testAddNumFromMemory add 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
+        scene.applyEffects();
+        UnitTests.processTest("testAddNumFromMemory add another 13", 26, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
     }
 
     static void testSetString(element) {

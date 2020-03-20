@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
 import 'UnitTests.dart';
 
 abstract class TargetFilterTests {
@@ -9,6 +10,7 @@ abstract class TargetFilterTests {
         testBasic(element);
         testTFNumExists(element);
         testTFNumIsGreaterThanValue(element);
+        testTFNumIsGreaterThanValueFromMemory(element);
         testTFNumIsValue(element);
         testTFStringExists(element);
         testTFStringIsValue(element);
@@ -23,7 +25,7 @@ abstract class TargetFilterTests {
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testTFFalse", true, result, element);
-        UnitTests.processTest("testTFFalse 3 targets", "{Alice, Bob, Eve}", scene.targets.toString(), element);
+        UnitTests.processTest("testTFFalse 3 targets", "{Alice, Bob, Eve, Carol}", scene.targets.toString(), element);
     }
 
     static void testTFNumExists(Element element) {
@@ -44,7 +46,7 @@ abstract class TargetFilterTests {
         filter.not = true;
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testTFNumExists TestNot", true, result, element);
-        UnitTests.processTest("testTFNumExists 2 targets", "{Alice, Eve}", scene.targets.toString(), element);
+        UnitTests.processTest("testTFNumExists 2 targets", "{Alice, Eve, Carol}", scene.targets.toString(), element);
 
         scene.targetOne = true;
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -75,6 +77,37 @@ abstract class TargetFilterTests {
 
     }
 
+
+    static void testTFNumIsGreaterThanValueFromMemory(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        TargetFilter filter = new KeepIfNumIsGreaterThanValueFromMemory("secretNumber","secretNumberMemory",null);
+        scene.targetFilters.add(filter);
+        scenario.entitiesReadOnly.first.addScene(scene);
+        bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory NeitherSet 1", true, result, element);
+        UnitTests.processTest("testTFNumIsGreaterThanValue NeitherSet, 0 targets", "{Alice, Bob, Eve, Carol}", scene.targets.toString(), element);
+
+
+        scenario.entitiesReadOnly[1].setNumMemory("secretNumber",85);
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory Number Set, Not Memory", true, result, element);
+
+        scenario.entitiesReadOnly[1].setNumMemory("secretNumberMemory",85);
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory Number Not Set,  Memory Is", true, result, element);
+
+        scenario.entitiesReadOnly[1].setNumMemory("secretNumber",113);
+        scenario.entitiesReadOnly[1].setNumMemory("secretNumberMemory",85);
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemoryBoth Set, number bigger", true, result, element);
+
+        scenario.entitiesReadOnly[1].setNumMemory("secretNumber",85);
+        scenario.entitiesReadOnly[1].setNumMemory("secretNumberMemory",113);
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemoryBoth Set, memory bigger", true, result, element);
+
+    }
     static void testTFNumIsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");

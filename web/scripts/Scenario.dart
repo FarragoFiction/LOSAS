@@ -8,6 +8,8 @@ import 'Entity.dart';
 import 'Game.dart';
 import 'Generator.dart';
 import 'Scene.dart';
+import 'TargetFilters/KeepIfNumIsGreaterThanValue.dart';
+import 'TargetFilters/TargetFilter.dart';
 /*
     Scenario List
     SBURB/Farragnarok
@@ -154,20 +156,22 @@ class Scenario {
     Scenario.testScenario(){
         final Entity alice = new Entity("Alice")..isActive = true;
         final Entity bob = new Entity("Bob")..isActive = true;
-        final Entity carol = new Entity("Eve")..isActive = true;
-        //TODO add a fourth character who can conditionally activate
+        final Entity eve = new Entity("Eve")..isActive = true;
+        final Entity carol = new Entity("Carol");
         Generator messageGenerator = new StringGenerator("secretMessageDraft", <String>["Carol actually kind of sucks...","I've never really liked Carol.", "Don't you think Carol's actually a ghost in disguise?"]);
         Generator reactionGeneratorBob = new StringGenerator("reaction", <String>["[OWNER.STRINGMEMORY.name] posts a bear","[OWNER.STRINGMEMORY.name] doesn't really react"]);
-        Generator reactionGeneratorCarol = new StringGenerator("reaction", <String>["She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'.","Reading '[TARGET.STRINGMEMORY.secretMessage]', she reaches new heights of scandalized.", "[OWNER.STRINGMEMORY.name] can not even BELIEVE Alice would say '[TARGET.STRINGMEMORY.secretMessage]' about poor Carol."]);
-
+        Generator reactionGeneratorEve = new StringGenerator("reaction", <String>["She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'.","Reading '[TARGET.STRINGMEMORY.secretMessage]', she reaches new heights of scandalized.", "[OWNER.STRINGMEMORY.name] can not even BELIEVE Alice would say '[TARGET.STRINGMEMORY.secretMessage]' about poor Carol."]);
         Generator randomNumber = new NumGenerator("randomNumber", -113.4,113.2);
+        Generator randomNumberInt = new NumGenerator("randomNumber", 0,113);
 
         alice.addGenerator(messageGenerator);
         bob.addGenerator(reactionGeneratorBob);
         bob.addGenerator(randomNumber);
-        carol.addGenerator(reactionGeneratorCarol);
+        eve.addGenerator(reactionGeneratorEve);
+        carol.addGenerator(randomNumberInt);
         addEntity(alice);
         addEntity(bob);
+        addEntity(eve);
         addEntity(carol);
         name = "Alice messages Bob";
         introduction = new Scene("Introduction","In a cryptographically relevant corner of the universe...","");
