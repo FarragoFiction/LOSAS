@@ -17,7 +17,7 @@ class Scene {
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
-    Scenario get scenario => owner.scenario;
+    Scenario scenario;
     Entity owner;
     //target everything that meets this condition, or just a single one?
     bool targetOne = false;
@@ -39,6 +39,7 @@ class Scene {
 
 
     Scene(this.name, this.beforeFlavorText, this.afterFlavorText);
+
 
     String debugString() {
         return "Scene $name TargetOne: $targetOne Filters: ${targetFilters.map((TargetFilter f) => f.debugString())}, Effects ${effects.map((ActionEffect f) => f.debugString())}";
@@ -119,34 +120,44 @@ class Scene {
     }
 
     //asyncly renders to the element, lets the canvas go on screen asap
+    //TODO render name underneath birb
     Future<Null> renderStage(CanvasElement canvas) async {
         canvas.classes.add("stage");
         print("I'm going to render to this canvas owner is $owner and targets are $finalTargets");
-        //TODO need to render the owner on the left and the targets on the right, text is above? plus name labels underneath
         if(owner != null) {
-            print("my owner is not null)");
-            CanvasElement ownerCanvas = await owner.canvas;
-            if(ownerCanvas != null && !owner.facingRightByDefault) {
-                ownerCanvas = Util.turnwaysCanvas(ownerCanvas);
-                canvas.context2D.drawImage(ownerCanvas, 0, canvas.height-ownerCanvas.height);
-            }else {
-                canvas.context2D.drawImage(ownerCanvas, 0,  canvas.height-ownerCanvas.height);
-            }
+            await renderOwner(canvas);
+            await renderTargets(finalTargets.toList(), canvas);
+        }else {
+            await renderTargets(scenario.entitiesReadOnly, canvas);
         }
-        for(Entity target in finalTargets) {
-            if(target != owner){
-                print("I have targets and i'm going to render them to this stage");
-                CanvasElement targetCanvas = await target.canvas;
-                //todo put them in a neat little pile, render them at a set size
-                if(targetCanvas != null && target.facingRightByDefault) {
-                    targetCanvas = Util.turnwaysCanvas(targetCanvas);
-                    canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
-                }else {
-                    canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
-                }
-            }
+    }
 
-        }
+    Future<Null> renderTargets(List<Entity> renderTargets, CanvasElement canvas) async {
+      for(Entity target in renderTargets) {
+          if(target != owner){
+              print("I have targets and i'm going to render them to this stage");
+              CanvasElement targetCanvas = await target.canvas;
+              //todo put them in a neat little pile, render them at a set size
+              if(targetCanvas != null && target.facingRightByDefault) {
+                  targetCanvas = Util.turnwaysCanvas(targetCanvas);
+                  canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
+              }else {
+                  canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
+              }
+          }
+
+      }
+    }
+
+    Future renderOwner(CanvasElement canvas) async {
+      print("my owner is not null)");
+      CanvasElement ownerCanvas = await owner.canvas;
+      if(ownerCanvas != null && !owner.facingRightByDefault) {
+          ownerCanvas = Util.turnwaysCanvas(ownerCanvas);
+          canvas.context2D.drawImage(ownerCanvas, 0, canvas.height-ownerCanvas.height);
+      }else {
+          canvas.context2D.drawImage(ownerCanvas, 0,  canvas.height-ownerCanvas.height);
+      }
     }
 
     void applyEffects() {

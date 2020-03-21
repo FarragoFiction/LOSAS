@@ -99,6 +99,18 @@ abstract class UnitTests {
 
         aliceStopsAfterEnoughMessages(scenario);
 
+        List<Entity> randos = new List<Entity>();
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        for(Entity rando in randos) {
+            scenario.addEntity(rando);
+        }
         scenario.curtainsUp(querySelector("#output"));
     }
 

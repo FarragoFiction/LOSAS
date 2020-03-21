@@ -157,7 +157,11 @@ class Scenario {
         final Entity alice = new Entity("Alice","Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true..facingRightByDefault=false;
         final Entity bob = new Entity("Bob","Bob%3A___A5GM5n_EOD_AKS7_v1J1tYBKiJY%3D")..isActive = true..facingRightByDefault=false;;
         final Entity eve = new Entity("Eve","Eve%3A___A5GPGpdulkxChkWJS4sAAAALEeA%3D")..isActive = true..facingRightByDefault=false;;
-        final Entity carol = new Entity("Carol","Carol%3A___A5GAAAAMzMzA1AOCEcR-NxXKvg%3D%3D")..facingRightByDefault=false;;
+        final Entity carol = new Entity("Carol","Carol%3A___A5GAAAAMzMzA1AOCEcR-NxXKvg%3D%3D")..facingRightByDefault=false;
+
+
+
+
         Generator messageGenerator = new StringGenerator("secretMessageDraft", <String>["Carol actually kind of sucks...","I've never really liked Carol.", "Don't you think Carol's actually a ghost in disguise?"]);
         Generator reactionGeneratorBob = new StringGenerator("reaction", <String>["[OWNER.STRINGMEMORY.name] posts a bear","[OWNER.STRINGMEMORY.name] doesn't really react"]);
         Generator reactionGeneratorEve = new StringGenerator("reaction", <String>["She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'.","Reading '[TARGET.STRINGMEMORY.secretMessage]', she reaches new heights of scandalized.", "[OWNER.STRINGMEMORY.name] can not even BELIEVE Alice would say '[TARGET.STRINGMEMORY.secretMessage]' about poor Carol."]);
@@ -173,8 +177,10 @@ class Scenario {
         addEntity(bob);
         addEntity(eve);
         addEntity(carol);
+
         name = "Alice messages Bob";
-        introduction = new Scene("Introduction","In a cryptographically relevant corner of the universe...","");
+        //TODO introduction needs to be an array
+        introduction = new Scene("Introduction","In a cryptographically relevant corner of the universe...","")..scenario=this;
 
         seed = 85;
         rand = new Random(seed);
