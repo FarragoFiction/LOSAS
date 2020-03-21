@@ -19,7 +19,7 @@ class Entity {
     String author;
     String name;
     bool facingRightByDefault = true;
-    int maxCanvasWidth  =300;
+    int maxCanvasWidth  =400;
 
     String optionalDollString;
     Doll doll;

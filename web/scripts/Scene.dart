@@ -128,9 +128,9 @@ class Scene {
             CanvasElement ownerCanvas = await owner.canvas;
             if(ownerCanvas != null && !owner.facingRightByDefault) {
                 ownerCanvas = Util.turnwaysCanvas(ownerCanvas);
-                canvas.context2D.drawImage(ownerCanvas, 0, 0);
+                canvas.context2D.drawImage(ownerCanvas, 0, canvas.height-ownerCanvas.height);
             }else {
-                canvas.context2D.drawImage(ownerCanvas, 0, 0);
+                canvas.context2D.drawImage(ownerCanvas, 0,  canvas.height-ownerCanvas.height);
             }
         }
         for(Entity target in finalTargets) {
@@ -140,9 +140,9 @@ class Scene {
                 //todo put them in a neat little pile, render them at a set size
                 if(targetCanvas != null && target.facingRightByDefault) {
                     targetCanvas = Util.turnwaysCanvas(targetCanvas);
-                    canvas.context2D.drawImage(targetCanvas, 200, 0);
+                    canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
                 }else {
-                    canvas.context2D.drawImage(targetCanvas, 200, 0);
+                    canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
                 }
             }
 
