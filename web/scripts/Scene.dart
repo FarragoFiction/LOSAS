@@ -10,6 +10,8 @@ import 'Util.dart';
 class Scene {
     //TODO let people sign their work
     String author;
+    int stageWidth = 800;
+    int stageHeight = 600;
     static String TARGETSTRINGMEMORYTAG ="[TARGET.STRINGMEMORY.";
     static String TARGETNUMMEMORYTAG ="[TARGET.NUMMEMORY.";
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
@@ -96,16 +98,53 @@ class Scene {
 
     Element render(int debugNumber) {
         container = new DivElement()..classes.add("scene");
+        final CanvasElement beforeStage = new CanvasElement(width: stageWidth, height: stageHeight);
+        renderStage(beforeStage);
         SpanElement beforeSpan= new SpanElement()..setInnerHtml(proccessedBeforeText);
-        applyEffects(); //that way we can talk about things before someone died and after, or whatever
-        SpanElement afterSpan = new SpanElement()..setInnerHtml(" $proccessedAfterText");
-        container.append(beforeSpan);
-        container.append(afterSpan);
 
-        //TODO need to render the owner on the left and the targets on the right, text is above? plus name labels underneath
-        //rendering should happen AFTER apply effects.
-        //wait, no what if its lightly animated? two renders, one before and one after, cycles between them
+        applyEffects(); //that way we can talk about things before someone died and after, or whatever
+
+        final CanvasElement afterStage = new CanvasElement(width: stageWidth, height: stageHeight);
+        renderStage(afterStage);
+        final SpanElement afterSpan = new SpanElement()..setInnerHtml(" $proccessedAfterText");
+
+        //TODO have simple css animations that switch between before and after stage every second (i.e. put them as the bg of the on screen element);
+        final DivElement narrationDiv = new DivElement()..classes.add("narration");
+        narrationDiv.append(beforeSpan);
+        narrationDiv.append(afterSpan);
+        container.append(beforeStage);
+        container.append(narrationDiv);
+
         return container;
+    }
+
+    //asyncly renders to the element, lets the canvas go on screen asap
+    Future<Null> renderStage(CanvasElement canvas) async {
+        canvas.classes.add("stage");
+        print("I'm going to render to this canvas owner is $owner and targets are $finalTargets");
+        //TODO need to render the owner on the left and the targets on the right, text is above? plus name labels underneath
+        if(owner != null) {
+            print("my owner is not null)");
+            CanvasElement ownerCanvas = await owner.canvas;
+            if(ownerCanvas != null && !owner.facingRightByDefault) {
+                ownerCanvas = Util.turnwaysCanvas(ownerCanvas);
+                canvas.context2D.drawImage(ownerCanvas, 0, 0);
+            }else {
+                canvas.context2D.drawImage(ownerCanvas, 0, 0);
+            }
+        }
+        for(Entity target in finalTargets) {
+            print("I have targets and i'm going to render them to this stage");
+            CanvasElement targetCanvas = await target.canvas;
+            //todo put them in a neat little pile, render them at a set size
+            if(targetCanvas != null && target.facingRightByDefault) {
+                targetCanvas = Util.turnwaysCanvas(targetCanvas);
+                canvas.context2D.drawImage(targetCanvas, 200, 0);
+            }else {
+                canvas.context2D.drawImage(targetCanvas, 200, 0);
+            }
+
+        }
     }
 
     void applyEffects() {

@@ -9,7 +9,7 @@ abstract class DollTests {
     }
 
     static Future<Null> renderDollTest(Element element) async {
-        Doll doll = new PigeonDoll();
+        Doll doll =Doll.loadSpecificDoll("Test%3A___A5GAAAAAAAAAAAAAAAAAAAAKjLg%3D");
         CanvasElement canvas = await doll.getNewCanvas();
         element.append(canvas);
     }

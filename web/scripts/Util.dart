@@ -1,3 +1,5 @@
+import 'dart:html';
+
 abstract class Util {
     //I expect there to be things that look like TARGET.STRINGMEMORY.secretMessage
     //given a text, and a key that looks like TARGET.STRINGMEMORY
@@ -12,5 +14,13 @@ abstract class Util {
             }
         }
         return ret;
+    }
+
+    static turnwaysCanvas(CanvasElement canvas) {
+        CanvasElement containingCanvas = new CanvasElement(width: canvas.width, height: canvas.height);
+        containingCanvas.context2D.translate(containingCanvas.width, 0);
+        containingCanvas.context2D.scale(-1, 1);
+        containingCanvas.context2D.drawImage(canvas,0,0);
+        return containingCanvas;
     }
 }

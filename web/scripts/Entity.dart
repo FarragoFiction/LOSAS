@@ -5,7 +5,10 @@
     they have a dollstring and an originalDollString
 
  */
+import 'dart:html';
+
 import 'package:CommonLib/Random.dart';
+import 'package:DollLibCorrect/DollRenderer.dart';
 
 import 'Generator.dart';
 import 'Scenario.dart';
@@ -15,6 +18,12 @@ class Entity {
     //TODO most chars will be generated randomly but if someone wants to say "i made this" sure why not
     String author;
     String name;
+    bool facingRightByDefault = true;
+
+    String optionalDollString;
+    Doll doll;
+    //used whether doll or not
+    CanvasElement cachedCanvas;
     Scenario scenario;
     Random get rand => scenario.rand;
     Map<String,String> _stringMemory = new Map<String,String>();
@@ -31,13 +40,24 @@ class Entity {
     List<Scene> get readOnlyScenes => _scenes;
     List<Scene> get readOnlyActivationScenes => _activationScenes;
 
-    Entity(this.name) {
+    Entity(this.name, this.optionalDollString) {
         setStringMemory("name",this.name);
+        if(optionalDollString != null) {
+            setStringMemory("originalDollString",this.optionalDollString);
+            doll = Doll.loadSpecificDoll(optionalDollString);
+        }
     }
 
     @override
     String toString() {
         return name;
+    }
+
+    Future<CanvasElement> get canvas async {
+        print("getting the canvas for $name, right now its $cachedCanvas");
+        cachedCanvas ??= await doll.getNewCanvas();
+        print("got the canvas for $name, right now its $cachedCanvas");
+        return cachedCanvas;
     }
 
     void addGenerator(Generator generator) {

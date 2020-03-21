@@ -39,6 +39,20 @@ html, body {
   width: 1000px;
 }
 
+.turnways{
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+.stage{
+    display: block;
+    border: 3px solid black;
+}
+
 .scene{
     padding: 10px;
 }
