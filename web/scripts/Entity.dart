@@ -19,6 +19,7 @@ class Entity {
     String author;
     String name;
     bool facingRightByDefault = true;
+    int maxCanvasWidth  =300;
 
     String optionalDollString;
     Doll doll;
@@ -55,7 +56,13 @@ class Entity {
 
     Future<CanvasElement> get canvas async {
         print("getting the canvas for $name, right now its $cachedCanvas");
-        cachedCanvas ??= await doll.getNewCanvas();
+        if(cachedCanvas == null) {
+            CanvasElement fullSizeCanvas = await doll.getNewCanvas();
+            int newWidth = maxCanvasWidth;
+            int newHeight = ((maxCanvasWidth/fullSizeCanvas.width*fullSizeCanvas.height)).round();
+            cachedCanvas = new CanvasElement(width: newWidth, height: newHeight);
+            cachedCanvas.context2D.drawImageScaled(fullSizeCanvas,0,0, newWidth, newHeight);
+        }
         print("got the canvas for $name, right now its $cachedCanvas");
         return cachedCanvas;
     }
