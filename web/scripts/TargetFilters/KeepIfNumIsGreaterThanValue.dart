@@ -9,7 +9,7 @@ class KeepIfNumIsGreaterThanValue extends TargetFilter {
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
     final num currentValue = possibleTarget.getNumMemory(importantWord);
     if(currentValue == null) return false; //filter me i don't even have this
-    return currentValue >= importantNum;
+    return currentValue > importantNum;
   }
 
 }

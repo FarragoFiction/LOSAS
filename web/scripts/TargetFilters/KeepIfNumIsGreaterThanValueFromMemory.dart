@@ -11,7 +11,7 @@ String memoryKey;
     num otherValue = possibleTarget.getNumMemory(memoryKey);
     otherValue ??=0;
     currentValue ??=0;
-    return currentValue >= otherValue;
+    return currentValue > otherValue;
   }
 
 }

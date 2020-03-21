@@ -85,8 +85,8 @@ abstract class TargetFilterTests {
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
-        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory NeitherSet 1", true, result, element);
-        UnitTests.processTest("testTFNumIsGreaterThanValue NeitherSet, 0 targets", "{Alice, Bob, Eve, Carol}", scene.targets.toString(), element);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory NeitherSet 1", false, result, element);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory NeitherSet, 0 targets", "{}", scene.targets.toString(), element);
 
 
         scenario.entitiesReadOnly[1].setNumMemory("secretNumber",85);
@@ -95,7 +95,7 @@ abstract class TargetFilterTests {
 
         scenario.entitiesReadOnly[1].setNumMemory("secretNumberMemory",85);
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
-        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory Number Not Set,  Memory Is", true, result, element);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemory Number Not Set,  Memory Is", false, result, element);
 
         scenario.entitiesReadOnly[1].setNumMemory("secretNumber",113);
         scenario.entitiesReadOnly[1].setNumMemory("secretNumberMemory",85);
@@ -105,7 +105,7 @@ abstract class TargetFilterTests {
         scenario.entitiesReadOnly[1].setNumMemory("secretNumber",85);
         scenario.entitiesReadOnly[1].setNumMemory("secretNumberMemory",113);
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
-        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemoryBoth Set, memory bigger", true, result, element);
+        UnitTests.processTest("testTFNumIsGreaterThanValueFromMemoryBoth Set, memory bigger", false, result, element);
 
     }
     static void testTFNumIsValue(Element element) {
