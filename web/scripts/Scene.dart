@@ -134,14 +134,16 @@ class Scene {
             }
         }
         for(Entity target in finalTargets) {
-            print("I have targets and i'm going to render them to this stage");
-            CanvasElement targetCanvas = await target.canvas;
-            //todo put them in a neat little pile, render them at a set size
-            if(targetCanvas != null && target.facingRightByDefault) {
-                targetCanvas = Util.turnwaysCanvas(targetCanvas);
-                canvas.context2D.drawImage(targetCanvas, 200, 0);
-            }else {
-                canvas.context2D.drawImage(targetCanvas, 200, 0);
+            if(target != owner){
+                print("I have targets and i'm going to render them to this stage");
+                CanvasElement targetCanvas = await target.canvas;
+                //todo put them in a neat little pile, render them at a set size
+                if(targetCanvas != null && target.facingRightByDefault) {
+                    targetCanvas = Util.turnwaysCanvas(targetCanvas);
+                    canvas.context2D.drawImage(targetCanvas, 200, 0);
+                }else {
+                    canvas.context2D.drawImage(targetCanvas, 200, 0);
+                }
             }
 
         }
