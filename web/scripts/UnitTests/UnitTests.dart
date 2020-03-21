@@ -19,6 +19,7 @@ import '../Entity.dart';
 import '../Generator.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
 import 'ActionEffectTests.dart';
+import 'DollTests.dart';
 import 'GeneratorTests.dart';
 import 'IntegrationTests.dart';
 import '../Scenario.dart';
@@ -74,6 +75,7 @@ abstract class UnitTests {
         TargetFilterTests.run(element);
         ActionEffectTests.run(element);
         IntegrationTests.run(element);
+        DollTests.run(element);
         runDisplayTest(element);
         DivElement results = new DivElement()..setInnerHtml("$testsRan tests ran.");
         SpanElement span = new SpanElement()..style.background = "black"..style.color="red"..text = "WARNING: $testFailed failed.";

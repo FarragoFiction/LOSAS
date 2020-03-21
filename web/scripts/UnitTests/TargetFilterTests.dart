@@ -108,6 +108,7 @@ abstract class TargetFilterTests {
         UnitTests.processTest("testTFNumIsGreaterThanValueFromMemoryBoth Set, memory bigger", false, result, element);
 
     }
+
     static void testTFNumIsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
