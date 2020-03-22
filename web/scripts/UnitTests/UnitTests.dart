@@ -19,6 +19,7 @@ import '../ActionEffects/ActionEffect.dart';
 import '../Entity.dart';
 import '../Generator.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
+import '../TargetFilters/KeepIfYouAreMe.dart';
 import 'ActionEffectTests.dart';
 import 'DollTests.dart';
 import 'GeneratorTests.dart';
@@ -101,7 +102,7 @@ abstract class UnitTests {
         aliceStopsAfterEnoughMessages(scenario);
 
         final List<Entity> randos = new List<Entity>();
-        randos.add(new Entity("DJ Cotton Ball","DJ+Cotton+Ball%3A___A5Gd6iL6NpX29PIZlhYgHF0KieA%3D")..facingRightByDefault=false);
+        randos.add(new Entity("DJ Cotton Ball","DJ+Cottonball%3A___FhL_AAD8_Pzy8vL_AAD_AQCtAAEAAAAAAAD_AAAAAAAAAAAxMTPTAACuAAAAAAAxMTNJSUk0kxs%3D")..facingRightByDefault=true);
         randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
         randos.add(new Entity("Ender Boi-chan","Ender+Boi-chan%3A___A5GtAD__5sA29vbTUxF_8J-Kj1g%3D")..facingRightByDefault=false);
         randos.add(new Entity("Meowsers Tango","Meowsers+Tango%3A___A5GtAD__5sA____TRwVu41xKipY%3D")..facingRightByDefault=false);
@@ -114,6 +115,7 @@ abstract class UnitTests {
         }
         final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this [OWNER.STRINGMEMORY.species] the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
         ActionEffect effect = new AEAppendStringFront("name","Bastard ",null)..vriska=true;
+        atEveryone.targetFilters.add(new KeepIfYouAreMe(null,null)..not=true);
         atEveryone.bgLocationEnd = "AlterniaCulled.png";
         atEveryone.effects.add(effect);
         randos.first.addScene(atEveryone);

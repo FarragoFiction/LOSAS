@@ -75,7 +75,9 @@ class Scene {
         for(String tag in tags) {
             String replacement = "";
             for(Entity entity in finalTargets) {
-                if(finalTargets.length > 1 && entity !=finalTargets.last) {
+                if(entity == finalTargets.first) {
+                    replacement = entity.getStringMemory(tag);
+                }else if(finalTargets.length > 1 && entity !=finalTargets.last) {
                     replacement = "$replacement, ${entity.getStringMemory(tag)}";
                 }else {
                     replacement = "$replacement, and ${entity.getStringMemory(tag)}";

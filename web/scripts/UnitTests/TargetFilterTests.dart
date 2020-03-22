@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
+import '../TargetFilters/KeepIfYouAreMe.dart';
 import 'UnitTests.dart';
 
 abstract class TargetFilterTests {
@@ -16,6 +17,7 @@ abstract class TargetFilterTests {
         testTFStringIsValue(element);
         testTFStringContainsValue(element);
         testTFNameIsValue(element);
+        testTFYouAreNotMe(element);
         testTFNameIsValueAndStringDoesntExist(element);
     }
 
@@ -181,6 +183,22 @@ abstract class TargetFilterTests {
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testTFStringIsValue Test1", true, result, element);
         UnitTests.processTest("testTFStringIsValue 0 targets", "{Bob}", scene.targets.toString(), element);
+
+    }
+
+    static void testTFYouAreNotMe(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        TargetFilter filter = new KeepIfYouAreMe(null,null);
+        scene.targetFilters.add(filter);
+        scenario.entitiesReadOnly.first.addScene(scene);
+        bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFYouAreMe Test1", true, result, element);
+        UnitTests.processTest("testTFYouAreMe 0 targets", "{Alice}", scene.targets.toString(), element);
+        filter.not = true;
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFYouAreNotMe Test1", true, result, element);
+        UnitTests.processTest("testTFYouAreNotMe 0 targets", "{Bob, Eve, Carol}", scene.targets.toString(), element);
 
     }
 
