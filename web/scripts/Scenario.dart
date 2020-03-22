@@ -48,10 +48,8 @@ class Scenario {
     //if ANY of these trigger, then its time to stop ticking
     List<Scene> stopScenes = new List<Scene>();
     String name;
-    //TODO actually make this a list of possible intros so we can have diff ones depending on what is relevant. (such as commenting on the lack of space/time)
-    Scene introduction;
 
-    Scenario(this.name, this.introduction, this.seed) {
+    Scenario(this.name, this.seed) {
         rand = new Random(seed);
 
     }
@@ -74,6 +72,16 @@ class Scenario {
         entitiesReadOnly.forEach((Entity e)=> print(e.debugString()));
     }
 
+    //if no scenes trigger, no introduction
+    Scene getIntroduction() {
+        for(final Scene scene in frameScenes) {
+            final bool active = scene.checkIfActivated(activeEntitiesReadOnly);
+            if(active){
+                return  scene;
+            }
+        }
+        return null;
+    }
 
 
     //unlike sburbsim this doesn't just tick infinitely. instead it renders a button for next.
@@ -84,9 +92,12 @@ class Scenario {
     void lookForNextScene() {
         if(theEnd) return;
         game.readyForNextScene = false;
-        if(game.sceneElements.length == 0) {
-            game.showScene(introduction);
-            return;
+        if(game.sceneElements.length == 0){
+            Scene introduction = getIntroduction();
+            if(introduction != null) {
+                game.showScene(introduction);
+                return;
+            }
         }
         //could be some amount of randomness baked in
         if(numberTriesForScene > maxNumberTriesForScene) {
@@ -180,7 +191,7 @@ class Scenario {
 
         name = "Alice messages Bob";
         //TODO introduction needs to be an array
-        introduction = new Scene("Introduction","In a cryptographically relevant corner of the universe...","")..scenario=this;
+        frameScenes.add(new Scene("Introduction","In a cryptographically relevant corner of the universe...","")..scenario=this);
 
         seed = 85;
         rand = new Random(seed);

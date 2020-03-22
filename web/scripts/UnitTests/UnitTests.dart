@@ -127,6 +127,7 @@ abstract class UnitTests {
     static void aliceStopsAfterEnoughMessages(Scenario scenario) {
       Scene finalScene = new Scene("The End", "Now that alice has sent [TARGET.NUMMEMORY.secretMessageCount] messages, the cycle of messages ends.","The End.")..targetOne=true;
       finalScene.bgLocationEnd = "AlternianCliff.png";
+      finalScene.scenario = scenario;
       //if anyone has this greater than 5
       TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",13);
       finalScene.targetFilters.add(filter6);
@@ -137,13 +138,15 @@ abstract class UnitTests {
     static void bobReceivesMessage(Scenario scenario) {
       Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[OWNER.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], thinks about the number [OWNER.NUMMEMORY.randomNumber], then clears his messages out.")..targetOne=true;
 
-      TargetFilter filter5 = new KeepIfStringExists("secretMessage",null)..vriska=true;
+      TargetFilter filter5 = new KeepIfStringExists("secretMessage",null);
+      TargetFilter filter6 = new KeepIfYouAreMe(null,null);
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska=true;
       ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears",null)..vriska=true;
       ActionEffect effect3 = new AESetNumGenerator("randomNumber",113)..vriska=true;
       scene3.bgLocationEnd = "AlternianHives.png";
 
       scene3.targetFilters.add(filter5);
+      scene3.targetFilters.add(filter6);
       scene3.effects.add(effect);
       scene3.effects.add(effect2);
       scene3.effects.add(effect3);
