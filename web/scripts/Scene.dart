@@ -173,7 +173,12 @@ class Scene {
         CanvasElement bg = new CanvasElement(width: stageWidth*2, height: stageHeight);
         bg.context2D.drawImage(beforeCanvas, 0,0);
         bg.context2D.drawImage(afterCanvas, stageWidth, 0);
-        stageHolder.style.backgroundImage="url(${bg.toDataUrl()}),url('${bgLocation}'";
+        if(owner == null) {
+            stageHolder.classes.add("shadows");
+            stageHolder.style.backgroundImage="url(${bg.toDataUrl()})";
+        }else {
+            stageHolder.style.backgroundImage="url(${bg.toDataUrl()}),url('${bgLocation}'";
+        }
         stageHolder.classes.add("frameAnimation");
         stageHolder.classes.add("stage");
     }

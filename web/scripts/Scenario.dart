@@ -21,6 +21,9 @@ import 'TargetFilters/TargetFilter.dart';
 class Scenario {
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
     int seed;
+    //TODO when you make a scenario with a builder, need to be able to specify what dollstrings the char creator should be asking for
+    //TODO such as godtier, dead, dream etc
+    List<String> suggestedDollStringTags = new List<String>();
     Game game;
     //TODO let people sign their work
     String author;
