@@ -133,6 +133,10 @@ class Scene {
     }
 
     Future<Null> renderTargets(List<Entity> renderTargets, CanvasElement canvas) async {
+        int startX = 250; //if i start at 300 theres 500 pixels total for us.
+        int currentX = startX;
+        int yRow = 0;
+        int distanceBetweenDolls = 100; //todo calculate consistent number?
       for(Entity target in renderTargets) {
           if(target != owner){
               print("I have targets and i'm going to render them to this stage");
@@ -140,9 +144,14 @@ class Scene {
               //todo put them in a neat little pile, render them at a set size
               if(targetCanvas != null && target.facingRightByDefault) {
                   targetCanvas = Util.turnwaysCanvas(targetCanvas);
-                  canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
+                  canvas.context2D.drawImage(targetCanvas, currentX,  canvas.height-targetCanvas.height+yRow);
               }else {
-                  canvas.context2D.drawImage(targetCanvas, 400,  canvas.height-targetCanvas.height);
+                  canvas.context2D.drawImage(targetCanvas, currentX,  canvas.height-targetCanvas.height+yRow);
+              }
+              currentX += distanceBetweenDolls;
+              if(currentX > canvas.width-(2*distanceBetweenDolls)) {
+                  currentX = startX;
+                  yRow += distanceBetweenDolls;
               }
           }
 

@@ -99,18 +99,21 @@ abstract class UnitTests {
 
         aliceStopsAfterEnoughMessages(scenario);
 
-        List<Entity> randos = new List<Entity>();
+        final List<Entity> randos = new List<Entity>();
+        randos.add(new Entity("DJ Cotton Ball","DJ+Cotton+Ball%3A___A5Gd6iL6NpX29PIZlhYgHF0KieA%3D")..facingRightByDefault=false);
         randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Ender Boi-chan","Ender+Boi-chan%3A___A5GtAD__5sA29vbTUxF_8J-Kj1g%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Meowsers Tango","Meowsers+Tango%3A___A5GtAD__5sA____TRwVu41xKipY%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Bishop Tato","Bishop+Tato%2C+Junior%3A___A5Gd6iL6NpX29PIZlhYgHF0LELg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Thief Tato, the Third","Thief+Tato%2C+the+Third%3A___A5GqNCu6NpX5uLhvJSd26CmLJ4A%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Irving Sebastion","Irving+Sebastion%3A___A5GtAD__5sATRwV____u41xLELg%3D")..facingRightByDefault=false);
+        randos.add(new Entity("Squire Senior","Squire%2C+Senior%3A___A5GtAD__5sA____TRwVu41xKj-A%3D")..facingRightByDefault=false);
         for(Entity rando in randos) {
             scenario.addEntity(rando);
         }
+        final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased.");
+        randos.first.addScene(atEveryone);
+        randos.first.isActive = true;
         scenario.curtainsUp(querySelector("#output"));
     }
 
