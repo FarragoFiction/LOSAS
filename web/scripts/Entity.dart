@@ -21,8 +21,7 @@ class Entity {
     bool facingRightByDefault = true;
     int maxCanvasWidth  =400;
 
-    String optionalDollString;
-    Doll doll;
+    Doll _doll;
     //used whether doll or not
     CanvasElement cachedCanvas;
     Scenario scenario;
@@ -41,12 +40,13 @@ class Entity {
     List<Scene> get readOnlyScenes => _scenes;
     List<Scene> get readOnlyActivationScenes => _activationScenes;
 
-    Entity(this.name, this.optionalDollString) {
+    Entity(this.name, optionalDollString) {
         setStringMemory("name",this.name);
         if(optionalDollString != null) {
-            setStringMemory("originalDollString",this.optionalDollString);
-            doll = Doll.loadSpecificDoll(optionalDollString);
-            setStringMemory("species",doll.name);
+            setStringMemory("originalDollString",optionalDollString);
+            setStringMemory("currentDollString",optionalDollString);
+            _doll = Doll.loadSpecificDoll(optionalDollString);
+            setStringMemory("species",_doll.name);
         }
     }
 
@@ -55,10 +55,24 @@ class Entity {
         return name;
     }
 
+    void restoreDollToOriginal() {
+        setNewDoll(getStringMemory("originalDollString"));
+    }
+
+    void setNewDoll(String dollString) {
+        if(dollString != getStringMemory("currentDollString")) {
+            print("setting a new dollstring, clearing cache");
+            _doll = Doll.loadSpecificDoll(dollString);
+            setStringMemory("currentDollString",dollString);
+            //forces a reload later.
+            cachedCanvas = null;
+        }
+    }
+
     Future<CanvasElement> get canvas async {
         print("getting the canvas for $name, right now its $cachedCanvas");
         if(cachedCanvas == null) {
-            CanvasElement fullSizeCanvas = await doll.getNewCanvas();
+            CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
             int newWidth = maxCanvasWidth;
             int newHeight = ((maxCanvasWidth/fullSizeCanvas.width*fullSizeCanvas.height)).round();
             cachedCanvas = new CanvasElement(width: newWidth, height: newHeight);
