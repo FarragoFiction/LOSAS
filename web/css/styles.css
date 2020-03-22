@@ -44,7 +44,7 @@ html, body {
 }
 
 .frameAnimation{
-    animation: frameAnimation 1.0s steps(1) infinite;
+    animation: frameAnimation 2.0s steps(1) infinite;
 }
 
 .frameAnimation:hover{

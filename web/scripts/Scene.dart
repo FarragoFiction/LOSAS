@@ -154,7 +154,6 @@ class Scene {
         }else {
             afterCanvas = canvas;
         }
-        canvas.classes.add("stage");
         if(owner != null) {
             await renderOwner(canvas);
             await renderTargets(canvas.width-400,250,finalTargets.toList(), canvas);
@@ -172,12 +171,11 @@ class Scene {
 
     void setupAnimations() {
         CanvasElement bg = new CanvasElement(width: stageWidth*2, height: stageHeight);
-        container.append(bg);
         bg.context2D.drawImage(beforeCanvas, 0,0);
         bg.context2D.drawImage(afterCanvas, stageWidth, 0);
         stageHolder.style.backgroundImage="url(${bg.toDataUrl()}),url('${bgLocation}'";
         stageHolder.classes.add("frameAnimation");
-
+        stageHolder.classes.add("stage");
     }
 
     Future<Null> renderTargets(int startX, int maxX, List<Entity> renderTargets, CanvasElement canvas) async {
