@@ -86,6 +86,10 @@ class Entity {
             CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
             int newWidth = maxCanvasWidth;
             int newHeight = ((maxCanvasWidth/fullSizeCanvas.width*fullSizeCanvas.height)).round();
+            if(newHeight > Scene.stageHeight) {
+                newHeight = Scene.stageHeight;
+                newWidth = ((newHeight/fullSizeCanvas.height)*fullSizeCanvas.width).round();
+            }
             cachedCanvas = new CanvasElement(width: newWidth, height: newHeight);
             cachedCanvas.context2D.drawImageScaled(fullSizeCanvas,0,0, newWidth, newHeight);
         }

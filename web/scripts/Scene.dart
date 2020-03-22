@@ -10,8 +10,8 @@ import 'Util.dart';
 class Scene {
     //TODO let people sign their work
     String author;
-    int stageWidth = 980;
-    int stageHeight = 600;
+    static int stageWidth = 980;
+    static int stageHeight = 600;
     String bgLocationEnd;
     static String TARGETSTRINGMEMORYTAG ="[TARGET.STRINGMEMORY.";
     static String TARGETNUMMEMORYTAG ="[TARGET.NUMMEMORY.";
