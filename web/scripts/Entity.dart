@@ -46,6 +46,7 @@ class Entity {
         if(optionalDollString != null) {
             setStringMemory("originalDollString",this.optionalDollString);
             doll = Doll.loadSpecificDoll(optionalDollString);
+            setStringMemory("species",doll.name);
         }
     }
 
