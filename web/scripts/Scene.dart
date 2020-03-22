@@ -13,7 +13,7 @@ class Scene {
     static int stageWidth = 980;
     static int stageHeight = 600;
     String bgLocationEnd;
-    DivElement stageHolder = new DivElement()..classes.add("stageholder");
+    DivElement stageHolder;
     CanvasElement beforeCanvas;
     CanvasElement afterCanvas;
     static String TARGETSTRINGMEMORYTAG ="[TARGET.STRINGMEMORY.";
@@ -123,6 +123,10 @@ class Scene {
 
     Future<Element> render(int debugNumber)async  {
         container = new DivElement()..classes.add("scene");
+        stageHolder = new DivElement()..classes.add("stageholder");
+        stageHolder.style.width ="${stageWidth}px";
+        stageHolder.style.height ="${stageHeight}px";
+        container.append(stageHolder);
         await renderStageFrame(true);
         SpanElement beforeSpan= new SpanElement()..setInnerHtml(proccessedBeforeText);
 
@@ -133,12 +137,11 @@ class Scene {
 
         //TODO have simple css animations that switch between before and after stage every second (i.e. put them as the bg of the on screen element);
         final DivElement narrationDiv = new DivElement()..classes.add("narration");
+
         narrationDiv.append(beforeSpan);
         narrationDiv.append(afterSpan);
-        stageHolder.style.width ="${stageWidth}px";
-        stageHolder.style.height ="${stageHeight}px";
 
-        container.append(stageHolder);
+
         container.append(narrationDiv);
 
         return container;
