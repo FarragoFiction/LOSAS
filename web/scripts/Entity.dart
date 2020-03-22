@@ -15,6 +15,12 @@ import 'Scenario.dart';
 import 'Scene.dart';
 
 class Entity {
+    static const String CURRENTDOLLKEY = "currentDollStringChangingDoesNothing";
+    static const String ORIGINALDOLLKEY = "originalDollString";
+    static const String NAMEKEY = "name";
+    static const String ORIGINALNAMEKEY = "originalName";
+    static const String SPECIESKEY = "species";
+
     //TODO most chars will be generated randomly but if someone wants to say "i made this" sure why not
     String author;
     String name;
@@ -41,12 +47,13 @@ class Entity {
     List<Scene> get readOnlyActivationScenes => _activationScenes;
 
     Entity(this.name, optionalDollString) {
-        setStringMemory("name",this.name);
+        setStringMemory(NAMEKEY,this.name);
+        setStringMemory(ORIGINALNAMEKEY,this.name);
         if(optionalDollString != null) {
-            setStringMemory("originalDollString",optionalDollString);
-            setStringMemory("currentDollString",optionalDollString);
+            setStringMemory(ORIGINALDOLLKEY,optionalDollString);
+            setStringMemory(CURRENTDOLLKEY,optionalDollString);
             _doll = Doll.loadSpecificDoll(optionalDollString);
-            setStringMemory("species",_doll.name);
+            setStringMemory(SPECIESKEY,_doll.name);
         }
     }
 
@@ -61,10 +68,9 @@ class Entity {
 
     void setNewDoll(String dollString) {
         if(dollString != getStringMemory("currentDollString") && dollString != null && dollString.isNotEmpty) {
-            print("setting a new dollstring, clearing cache");
             try{
                 Doll testDoll = Doll.loadSpecificDoll(dollString);
-                setStringMemory("currentDollString",dollString);
+                setStringMemory(CURRENTDOLLKEY,dollString);
                 //forces a reload later.
                 cachedCanvas = null;
                 _doll = testDoll;
@@ -76,7 +82,6 @@ class Entity {
     }
 
     Future<CanvasElement> get canvas async {
-        print("getting the canvas for $name, right now its $cachedCanvas");
         if(cachedCanvas == null) {
             CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
             int newWidth = maxCanvasWidth;
@@ -84,7 +89,6 @@ class Entity {
             cachedCanvas = new CanvasElement(width: newWidth, height: newHeight);
             cachedCanvas.context2D.drawImageScaled(fullSizeCanvas,0,0, newWidth, newHeight);
         }
-        print("got the canvas for $name, right now its $cachedCanvas");
         return cachedCanvas;
     }
 

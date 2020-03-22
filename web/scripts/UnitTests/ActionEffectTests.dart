@@ -100,13 +100,13 @@ abstract class ActionEffectTests {
         Entity e = scenario.entitiesReadOnly[1];
         String originalDollString = e.getStringMemory("originalDollString");
         scene.applyEffects();
-        UnitTests.processTest("testDollStringFromMemory currentDollString doesn't change when you try to set it from null.", originalDollString, e.getStringMemory("currentDollString"), element);
+        UnitTests.processTest("testDollStringFromMemory currentDollString doesn't change when you try to set it from null.", originalDollString, e.getStringMemory(Entity.CURRENTDOLLKEY), element);
         e.setStringMemory("DQ0N","INVVALID FAKE STRING");
         scene.applyEffects();
-        UnitTests.processTest("testDollStringFromMemory currentDollString doesn't change if its a corrupt string.", originalDollString, e.getStringMemory("currentDollString"), element);
+        UnitTests.processTest("testDollStringFromMemory currentDollString doesn't change if its a corrupt string.", originalDollString, e.getStringMemory(Entity.CURRENTDOLLKEY), element);
         e.setStringMemory("DQ0N","DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=");
         scene.applyEffects();
-        UnitTests.processTest("testDollStringFromMemory currentDollString does change if its a valid string.", "DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=", e.getStringMemory("currentDollString"), element);
+        UnitTests.processTest("testDollStringFromMemory currentDollString does change if its a valid string.", "DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=", e.getStringMemory(Entity.CURRENTDOLLKEY), element);
     }
 
     static void testUnSetString(element) {

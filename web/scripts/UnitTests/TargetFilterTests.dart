@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
+import '../TargetFilters/KeepIfRandomNumberLessThan.dart';
 import '../TargetFilters/KeepIfYouAreMe.dart';
 import 'UnitTests.dart';
 
@@ -19,6 +20,7 @@ abstract class TargetFilterTests {
         testTFNameIsValue(element);
         testTFYouAreNotMe(element);
         testTFNameIsValueAndStringDoesntExist(element);
+        testIfRandomNumberLessThan(element);
     }
 
     static void testBasic(Element element) {
@@ -77,6 +79,24 @@ abstract class TargetFilterTests {
         UnitTests.processTest("testTFNumIsGreaterThanValue Test3", false, result, element);
         UnitTests.processTest("testTFNumIsGreaterThanValue 0 targets2", "{}", scene.targets.toString(), element);
 
+    }
+
+    static void testIfRandomNumberLessThan(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        TargetFilter filter = new KeepIfRandomNumberLessThan(null,0);
+        scene.targetFilters.add(filter);
+        scenario.entitiesReadOnly.first.addScene(scene);
+        bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testIfRandomNumberLessThan nothing is less than 0", false, result, element);
+
+        filter.importantNum = 1;
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testIfRandomNumberLessThan everything is less than 1", true, result, element);
+
+        filter.importantNum = 0.5;
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testIfRandomNumberLessThan this is actually random", true, result, element);
     }
 
 

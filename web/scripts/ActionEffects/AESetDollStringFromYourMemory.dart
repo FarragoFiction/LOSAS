@@ -6,6 +6,7 @@ class AESetDollStringFromYourMemory extends ActionEffect {
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
+      print("I'm going to set $entities dollstrings to ${entities.first.getStringMemory(importantString)}");
     entities.forEach((Entity e) => e.setNewDoll(e.getStringMemory(importantString)));
   }
 

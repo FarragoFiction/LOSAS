@@ -8,6 +8,7 @@ import '../ActionEffects/AEAppendString.dart';
 import '../ActionEffects/AEAppendStringFront.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
+import '../ActionEffects/AESetDollStringFromMyMemory.dart';
 import '../ActionEffects/AESetNum.dart';
 import '../ActionEffects/AESetNumGenerator.dart';
 import '../ActionEffects/AESetString.dart';
@@ -19,6 +20,7 @@ import '../ActionEffects/ActionEffect.dart';
 import '../Entity.dart';
 import '../Generator.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
+import '../TargetFilters/KeepIfRandomNumberLessThan.dart';
 import '../TargetFilters/KeepIfYouAreMe.dart';
 import 'ActionEffectTests.dart';
 import 'DollTests.dart';
@@ -101,26 +103,34 @@ abstract class UnitTests {
 
         aliceStopsAfterEnoughMessages(scenario);
 
-        final List<Entity> randos = new List<Entity>();
-        randos.add(new Entity("DJ Cotton Ball","DJ+Cottonball%3A___FhL_AAD8_Pzy8vL_AAD_AQCtAAEAAAAAAAD_AAAAAAAAAAAxMTPTAACuAAAAAAAxMTNJSUk0kxs%3D")..facingRightByDefault=true);
-        randos.add(new Entity("Rando","Rando%3A___A5GAAAA6NpX____________LOlg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Ender Boi-chan","Ender+Boi-chan%3A___A5GtAD__5sA29vbTUxF_8J-Kj1g%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Meowsers Tango","Meowsers+Tango%3A___A5GtAD__5sA____TRwVu41xKipY%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Bishop Tato","Bishop+Tato%2C+Junior%3A___A5Gd6iL6NpX29PIZlhYgHF0LELg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Thief Tato, the Third","Thief+Tato%2C+the+Third%3A___A5GqNCu6NpX5uLhvJSd26CmLJ4A%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Irving Sebastion","Irving+Sebastion%3A___A5GtAD__5sATRwV____u41xLELg%3D")..facingRightByDefault=false);
-        randos.add(new Entity("Squire Senior","Squire%2C+Senior%3A___A5GtAD__5sA____TRwVu41xKj-A%3D")..facingRightByDefault=false);
-        for(Entity rando in randos) {
-            scenario.addEntity(rando);
-        }
-        final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this [OWNER.STRINGMEMORY.species] the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
-        ActionEffect effect = new AEAppendStringFront("name","Bastard ",null)..vriska=true;
-        atEveryone.targetFilters.add(new KeepIfYouAreMe(null,null)..not=true);
-        atEveryone.bgLocationEnd = "AlterniaCulled.png";
-        atEveryone.effects.add(effect);
-        randos.first.addScene(atEveryone);
-        randos.first.isActive = true;
+        djcottonball(scenario);
+        theDeacon(scenario);
         scenario.curtainsUp(querySelector("#output"));
+    }
+
+    static void theDeacon(Scenario scenario) {
+        Entity deacon = new Entity("The Deacon of Madness", "DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=")..isActive = true;
+        scenario.addEntity(deacon);
+        final Scene bedeacon = new Scene("Be Deacon", "[OWNER.STRINGMEMORY.name] has decided that [TARGET.STRINGMEMORY.name] shall be DQ0N as well.","[TARGET.STRINGMEMORY.name] is now DQ0N.")..targetOne=true;
+        ActionEffect effect = new AESetDollStringFromMyMemory(Entity.CURRENTDOLLKEY,null);
+        ActionEffect effect2 = new AEAppendStringFront(Entity.NAMEKEY,"DQ0N",null);
+        TargetFilter filter = new KeepIfRandomNumberLessThan(null, 0.5);
+        bedeacon.bgLocationEnd = "AlterniaCulled.png";
+        bedeacon.effects.add(effect);
+        bedeacon.effects.add(effect2);
+        bedeacon.targetFilters.add(filter);
+        deacon.addScene(bedeacon);
+    }
+
+    static void djcottonball(Scenario scenario) {
+      Entity dj = (new Entity("DJ Cotton Ball","DJ+Cottonball%3A___FhL_AAD8_Pzy8vL_AAD_AQCtAAEAAAAAAAD_AAAAAAAAAAAxMTPTAACuAAAAAAAxMTNJSUk0kxs%3D")..facingRightByDefault=true..isActive=true);
+      scenario.addEntity(dj);
+      final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this [OWNER.STRINGMEMORY.species] the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
+      ActionEffect effect = new AEAppendStringFront("name","Bastard ",null)..vriska=true;
+      atEveryone.targetFilters.add(new KeepIfYouAreMe(null,null)..not=true);
+      atEveryone.bgLocationEnd = "AlterniaCulled.png";
+      atEveryone.effects.add(effect);
+      dj.addScene(atEveryone);
     }
 
     //the scenario ends after 8 secret messages have been sent.
