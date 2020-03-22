@@ -3,7 +3,7 @@ we are fucking doings this right. for each target filter, action effect, etc we 
  */
 import 'dart:html';
 import '../ActionEffects/AEAddNum.dart';
-import '../ActionEffects/AEAddNumFromMemory.dart';
+import '../ActionEffects/AEAddNumFromYourMemory.dart';
 import '../ActionEffects/AEAppendString.dart';
 import '../ActionEffects/AEAppendStringFront.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
@@ -179,7 +179,7 @@ abstract class UnitTests {
         carolActivates.effects.add(rememberScandalRating2);
         carolActivates.bgLocationEnd = "AlternianBeachHivestem.png";
 
-        ActionEffect aggregate = new AEAddNumFromMemory("fumeRating","randomNumber",null)..vriska=true;
+        ActionEffect aggregate = new AEAddNumFromYourMemory("fumeRating","randomNumber",null)..vriska=true;
 
         //TODO add a random element to this
         final Scene carolFumes = new Scene("Carol fumes","[TARGET.STRINGMEMORY.name] spreads even more juicy gossip to Carol.","Carol fumes [OWNER.NUMMEMORY.randomNumber] points, but out of how many? Her fume rating is [OWNER.NUMMEMORY.fumeRating], and she knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");

@@ -17,8 +17,9 @@
   <div id="output"></div>
 <div id = "todo">
     <li>ability to specify string memory keys that you should replace your current doll with wholesale</li>
+    <li>add DQ0N to the test case, have him turn birds and bros into more DQ0Ns</li>
     <li>scenes actually have two canvas's rendered, one before effects and one after, animates between them using css</li>
-    <li>filter /effect for current doll</li>
+    <li>effect for current doll (filter not needed, just check string memory)</li>
     <li>ability to specify a string layer name and an int layer number to change in your current dollstring (ignores any layers that don't exist)</li>
     <li>ability to specify a palette (serialized to json, string string pairs) to replace your palette with (if it doesn't have all your colors it only replaces some)(ignores any colors not in your palette)</li>
     <li>palette creator</li>
@@ -34,6 +35,8 @@
     <li>scenarios have prepacks associated with them, let you do things like decide what are valid options (scenes, generators, etc all together) for character creators to have. can also add prepacks directly to chars, but thats a higher waste tier (things like adding highschool ai to a sburb game)</li>
     <br>
     Dubious TODO: Are these a good idea? Or maybe they just aren't fleshed out yet
+    <br>
+    <li>Consider removing all effects besides SetString and SetNum that don't deal with memory (otherwise i'm doubling everything). use case is setString and then things like AppendStringFromMemory or SetDollFromMemory</li>
     <li>filter/effect for current doll having layer with name X and value Y? (needed to detect god tier etc? or something could target frowners , i dunno, might not be useful)</li>
     <li>filter for current doll having a specific color in their palette?</li>
     <li>don't let have dolls have generic images just yet, wait to see</li>

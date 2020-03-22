@@ -1,11 +1,15 @@
 import 'dart:html';
 
-import '../ActionEffects/AEAddNumFromMemory.dart';
+import 'package:DollLibCorrect/DollRenderer.dart';
+
+import '../ActionEffects/AEAddNumFromYourMemory.dart';
 import '../ActionEffects/AEAppendStringFront.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyNumToTarget.dart';
 import '../ActionEffects/AECopyStringFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
+import '../ActionEffects/AESetDollStringFromMyMemory.dart';
+import '../ActionEffects/AESetDollStringFromYourMemory.dart';
 import '../ActionEffects/AESetNumGenerator.dart';
 import '../ActionEffects/AESetStringGenerator.dart';
 import 'UnitTests.dart';
@@ -27,6 +31,7 @@ abstract class ActionEffectTests {
         testCopyStringFrom(element);
         testCopyNumTo(element);
         testCopyNumFrom(element);
+        testDollStringFromMemory(element);
 
     }
 
@@ -63,15 +68,15 @@ abstract class ActionEffectTests {
     static void testAddNumFromMemory(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AEAddNumFromMemory("secretNumberTotal","secretNumberToAdd",null);
+        ActionEffect effect = new AEAddNumFromYourMemory("secretNumberTotal","secretNumberToAdd",null);
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scenario.entitiesReadOnly[1].setNumMemory("secretNumberToAdd",13);
-        UnitTests.processTest("testAddNumFromMemory starts out 0", 0, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
+        UnitTests.processTest("AEAddNumFromYourMemory starts out 0", 0, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
         scene.applyEffects();
-        UnitTests.processTest("testAddNumFromMemory add 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
+        UnitTests.processTest("AEAddNumFromYourMemory add 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
         scene.applyEffects();
-        UnitTests.processTest("testAddNumFromMemory add another 13", 26, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
+        UnitTests.processTest("AEAddNumFromYourMemory add another 13", 26, scenario.entitiesReadOnly[1].getNumMemory("secretNumberTotal"), element);
     }
 
     static void testSetString(element) {
@@ -84,6 +89,24 @@ abstract class ActionEffectTests {
         UnitTests.processTest("testSetString ", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
         UnitTests.processTest("testSetString text is replaced", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+    }
+
+    static void testDollStringFromMemory(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AESetDollStringFromYourMemory("DQ0N",null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        Entity e = scenario.entitiesReadOnly[1];
+        String originalDollString = e.getStringMemory("originalDollString");
+        scene.applyEffects();
+        UnitTests.processTest("testDollStringFromMemory currentDollString doesn't change when you try to set it from null.", originalDollString, e.getStringMemory("currentDollString"), element);
+        e.setStringMemory("DQ0N","INVVALID FAKE STRING");
+        scene.applyEffects();
+        UnitTests.processTest("testDollStringFromMemory currentDollString doesn't change if its a corrupt string.", originalDollString, e.getStringMemory("currentDollString"), element);
+        e.setStringMemory("DQ0N","DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=");
+        scene.applyEffects();
+        UnitTests.processTest("testDollStringFromMemory currentDollString does change if its a valid string.", "DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=", e.getStringMemory("currentDollString"), element);
     }
 
     static void testUnSetString(element) {

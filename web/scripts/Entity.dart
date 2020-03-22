@@ -60,12 +60,18 @@ class Entity {
     }
 
     void setNewDoll(String dollString) {
-        if(dollString != getStringMemory("currentDollString")) {
+        if(dollString != getStringMemory("currentDollString") && dollString != null && dollString.isNotEmpty) {
             print("setting a new dollstring, clearing cache");
-            _doll = Doll.loadSpecificDoll(dollString);
-            setStringMemory("currentDollString",dollString);
-            //forces a reload later.
-            cachedCanvas = null;
+            try{
+                Doll testDoll = Doll.loadSpecificDoll(dollString);
+                setStringMemory("currentDollString",dollString);
+                //forces a reload later.
+                cachedCanvas = null;
+                _doll = testDoll;
+            }catch(e) {
+                print("Exception Caught: $e");
+            }
+
         }
     }
 
