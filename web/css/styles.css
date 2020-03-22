@@ -39,6 +39,10 @@ html, body {
   width: 1000px;
 }
 
+.shadows{
+   filter: contrast(0%) brightness(10%);
+}
+
 .turnways{
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);

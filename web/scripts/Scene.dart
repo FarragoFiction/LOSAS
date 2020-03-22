@@ -12,11 +12,14 @@ class Scene {
     String author;
     int stageWidth = 980;
     int stageHeight = 600;
+    String bgLocationEnd;
     static String TARGETSTRINGMEMORYTAG ="[TARGET.STRINGMEMORY.";
     static String TARGETNUMMEMORYTAG ="[TARGET.NUMMEMORY.";
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
+    //TODO let people upload their own backgrounds.
+    String get bgLocation => "images/BGs/$bgLocationEnd";
     Scenario scenario;
     Entity owner;
     //target everything that meets this condition, or just a single one?
@@ -126,18 +129,21 @@ class Scene {
         print("I'm going to render to this canvas owner is $owner and targets are $finalTargets");
         if(owner != null) {
             await renderOwner(canvas);
-            await renderTargets(finalTargets.toList(), canvas);
+            await renderTargets(canvas.width-400,250,finalTargets.toList(), canvas);
+            //don't add a bg to a start/end scene, the point is its not got the illusion going yet.
+            //thats why its still a shadow
+            if(bgLocationEnd != null) canvas.style.background="url('${bgLocation}')";
         }else {
-            await renderTargets(scenario.entitiesReadOnly, canvas);
+            canvas.classes.add("shadows");
+            await renderTargets(canvas.width-400, 0,scenario.entitiesReadOnly, canvas);
         }
     }
 
-    Future<Null> renderTargets(List<Entity> renderTargets, CanvasElement canvas) async {
-        int startX = 250; //if i start at 300 theres 500 pixels total for us.
-        int currentX = startX;
+    Future<Null> renderTargets(int startX, int maxX, List<Entity> renderTargets, CanvasElement canvas) async {
         int yRow = 0;
         int distanceBetweenDolls = 100; //todo calculate consistent number?
-      for(Entity target in renderTargets) {
+        int currentX = startX;
+        for(Entity target in renderTargets) {
           if(target != owner){
               print("I have targets and i'm going to render them to this stage");
               CanvasElement targetCanvas = await target.canvas;
@@ -148,8 +154,8 @@ class Scene {
               }else {
                   canvas.context2D.drawImage(targetCanvas, currentX,  canvas.height-targetCanvas.height+yRow);
               }
-              currentX += distanceBetweenDolls;
-              if(currentX > canvas.width-(2*distanceBetweenDolls)) {
+              currentX += -1*distanceBetweenDolls;
+              if(currentX < maxX) {
                   currentX = startX;
                   yRow += distanceBetweenDolls;
               }

@@ -112,6 +112,7 @@ abstract class UnitTests {
             scenario.addEntity(rando);
         }
         final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased.");
+        atEveryone.bgLocationEnd = "AlterniaCulled.png";
         randos.first.addScene(atEveryone);
         randos.first.isActive = true;
         scenario.curtainsUp(querySelector("#output"));
@@ -120,6 +121,7 @@ abstract class UnitTests {
     //the scenario ends after 8 secret messages have been sent.
     static void aliceStopsAfterEnoughMessages(Scenario scenario) {
       Scene finalScene = new Scene("The End", "Now that alice has sent [TARGET.NUMMEMORY.secretMessageCount] messages, the cycle of messages ends.","The End.")..targetOne=true;
+      finalScene.bgLocationEnd = "AlternianCliff.png";
       //if anyone has this greater than 5
       TargetFilter filter6 = new KeepIfNumIsGreaterThanValue("secretMessageCount",13);
       finalScene.targetFilters.add(filter6);
@@ -134,6 +136,7 @@ abstract class UnitTests {
       ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska=true;
       ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears",null)..vriska=true;
       ActionEffect effect3 = new AESetNumGenerator("randomNumber",113)..vriska=true;
+      scene3.bgLocationEnd = "AlternianHives.png";
 
       scene3.targetFilters.add(filter5);
       scene3.effects.add(effect);
@@ -152,6 +155,7 @@ abstract class UnitTests {
       TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
       scene2.targetFilters = [filter3, filter4];
       scene2.effects.add(effect1);
+      scene2.bgLocationEnd = "AlterniaAuroraBorealisAlternia.png";
       scene2.effects.add(effect2);
       scenario.entitiesReadOnly[2].addScene(scene2);
     }
@@ -165,11 +169,14 @@ abstract class UnitTests {
         ActionEffect rememberScandalRating = new AECopyNumFromTarget("scandalRating","scandalMemory",0);
         ActionEffect rememberScandalRating2 = new AECopyNumFromTarget("scandalRating","scandalMemory",0);
         carolActivates.effects.add(rememberScandalRating2);
+        carolActivates.bgLocationEnd = "AlternianBeachHivestem.png";
 
         ActionEffect aggregate = new AEAddNumFromMemory("fumeRating","randomNumber",null)..vriska=true;
 
         //TODO add a random element to this
         final Scene carolFumes = new Scene("Carol fumes","[TARGET.STRINGMEMORY.name] spreads even more juicy gossip to Carol.","Carol fumes [OWNER.NUMMEMORY.randomNumber] points, but out of how many? Her fume rating is [OWNER.NUMMEMORY.fumeRating], and she knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");
+        carolFumes.bgLocationEnd = "AlterniaTurtleAlternia.png";
+
         //eve needs to have new gossip for carol to react ot it.
         TargetFilter filter3 = new KeepIfNumExists("scandalRating",null);
         TargetFilter filter2 = new KeepIfNumIsGreaterThanValueFromMemory("scandalRating","scandalMemory",null);
@@ -191,7 +198,7 @@ abstract class UnitTests {
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
       TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
-
+       scene.bgLocationEnd = "AlternianFoggyAlternianForest.png";
        scene.effects.add(prerequisiteEffect);
        scene.effects.add(effect);
       scene.effects.add(effect2);
