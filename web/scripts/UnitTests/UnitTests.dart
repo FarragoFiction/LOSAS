@@ -5,6 +5,7 @@ import 'dart:html';
 import '../ActionEffects/AEAddNum.dart';
 import '../ActionEffects/AEAddNumFromMemory.dart';
 import '../ActionEffects/AEAppendString.dart';
+import '../ActionEffects/AEAppendStringFront.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
 import '../ActionEffects/AESetNum.dart';
@@ -111,8 +112,10 @@ abstract class UnitTests {
         for(Entity rando in randos) {
             scenario.addEntity(rando);
         }
-        final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased.");
+        final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this pigeon the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
+        ActionEffect effect = new AEAppendStringFront("name","Bastard ",null)..vriska=true;
         atEveryone.bgLocationEnd = "AlterniaCulled.png";
+        atEveryone.effects.add(effect);
         randos.first.addScene(atEveryone);
         randos.first.isActive = true;
         scenario.curtainsUp(querySelector("#output"));

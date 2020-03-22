@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../ActionEffects/AEAddNumFromMemory.dart';
+import '../ActionEffects/AEAppendStringFront.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyNumToTarget.dart';
 import '../ActionEffects/AECopyStringFromTarget.dart';
@@ -110,6 +111,15 @@ abstract class ActionEffectTests {
         UnitTests.processTest("testAppendString text is set once", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
         UnitTests.processTest("testAppendString text is set twice ", "Carol kind of sucks.Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+        Scene scene2 = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect2 = new AEAppendStringFront("secretMessage","Front",null);
+        scene2.effects.add(effect2);
+        scene2.targets.add(scenario.entitiesReadOnly[1]);
+        scene2.applyEffects();
+        UnitTests.processTest("testAppendStringFront text is set once", "FrontCarol kind of sucks.Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+        scene2.applyEffects();
+        UnitTests.processTest("testAppendStringFront text is set twice ", "FrontFrontCarol kind of sucks.Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+
     }
     static void testUnAppendString(element) {
         Scenario scenario = Scenario.testScenario();
