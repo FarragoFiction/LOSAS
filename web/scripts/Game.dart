@@ -74,9 +74,9 @@ class Game {
         container.append(fullstory);
     }
 
-    void showScene(Scene spotlightScene) {
+    void showScene(Scene spotlightScene)async {
         scenario.numberTriesForScene = 0;
-        Element sceneElement = spotlightScene.render(sceneElements.length);
+        Element sceneElement = await spotlightScene.render(sceneElements.length);
         sceneElements.add(sceneElement);
         container.append(sceneElement);
         readyForNextScene = true;

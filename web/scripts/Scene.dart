@@ -13,6 +13,9 @@ class Scene {
     static int stageWidth = 980;
     static int stageHeight = 600;
     String bgLocationEnd;
+    DivElement stageHolder = new DivElement()..classes.add("stageholder");
+    CanvasElement beforeCanvas;
+    CanvasElement afterCanvas;
     static String TARGETSTRINGMEMORYTAG ="[TARGET.STRINGMEMORY.";
     static String TARGETNUMMEMORYTAG ="[TARGET.NUMMEMORY.";
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
@@ -118,31 +121,39 @@ class Scene {
 
 
 
-    Element render(int debugNumber) {
+    Future<Element> render(int debugNumber)async  {
         container = new DivElement()..classes.add("scene");
-        final CanvasElement beforeStage = new CanvasElement(width: stageWidth, height: stageHeight);
-        renderStage(beforeStage);
+        await renderStageFrame(true);
         SpanElement beforeSpan= new SpanElement()..setInnerHtml(proccessedBeforeText);
 
         applyEffects(); //that way we can talk about things before someone died and after, or whatever
 
-        final CanvasElement afterStage = new CanvasElement(width: stageWidth, height: stageHeight);
-        renderStage(afterStage);
+        await renderStageFrame(false);
         final SpanElement afterSpan = new SpanElement()..setInnerHtml(" $proccessedAfterText");
 
         //TODO have simple css animations that switch between before and after stage every second (i.e. put them as the bg of the on screen element);
         final DivElement narrationDiv = new DivElement()..classes.add("narration");
         narrationDiv.append(beforeSpan);
         narrationDiv.append(afterSpan);
-        container.append(beforeStage);
+        stageHolder.style.width ="${stageWidth}px";
+        stageHolder.style.height ="${stageHeight}px";
+
+        container.append(stageHolder);
         container.append(narrationDiv);
 
         return container;
     }
 
+
     //asyncly renders to the element, lets the canvas go on screen asap
     //TODO render name underneath birb
-    Future<Null> renderStage(CanvasElement canvas) async {
+    Future<Null> renderStageFrame(bool before) async {
+        CanvasElement canvas = new CanvasElement(width: stageWidth, height: stageHeight);
+        if(before) {
+            beforeCanvas = canvas;
+        }else {
+            afterCanvas = canvas;
+        }
         canvas.classes.add("stage");
         if(owner != null) {
             await renderOwner(canvas);
@@ -154,6 +165,19 @@ class Scene {
             canvas.classes.add("shadows");
             await renderTargets(canvas.width-400, 0,scenario.entitiesReadOnly, canvas);
         }
+        if(!before) {
+            setupAnimations();
+        }
+    }
+
+    void setupAnimations() {
+        CanvasElement bg = new CanvasElement(width: stageWidth*2, height: stageHeight);
+        container.append(bg);
+        bg.context2D.drawImage(beforeCanvas, 0,0);
+        bg.context2D.drawImage(afterCanvas, stageWidth, 0);
+        stageHolder.style.backgroundImage="url(${bg.toDataUrl()}),url('${bgLocation}'";
+        stageHolder.classes.add("frameAnimation");
+
     }
 
     Future<Null> renderTargets(int startX, int maxX, List<Entity> renderTargets, CanvasElement canvas) async {

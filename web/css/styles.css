@@ -43,6 +43,20 @@ html, body {
    filter: contrast(0%) brightness(10%);
 }
 
+.frameAnimation{
+    animation: frameAnimation 1.0s steps(1) infinite;
+}
+
+.frameAnimation:hover{
+    background-position: -980px;
+}
+
+@keyframes frameAnimation {
+   0% { background-position: 0px; }
+   50% { background-position: -980px; }
+   0% { background-position: 0px; }
+}
+
 .turnways{
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
