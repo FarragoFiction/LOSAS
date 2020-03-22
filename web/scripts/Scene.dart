@@ -72,16 +72,32 @@ class Scene {
 
     String processTargetStringTags(String text) {
         List<String> tags = Util.getTagsForKey(text, TARGETSTRINGMEMORYTAG);
-        for(Entity target in finalTargets) {
-            tags.forEach((String tag) =>text = text.replaceAll("$TARGETSTRINGMEMORYTAG$tag","${target.getStringMemory(tag)}"));
+        for(String tag in tags) {
+            String replacement = "";
+            for(Entity entity in finalTargets) {
+                if(finalTargets.length > 1 && entity !=finalTargets.last) {
+                    replacement = "$replacement, ${entity.getStringMemory(tag)}";
+                }else {
+                    replacement = "$replacement, and ${entity.getStringMemory(tag)}";
+                }
+            }
+            text = text.replaceAll("$TARGETSTRINGMEMORYTAG$tag","$replacement");
         }
         return text;
     }
 
     String processTargetNumTags(String text) {
         List<String> tags = Util.getTagsForKey(text, TARGETNUMMEMORYTAG);
-        for(Entity target in finalTargets) {
-            tags.forEach((String tag) =>text = text.replaceAll("$TARGETNUMMEMORYTAG$tag","${target.getNumMemory(tag)}"));
+        for(String tag in tags) {
+            String replacement = "";
+            for(Entity entity in finalTargets) {
+                if(finalTargets.length > 1 && entity !=finalTargets.last) {
+                    replacement = "$replacement, ${entity.getNumMemory(tag)}";
+                }else {
+                    replacement = "$replacement, and ${entity.getNumMemory(tag)}";
+                }
+            }
+            text = text.replaceAll("$TARGETNUMMEMORYTAG$tag","$replacement");
         }
         return text;
     }
