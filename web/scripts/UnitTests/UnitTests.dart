@@ -115,7 +115,7 @@ abstract class UnitTests {
         ActionEffect effect = new AESetDollStringFromMyMemory(Entity.CURRENTDOLLKEY,null);
         ActionEffect effect2 = new AEAppendStringFront(Entity.NAMEKEY,"DQ0N",null);
         TargetFilter filter = new KeepIfRandomNumberLessThan(null, 0.5);
-        bedeacon.bgLocationEnd = "AlterniaCulled.png";
+        bedeacon.bgLocationEnd = "LOSASHectua.png";
         bedeacon.effects.add(effect);
         bedeacon.effects.add(effect2);
         bedeacon.targetFilters.add(filter);
@@ -128,7 +128,7 @@ abstract class UnitTests {
       final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this [OWNER.STRINGMEMORY.species] the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
       ActionEffect effect = new AEAppendStringFront("name","Bastard ",null)..vriska=true;
       atEveryone.targetFilters.add(new KeepIfYouAreMe(null,null)..not=true);
-      atEveryone.bgLocationEnd = "AlterniaCulled.png";
+      atEveryone.bgLocationEnd = "LOSASZhozah.png";
       atEveryone.effects.add(effect);
       dj.addScene(atEveryone);
     }

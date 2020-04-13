@@ -18,11 +18,12 @@
 <div id = "todo">
     Major TODO
     <br>
-    <li>serialization of everything</li>
+    <li>serialization of everything (with version declearation to make parsing changes easier, pl says)</li>
+    <li>serialize to data png (review viking book for how it works) (including images uploaded to scenes/chars)</li>
     <li>builders (scene, scenario, entity, generator, prepack</li>
     <li>prepacks</li>
     <li>doll creator (lamia only) (takes scenario as input, exports it as a prepack bundle setting various dollstrings scenario requires in memory like godtier and dead, etc </li>
-    <li>skald and neb commentary during story (triggered by keywords)</li>
+    <li>skald and neb commentary during story (triggered by keywords) zoom out to show audience and storyteller</li>
     <li>*realy* want a fake wiki rip</li>
     Incidental TODO:<br>
     <li>if cpu usage of animation is high, before adding class, detect if the two canvases have the same image data</li>
@@ -48,6 +49,7 @@
     <br>
     Dubious TODO: Are these a good idea? Or maybe they just aren't fleshed out yet
     <br>
+    <li>series of Decision Points that cause the sim to show the "zoomed out" version, and the player can choose between a few options the Audience throws out</li>
     <li>Consider removing all effects besides SetString and SetNum that don't deal with memory (otherwise i'm doubling everything). use case is setString and then things like AppendStringFromMemory or SetDollFromMemory</li>
     <li>filter/effect for current doll having layer with name X and value Y? (needed to detect god tier etc? or something could target frowners , i dunno, might not be useful)</li>
 <li>ability to set x/y position of an entity, have a scene specify you should render them there this scene rather than procedurally</li>
