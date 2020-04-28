@@ -2,16 +2,17 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEUnAppendString extends ActionEffect {
-  String value;
-  AEUnAppendString(this.value,String importantString, num importantNum) : super(importantString, importantNum);
+  static const String STOREDSTRING = "storedString";
+  static const String STRINGTOAPPEND = "stringToUnAppend";
+  AEUnAppendString(String storedString,String stringToUnAppend) : super(<String,String>{STOREDSTRING:storedString, STRINGTOAPPEND:stringToUnAppend}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
     for(final Entity e in entities) {
-      String oldValue = e.getStringMemory(value);
+      String oldValue = e.getStringMemory(importantWords[STOREDSTRING]);
       oldValue ??="";
-      String newValue = oldValue.replaceAll(importantString,"");
-      e.setStringMemory(value,newValue);
+      String newValue = oldValue.replaceAll(importantWords[STRINGTOAPPEND],"");
+      e.setStringMemory(importantWords[STOREDSTRING],newValue);
     }
   }
 
