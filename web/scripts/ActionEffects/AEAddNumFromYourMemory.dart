@@ -2,16 +2,18 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAddNumFromYourMemory extends ActionEffect {
-  AEAddNumFromYourMemory(importantWords, importantNumbers) : super(importantWords, importantNumbers);
+  static const String RESULTNUM = "myMemoryKeyForResultAndStorage";
+  static const String ADDOR = "yourMemoryKeyToAdd";
+  AEAddNumFromYourMemory(result,addor) : super(<String,String>{RESULTNUM:result, ADDOR:addor}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
     for(Entity e in entities) {
-      num oldValue = e.getNumMemory(importantString);
-      num toAdd = e.getNumMemory(secondKey);
+      num oldValue = e.getNumMemory(importantWords[RESULTNUM]);
+      num toAdd = e.getNumMemory(importantWords[ADDOR]);
       oldValue ??=0;
       toAdd ??=0;
-      e.setNumMemory(importantString,oldValue + toAdd);
+      e.setNumMemory(importantWords[RESULTNUM],oldValue + toAdd);
     }
   }
 
