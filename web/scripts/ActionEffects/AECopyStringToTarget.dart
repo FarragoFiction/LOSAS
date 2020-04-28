@@ -2,12 +2,13 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AECopyStringToTarget extends ActionEffect {
-    String myKey;
-    AECopyStringToTarget(String this.myKey, String importantString, num importantNum) : super(importantString, importantNum);
+    static const String THEIRKEY = "theirStringKey";
+    static const String MYKEY = "myStorageKey";
+    AECopyStringToTarget(myKey, theirKey) : super({THEIRKEY:theirKey, MYKEY:myKey}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
-      entities.forEach((Entity e) => e.setStringMemory(importantString, effector.getStringMemory(myKey)));
+      entities.forEach((Entity e) => e.setStringMemory(importantWords[THEIRKEY], effector.getStringMemory(importantWords[MYKEY])));
   }
 
 }
