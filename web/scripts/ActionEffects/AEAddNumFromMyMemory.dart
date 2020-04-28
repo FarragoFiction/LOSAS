@@ -2,7 +2,7 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAddNumFromMyMemory extends ActionEffect {
-  static const String RESULTNUM = "myMemoryKeyForResultAndStorage";
+  static const String RESULTNUM = "yourMemoryKeyForFirstAddorAndStorage";
   static const String ADDOR = "myMemoryKeyToAdd";
   AEAddNumFromMyMemory(result, addor) : super(<String,String>{RESULTNUM:result, ADDOR:addor}, {});
 

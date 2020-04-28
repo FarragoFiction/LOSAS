@@ -2,9 +2,9 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAppendString extends ActionEffect {
-  static const String STORAGEKEY = "myMemoryKeyForResultAndStorage";
-  static const String STRINGKEY = "yourMemoryKeyToAdd";
-  AEAppendString(storageKey, stringKey) : super(<String,String>{STORAGEKEY:storageKey, STRINGKEY:stringKey}, {});
+  static const String STORAGEKEY = "storageKey";
+  static const String STRINGKEY = "stringToAppend";
+  AEAppendString(storageKey, stringToAppend) : super(<String,String>{STORAGEKEY:storageKey, STRINGKEY:stringToAppend}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

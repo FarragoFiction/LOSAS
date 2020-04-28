@@ -2,15 +2,17 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAppendStringFront extends ActionEffect {
-  String memoryKey;
-  AEAppendStringFront(this.memoryKey,String importantString, num importantNum) : super(importantString, importantNum);
+  static const String STORAGEKEY = "storageKey";
+  static const String STRINGKEY = "stringToAppend";
+
+  AEAppendStringFront(memoryKey, stringToAppend) : super(<String,String>{STORAGEKEY:memoryKey, STRINGKEY:stringToAppend}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
     for(final Entity e in entities) {
-      String oldValue = e.getStringMemory(memoryKey);
+      String oldValue = e.getStringMemory(importantWords[STORAGEKEY]);
       oldValue ??="";
-      e.setStringMemory(memoryKey,"$importantString$oldValue");
+      e.setStringMemory(importantWords[STORAGEKEY],"${importantWords[STRINGKEY]}}$oldValue");
     }
   }
 
