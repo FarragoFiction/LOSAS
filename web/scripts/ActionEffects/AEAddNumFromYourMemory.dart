@@ -2,8 +2,7 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAddNumFromYourMemory extends ActionEffect {
-  String secondKey;
-  AEAddNumFromYourMemory(String importantString, String this.secondKey, num importantNum ) : super(importantString, importantNum);
+  AEAddNumFromYourMemory(importantWords, importantNumbers) : super(importantWords, importantNumbers);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

@@ -2,8 +2,7 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAppendString extends ActionEffect {
-  String value;
-  AEAppendString(this.value,String importantString, num importantNum) : super(importantString, importantNum);
+  AEAppendString(importantWords, importantNumbers) : super(importantWords, importantNumbers);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

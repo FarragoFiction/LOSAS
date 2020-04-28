@@ -11,15 +11,26 @@ import '../Scene.dart';
 abstract class ActionEffect {
     //are we applying this to my targets, or to myself?
     bool vriska = false;
-    num importantNum;
-    String importantString;
+    //each subclass MUST implement this
+    String type;
+    Map<String,String> importantWords = new Map<String,String>();
+    Map<String, num> importantNumbers = new Map<String,num>();
 
-    ActionEffect(this.importantString, this.importantNum);
+
+    ActionEffect(this.importantWords, this.importantNumbers);
 
     void effectEntities(Entity effector, List<Entity> entities);
 
+    Map<String,dynamic> getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["type"] = type;
+        ret["importantWords"] = importantWords;
+        ret["importantNumbers"] = importantNumbers;
+        return ret;
+    }
+
     String debugString() {
-        return "Effect: ${runtimeType} $importantString, $importantNum , Vriska: $vriska";
+        return "Effect: ${runtimeType} $importantWords, $importantNumbers , Vriska: $vriska";
     }
 
 
