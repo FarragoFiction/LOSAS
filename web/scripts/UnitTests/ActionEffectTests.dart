@@ -32,6 +32,21 @@ abstract class ActionEffectTests {
         testCopyNumTo(element);
         testCopyNumFrom(element);
         testDollStringFromMemory(element);
+        testSerialization(element);
+
+    }
+
+    static void testSerialization(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AESetNum("secretNumber",13);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        scene.applyEffects();
+        UnitTests.processTest("testSetNum is 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
+        effect.importantNum = 1.13;
+        scene.applyEffects();
+        UnitTests.processTest("testSetNum is 1.13", 1.13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
 
     }
 
