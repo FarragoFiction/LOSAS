@@ -2,12 +2,13 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AECopyNumFromTarget extends ActionEffect {
-  String theirKey;
-  AECopyNumFromTarget(String this.theirKey, String importantString, num importantNum) : super(importantString, importantNum);
+  static const String THEIRKEY = "theirNumKey";
+  static const String MYKEY = "myStorageKey";
+  AECopyNumFromTarget(theirKey, myKey) : super(<String,String>{THEIRKEY:theirKey, MYKEY:myKey}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => effector.setNumMemory(importantString, e.getNumMemory(theirKey)));
+    entities.forEach((Entity e) => effector.setNumMemory(importantWords[MYKEY], e.getNumMemory(importantWords[THEIRKEY])));
   }
 
 }
