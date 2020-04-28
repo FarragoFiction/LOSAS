@@ -4,7 +4,7 @@ import 'ActionEffect.dart';
 class AECopyNumFromTarget extends ActionEffect {
   static const String THEIRKEY = "theirNumKey";
   static const String MYKEY = "myStorageKey";
-  AECopyNumFromTarget(theirKey, myKey) : super(<String,String>{THEIRKEY:theirKey, MYKEY:myKey}, {});
+  AECopyNumFromTarget(String theirKey, String myKey) : super(<String,String>{THEIRKEY:theirKey, MYKEY:myKey}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

@@ -2,11 +2,13 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AESetDollStringFromMyMemory extends ActionEffect {
-    AESetDollStringFromMyMemory(String importantString, num importantNum) : super(importantString, importantNum);
+    static const String SHAREDKEY = "memoryKey";
+
+    AESetDollStringFromMyMemory(String sharedKey) : super({SHAREDKEY:sharedKey}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.setNewDoll(effector.getStringMemory(importantString)));
+    entities.forEach((Entity e) => e.setNewDoll(effector.getStringMemory(importantWords[SHAREDKEY])));
   }
 
 }

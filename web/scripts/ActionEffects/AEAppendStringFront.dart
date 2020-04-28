@@ -5,7 +5,7 @@ class AEAppendStringFront extends ActionEffect {
   static const String STORAGEKEY = "storageKey";
   static const String STRINGKEY = "stringToAppend";
 
-  AEAppendStringFront(memoryKey, stringToAppend) : super(<String,String>{STORAGEKEY:memoryKey, STRINGKEY:stringToAppend}, {});
+  AEAppendStringFront(String memoryKey, String stringToAppend) : super(<String,String>{STORAGEKEY:memoryKey, STRINGKEY:stringToAppend}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

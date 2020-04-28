@@ -4,7 +4,7 @@ import 'ActionEffect.dart';
 class AEAppendString extends ActionEffect {
   static const String STORAGEKEY = "storageKey";
   static const String STRINGKEY = "stringToAppend";
-  AEAppendString(storageKey, stringToAppend) : super(<String,String>{STORAGEKEY:storageKey, STRINGKEY:stringToAppend}, {});
+  AEAppendString(String storageKey, String stringToAppend) : super(<String,String>{STORAGEKEY:storageKey, STRINGKEY:stringToAppend}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

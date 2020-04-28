@@ -4,7 +4,7 @@ import 'ActionEffect.dart';
 class AEAddNumFromMyMemory extends ActionEffect {
   static const String RESULTNUM = "yourMemoryKeyForFirstAddorAndStorage";
   static const String ADDOR = "myMemoryKeyToAdd";
-  AEAddNumFromMyMemory(result, addor) : super(<String,String>{RESULTNUM:result, ADDOR:addor}, {});
+  AEAddNumFromMyMemory(String result, String addor) : super(<String,String>{RESULTNUM:result, ADDOR:addor}, {});
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
