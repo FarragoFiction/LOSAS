@@ -236,7 +236,7 @@ abstract class ActionEffectTests {
     static void testCopyStringFrom(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyStringFromTarget("secretMessageDraft","secretMessage");
+        ActionEffect effect = new AECopyStringFromTarget("secretMessage","secretMessageDraft");
         scenario.entitiesReadOnly[0].setStringMemory("secretMessageDraft","Carol kind of sucks.");
         scene.owner = scenario.entitiesReadOnly[1];
         scene.effects.add(effect);
