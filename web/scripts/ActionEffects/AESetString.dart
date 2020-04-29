@@ -4,7 +4,10 @@ import 'ActionEffect.dart';
 class AESetString extends ActionEffect {
   static const String STORAGEKEY = "memoryKey";
   static const String STRINGKEY = "stringToStore";
-
+  @override
+  String type ="SetString";
+  @override
+  String explanation = "Provide a word or phrase to store in the targets memory at a specific key.";
   AESetString(String storageKey, String stringToStore) : super(<String,String>{STORAGEKEY:storageKey, STRINGKEY:stringToStore}, {});
 
   @override

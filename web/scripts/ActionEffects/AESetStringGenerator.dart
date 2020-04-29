@@ -4,6 +4,12 @@ import 'ActionEffect.dart';
 class AESetStringGenerator extends ActionEffect {
     static const String GENERATORKEY = "generatorKey";
     static const String DEFAULTVALUE = "defaultValue";
+    @override
+    String type ="SetStringGenerator";
+    @override
+    String explanation = "Generates a new word or phrase for the target for a given key using any generators the target possesses. If they have none, intead sets it to the provided default value.";
+
+
     AESetStringGenerator(String generatorKey, String defaultValue) : super(<String,String>{GENERATORKEY:generatorKey, DEFAULTVALUE:defaultValue}, {});
 
   @override
