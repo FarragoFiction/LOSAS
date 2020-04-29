@@ -7,7 +7,8 @@ class AEAddNum extends ActionEffect {
   @override
   String type ="AddNewNumToExisting";
   @override
-  String explanation = "Provide a number value to add to a stored value located at a given key.";
+  String explanation = "Provide a number value to add to a stored value located at a given key for the target(s).";
+
   AEAddNum(String memoryKey, num addor) : super(<String,String>{MEMORYKEY:memoryKey}, <String,num>{ADDOR:addor});
 
   @override

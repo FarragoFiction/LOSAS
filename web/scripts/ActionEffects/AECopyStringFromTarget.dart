@@ -4,6 +4,10 @@ import 'ActionEffect.dart';
 class AECopyStringFromTarget extends ActionEffect {
     static const String THEIRKEY = "theirStorageKey";
     static const String MYKEY = "myStringKey";
+    @override
+    String type ="CopyStringFromTarget";
+    @override
+    String explanation = "Copies a word or phrase from the target(s) to the owner.";
     AECopyStringFromTarget(String myKey, String theirKey) : super({THEIRKEY:theirKey, MYKEY:myKey}, {});
 
   @override

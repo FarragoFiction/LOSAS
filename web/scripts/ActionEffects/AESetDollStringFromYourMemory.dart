@@ -3,7 +3,10 @@ import 'ActionEffect.dart';
 
 class AESetDollStringFromYourMemory extends ActionEffect {
     static const String SHAREDKEY = "memoryKey";
-
+    @override
+    String type ="SetDollStringFromMemory";
+    @override
+    String explanation = "Sets the targets current dollstring based on the value of a given memory key belonging to the target.";
     AESetDollStringFromYourMemory(String sharedKey) : super({SHAREDKEY:sharedKey}, {});
 
   @override

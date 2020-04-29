@@ -7,7 +7,7 @@ class AEAddNumFromYourMemory extends ActionEffect {
   @override
   String type ="AddNumFromTargetToExisting";
   @override
-  String explanation = "Grab a number from the targets memory to add to a stored value in the owners memory and store it in the target.";
+  String explanation = "Grab a number from the target(s) memory to add to a stored value in the owners memory and store it in the target(s).";
 
   AEAddNumFromYourMemory(String result,String addor) : super(<String,String>{RESULTNUM:result, ADDOR:addor}, {});
 
