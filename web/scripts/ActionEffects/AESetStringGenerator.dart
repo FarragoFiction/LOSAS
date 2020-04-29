@@ -11,6 +11,8 @@ class AESetStringGenerator extends ActionEffect {
 
 
     AESetStringGenerator(String generatorKey, String defaultValue) : super(<String,String>{GENERATORKEY:generatorKey, DEFAULTVALUE:defaultValue}, {});
+    @override
+    ActionEffect makeNewOfSameType() => new AESetStringGenerator(null,null);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

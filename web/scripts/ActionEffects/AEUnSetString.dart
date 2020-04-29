@@ -8,6 +8,8 @@ class AEUnSetString extends ActionEffect {
     @override
     String explanation = "Remove a key entirely from string memory.";
     AEUnSetString(String key) : super({KEY:key},{});
+    @override
+    ActionEffect makeNewOfSameType() => new AEUnSetString(null);
 
     @override
   void effectEntities(Entity effector, List<Entity> entities) {

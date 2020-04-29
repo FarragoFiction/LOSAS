@@ -2,6 +2,23 @@ import 'package:CommonLib/Random.dart';
 
 import '../Entity.dart';
 import '../Scene.dart';
+import 'AEAddNum.dart';
+import 'AEAddNumFromMyMemory.dart';
+import 'AEAddNumFromYourMemory.dart';
+import 'AEAppendString.dart';
+import 'AEAppendStringFront.dart';
+import 'AECopyNumFromTarget.dart';
+import 'AECopyNumToTarget.dart';
+import 'AECopyStringFromTarget.dart';
+import 'AECopyStringToTarget.dart';
+import 'AESetDollStringFromMyMemory.dart';
+import 'AESetDollStringFromYourMemory.dart';
+import 'AESetNum.dart';
+import 'AESetNumGenerator.dart';
+import 'AESetString.dart';
+import 'AESetStringGenerator.dart';
+import 'AEUnAppendString.dart';
+import 'AEUnSetString.dart';
 
 /*
     TODO Pile:
@@ -16,13 +33,30 @@ abstract class ActionEffect {
     String explanation;
     Map<String,String> importantWords = new Map<String,String>();
     Map<String, num> importantNumbers = new Map<String,num>();
+    static List<ActionEffect> exampleOfAllEffects;
 
 
     ActionEffect(this.importantWords, this.importantNumbers);
+    ActionEffect makeNewOfSameType();
 
-    ActionEffect.fromSerialization(Map<String,dynamic> serialization){
+    static ActionEffect fromSerialization(Map<String,dynamic> serialization){
         //first, figure out what sub type it is
         //then call that ones
+        setExamples();
+        String type = serialization["type"];
+        for(ActionEffect effect in exampleOfAllEffects) {
+            if(effect.type == type) {
+                ActionEffect newEffect =  effect.makeNewOfSameType();
+                newEffect.importantWords = serialization["importantWords"];
+                newEffect.importantNumbers = serialization["importantNumbers"];
+            }
+        }
+        throw "What kind of effect is ${type}";
+
+    }
+
+    static void setExamples() {
+      exampleOfAllEffects ??= <ActionEffect>[new AEUnSetString(null),new AEUnAppendString(null,null),new AESetStringGenerator(null,null),new AESetString(null,null),new AESetNumGenerator(null,null),new AESetNum(null,null),new AESetDollStringFromYourMemory(null),new AESetDollStringFromMyMemory(null),new AECopyStringToTarget(null,null),new AECopyStringFromTarget(null,null),new AECopyNumToTarget(null,null),new AECopyNumFromTarget(null,null),new AEAppendStringFront(null,null),new AEAppendString(null,null),new AEAddNum(null,null), new AEAddNumFromYourMemory(null,null),new AEAddNumFromMyMemory(null,null)];
     }
 
     void effectEntities(Entity effector, List<Entity> entities);
@@ -34,6 +68,7 @@ abstract class ActionEffect {
         ret["importantNumbers"] = importantNumbers;
         return ret;
     }
+
 
     String debugString() {
         return "Effect: ${runtimeType} $importantWords, $importantNumbers , Vriska: $vriska";

@@ -38,11 +38,13 @@ abstract class ActionEffectTests {
 
     //don't test ALL of them, just a few to make sure its general purpose
     static void testSerialization(element) {
-        Scenario scenario = Scenario.testScenario();
-        ActionEffect effect1 = new AESetNum("secretNumber",13);
-        Map<String,dynamic> serialization = effect1.getSerialization();
+        ActionEffect.setExamples();
+        for(ActionEffect effect in ActionEffect.exampleOfAllEffects) {
+            Map<String, dynamic> serialization = effect.getSerialization();
+            ActionEffect effect2 = ActionEffect.fromSerialization(serialization);
+            UnitTests.processTest("${effect.type} can be serialized", effect.getSerialization(), effect2.getSerialization(), element);
+        }
 
-        UnitTests.processTest("AESetNum can be serialized", effect1, effect2, element);
     }
 
 

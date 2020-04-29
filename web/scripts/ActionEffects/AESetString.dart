@@ -9,6 +9,8 @@ class AESetString extends ActionEffect {
   @override
   String explanation = "Provide a word or phrase to store in the targets memory at a specific key.";
   AESetString(String storageKey, String stringToStore) : super(<String,String>{STORAGEKEY:storageKey, STRINGKEY:stringToStore}, {});
+  @override
+  ActionEffect makeNewOfSameType() => new AESetString(null,null);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

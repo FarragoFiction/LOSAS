@@ -10,6 +10,9 @@ class AECopyNumToTarget extends ActionEffect {
   String explanation = "Copies a number from the owner to the target(s).";
 
   AECopyNumToTarget(String myKey, String theirKey) : super(<String,String>{THEIRKEY:theirKey, MYKEY:myKey}, {});
+  @override
+  ActionEffect makeNewOfSameType() => new AECopyNumToTarget(null,null);
+
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

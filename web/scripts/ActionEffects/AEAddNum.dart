@@ -11,6 +11,7 @@ class AEAddNum extends ActionEffect {
 
   AEAddNum(String memoryKey, num addor) : super(<String,String>{MEMORYKEY:memoryKey}, <String,num>{ADDOR:addor});
 
+
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
     for(Entity e in entities) {
@@ -19,5 +20,8 @@ class AEAddNum extends ActionEffect {
       e.setNumMemory(importantWords[MEMORYKEY],oldValue + importantNumbers[ADDOR]);
     }
   }
+
+  @override
+  ActionEffect makeNewOfSameType() => new AEAddNum(null,null);
 
 }

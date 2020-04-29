@@ -10,6 +10,8 @@ class AEAppendStringFront extends ActionEffect {
   String explanation = "Provide a word or phrase to add on to the front of whatever is currently in the target(s) memory at the given key.";
 
   AEAppendStringFront(String memoryKey, String stringToAppend) : super(<String,String>{STORAGEKEY:memoryKey, STRINGKEY:stringToAppend}, {});
+  @override
+  ActionEffect makeNewOfSameType() => new AEAppendStringFront(null,null);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

@@ -8,6 +8,8 @@ class AESetDollStringFromYourMemory extends ActionEffect {
     @override
     String explanation = "Sets the targets current dollstring based on the value of a given memory key belonging to the target.";
     AESetDollStringFromYourMemory(String sharedKey) : super({SHAREDKEY:sharedKey}, {});
+    @override
+    ActionEffect makeNewOfSameType() => new AESetDollStringFromYourMemory(null);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

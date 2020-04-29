@@ -10,6 +10,8 @@ class AESetNum extends ActionEffect {
   String explanation = "Provide a number value to store in the targets memory at a specific key.";
 
   AESetNum(String key,num number) : super({KEY:key}, {NUM:number});
+  @override
+  ActionEffect makeNewOfSameType() => new AESetNum(null,null);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

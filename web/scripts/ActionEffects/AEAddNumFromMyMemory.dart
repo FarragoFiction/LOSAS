@@ -11,6 +11,9 @@ class AEAddNumFromMyMemory extends ActionEffect {
   AEAddNumFromMyMemory(String result, String addor) : super(<String,String>{RESULTNUM:result, ADDOR:addor}, {});
 
   @override
+  ActionEffect makeNewOfSameType() => new AEAddNumFromMyMemory(null,null);
+
+  @override
   void effectEntities(Entity effector, List<Entity> entities) {
     for(Entity e in entities) {
       num oldValue = e.getNumMemory(importantWords[RESULTNUM]);

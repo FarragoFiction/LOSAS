@@ -11,6 +11,8 @@ class AEUnAppendString extends ActionEffect {
 
 
   AEUnAppendString(String storedString,String stringToUnAppend) : super(<String,String>{STOREDSTRING:storedString, STRINGTOAPPEND:stringToUnAppend}, {});
+  @override
+  ActionEffect makeNewOfSameType() => new AEUnAppendString(null,null);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {

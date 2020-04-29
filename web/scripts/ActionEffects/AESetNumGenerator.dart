@@ -11,6 +11,8 @@ class AESetNumGenerator extends ActionEffect {
   String explanation = "Generates a new number for the target for a given key using any generators the target possesses. If they have none, intead sets it to the provided default value.";
 
   AESetNumGenerator(String key, num number) : super({KEY:key}, {NUM:number});
+  @override
+  ActionEffect makeNewOfSameType() => new AESetNumGenerator(null,null);
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
