@@ -44,10 +44,6 @@ abstract class ActionEffectTests {
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scene.applyEffects();
         UnitTests.processTest("testSetNum is 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
-        effect.importantNum = 1.13;
-        scene.applyEffects();
-        UnitTests.processTest("testSetNum is 1.13", 1.13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
-
     }
 
 
@@ -59,10 +55,6 @@ abstract class ActionEffectTests {
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scene.applyEffects();
         UnitTests.processTest("testSetNum is 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
-        effect.importantNum = 1.13;
-        scene.applyEffects();
-        UnitTests.processTest("testSetNum is 1.13", 1.13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
-
     }
 
     static void testAddNum(element) {
@@ -75,15 +67,12 @@ abstract class ActionEffectTests {
         UnitTests.processTest("testAddNum ", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
         scene.applyEffects();
         UnitTests.processTest("testAddNum ", 26, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
-        effect.importantNum = -13;
-        scene.applyEffects();
-        UnitTests.processTest("testAddNum ", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
     }
 
     static void testAddNumFromMemory(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AEAddNumFromYourMemory("secretNumberTotal","secretNumberToAdd",null);
+        ActionEffect effect = new AEAddNumFromYourMemory("secretNumberTotal","secretNumberToAdd");
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scenario.entitiesReadOnly[1].setNumMemory("secretNumberToAdd",13);
@@ -97,7 +86,7 @@ abstract class ActionEffectTests {
     static void testSetString(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks.",null);
+        ActionEffect effect = new AESetString("secretMessage","Carol kind of sucks.");
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scene.applyEffects();
@@ -109,7 +98,7 @@ abstract class ActionEffectTests {
     static void testDollStringFromMemory(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AESetDollStringFromYourMemory("DQ0N",null);
+        ActionEffect effect = new AESetDollStringFromYourMemory("DQ0N");
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         Entity e = scenario.entitiesReadOnly[1];
@@ -127,7 +116,7 @@ abstract class ActionEffectTests {
     static void testUnSetString(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Bob reads", "Bob reads his secret message.","");
-        ActionEffect effect = new AEUnSetString("secretMessage",null);
+        ActionEffect effect = new AEUnSetString("secretMessage");
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scenario.entitiesReadOnly[1].setStringMemory("secretMessage","Carol kind of sucks.");
@@ -142,7 +131,7 @@ abstract class ActionEffectTests {
     static void testAppendString(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AEAppendString("secretMessage","Carol kind of sucks.",null);
+        ActionEffect effect = new AEAppendString("secretMessage","Carol kind of sucks.");
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scene.applyEffects();
@@ -150,7 +139,7 @@ abstract class ActionEffectTests {
         scene.applyEffects();
         UnitTests.processTest("testAppendString text is set twice ", "Carol kind of sucks.Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         Scene scene2 = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect2 = new AEAppendStringFront("secretMessage","Front",null);
+        ActionEffect effect2 = new AEAppendStringFront("secretMessage","Front");
         scene2.effects.add(effect2);
         scene2.targets.add(scenario.entitiesReadOnly[1]);
         scene2.applyEffects();
@@ -162,7 +151,7 @@ abstract class ActionEffectTests {
     static void testUnAppendString(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AEUnAppendString("secretMessage","Carol kind of sucks.",null);
+        ActionEffect effect = new AEUnAppendString("secretMessage","Carol kind of sucks.");
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
         scenario.entitiesReadOnly[1].setStringMemory("secretMessage","Carol kind of sucks.");
@@ -174,7 +163,7 @@ abstract class ActionEffectTests {
     static void testSetStringGenerator(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AESetStringGenerator("testString","Carol kind of sucks.",null);
+        ActionEffect effect = new AESetStringGenerator("testString","Carol kind of sucks.");
         scene.owner = scenario.entitiesReadOnly[1];
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
@@ -232,7 +221,7 @@ abstract class ActionEffectTests {
     static void testCopyStringTo(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage",null);
+        ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage");
         scenario.entitiesReadOnly[0].setStringMemory("secretMessageDraft","Carol kind of sucks.");
         scene.owner = scenario.entitiesReadOnly[0];
         scene.effects.add(effect);
@@ -247,7 +236,7 @@ abstract class ActionEffectTests {
     static void testCopyStringFrom(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyStringFromTarget("secretMessageDraft","secretMessage",null);
+        ActionEffect effect = new AECopyStringFromTarget("secretMessageDraft","secretMessage");
         scenario.entitiesReadOnly[0].setStringMemory("secretMessageDraft","Carol kind of sucks.");
         scene.owner = scenario.entitiesReadOnly[1];
         scene.effects.add(effect);
@@ -262,7 +251,7 @@ abstract class ActionEffectTests {
     static void testCopyNumTo(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyNumToTarget("secretMessageDraft","secretMessage",null);
+        ActionEffect effect = new AECopyNumToTarget("secretMessageDraft","secretMessage");
         scenario.entitiesReadOnly[0].setNumMemory("secretMessageDraft",13);
         scene.owner = scenario.entitiesReadOnly[0];
         scene.effects.add(effect);
@@ -277,7 +266,7 @@ abstract class ActionEffectTests {
     static void testCopyNumFrom(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AECopyNumFromTarget("secretMessageDraft","secretMessage",null);
+        ActionEffect effect = new AECopyNumFromTarget("secretMessageDraft","secretMessage");
         scenario.entitiesReadOnly[0].setNumMemory("secretMessageDraft",13);
         scene.owner = scenario.entitiesReadOnly[1];
         scene.effects.add(effect);
