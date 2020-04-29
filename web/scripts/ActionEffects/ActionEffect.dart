@@ -49,6 +49,7 @@ abstract class ActionEffect {
                 ActionEffect newEffect =  effect.makeNewOfSameType();
                 newEffect.importantWords = serialization["importantWords"];
                 newEffect.importantNumbers = serialization["importantNumbers"];
+                return newEffect;
             }
         }
         throw "What kind of effect is ${type}";
