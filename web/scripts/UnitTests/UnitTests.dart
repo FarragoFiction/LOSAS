@@ -112,8 +112,8 @@ abstract class UnitTests {
         Entity deacon = new Entity("The Deacon of Madness", "DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=")..isActive = true;
         scenario.addEntity(deacon);
         final Scene bedeacon = new Scene("Be Deacon", "[OWNER.STRINGMEMORY.name] has decided that [TARGET.STRINGMEMORY.name] shall be DQ0N as well.","[TARGET.STRINGMEMORY.name] is now DQ0N.")..targetOne=true;
-        ActionEffect effect = new AESetDollStringFromMyMemory(Entity.CURRENTDOLLKEY,null);
-        ActionEffect effect2 = new AEAppendStringFront(Entity.NAMEKEY,"DQ0N",null);
+        ActionEffect effect = new AESetDollStringFromMyMemory(Entity.CURRENTDOLLKEY);
+        ActionEffect effect2 = new AEAppendStringFront(Entity.NAMEKEY,"DQ0N");
         TargetFilter filter = new KeepIfRandomNumberLessThan(null, 0.5);
         bedeacon.bgLocationEnd = "LOSASHectua.png";
         bedeacon.effects.add(effect);
@@ -126,7 +126,7 @@ abstract class UnitTests {
       Entity dj = (new Entity("DJ Cotton Ball","DJ+Cottonball%3A___FhL_AAD8_Pzy8vL_AAD_AQCtAAEAAAAAAAD_AAAAAAAAAAAxMTPTAACuAAAAAAAxMTNJSUk0kxs%3D")..facingRightByDefault=true..isActive=true);
       scenario.addEntity(dj);
       final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this [OWNER.STRINGMEMORY.species] the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
-      ActionEffect effect = new AEAppendStringFront("name","Bastard ",null)..vriska=true;
+      ActionEffect effect = new AEAppendStringFront("name","Bastard ")..vriska=true;
       atEveryone.targetFilters.add(new KeepIfYouAreMe(null,null)..not=true);
       atEveryone.bgLocationEnd = "LOSASZhozah.png";
       atEveryone.effects.add(effect);
@@ -150,8 +150,8 @@ abstract class UnitTests {
 
       TargetFilter filter5 = new KeepIfStringExists("secretMessage",null);
       TargetFilter filter6 = new KeepIfYouAreMe(null,null);
-      ActionEffect effect = new AEUnSetString("secretMessage",null)..vriska=true;
-      ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears",null)..vriska=true;
+      ActionEffect effect = new AEUnSetString("secretMessage")..vriska=true;
+      ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears")..vriska=true;
       ActionEffect effect3 = new AESetNumGenerator("randomNumber",113)..vriska=true;
       scene3.bgLocationEnd = "AlternianHives.png";
 
@@ -167,7 +167,7 @@ abstract class UnitTests {
     static void setupEveEvesdrops(Scenario scenario) {
       Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"[OWNER.STRINGMEMORY.reaction]. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
       ActionEffect effect1 = new AEAddNum("scandalRating",1)..vriska=true;
-      ActionEffect effect2 = new AESetStringGenerator("reaction","She is scandalized times a million",null)..vriska=true;
+      ActionEffect effect2 = new AESetStringGenerator("reaction","She is scandalized times a million")..vriska=true;
 
       TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
       TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
@@ -184,12 +184,12 @@ abstract class UnitTests {
         TargetFilter carolFilter = new KeepIfNumIsGreaterThanValue("scandalRating",1);
         carolActivates.targetFilters.add(carolFilter);
         ActionEffect effect = new AESetNumGenerator("randomNumber",3)..vriska=true;
-        ActionEffect rememberScandalRating = new AECopyNumFromTarget("scandalRating","scandalMemory",0);
-        ActionEffect rememberScandalRating2 = new AECopyNumFromTarget("scandalRating","scandalMemory",0);
+        ActionEffect rememberScandalRating = new AECopyNumFromTarget("scandalRating","scandalMemory");
+        ActionEffect rememberScandalRating2 = new AECopyNumFromTarget("scandalRating","scandalMemory");
         carolActivates.effects.add(rememberScandalRating2);
         carolActivates.bgLocationEnd = "AlternianBeachHivestem.png";
 
-        ActionEffect aggregate = new AEAddNumFromYourMemory("fumeRating","randomNumber",null)..vriska=true;
+        ActionEffect aggregate = new AEAddNumFromYourMemory("fumeRating","randomNumber")..vriska=true;
 
         //TODO add a random element to this
         final Scene carolFumes = new Scene("Carol fumes","[TARGET.STRINGMEMORY.name] spreads even more juicy gossip to Carol.","Carol fumes [OWNER.NUMMEMORY.randomNumber] points, but out of how many? Her fume rating is [OWNER.NUMMEMORY.fumeRating], and she knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");
@@ -211,8 +211,8 @@ abstract class UnitTests {
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
        Scene scene = new Scene("Alice Sends", "Alice, having sent [OWNER.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [OWNER.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
-       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.",null)..vriska=true;
-       ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage",null);
+       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.")..vriska=true;
+       ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage");
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
       TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
