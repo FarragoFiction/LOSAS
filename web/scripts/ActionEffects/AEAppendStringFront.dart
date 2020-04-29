@@ -12,7 +12,7 @@ class AEAppendStringFront extends ActionEffect {
     for(final Entity e in entities) {
       String oldValue = e.getStringMemory(importantWords[STORAGEKEY]);
       oldValue ??="";
-      e.setStringMemory(importantWords[STORAGEKEY],"${importantWords[STRINGKEY]}}$oldValue");
+      e.setStringMemory(importantWords[STORAGEKEY],"${importantWords[STRINGKEY]}$oldValue");
     }
   }
 
