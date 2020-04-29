@@ -11,7 +11,7 @@ class AEAddNum extends ActionEffect {
     for(Entity e in entities) {
       num oldValue = e.getNumMemory(importantWords[MEMORYKEY]);
       oldValue ??=0;
-      e.setNumMemory(MEMORYKEY,oldValue + importantNumbers[ADDOR]);
+      e.setNumMemory(importantWords[MEMORYKEY],oldValue + importantNumbers[ADDOR]);
     }
   }
 
