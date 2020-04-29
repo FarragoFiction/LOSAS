@@ -4,6 +4,10 @@ import 'ActionEffect.dart';
 class AEAddNumFromMyMemory extends ActionEffect {
   static const String RESULTNUM = "yourMemoryKeyForFirstAddorAndStorage";
   static const String ADDOR = "myMemoryKeyToAdd";
+  @override
+  String type ="AddMyNumToTargetNum";
+  String explanation = "Grab a number from the owners memory to add to a stored value in the targets memory and store it in the target.";
+
   AEAddNumFromMyMemory(String result, String addor) : super(<String,String>{RESULTNUM:result, ADDOR:addor}, {});
 
   @override

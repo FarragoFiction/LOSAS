@@ -36,14 +36,13 @@ abstract class ActionEffectTests {
 
     }
 
+    //don't test ALL of them, just a few to make sure its general purpose
     static void testSerialization(element) {
         Scenario scenario = Scenario.testScenario();
-        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        ActionEffect effect = new AESetNum("secretNumber",13);
-        scene.effects.add(effect);
-        scene.targets.add(scenario.entitiesReadOnly[1]);
-        scene.applyEffects();
-        UnitTests.processTest("testSetNum is 13", 13, scenario.entitiesReadOnly[1].getNumMemory("secretNumber"), element);
+        ActionEffect effect1 = new AESetNum("secretNumber",13);
+        Map<String,dynamic> serialization = effect1.getSerialization();
+
+        UnitTests.processTest("AESetNum can be serialized", effect1, effect2, element);
     }
 
 

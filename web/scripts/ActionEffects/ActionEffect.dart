@@ -13,11 +13,17 @@ abstract class ActionEffect {
     bool vriska = false;
     //each subclass MUST implement this
     String type;
+    String explanation;
     Map<String,String> importantWords = new Map<String,String>();
     Map<String, num> importantNumbers = new Map<String,num>();
 
 
     ActionEffect(this.importantWords, this.importantNumbers);
+
+    ActionEffect.fromSerialization(Map<String,dynamic> serialization){
+        //first, figure out what sub type it is
+        //then call that ones
+    }
 
     void effectEntities(Entity effector, List<Entity> entities);
 

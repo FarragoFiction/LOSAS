@@ -5,6 +5,10 @@ class AEAppendString extends ActionEffect {
   static const String STORAGEKEY = "storageKey";
   static const String STRINGKEY = "stringToAppend";
   AEAppendString(String storageKey, String stringToAppend) : super(<String,String>{STORAGEKEY:storageKey, STRINGKEY:stringToAppend}, {});
+  @override
+  String type ="AppendStringToKey";
+  @override
+  String explanation = "Provide a word or phrase to add on to whatever is currently in the targets memory at the given key.";
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
