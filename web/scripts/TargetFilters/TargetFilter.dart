@@ -13,6 +13,9 @@ abstract class TargetFilter {
     bool conditionForKeep(Entity actor, Entity possibleTarget);
     String importantWord;
     num importantNum;
+    //each subclass MUST implement this
+    String type;
+    String explanation;
 
     TargetFilter(this.importantWord, this.importantNum);
 
