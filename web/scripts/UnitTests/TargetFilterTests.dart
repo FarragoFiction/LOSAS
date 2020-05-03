@@ -103,7 +103,7 @@ abstract class TargetFilterTests {
     static void testTFNumIsGreaterThanValueFromMemory(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfNumIsGreaterThanValueFromMemory("secretNumberMemory","secretNumber");
+        TargetFilter filter = new KeepIfNumIsGreaterThanValueFromMemory("secretNumber","secretNumberMemory");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
