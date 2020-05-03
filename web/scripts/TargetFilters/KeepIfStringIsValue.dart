@@ -3,18 +3,18 @@ import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfStringIsValue extends TargetFilter {
+  static String MEMORYKEY = "memorykey";
+  static String INPUTVALUE = "inputvalue";
+
   @override
   String type ="KeepIfStringExists";
   @override
   String explanation = "If the target has a word or phrase stored to a given key (regardless of what the word or phrase is).";
 
-
-  String value;
-
-  KeepIfStringIsValue(String importantWord, this.value, num importantNum) : super(importantWord, importantNum);
+  KeepIfStringIsValue(String memoryKey, String inputValue) : super(<String,String>{MEMORYKEY:memoryKey, INPUTVALUE: inputValue}, <String,num>{});
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    return possibleTarget.getStringMemory(importantWord) == value;
+    return possibleTarget.getStringMemory(importantWords[MEMORYKEY]) == importantWords[INPUTVALUE];
   }
 
 }

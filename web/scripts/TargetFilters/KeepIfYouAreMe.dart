@@ -10,7 +10,7 @@ class KeepIfYouAreMe extends TargetFilter {
 
 
   //name cannot be forgotten or changed. we can copy it to the memory store sure, but this is a True Name kind of deal.
-  KeepIfYouAreMe(String importantWord, num importantNum) : super(importantWord, importantNum);
+  KeepIfYouAreMe() : super({}, {});
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
     return possibleTarget== actor;

@@ -20,7 +20,7 @@ abstract class TargetFilter {
     TargetFilter(this.importantWords, this.importantNumbers);
 
     String debugString() {
-        return "Filter: ${runtimeType} $importantWord, $importantNum, Vriska: $vriska Not: $not";
+        return "Filter: ${runtimeType} $importantWords, $importantNumbers, Vriska: $vriska Not: $not";
     }
 
 
