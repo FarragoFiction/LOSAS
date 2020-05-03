@@ -35,7 +35,7 @@ abstract class TargetFilterTests {
     static void testTFNumExists(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfNumExists("secretNumber",null);
+        TargetFilter filter = new KeepIfNumExists("secretNumber");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -74,7 +74,7 @@ abstract class TargetFilterTests {
         UnitTests.processTest("testTFNumIsGreaterThanValue Test2", true, result, element);
         UnitTests.processTest("testTFNumIsGreaterThanValue 1 targets", "{Bob}", scene.targets.toString(), element);
 
-        filter.importantNum = 113;
+        filter.importantNumbers[KeepIfNumIsGreaterThanValue.INPUTVALUE] = 113;
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testTFNumIsGreaterThanValue Test3", false, result, element);
         UnitTests.processTest("testTFNumIsGreaterThanValue 0 targets2", "{}", scene.targets.toString(), element);
@@ -84,17 +84,17 @@ abstract class TargetFilterTests {
     static void testIfRandomNumberLessThan(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfRandomNumberLessThan(null,0);
+        TargetFilter filter = new KeepIfRandomNumberLessThan(0);
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testIfRandomNumberLessThan nothing is less than 0", false, result, element);
 
-        filter.importantNum = 1;
+        filter.importantNumbers[KeepIfRandomNumberLessThan.INPUTVALUE] = 1;
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testIfRandomNumberLessThan everything is less than 1", true, result, element);
 
-        filter.importantNum = 0.5;
+        filter.importantNumbers[KeepIfRandomNumberLessThan.INPUTVALUE] = 0.5;
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testIfRandomNumberLessThan this is actually random", true, result, element);
     }
@@ -103,7 +103,7 @@ abstract class TargetFilterTests {
     static void testTFNumIsGreaterThanValueFromMemory(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfNumIsGreaterThanValueFromMemory("secretNumber","secretNumberMemory",null);
+        TargetFilter filter = new KeepIfNumIsGreaterThanValueFromMemory("secretNumberMemory","secretNumber");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -156,7 +156,7 @@ abstract class TargetFilterTests {
     static void testTFStringExists(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfStringExists("secretMessage",null);
+        TargetFilter filter = new KeepIfStringExists("secretMessage");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -174,7 +174,7 @@ abstract class TargetFilterTests {
     static void testTFStringIsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfStringIsValue("secretMessage","Carol kind of sucks.",null);
+        TargetFilter filter = new KeepIfStringIsValue("secretMessage","Carol kind of sucks.");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -197,7 +197,7 @@ abstract class TargetFilterTests {
     static void testTFNameIsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfNameIsValue("Bob",null);
+        TargetFilter filter = new KeepIfNameIsValue("Bob");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -209,7 +209,7 @@ abstract class TargetFilterTests {
     static void testTFYouAreNotMe(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfYouAreMe(null,null);
+        TargetFilter filter = new KeepIfYouAreMe();
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -229,8 +229,8 @@ abstract class TargetFilterTests {
     static void testTFNameIsValueAndStringDoesntExist(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
-        TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
+        TargetFilter filter = new KeepIfStringExists("secretMessage")..not=true;
+        TargetFilter filter2 = new KeepIfNameIsValue("Bob");
         scene.targetFilters = [filter2, filter];
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
@@ -248,7 +248,7 @@ abstract class TargetFilterTests {
     static void testTFStringContainsValue(Element element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfStringContainsValue("secretMessage","carol",null);
+        TargetFilter filter = new KeepIfStringContainsValue("secretMessage","carol");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);

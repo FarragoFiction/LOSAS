@@ -114,7 +114,7 @@ abstract class UnitTests {
         final Scene bedeacon = new Scene("Be Deacon", "[OWNER.STRINGMEMORY.name] has decided that [TARGET.STRINGMEMORY.name] shall be DQ0N as well.","[TARGET.STRINGMEMORY.name] is now DQ0N.")..targetOne=true;
         ActionEffect effect = new AESetDollStringFromMyMemory(Entity.CURRENTDOLLKEY);
         ActionEffect effect2 = new AEAppendStringFront(Entity.NAMEKEY,"DQ0N");
-        TargetFilter filter = new KeepIfRandomNumberLessThan(null, 0.5);
+        TargetFilter filter = new KeepIfRandomNumberLessThan(0.5);
         bedeacon.bgLocationEnd = "LOSASHectua.png";
         bedeacon.effects.add(effect);
         bedeacon.effects.add(effect2);
@@ -127,7 +127,7 @@ abstract class UnitTests {
       scenario.addEntity(dj);
       final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this [OWNER.STRINGMEMORY.species] the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
       ActionEffect effect = new AEAppendStringFront("name","Bastard ")..vriska=true;
-      atEveryone.targetFilters.add(new KeepIfYouAreMe(null,null)..not=true);
+      atEveryone.targetFilters.add(new KeepIfYouAreMe()..not=true);
       atEveryone.bgLocationEnd = "LOSASZhozah.png";
       atEveryone.effects.add(effect);
       dj.addScene(atEveryone);
@@ -148,8 +148,8 @@ abstract class UnitTests {
     static void bobReceivesMessage(Scenario scenario) {
       Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[OWNER.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], thinks about the number [OWNER.NUMMEMORY.randomNumber], then clears his messages out.")..targetOne=true;
 
-      TargetFilter filter5 = new KeepIfStringExists("secretMessage",null);
-      TargetFilter filter6 = new KeepIfYouAreMe(null,null);
+      TargetFilter filter5 = new KeepIfStringExists("secretMessage");
+      TargetFilter filter6 = new KeepIfYouAreMe();
       ActionEffect effect = new AEUnSetString("secretMessage")..vriska=true;
       ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears")..vriska=true;
       ActionEffect effect3 = new AESetNumGenerator("randomNumber",113)..vriska=true;
@@ -169,8 +169,8 @@ abstract class UnitTests {
       ActionEffect effect1 = new AEAddNum("scandalRating",1)..vriska=true;
       ActionEffect effect2 = new AESetStringGenerator("reaction","She is scandalized times a million")..vriska=true;
 
-      TargetFilter filter3 = new KeepIfStringExists("secretMessage",null);
-      TargetFilter filter4 = new KeepIfNameIsValue("Bob",null);
+      TargetFilter filter3 = new KeepIfStringExists("secretMessage");
+      TargetFilter filter4 = new KeepIfNameIsValue("Bob");
       scene2.targetFilters = [filter3, filter4];
       scene2.effects.add(effect1);
       scene2.bgLocationEnd = "AlterniaAuroraBorealisAlternia.png";
@@ -196,8 +196,8 @@ abstract class UnitTests {
         carolFumes.bgLocationEnd = "AlterniaTurtleAlternia.png";
 
         //eve needs to have new gossip for carol to react ot it.
-        TargetFilter filter3 = new KeepIfNumExists("scandalRating",null);
-        TargetFilter filter2 = new KeepIfNumIsGreaterThanValueFromMemory("scandalRating","scandalMemory",null);
+        TargetFilter filter3 = new KeepIfNumExists("scandalRating");
+        TargetFilter filter2 = new KeepIfNumIsGreaterThanValueFromMemory("scandalRating","scandalMemory");
         carolFumes.targetFilters.add(filter3);
         carolFumes.targetFilters.add(filter2);
         carol.addActivationScene(carolActivates);
@@ -214,8 +214,8 @@ abstract class UnitTests {
        ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.")..vriska=true;
        ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage");
       ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
-       TargetFilter filter = new KeepIfStringExists("secretMessage",null)..not=true;
-      TargetFilter filter2 = new KeepIfNameIsValue("Bob",null);
+       TargetFilter filter = new KeepIfStringExists("secretMessage")..not=true;
+      TargetFilter filter2 = new KeepIfNameIsValue("Bob");
        scene.bgLocationEnd = "AlternianFoggyAlternianForest.png";
        scene.effects.add(prerequisiteEffect);
        scene.effects.add(effect);
