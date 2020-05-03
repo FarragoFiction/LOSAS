@@ -3,6 +3,12 @@ import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfNumIsValue extends TargetFilter {
+  @override
+  String type ="KeepIfNumIsValue";
+  @override
+  String explanation = "If the target has a number stored to a given key, and its equal to a supplied value";
+
+
   num value;
 
   KeepIfNumIsValue(String importantWord, num importantNum) : super(importantWord, importantNum);

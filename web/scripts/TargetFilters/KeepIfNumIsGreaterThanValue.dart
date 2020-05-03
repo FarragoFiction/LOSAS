@@ -6,7 +6,7 @@ class KeepIfNumIsGreaterThanValue extends TargetFilter {
   @override
   String type ="KeepIfNumIsGreaterThanValue";
   @override
-  String explanation = "If the target has a number stored to a given key, and its bigger than a value";
+  String explanation = "If the target has a number stored to a given key, and its bigger than a supplied value";
   KeepIfNumIsGreaterThanValue(String importantWord, num importantNum) : super(importantWord, importantNum);
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
