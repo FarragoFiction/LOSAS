@@ -3,18 +3,20 @@ import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfNumIsGreaterThanValueFromMemory extends TargetFilter {
-String memoryKey;
+static String MEMORYKEYLEFT="memoryKeyLeft";
+static String MEMORYKEYRIGHT="memorykeyRight";
+
 String type ="KeepIfNumIsGreaterThanValueFromMemory";
 @override
-String explanation = "If the target has a number stored to a given key, and its bigger than a value stored in a different key";
-  KeepIfNumIsGreaterThanValueFromMemory(String importantWord,String this.memoryKey, num importantNum) : super(importantWord, importantNum);
+String explanation = "If the target has a number stored to a given key (left), and its bigger than a value stored in a different key (right)";
+  KeepIfNumIsGreaterThanValueFromMemory(String memoryKeyLeft, String memoryKeyRight) : super(<String,String>{MEMORYKEYLEFT:memoryKeyLeft, MEMORYKEYRIGHT: memoryKeyRight}, <String,num>{});
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    num currentValue = possibleTarget.getNumMemory(importantWord);
-    num otherValue = possibleTarget.getNumMemory(memoryKey);
-    otherValue ??=0;
-    currentValue ??=0;
-    return currentValue > otherValue;
+    num left = possibleTarget.getNumMemory(importantWords[MEMORYKEYLEFT]);
+    num right = possibleTarget.getNumMemory(importantWords[MEMORYKEYRIGHT]);
+    left ??=0;
+    right ??=0;
+    return left > right;
   }
 
 }
