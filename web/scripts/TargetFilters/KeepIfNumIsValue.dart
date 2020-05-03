@@ -3,23 +3,23 @@ import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfNumIsValue extends TargetFilter {
+  static String MEMORYKEY = "memorykey";
+  static String INPUTVALUE = "inputvalue";
   @override
   String type ="KeepIfNumIsValue";
   @override
   String explanation = "If the target has a number stored to a given key, and its equal to a supplied value";
 
 
-  num value;
 
-  KeepIfNumIsValue(String importantWord, num importantNum) : super(importantWord, importantNum);
+  KeepIfNumIsValue(String memoryKey, num inputValue) : super(<String,String>{MEMORYKEY:memoryKey}, <String,num>{INPUTVALUE: inputValue});
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    num currentValue = possibleTarget.getNumMemory(importantWord);
+    num currentValue = possibleTarget.getNumMemory(importantWords[MEMORYKEY]);
     if(currentValue == null) {
-        print("Warning: Are you SURE you want to ask for $importantWord? It's not set for $possibleTarget...");
         return false;
     }
-    return currentValue == importantNum;
+    return currentValue == importantNumbers[INPUTVALUE];
   }
 
 }
