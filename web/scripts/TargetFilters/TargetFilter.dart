@@ -11,13 +11,13 @@ abstract class TargetFilter {
     //should I apply my condition to myself, rather than my targets? (i.e. if I meet the condition I allow all targets to pass through to the next condition).
     bool vriska = false;
     bool conditionForKeep(Entity actor, Entity possibleTarget);
-    String importantWord;
-    num importantNum;
+    Map<String,String> importantWords = new Map<String,String>();
+    Map<String, num> importantNumbers = new Map<String,num>();
     //each subclass MUST implement this
     String type;
     String explanation;
 
-    TargetFilter(this.importantWord, this.importantNum);
+    TargetFilter(this.importantWords, this.importantNumbers);
 
     String debugString() {
         return "Filter: ${runtimeType} $importantWord, $importantNum, Vriska: $vriska Not: $not";
