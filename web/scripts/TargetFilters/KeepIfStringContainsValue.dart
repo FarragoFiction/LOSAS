@@ -3,6 +3,8 @@ import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfStringContainsValue extends TargetFilter {
+  static String MEMORYKEY = "memorykey";
+  static String INPUTVALUE = "inputvalue";
 
   @override
   String type ="KeepIfStringContainsValue";
@@ -11,12 +13,12 @@ class KeepIfStringContainsValue extends TargetFilter {
 
   String value;
 
-  KeepIfStringContainsValue(String importantWord, this.value, num importantNum) : super(importantWord, importantNum);
+  KeepIfStringContainsValue(String memoryKey, String inputValue) : super(<String,String>{MEMORYKEY:memoryKey, INPUTVALUE: inputValue}, <String,num>{});
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    String currentValue = possibleTarget.getStringMemory(importantWord);
+    String currentValue = possibleTarget.getStringMemory(importantWords[MEMORYKEY]);
     if(currentValue == null) return false;
-    return currentValue.toLowerCase().contains(value.toLowerCase());
+    return currentValue.toLowerCase().contains(importantWords[INPUTVALUE].toLowerCase());
   }
 
 }
