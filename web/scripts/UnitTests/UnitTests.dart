@@ -17,6 +17,7 @@ import '../ActionEffects/AEUnAppendString.dart';
 import '../ActionEffects/AEUnSetString.dart';
 export '../ActionEffects/ActionEffect.dart';
 import '../ActionEffects/ActionEffect.dart';
+import '../DataStringHelper.dart';
 import '../Entity.dart';
 import '../Generator.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
@@ -105,6 +106,12 @@ abstract class UnitTests {
 
         djcottonball(scenario);
         theDeacon(scenario);
+        print("JR get ready to slurp:");
+        for(Entity e in scenario.entitiesReadOnly) {
+            List<String> ret= e.readOnlyScenes.map((Scene s ) => DataStringHelper.serializationToDataString(s.name,s.getSerialization()));
+            print("Name: ${e.name} has ${e.readOnlyScenes.length} scenes.");
+            print(ret.join(","));
+        }
         scenario.curtainsUp(querySelector("#output"));
     }
 

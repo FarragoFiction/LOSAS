@@ -21,7 +21,10 @@ abstract class IntegrationTests {
         UnitTests.processTest("Alice should not know if Bob got the message.", null, scenario.entitiesReadOnly[0].getStringMemory("secretMessage"), element);
 
         Scene scene = scenario.entitiesReadOnly.first.readOnlyScenes.first;
-        UnitTests.processTest("Scene can be serialized to and from datastring",DataStringHelper.serializationToDataString("Test",scene.getSerialization()), DataStringHelper.serializationToDataString("Test",scene.getSerialization()), element);
+        Scene scene2 = Scene.fromSerialization(DataStringHelper.serializationFromDataString(DataStringHelper.serializationToDataString("TestScene",scene.getSerialization())));
+
+        UnitTests.processTest("Scene can be serialized to and from datastring",DataStringHelper.serializationToDataString("TestScene",scene.getSerialization()), DataStringHelper.serializationToDataString("TestScene",scene2.getSerialization()), element);
+
 
     }
 }

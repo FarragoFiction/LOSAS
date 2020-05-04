@@ -40,23 +40,12 @@ abstract class ActionEffectTests {
     //don't test ALL of them, just a few to make sure its general purpose
     static void testSerialization(element) {
         ActionEffect.setExamples();
-        //dumbTest(element);
         //do one specific example.
         final ActionEffect effect = new AESetNum("secretNumber",13);
         Map<String, dynamic> serialization = effect.getSerialization();
         final ActionEffect effect2 = ActionEffect.fromSerialization(serialization);
-        UnitTests.processTest("${effect.type} can be serialized to and from datastring",DataStringHelper.serializationToDataString("Test",effect.getSerialization()), DataStringHelper.serializationToDataString("Test",effect2.getSerialization()), element);
+        UnitTests.processTest("${effect.type} can be serialized to and from datastring",DataStringHelper.serializationToDataString("TestEffect",effect.getSerialization()), DataStringHelper.serializationToDataString("TestEffect",effect2.getSerialization()), element);
 
-    }
-
-    static void dumbTest(element) {
-      for(ActionEffect effect in ActionEffect.exampleOfAllEffects) {
-          Map<String, dynamic> serialization = effect.getSerialization();
-          ActionEffect effect2 = ActionEffect.fromSerialization(serialization);
-          UnitTests.processTest("${effect.type} can be serialized keys", effect.getSerialization().keys, effect2.getSerialization().keys, element);
-          UnitTests.processTest("${effect.type} can be serialized values", effect.getSerialization().values, effect2.getSerialization().values, element);
-
-      }
     }
 
 

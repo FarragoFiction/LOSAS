@@ -31,7 +31,7 @@ abstract class TargetFilterTests {
         final TargetFilter filter = new KeepIfNumIsValue("secretNumber",13);
         Map<String, dynamic> serialization = filter.getSerialization();
         final TargetFilter filter2 = TargetFilter.fromSerialization(serialization);
-        UnitTests.processTest("${filter.type} can be serialized to and from datastring",DataStringHelper.serializationToDataString("Test",filter.getSerialization()), DataStringHelper.serializationToDataString("Test",filter2.getSerialization()), element);
+        UnitTests.processTest("${filter.type} can be serialized to and from datastring",DataStringHelper.serializationToDataString("TestFilter",filter.getSerialization()), DataStringHelper.serializationToDataString("TestFilter",filter2.getSerialization()), element);
 
     }
 

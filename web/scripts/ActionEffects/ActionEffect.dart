@@ -48,8 +48,8 @@ abstract class ActionEffect {
         for(ActionEffect effect in exampleOfAllEffects) {
             if(effect.type == type) {
                 ActionEffect newEffect =  effect.makeNewOfSameType();
-                newEffect.importantWords = serialization["importantWords"];
-                newEffect.importantNumbers = serialization["importantNumbers"];
+                newEffect.importantWords = new Map<String,String>.from(serialization["importantWords"]);
+                newEffect.importantNumbers = new Map<String,num>.from(serialization["importantNumbers"]);
                 newEffect.vriska = serialization["vriska"];
                 return newEffect;
             }

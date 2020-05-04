@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../Entity.dart';
 import '../Scene.dart';
 import 'KeepIfNameIsValue.dart';
@@ -48,15 +50,17 @@ abstract class TargetFilter {
     static TargetFilter fromSerialization(Map<String,dynamic> serialization){
         //first, figure out what sub type it is
         //then call that ones
+        print("serialization for a target filter is $serialization");
         setExamples();
         String type = serialization["type"];
         for(TargetFilter filter in exampleOfAllFilters) {
             if(filter.type == type) {
                 TargetFilter newFilter =  filter.makeNewOfSameType();
-                newFilter.importantWords = serialization["importantWords"];
-                newFilter.importantNumbers = serialization["importantNumbers"];
+                newFilter.importantWords = new Map<String,String>.from(serialization["importantWords"]);
+                newFilter.importantNumbers = new Map<String,num>.from(serialization["importantNumbers"]);
                 newFilter.vriska = serialization["vriska"];
                 newFilter.not = serialization["not"];
+                print("about to return serialization");
                 return newFilter;
             }
         }

@@ -8,6 +8,7 @@ abstract class DataStringHelper {
     static String labelPattern = ":___ ";
 
     static String serializationToDataString(String label, Map<String,dynamic> serialization) {
+        print("attempting to serialize $label that is $serialization");
         //first turn serialization into json
         String json = jsonEncode(serialization);
         try {

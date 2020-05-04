@@ -50,8 +50,10 @@ class Scene {
         author = serialization["author"];
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];
+        bgLocationEnd = serialization["bgLocationEnd"];
         afterFlavorText = serialization["afterFlavorText"];
         name = serialization["name"];
+        print("target filters is ${serialization["targetFilters"]}");
         targetFilters = (serialization["targetFilters"] as List).map((subserialization) => TargetFilter.fromSerialization(subserialization));
         effects = (serialization["effects"] as List).map((subserialization) => ActionEffect.fromSerialization(subserialization));
     }
@@ -61,12 +63,13 @@ class Scene {
         ret["author"] = author;
         //TODO see how paldemic handles serializing images
         ret["bg"] = "TODO";
+        ret["bgLocationEnd"] = bgLocationEnd;
         ret["targetOne"] = targetOne;
         ret["beforeFlavorText"] = beforeFlavorText;
         ret["afterFlavorText"] = afterFlavorText;
         ret["name"] = name;
-        ret["targetFilters"] = targetFilters.map((TargetFilter filter) => filter.getSerialization());
-        ret["effects"] = effects.map((ActionEffect effect) => effect.getSerialization());
+        ret["targetFilters"] = targetFilters.map((TargetFilter filter) => filter.getSerialization()).toList();
+        ret["effects"] = effects.map((ActionEffect effect) => effect.getSerialization()).toList();
         return ret;
     }
     String debugString() {
