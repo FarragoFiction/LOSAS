@@ -5,7 +5,7 @@ class AECopyStringToTarget extends ActionEffect {
     static const String THEIRKEY = "theirStringKey";
     static const String MYKEY = "myStorageKey";
     @override
-    String type ="CopyNumToTarget";
+    String type ="CopyStringToTarget";
     @override
     String explanation = "Copies a number from the owner to the target(s).";
     AECopyStringToTarget(String myKey, String theirKey) : super({THEIRKEY:theirKey, MYKEY:myKey}, {});
