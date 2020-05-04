@@ -46,7 +46,29 @@ class Scene {
 
     Scene(this.name, this.beforeFlavorText, this.afterFlavorText);
 
+    Scene.fromSerialization(Map<String,dynamic> serialization) {
+        author = serialization["author"];
+        targetOne = serialization["targetOne"];
+        beforeFlavorText = serialization["beforeFlavorText"];
+        afterFlavorText = serialization["afterFlavorText"];
+        name = serialization["name"];
+        targetFilters = (serialization["targetFilters"] as List).map((subserialization) => TargetFilter.fromSerialization(subserialization));
+        effects = (serialization["effects"] as List).map((subserialization) => ActionEffect.fromSerialization(subserialization));
+    }
 
+    Map<String,dynamic> getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["author"] = author;
+        //TODO see how paldemic handles serializing images
+        ret["bg"] = "TODO";
+        ret["targetOne"] = targetOne;
+        ret["beforeFlavorText"] = beforeFlavorText;
+        ret["afterFlavorText"] = afterFlavorText;
+        ret["name"] = name;
+        ret["targetFilters"] = targetFilters.map((TargetFilter filter) => filter.getSerialization());
+        ret["effects"] = effects.map((ActionEffect effect) => effect.getSerialization());
+        return ret;
+    }
     String debugString() {
         return "Scene $name TargetOne: $targetOne Filters: ${targetFilters.map((TargetFilter f) => f.debugString())}, Effects ${effects.map((ActionEffect f) => f.debugString())}";
     }
