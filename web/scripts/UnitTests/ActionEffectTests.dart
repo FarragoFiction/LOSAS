@@ -12,6 +12,7 @@ import '../ActionEffects/AESetDollStringFromMyMemory.dart';
 import '../ActionEffects/AESetDollStringFromYourMemory.dart';
 import '../ActionEffects/AESetNumGenerator.dart';
 import '../ActionEffects/AESetStringGenerator.dart';
+import '../DataStringHelper.dart';
 import 'UnitTests.dart';
 
 abstract class ActionEffectTests {
@@ -44,8 +45,7 @@ abstract class ActionEffectTests {
         final ActionEffect effect = new AESetNum("secretNumber",13);
         Map<String, dynamic> serialization = effect.getSerialization();
         final ActionEffect effect2 = ActionEffect.fromSerialization(serialization);
-        UnitTests.processTest("${effect.type} can be serialized even with data", 13, effect2.importantNumbers[AESetNum.NUM], element);
-        UnitTests.processTest("${effect.type} can be serialized even with data debug", "secretNumber", effect2.importantWords[AESetNum.KEY], element);
+        UnitTests.processTest("${effect.type} can be serialized to and from datastring",DataStringHelper.serializationToDataString("Test",effect.getSerialization()), DataStringHelper.serializationToDataString("Test",effect2.getSerialization()), element);
 
     }
 

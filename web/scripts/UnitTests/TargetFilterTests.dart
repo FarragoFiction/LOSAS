@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import '../DataStringHelper.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
 import '../TargetFilters/KeepIfRandomNumberLessThan.dart';
 import '../TargetFilters/KeepIfYouAreMe.dart';
@@ -30,8 +31,7 @@ abstract class TargetFilterTests {
         final TargetFilter filter = new KeepIfNumIsValue("secretNumber",13);
         Map<String, dynamic> serialization = filter.getSerialization();
         final TargetFilter filter2 = TargetFilter.fromSerialization(serialization);
-        UnitTests.processTest("${filter.type} can be serialized even with value", 13, filter2.importantNumbers[KeepIfNumIsValue.INPUTVALUE], element);
-        UnitTests.processTest("${filter.type} can be serialized even with data key", "secretNumber", filter2.importantWords[KeepIfNumIsValue.MEMORYKEY], element);
+        UnitTests.processTest("${filter.type} can be serialized to and from datastring",DataStringHelper.serializationToDataString("Test",filter.getSerialization()), DataStringHelper.serializationToDataString("Test",filter2.getSerialization()), element);
 
     }
 
