@@ -33,6 +33,7 @@ abstract class ActionEffect {
     String explanation;
     Map<String,String> importantWords = new Map<String,String>();
     Map<String, num> importantNumbers = new Map<String,num>();
+    //useful for generating forms and serialization
     static List<ActionEffect> exampleOfAllEffects;
 
 
@@ -67,6 +68,7 @@ abstract class ActionEffect {
         ret["type"] = type;
         ret["importantWords"] = importantWords;
         ret["importantNumbers"] = importantNumbers;
+        ret["vriska"] = vriska;
         return ret;
     }
 

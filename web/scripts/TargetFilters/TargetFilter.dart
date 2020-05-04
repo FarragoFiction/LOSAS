@@ -1,5 +1,15 @@
 import '../Entity.dart';
 import '../Scene.dart';
+import 'KeepIfNameIsValue.dart';
+import 'KeepIfNumExists.dart';
+import 'KeepIfNumIsGreaterThanValue.dart';
+import 'KeepIfNumIsGreaterThanValueFromMemory.dart';
+import 'KeepIfNumIsValue.dart';
+import 'KeepIfRandomNumberLessThan.dart';
+import 'KeepIfStringContainsValue.dart';
+import 'KeepIfStringExists.dart';
+import 'KeepIfStringIsValue.dart';
+import 'KeepIfYouAreMe.dart';
 /*
     TODOPILE:
     random value (how did sburbsim do this)
@@ -16,11 +26,27 @@ abstract class TargetFilter {
     //each subclass MUST implement this
     String type;
     String explanation;
+    //useful for generating forms and serialization
+    static List<TargetFilter> exampleOfAllFilters;
 
     TargetFilter(this.importantWords, this.importantNumbers);
     TargetFilter makeNewOfSameType();
     String debugString() {
         return "Filter: ${runtimeType} $importantWords, $importantNumbers, Vriska: $vriska Not: $not";
+    }
+
+    Map<String,dynamic> getSerialization() {
+        Map<String,dynamic> ret = new Map<String,dynamic>();
+        ret["type"] = type;
+        ret["vriska"] = vriska;
+        ret["not"] = not;
+        ret["importantWords"] = importantWords;
+        ret["importantNumbers"] = importantNumbers;
+        return ret;
+    }
+
+    static void setExamples() {
+        exampleOfAllFilters ??= <TargetFilter>[new KeepIfYouAreMe(), new KeepIfStringIsValue(null,null), new KeepIfStringExists(null),new KeepIfStringContainsValue(null,null),new KeepIfRandomNumberLessThan(null),new KeepIfNumIsValue(null,null),new KeepIfNumIsGreaterThanValueFromMemory(null,null),new KeepIfNumIsGreaterThanValue(null,null), new KeepIfNumExists(null),new KeepIfNameIsValue(null)];
     }
 
 
