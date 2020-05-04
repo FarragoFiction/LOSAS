@@ -74,11 +74,11 @@ abstract class UnitTests {
             div.classes.add("failed");
             element.append(div);
         });
+        print("todo test VRISKA for one filter and one effect");
         UtilTests.run(element);
         GeneratorTests.run(element);
         TargetFilterTests.run(element);
         ActionEffectTests.run(element);
-
         IntegrationTests.run(element);
         DollTests.run(element);
         runDisplayTest(element);
@@ -118,25 +118,14 @@ abstract class UnitTests {
     static void theDeacon(Scenario scenario) {
         Entity deacon = new Entity("The Deacon of Madness", "DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=")..isActive = true;
         scenario.addEntity(deacon);
-        final Scene bedeacon = new Scene("Be Deacon", "[OWNER.STRINGMEMORY.name] has decided that [TARGET.STRINGMEMORY.name] shall be DQ0N as well.","[TARGET.STRINGMEMORY.name] is now DQ0N.")..targetOne=true;
-        ActionEffect effect = new AESetDollStringFromMyMemory(Entity.CURRENTDOLLKEY);
-        ActionEffect effect2 = new AEAppendStringFront(Entity.NAMEKEY,"DQ0N");
-        TargetFilter filter = new KeepIfRandomNumberLessThan(0.5);
-        bedeacon.bgLocationEnd = "LOSASHectua.png";
-        bedeacon.effects.add(effect);
-        bedeacon.effects.add(effect2);
-        bedeacon.targetFilters.add(filter);
+        final Scene bedeacon = new Scene.fromDataString("Be Deacon:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbF1kAygEFBACQCmjKBDAA6AA6oiuKGAQEJUMqgkooCCBNoSAZogkAxDGABuiEhIAeUYgG0yAdQBynAEpygiR+AJLeAOIAspyRZH4AmnKoYAC2EgC6AAQwYADOmTxSrIU8mbAsmW4kwn7hnCSBwWFRMXGJyWlZuTlYmXgSmRQAigAM3pl5mQDuElhyNOCmUBII1nYOzq7IIFU1dQ1BoRHRsQlJqRmZrPmocFODo97zuB162wBCAxQSYIwcC2oNFpLKwMMsELkUG5QFAAJ4KN4gADSEgkChCpj8YF4cBS3ggKX6CDoElyuRIOVQC1sCGuAGswChTGAMLljCBbltmaz2awUgpEGpUFBPIgeJDkMAAL64PkChBCqD4wkrCWgVioBTQWwsowoEZyACsUql6VwZlMUigEuhIDhCOIgi0FDgWEEBg1BEsCFxkVhkQkKUQsIWcsF2JFYrVIDSQYQsJRIe2jAgCAQEmFLrdHuUAGFKQRPS7Sd44LBPSAZSAwwqI8qiWqqzT6YzkNy2TKYfDEcIFAjeO7acoSHBvRxXLL+eHhaKEOKUKBclBEGBNIniK8FkuhwQR73+3xtsMxpXJ-LFfXVQum7TcgymSyO+kpUA");
         deacon.addScene(bedeacon);
     }
 
     static void djcottonball(Scenario scenario) {
       Entity dj = (new Entity("DJ Cotton Ball","DJ+Cottonball%3A___FhL_AAD8_Pzy8vL_AAD_AQCtAAEAAAAAAAD_AAAAAAAAAAAxMTPTAACuAAAAAAAxMTNJSUk0kxs%3D")..facingRightByDefault=true..isActive=true);
       scenario.addEntity(dj);
-      final Scene atEveryone = new Scene("@everyone", "[OWNER.STRINGMEMORY.name] spams an @everyone.","[TARGET.STRINGMEMORY.name] are not pleased. They have assigned this [OWNER.STRINGMEMORY.species] the title of 'Bastard'. [OWNER.STRINGMEMORY.name] fails to care.");
-      ActionEffect effect = new AEAppendStringFront("name","Bastard ")..vriska=true;
-      atEveryone.targetFilters.add(new KeepIfYouAreMe()..not=true);
-      atEveryone.bgLocationEnd = "LOSASZhozah.png";
-      atEveryone.effects.add(effect);
+      final Scene atEveryone = new Scene.fromDataString("@everyone:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbF1kAygEFBALXgAvMDAB0AB1RFcUMAgIBTKGVQaUAMzAYAzhtob9iDQDEMYAG6ISGgB5RiAbTIB1AHKcAJVlBEgCASV8AcQBZTmiyAIBNWVQwAFsNAF0AAmN5dONssFRsgAENew0EAE8ODVkacH0oKtsHJ1d3ZBAPEmEAyM4SYNCImLiE5NSMnLUNbNQ4KGz5DA0wUx5ZbJIYDWrsmAd5jeNWAl0ebNhWQq8-QJHwqNj4pNk8jUZWDWMc2HmbCga2ycH02QA5AAhDaqBA8CHbe7+IIhZ7jN5TdJZbKGVgma5wbLMBD1RrTPTdcqVGp1RpwzRQaz4loIYwoDygKDVeSUkAAaQ0GnkYX0iTgEGEpOielw9gQtwA1mADEZTLhFl0oAgIGYQKw0vJEKpUFBvIgeOzkMAAL64A1GhAmqC+CBpPBVK22m2ZXAWfRfKBWzkgbm84jCeS83iCbWsJQkODWBAcdz2w3G4pmi1ekDGKCIMCaQXVYgUxr5hUJuCR6N8bow-NqK4gO36jNOrOu92elC2uUK4zKlDa3U+m1AA");
       dj.addScene(atEveryone);
     }
 
@@ -153,35 +142,13 @@ abstract class UnitTests {
 
     //if bob has a secret message, bob reads it, and clears it out.
     static void bobReceivesMessage(Scenario scenario) {
-      Scene scene3 = new Scene("Bob Reads", "Bob reads his message. '[OWNER.STRINGMEMORY.secretMessage]'. ","[OWNER.STRINGMEMORY.reaction], thinks about the number [OWNER.NUMMEMORY.randomNumber], then clears his messages out.")..targetOne=true;
-
-      TargetFilter filter5 = new KeepIfStringExists("secretMessage");
-      TargetFilter filter6 = new KeepIfYouAreMe();
-      ActionEffect effect = new AEUnSetString("secretMessage")..vriska=true;
-      ActionEffect effect2 = new AESetStringGenerator("reaction","He posts three bears")..vriska=true;
-      ActionEffect effect3 = new AESetNumGenerator("randomNumber",113)..vriska=true;
-      scene3.bgLocationEnd = "AlternianHives.png";
-
-      scene3.targetFilters.add(filter5);
-      scene3.targetFilters.add(filter6);
-      scene3.effects.add(effect);
-      scene3.effects.add(effect2);
-      scene3.effects.add(effect3);
+      Scene scene3 = new Scene.fromDataString("Bob Reads:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbECCGKAFMEqVmFQAJVgDdhAZwB0AB1RFcUMAgLCoZVMJRQEEYbWEAzRMIBiGMLMQlhADyjEAQnDwACBMJgPAq+MKwhALaKCmC6Sr4A5ADaZADqAHKcAEpKAMokWQCS6QDiALKcZWRZAJpKCsKMAVBl0bHCALoJ8TTgliII9o7Obh7IICkZ2XkFxeWV1XUBYIxsHB3YvrCsqADWIWB4cNBbMMK+6BF4or6TmTnpAKplFVW1SgiSPHAR6RBXog2p2EqF8jAwgQQITCkTauhCxygSl6qDAUS8Pl8WUCwV6Wh0elsrCEogUKCSoCgAE8VEZxgBpYTCFSFSy5Ew7AicVzhKBk3CyBDhXZgFCWMAYBq4VBwMbiyXmECsCIqRBaVBQVKIXHIUBRCKIKmMqnEBpNPStBQxXQgAC+uGVqoQ6qgfwBUJQwFt9spNLpIEZzNZNWO-ACrV6guFouQ8qlIBlcol8cdaskmu1ZN19qVKrTGrd1w92dtGxAVksjT55N9tOIj1QDSg7KF6l6qed6a1CB1euEBoQRuEJvGZualutRhzHZdhdJnpzUYUIuMpmEPpA1Lr41yehbnJKINELEQ7bznY13d7IF0hk+UEQxuIy1W7FQvR4VkgQgAahKzMQUjnKqCh8qcATnNc2hktO56zv8RZZl6ApCsuMYmGYG5bv6u6uv8h53ieSAOnBXaZp6ID6oaT7jJ8vA-HOSCwU68HukhICfuKmBQH+GAAcgACMAkAMyLqhK7IBh64dLaQA");
       scenario.entitiesReadOnly[1].addScene(scene3);
     }
 
     //        //if bob has a secret message, eve reads it.
     static void setupEveEvesdrops(Scenario scenario) {
-      Scene scene2 = new Scene("Eve Intercepts", "Eve is snooping on Bob's message." ,"[OWNER.STRINGMEMORY.reaction]. Her scandal rating is [OWNER.NUMMEMORY.scandalRating]")..targetOne=true;
-      ActionEffect effect1 = new AEAddNum("scandalRating",1)..vriska=true;
-      ActionEffect effect2 = new AESetStringGenerator("reaction","She is scandalized times a million")..vriska=true;
-
-      TargetFilter filter3 = new KeepIfStringExists("secretMessage");
-      TargetFilter filter4 = new KeepIfNameIsValue("Bob");
-      scene2.targetFilters = [filter3, filter4];
-      scene2.effects.add(effect1);
-      scene2.bgLocationEnd = "AlterniaAuroraBorealisAlternia.png";
-      scene2.effects.add(effect2);
+      Scene scene2 = new Scene.fromDataString("Eve Intercepts:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbECCGKAFMEqVmH4QEiMACFEwsBlYBnQSLESAdAAdURXFDAICwqGVTCUUBBGG1hAM0UAxDGABuiEsIAeUMScnsIABGqhqqhwcLqsBqEcoQp4AOSqoQC2wqqqYGbaNOBOmu5ePv6ByCAA2mQA6gBynABK2gDKJC0Ako0A4gCynANkLQCa2ghKjGwcALraoQASopHMvMqhCCzxBOEZdU2t2o0AqgNDI+Paqus8yi07BnNFqGDZQSGh3aiajMK6KCqIrGUzmVysISiYHIGqgKAAT101mqAGlhADuk52rZdpw-GogUVPAg1ABrMAoJzKVQOEDRKrUjC03CsTK6RDGX71RA8GGgbKZRAI9EI4i0xhTKADHJ5MwgAC+rPZnLAv0aEEyeGhKGACqV8KRKJA6MxTka72E3VUADVlPZiaTVBSqTS6QzXcy6WyOQguVAeQg+bqQPFdNA7RgHdUUorlb7-RqtTrkHqFXNcM4nMIZjC4SBEciBDweI1hAB3JMkOD4wm7Io+1Xc3n8kCC4Wi8V3B5PIhK0Mqv1qqBJ7UIVvoTLV-gllAARn7JPJlOQtnsBoLRuI7XMONJBj6wis2ygiAbg-9geDqZAZmPLEQneqUzAM3YqCKPGckCEkejIHaGAwgiW41XuFQAC9hB4UI2GyDIwCySEVA4OMBwTYdRxTPVcCXZ0VzXYR0wVIA");
       scenario.entitiesReadOnly[2].addScene(scene2);
     }
 
@@ -199,28 +166,15 @@ abstract class UnitTests {
         ActionEffect aggregate = new AEAddNumFromYourMemory("fumeRating","randomNumber")..vriska=true;
 
         //TODO add a random element to this
-        final Scene carolFumes = new Scene("Carol fumes","[TARGET.STRINGMEMORY.name] spreads even more juicy gossip to Carol.","Carol fumes [OWNER.NUMMEMORY.randomNumber] points, but out of how many? Her fume rating is [OWNER.NUMMEMORY.fumeRating], and she knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");
-        carolFumes.bgLocationEnd = "AlterniaTurtleAlternia.png";
-
-        //eve needs to have new gossip for carol to react ot it.
-        TargetFilter filter3 = new KeepIfNumExists("scandalRating");
-        TargetFilter filter2 = new KeepIfNumIsGreaterThanValueFromMemory("scandalRating","scandalMemory");
-        carolFumes.targetFilters.add(filter3);
-        carolFumes.targetFilters.add(filter2);
-        carol.addActivationScene(carolActivates);
-        carolFumes.effects.add(effect);
-        carolFumes.effects.add(aggregate);
-        carolFumes.effects.add(rememberScandalRating);
+        final Scene carolFumes = new Scene.fromDataString("Carol fumes:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbECCGKAFMEqVmBIQEUDMMEixEgHQAHVEVxQwCAsKhlUwlADMwGAM7Dawk4mEAxDGABuiEsIAeUYgG0S-ABKAOKcJMoAyiSBAJIAcsEAspyJZIEAmsqoYAC2wgC6AAQWqgjCYDwWhcIuwqiFOfaFAFYQrIwAnoUEcBYWrKqFUHCFAMI6cBjKNOAmik6u7l4+yCDjCJOFJhB5Vb5kAOpxnIHKcQCqicmpGcoIYLxwOXE7eKJFqnCsqFAW2IV4aCFOBAuAmQrwADuDQeHQA-IUABKiLY7YSFe5sDSFVh7Q7HU4XK4pNKZbZ5QIsb4EfL-B48YowdEAa1QcEhewCITCkWi8SSJNu2TyRVxhRYxWYvHMGKp2P2RxOZ0u11JygsUp45kSwkaCA6+WmuGFxlW6025OEFhm2l0+gcrCEomtyF8oCgHVUppAAGlhMJVDETC8cpxPLjfjMXAhccywKZzFZjXAVmZLNYQKwcp8ZA8oAdEJUUKA8nqOszhB1iBr6eZKViiABfXBZnPaH4ht4IF3ARvN92e71+gNBkMxCzBMosUQkGAPABq5ggjg2OR1ZajMYscYT6eTqcTGdbiHb+cLPZApcQHT9HTothWIBr0ow9epMyv+orHUCrAIMEfZ8tQwddrxAZtM2zE8807Z1iz7WkQFsExhEYSNXQHL1iAifQQ2COpRBYRAZmPXMfgLBAi2QEtdWvW9iHuR5nleURwJbKCyKgWDu2LEAeFsSAhEXDBlxQABmCDo1jeNkCgBBl37EAPSw1Z+B4HgQwcVcSB0PQoBIOAwwjd92LbPMKKoksOlA-VbwcRAHW7KA1J4RB+F4CJhnuPRiEtN8NBmDoQQQGyb0rAyXIY+knm4tjILMjsWJ46jJK3HdZPk4RFOU71RjgVQOk07TdP0EiONPCyL1gYRWAQEN6NWIC6zlTRLw6TzEDAPQGqfTVtVo-U4tI09uJ7VLpN3KxG3yRsgA");
         carol.addScene(carolFumes);
     }
 
     //if bob does not have a secret message, alice sends a message to bob.
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
-      Scene scene = new Scene.fromDataString("Alice Sends:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbECCGKAFMEqVmFQAxOAQIBPQSLETpiYQGcoAOgAOqIrihgEBYVDKphKKAgjDawgGbqpGMADdEJYQA8oAhisjA4ABDCerAahGsKoUKEA2mQA6gBynABK2mkAqgCy+Zz5ZJkAmtqxjAjm+ZoaYGYAwnAQ8QC6oQC29Y2a2DFxPBqhYKFWAO6D1ebdvWahUHChAEJweNo04E7Kbp7efgHIIADKMMLjcCIjGufhYCOocFOx8UmpGdl5hcWlFVU1KB1DQNZqtDqLK5gDBzEF9DSbXCoMA9QLBC4nIYaLbGUzmKSsISibHIRKgKDyXTWY4AaWEwl0AEknGkUcJGRoAGrQ+xbDwIVgaADWYBQTmhsSRVzFEocIFYXV0iGM8RSiGGKFAUV00G5GF5xzWeBAAF9cAqlQgVVA0hAunhiZqTWbyZTqSA6QzmSdbFECJxfIKoNjcPzBSKZRhJSAnkdbPZzYrlZIoGqEBrkKAel1EPI6fJiADavNrGb5UmrSnbfbHZnne1cM4nMJGMGUGSQBSqcRMVAfQKDABxOKiFiILYW5Oq9Uk0BmKwIMcIfOFluA4Gg4QURc7LY8ZyQIR6g0gJomOAwsB4DQX6DCeQxCCMIUI02Jy3W6sOhCzsth4Wisg8bCC6nZusQLS6PI1YkHAJAmGYATvlOqYzpqnbnKwCD9n6K7HEWQIllsXTyD6iB9HhIAERufTbmAu5lpOlbxF+tbAH+AoAZGsSgV27r8DwPBpMIEwwXAAZBn6E4VtaaYZlmwg5ggeb3quMyEXCYJtAEjEyVWdrfrOMZ2rBAl8MgACMHHhoBwEmu0JpAA");
-       scenario.entitiesReadOnly.first.addScene(scene);
-
-
+       Scene scene = new Scene.fromDataString("Alice Sends:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbECCGKAFMEqVmFQAxOAQIBPQSLETpiYQGcoAOgAOqIrihgEBYVDKphKKAgjDawgGbqpGMADdEJYQA8oAhisjA4ABDCerAahGsKoUKEA2mQA6gBynABK2mkAqgCy+Zz5ZJkAmtqxjAjm+ZoaYGYAwnAQ8QC6oQC29Y2a2DFxPBqhYKFWAO6D1ebdvWahUHChAEJweNo04E7Kbp7efgHIIADKMMLjcCIjGufhYCOocFOx8UmpGdl5hcWlFVU1KB1DQNZqtDqLK5gDBzEF9DSbXCoMA9QLBC4nIYaLbGUzmKSsISibHIRKgKDyXTWY4AaWEwl0AEknGkUcJGRoAGrQ+xbDwIVgaADWYBQTmhsSRVzFEocIFYXV0iGM8RSiGGKFAUV00G5GF5xzWeBAAF9cAqlQgVVA0hAunhiZqTWbyZTqSA6QzmSdbFECJxfIKoNjcPzBSKZRhJSAnkdbPZzYrlZIoGqEBrkKAel1EPI6fJiADavNrGb5UmrSnbfbHZnne1cM4nMJGMGUGSQBSqcRMVAfQKDABxOKiFiILYW5Oq9Uk0BmKwIMcIfOFluA4Gg4QURc7LY8ZyQIR6g0gJomOAwsB4DQX6DCeQxCCMIUI02Jy3W6sOhCzsth4Wisg8bCC6nZusQLS6PI-Z+iQcAkCYZgBO+U6pjOmqducrAIDBBgrscRZAiWWxdNBSyLmY+EgIRG59NuYC7mWk6VvEX61sAf4CgBkaxKBXbuvwPA8GkwgTNWcEBkGfoThW1pphmWbCDmCB5veq4zERcJgm0ARMbJVZ2t+s4xnacGCXwyAAIyceGgHASa7QmkAA");
+      scenario.entitiesReadOnly.first.addScene(scene);
     }
 
 
