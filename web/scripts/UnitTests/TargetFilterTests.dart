@@ -21,6 +21,18 @@ abstract class TargetFilterTests {
         testTFYouAreNotMe(element);
         testTFNameIsValueAndStringDoesntExist(element);
         testIfRandomNumberLessThan(element);
+        testSerialization(element);
+    }
+
+    static void testSerialization(element) {
+        ActionEffect.setExamples();
+        //do one specific example.
+        final TargetFilter filter = new KeepIfNumIsValue("secretNumber",13);
+        Map<String, dynamic> serialization = filter.getSerialization();
+        final TargetFilter filter2 = TargetFilter.fromSerialization(serialization);
+        UnitTests.processTest("${filter.type} can be serialized even with value", 13, filter2.importantNumbers[KeepIfNumIsValue.INPUTVALUE], element);
+        UnitTests.processTest("${filter.type} can be serialized even with data key", "secretNumber", filter2.importantWords[KeepIfNumIsValue.MEMORYKEY], element);
+
     }
 
     static void testBasic(Element element) {
