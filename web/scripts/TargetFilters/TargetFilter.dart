@@ -18,7 +18,7 @@ abstract class TargetFilter {
     String explanation;
 
     TargetFilter(this.importantWords, this.importantNumbers);
-
+    TargetFilter makeNewOfSameType();
     String debugString() {
         return "Filter: ${runtimeType} $importantWords, $importantNumbers, Vriska: $vriska Not: $not";
     }

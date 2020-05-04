@@ -15,4 +15,7 @@ class KeepIfNumExists extends TargetFilter {
     return possibleTarget.getNumMemory(importantWords[MEMORYKEY]) != 0;
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfNumExists(null);
+
 }

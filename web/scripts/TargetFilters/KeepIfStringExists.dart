@@ -17,4 +17,7 @@ class KeepIfStringExists extends TargetFilter {
     return possibleTarget.getStringMemory(importantWords[MEMORYKEY]) != null;
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfStringExists(null);
+
 }

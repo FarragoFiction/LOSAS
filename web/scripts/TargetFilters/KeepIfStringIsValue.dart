@@ -17,4 +17,7 @@ class KeepIfStringIsValue extends TargetFilter {
     return possibleTarget.getStringMemory(importantWords[MEMORYKEY]) == importantWords[INPUTVALUE];
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfStringIsValue(null,null);
+
 }

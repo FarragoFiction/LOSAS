@@ -19,4 +19,7 @@ class KeepIfRandomNumberLessThan extends TargetFilter {
     return rand.nextDouble() <= importantNumbers[INPUTVALUE];
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfRandomNumberLessThan(null);
+
 }

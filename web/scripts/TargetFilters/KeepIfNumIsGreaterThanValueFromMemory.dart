@@ -19,4 +19,8 @@ String explanation = "If the target has a number stored to a given key (left), a
     return left > right;
   }
 
+
+@override
+TargetFilter makeNewOfSameType() => new KeepIfNumIsGreaterThanValueFromMemory(null,null);
+
 }

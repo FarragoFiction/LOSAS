@@ -16,4 +16,7 @@ class KeepIfYouAreMe extends TargetFilter {
     return possibleTarget== actor;
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfYouAreMe();
+
 }

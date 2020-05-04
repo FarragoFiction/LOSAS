@@ -14,5 +14,7 @@ class KeepIfNameIsValue extends TargetFilter {
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
     return possibleTarget.name  == importantWords[INPUTVALUE];
   }
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfNameIsValue(null);
 
 }

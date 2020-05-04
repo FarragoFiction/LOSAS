@@ -17,4 +17,6 @@ class KeepIfNumIsGreaterThanValue extends TargetFilter {
     return currentValue > importantNumbers[INPUTVALUE];
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfNumIsGreaterThanValue(null,null);
 }

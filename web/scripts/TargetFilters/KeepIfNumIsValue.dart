@@ -22,4 +22,7 @@ class KeepIfNumIsValue extends TargetFilter {
     return currentValue == importantNumbers[INPUTVALUE];
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfNumIsValue(null,null);
+
 }

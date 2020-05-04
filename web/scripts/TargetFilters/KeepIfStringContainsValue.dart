@@ -21,4 +21,7 @@ class KeepIfStringContainsValue extends TargetFilter {
     return currentValue.toLowerCase().contains(importantWords[INPUTVALUE].toLowerCase());
   }
 
+  @override
+  TargetFilter makeNewOfSameType() => new KeepIfStringContainsValue(null,null);
+
 }
