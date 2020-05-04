@@ -50,6 +50,7 @@ abstract class ActionEffect {
                 ActionEffect newEffect =  effect.makeNewOfSameType();
                 newEffect.importantWords = serialization["importantWords"];
                 newEffect.importantNumbers = serialization["importantNumbers"];
+                newEffect.vriska = serialization["vriska"];
                 return newEffect;
             }
         }

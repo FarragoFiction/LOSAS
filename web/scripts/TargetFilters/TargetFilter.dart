@@ -45,6 +45,25 @@ abstract class TargetFilter {
         return ret;
     }
 
+    static TargetFilter fromSerialization(Map<String,dynamic> serialization){
+        //first, figure out what sub type it is
+        //then call that ones
+        setExamples();
+        String type = serialization["type"];
+        for(TargetFilter filter in exampleOfAllFilters) {
+            if(filter.type == type) {
+                TargetFilter newFilter =  filter.makeNewOfSameType();
+                newFilter.importantWords = serialization["importantWords"];
+                newFilter.importantNumbers = serialization["importantNumbers"];
+                newFilter.vriska = serialization["vriska"];
+                newFilter.not = serialization["not"];
+                return newFilter;
+            }
+        }
+        throw "What kind of filter is ${type}";
+
+    }
+
     static void setExamples() {
         exampleOfAllFilters ??= <TargetFilter>[new KeepIfYouAreMe(), new KeepIfStringIsValue(null,null), new KeepIfStringExists(null),new KeepIfStringContainsValue(null,null),new KeepIfRandomNumberLessThan(null),new KeepIfNumIsValue(null,null),new KeepIfNumIsGreaterThanValueFromMemory(null,null),new KeepIfNumIsGreaterThanValue(null,null), new KeepIfNumExists(null),new KeepIfNameIsValue(null)];
     }
