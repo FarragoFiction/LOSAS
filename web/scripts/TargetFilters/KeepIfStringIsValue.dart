@@ -7,7 +7,7 @@ class KeepIfStringIsValue extends TargetFilter {
   static String INPUTVALUE = "inputvalue";
 
   @override
-  String type ="KeepIfStringExists";
+  String type ="KeepIfStringIsValue";
   @override
   String explanation = "If the target has a word or phrase stored to a given key (regardless of what the word or phrase is).";
 

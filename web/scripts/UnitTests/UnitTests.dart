@@ -74,11 +74,11 @@ abstract class UnitTests {
             div.classes.add("failed");
             element.append(div);
         });
-        print("todo test VRISKA for one filter and one effect");
         UtilTests.run(element);
         GeneratorTests.run(element);
         TargetFilterTests.run(element);
         ActionEffectTests.run(element);
+
         IntegrationTests.run(element);
         DollTests.run(element);
         runDisplayTest(element);
@@ -217,19 +217,10 @@ abstract class UnitTests {
     //if bob does not have a secret message, alice sends a message to bob.
     // this sets his secretMessage string and increments his secretMessageCounter
     static void setupAliceSendsMessage(Scenario scenario) {
-       Scene scene = new Scene("Alice Sends", "Alice, having sent [OWNER.NUMMEMORY.secretMessageCount] messages, sends a new secret message to Bob.","She notes she has now sent [OWNER.NUMMEMORY.secretMessageCount] total messages.")..targetOne=true;
-       ActionEffect prerequisiteEffect = new AESetStringGenerator("secretMessageDraft","Carol absolutey sucks.")..vriska=true;
-       ActionEffect effect = new AECopyStringToTarget("secretMessageDraft","secretMessage");
-      ActionEffect effect2 = new AEAddNum("secretMessageCount",1)..vriska=true;
-       TargetFilter filter = new KeepIfStringExists("secretMessage")..not=true;
-      TargetFilter filter2 = new KeepIfNameIsValue("Bob");
-       scene.bgLocationEnd = "AlternianFoggyAlternianForest.png";
-       scene.effects.add(prerequisiteEffect);
-       scene.effects.add(effect);
-      scene.effects.add(effect2);
-      scene.targetFilters.add(filter2);
-      scene.targetFilters.add(filter);
-      scenario.entitiesReadOnly.first.addScene(scene);
+      Scene scene = new Scene.fromDataString("Alice Sends:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbECCGKAFMEqVmFQAxOAQIBPQSLETpiYQGcoAOgAOqIrihgEBYVDKphKKAgjDawgGbqpGMADdEJYQA8oAhisjA4ABDCerAahGsKoUKEA2mQA6gBynABK2mkAqgCy+Zz5ZJkAmtqxjAjm+ZoaYGYAwnAQ8QC6oQC29Y2a2DFxPBqhYKFWAO6D1ebdvWahUHChAEJweNo04E7Kbp7efgHIIADKMMLjcCIjGufhYCOocFOx8UmpGdl5hcWlFVU1KB1DQNZqtDqLK5gDBzEF9DSbXCoMA9QLBC4nIYaLbGUzmKSsISibHIRKgKDyXTWY4AaWEwl0AEknGkUcJGRoAGrQ+xbDwIVgaADWYBQTmhsSRVzFEocIFYXV0iGM8RSiGGKFAUV00G5GF5xzWeBAAF9cAqlQgVVA0hAunhiZqTWbyZTqSA6QzmSdbFECJxfIKoNjcPzBSKZRhJSAnkdbPZzYrlZIoGqEBrkKAel1EPI6fJiADavNrGb5UmrSnbfbHZnne1cM4nMJGMGUGSQBSqcRMVAfQKDABxOKiFiILYW5Oq9Uk0BmKwIMcIfOFluA4Gg4QURc7LY8ZyQIR6g0gJomOAwsB4DQX6DCeQxCCMIUI02Jy3W6sOhCzsth4Wisg8bCC6nZusQLS6PI1YkHAJAmGYATvlOqYzpqnbnKwCD9n6K7HEWQIllsXTyD6iB9HhIAERufTbmAu5lpOlbxF+tbAH+AoAZGsSgV27r8DwPBpMIEwwXAAZBn6E4VtaaYZlmwg5ggeb3quMyEXCYJtAEjEyVWdrfrOMZ2rBAl8MgACMHHhoBwEmu0JpAA");
+       scenario.entitiesReadOnly.first.addScene(scene);
+
+
     }
 
 

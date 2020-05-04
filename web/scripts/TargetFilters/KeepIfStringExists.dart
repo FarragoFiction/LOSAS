@@ -14,6 +14,8 @@ class KeepIfStringExists extends TargetFilter {
 
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
+    print("actor is ${actor} JR is going crazy,importantWords[MEMORYKEY] is ${importantWords[MEMORYKEY]}, ${possibleTarget.getStringMemory(importantWords[MEMORYKEY]) != null} ");
+
     return possibleTarget.getStringMemory(importantWords[MEMORYKEY]) != null;
   }
 

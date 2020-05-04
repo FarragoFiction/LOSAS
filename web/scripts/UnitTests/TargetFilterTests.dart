@@ -22,8 +22,20 @@ abstract class TargetFilterTests {
         testTFYouAreNotMe(element);
         testTFNameIsValueAndStringDoesntExist(element);
         testIfRandomNumberLessThan(element);
+        testNoDoubles(element);
         testSerialization(element);
     }
+
+    //needed because if i typo types and any double up i get hard to track down bugs
+    static void testNoDoubles(element) {
+        List<String> seenNames = [];
+        TargetFilter.setExamples();
+        for(TargetFilter e in TargetFilter.exampleOfAllFilters) {
+            UnitTests.processTest("${e.type} is unique", false, seenNames.contains(e.type), element);
+            seenNames.add(e.type);
+        }
+    }
+
 
     static void testSerialization(element) {
         ActionEffect.setExamples();

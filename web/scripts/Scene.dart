@@ -1,5 +1,6 @@
 import "dart:html";
 import 'ActionEffects/ActionEffect.dart';
+import 'DataStringHelper.dart';
 import 'Scenario.dart';
 import "TargetFilters/TargetFilter.dart";
 import 'Entity.dart';
@@ -46,7 +47,12 @@ class Scene {
 
     Scene(this.name, this.beforeFlavorText, this.afterFlavorText);
 
-    Scene.fromSerialization(Map<String,dynamic> serialization) {
+    Scene.fromDataString(String dataString){
+        Map<String,dynamic> serialization = DataStringHelper.serializationFromDataString(dataString);
+        loadFromSerialization(serialization);
+    }
+
+    void loadFromSerialization(Map<String,dynamic> serialization) {
         author = serialization["author"];
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];
@@ -260,8 +266,13 @@ class Scene {
         }
 
         for(TargetFilter tc in targetFilters) {
+            print("JR Is going crazy, checking target filter $tc, targets is $targets");
+            print("tc serialization is ${tc.getSerialization()}");
             targets = new Set<Entity>.from(tc.filter(this,targets.toList()));
+            print("JR Is going crazy, after checking target filter $tc, targets is $targets");
+
         }
+        print("JR is going crazy: going to return ${targets.isNotEmpty} because targets is ${targets}");
         return targets.isNotEmpty;
     }
 }

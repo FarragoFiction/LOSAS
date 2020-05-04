@@ -33,8 +33,19 @@ abstract class ActionEffectTests {
         testCopyNumTo(element);
         testCopyNumFrom(element);
         testDollStringFromMemory(element);
+        testNoDoubles(element);
         testSerialization(element);
 
+    }
+
+    //needed because if i typo types and any double up i get hard to track down bugs
+    static void testNoDoubles(element) {
+        List<String> seenNames = [];
+        ActionEffect.setExamples();
+        for(ActionEffect e in ActionEffect.exampleOfAllEffects) {
+            UnitTests.processTest("${e.type} is unique", false, seenNames.contains(e.type), element);
+            seenNames.add(e.type);
+        }
     }
 
     //don't test ALL of them, just a few to make sure its general purpose
