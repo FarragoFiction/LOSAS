@@ -1,0 +1,15 @@
+.formHolder{
+    border: 8px solid black;
+    border-radius: 8px;
+    padding: 30px;
+    background-color: rgba(0,0,0,0.3);
+    box-shadow: -10px 10px 20px #000000;
+}
+
+.formHolder::before{
+    content: url(../images/VMA.png);
+}
+
+.formHolder label{
+    margin-right: 50px;
+}

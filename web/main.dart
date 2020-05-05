@@ -8,9 +8,14 @@ import 'package:DollLibCorrect/DollRenderer.dart';
 
 void main() async {
   await Doll.loadFileData();
+
   Element output = querySelector("#output");
-  SceneFormHelper.testForm(output);
-  Game game = new Game( Scenario.testScenario());
-  UnitTests.runTests(output);
+  //TODO modes for all builders, testing and then actually playing
+  if(Uri.base.queryParameters['mode'] == "sceneBuilder") {
+    SceneFormHelper.makeSceneBuilder(output);
+  }else {
+    Game game = new Game(Scenario.testScenario());
+    UnitTests.runTests(output);
+  }
 }
 

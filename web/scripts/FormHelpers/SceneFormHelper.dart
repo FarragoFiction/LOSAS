@@ -4,49 +4,38 @@
  */
 import 'dart:html';
 
-import 'package:CommonLib/Utility.dart';
+import '../Scene.dart';
+import 'GenericFormHelper.dart';
 
+/*
+    TODO have a simple scene builder that syncs name, before and after flavor text
+    ability to set targetOne
+    ability to pick bg image from list
+    ability to add/remove filters/effects
+ */
 abstract class SceneFormHelper {
+    static Scene scene;
+    static Element dataStringElement;
+    static Element nameElement;
+    static Element beforeTextElement;
+    static Element afterTextElement;
 
-    //actually lets test something weird
-    static void testForm(Element parent) {
-        attachInputElement(parent, "Test1", "Bumble", (e) => window.alert("test1 event fired with e of ${e.target.value}"));
-        attachInputElement(parent, "Test2", "Bee", (e) => window.alert("test2 event fired with e of ${e.target.value}"));
-        attachNumberInputElement(parent, "Test3", 13, (e) => window.alert("test3 event fired with e of ${e.target.value}"));
-        attachCheckInputElement(parent, "Test4", true, (e) => window.alert("test4 event fired with e of ${e.target.checked}"));
+    static void makeSceneBuilder(Element parent) {
+        DivElement formHolder = new DivElement()..classes.add("formHolder");
+        parent.append(formHolder);
+        scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
 
+        dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString);
     }
 
-    static void attachInputElement(Element parent, String label, String value, Lambda callback) {
-        DivElement ret = new DivElement()..classes.add("formElement");
-        final LabelElement labelElement = new LabelElement()..text = label;
-        final InputElement inputElement = new InputElement()..value = value;
-        ret.append(labelElement);
-        ret.append(inputElement);
-        parent.append(ret);
-        inputElement.onInput.listen((Event e) => callback(e));
+    static void syncDataStringToScene(Event e) {
+        throw("TODO");
     }
 
-    static void attachNumberInputElement(Element parent, String label, num value, Lambda callback) {
-        DivElement ret = new DivElement()..classes.add("formElement");
-        final LabelElement labelElement = new LabelElement()..text = label;
-        final NumberInputElement inputElement = new NumberInputElement()..value = "$value";
-        ret.append(labelElement);
-        ret.append(inputElement);
-        parent.append(ret);
-        inputElement.onInput.listen((Event e) => callback(e));
+    static void syncSceneToDataString(Event e) {
+        throw("TODO");
     }
 
-    static void attachCheckInputElement(Element parent, String label, bool value, Lambda callback) {
-        DivElement ret = new DivElement()..classes.add("formElement");
-        final LabelElement labelElement = new LabelElement()..text = label;
-        final CheckboxInputElement inputElement = new CheckboxInputElement();
-        if(value) {
-            inputElement.checked = true;
-        }
-        ret.append(labelElement);
-        ret.append(inputElement);
-        parent.append(ret);
-        inputElement.onInput.listen((Event e) => callback(e));
-    }
+
+
 }
