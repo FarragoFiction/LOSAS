@@ -16,11 +16,13 @@
 
 .formHolder label{
     margin-right: 50px;
+    width: 150px;
+    display: inline-block;
 }
 
 .formHolder textarea{
     width: 500px;
-    height: 300px;
+    height: 100px;
     color: yellow;
     background-color: rgba(0,0,0,0.2);
     border: 1px solid black;

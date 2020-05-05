@@ -17,8 +17,9 @@ abstract class SceneFormHelper {
     static Scene scene;
     static TextAreaElement dataStringElement;
     static InputElement nameElement;
-    static InputElement beforeTextElement;
-    static InputElement afterTextElement;
+    static TextAreaElement beforeTextElement;
+    static TextAreaElement afterTextElement;
+    static CheckboxInputElement targetOneElement;
 
     static void makeSceneBuilder(Element parent) {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
@@ -32,6 +33,24 @@ abstract class SceneFormHelper {
             syncDataStringToScene();
         });
 
+        beforeTextElement = attachAreaElement(formHolder, "Before Text:", "${scene.beforeFlavorText}", (e)
+        {
+            scene.beforeFlavorText = e.target.value;
+            syncDataStringToScene();
+        });
+
+        afterTextElement = attachAreaElement(formHolder, "After Text:", "${scene.afterFlavorText}", (e)
+        {
+            scene.afterFlavorText = e.target.value;
+            syncDataStringToScene();
+        });
+
+        targetOneElement = attachCheckInputElement(formHolder, "Single Target", scene.targetOne, (e)
+        {
+            scene.targetOne = e.target.checked;
+            syncDataStringToScene();
+        });
+
     }
 
     static void syncDataStringToScene() {
@@ -41,8 +60,15 @@ abstract class SceneFormHelper {
 
     static void syncSceneToDataString(e) {
         print("syncing scene to datastring");
-        scene.loadFromDataString(e.target.value);
+        try {
+            scene.loadFromDataString(e.target.value);
+        }catch(e) {
+            window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this.");
+        }
         nameElement.value = scene.name;
+        beforeTextElement.value = scene.beforeFlavorText;
+        afterTextElement.value = scene.afterFlavorText;
+        targetOneElement.checked = scene.targetOne;
     }
 
 
