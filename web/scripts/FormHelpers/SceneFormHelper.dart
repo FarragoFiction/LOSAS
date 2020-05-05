@@ -25,7 +25,7 @@ abstract class SceneFormHelper {
         parent.append(formHolder);
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
 
-        dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString);
+        dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString(e));
         nameElement = attachInputElement(formHolder, "Scene Name:", "${scene.name}", (e)
         {
             scene.name = e.target.value;
@@ -39,10 +39,9 @@ abstract class SceneFormHelper {
         dataStringElement.value = scene.toDataString();
     }
 
-    //TODO boy i really hope this doesn't trigger syncDataStringToScene
     static void syncSceneToDataString(e) {
         print("syncing scene to datastring");
-        scene.loadFromSerialization(e.target.value);
+        scene.loadFromDataString(e.target.value);
         nameElement.value = scene.name;
     }
 
