@@ -2,14 +2,29 @@
     border: 8px solid black;
     border-radius: 8px;
     padding: 30px;
-    background-color: rgba(0,0,0,0.3);
-    box-shadow: -10px 10px 20px #000000;
+    background-color: rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 20px #000000;
 }
 
 .formHolder::before{
     content: url(../images/VMA.png);
 }
 
+.formHolder::input{
+ box-shadow: 0px 0px 5px #000000;
+}
+
 .formHolder label{
     margin-right: 50px;
+}
+
+.formHolder textarea{
+    width: 500px;
+    height: 300px;
+    color: yellow;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid black;
+    padding: 15px;
+    box-shadow: 0px 0px 8px #000000;
+
 }
