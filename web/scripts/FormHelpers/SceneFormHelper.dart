@@ -15,10 +15,10 @@ import 'GenericFormHelper.dart';
  */
 abstract class SceneFormHelper {
     static Scene scene;
-    static Element dataStringElement;
-    static Element nameElement;
-    static Element beforeTextElement;
-    static Element afterTextElement;
+    static TextAreaElement dataStringElement;
+    static InputElement nameElement;
+    static InputElement beforeTextElement;
+    static InputElement afterTextElement;
 
     static void makeSceneBuilder(Element parent) {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
@@ -26,14 +26,24 @@ abstract class SceneFormHelper {
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
 
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString);
+        nameElement = attachInputElement(formHolder, "Scene Name:", "${scene.name}", (e)
+        {
+            scene.name = e.target.value;
+            syncDataStringToScene();
+        });
+
     }
 
-    static void syncDataStringToScene(Event e) {
-        throw("TODO");
+    static void syncDataStringToScene() {
+        print("syncing datastring to scene");
+        dataStringElement.value = scene.toDataString();
     }
 
-    static void syncSceneToDataString(Event e) {
-        throw("TODO");
+    //TODO boy i really hope this doesn't trigger syncDataStringToScene
+    static void syncSceneToDataString(e) {
+        print("syncing scene to datastring");
+        scene.loadFromSerialization(e.target.value);
+        nameElement.value = scene.name;
     }
 
 

@@ -15,52 +15,52 @@ void testForm(Element parent) {
 
 Element attachInputElement(
     Element parent, String label, String value, Lambda callback) {
-  DivElement ret = new DivElement()..classes.add("formElement");
+  DivElement holder = new DivElement()..classes.add("formElement");
   final LabelElement labelElement = new LabelElement()..text = label;
   final InputElement inputElement = new InputElement()..value = value;
-  ret.append(labelElement);
-  ret.append(inputElement);
-  parent.append(ret);
+  holder.append(labelElement);
+  holder.append(inputElement);
+  parent.append(holder);
   inputElement.onInput.listen((Event e) => callback(e));
-  return ret;
+  return inputElement;
 }
 
 Element attachAreaElement(
     Element parent, String label, String value, Lambda callback) {
-  DivElement ret = new DivElement()..classes.add("formElement");
+  DivElement holder = new DivElement()..classes.add("formElement");
   final LabelElement labelElement = new LabelElement()..text = label;
   final TextAreaElement inputElement = new TextAreaElement()..value = value;
-  ret.append(labelElement);
-  ret.append(inputElement);
-  parent.append(ret);
+  holder.append(labelElement);
+  holder.append(inputElement);
+  parent.append(holder);
   inputElement.onInput.listen((Event e) => callback(e));
-  return ret;
+  return inputElement;
 }
 
 Element attachNumberInputElement(
     Element parent, String label, num value, Lambda callback) {
-  DivElement ret = new DivElement()..classes.add("formElement");
+  DivElement holder = new DivElement()..classes.add("formElement");
   final LabelElement labelElement = new LabelElement()..text = label;
   final NumberInputElement inputElement = new NumberInputElement()
     ..value = "$value";
-  ret.append(labelElement);
-  ret.append(inputElement);
-  parent.append(ret);
+  holder.append(labelElement);
+  holder.append(inputElement);
+  parent.append(holder);
   inputElement.onInput.listen((Event e) => callback(e));
-  return ret;
+  return inputElement;
 }
 
 Element attachCheckInputElement(
     Element parent, String label, bool value, Lambda callback) {
-  DivElement ret = new DivElement()..classes.add("formElement");
+  DivElement holder = new DivElement()..classes.add("formElement");
   final LabelElement labelElement = new LabelElement()..text = label;
   final CheckboxInputElement inputElement = new CheckboxInputElement();
   if (value) {
     inputElement.checked = true;
   }
-  ret.append(labelElement);
-  ret.append(inputElement);
-  parent.append(ret);
+  holder.append(labelElement);
+  holder.append(inputElement);
+  parent.append(holder);
   inputElement.onInput.listen((Event e) => callback(e));
-  return ret;
+  return inputElement;
 }

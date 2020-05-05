@@ -56,6 +56,10 @@ class Scene {
         return DataStringHelper.serializationToDataString(name,getSerialization());
     }
 
+    void loadFromDataString(String dataString) {
+        loadFromSerialization(DataStringHelper.serializationFromDataString(dataString));
+    }
+
     void loadFromSerialization(Map<String,dynamic> serialization) {
         author = serialization["author"];
         targetOne = serialization["targetOne"];

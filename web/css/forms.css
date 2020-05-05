@@ -10,8 +10,8 @@
     content: url(../images/VMA.png);
 }
 
-.formHolder::input{
- box-shadow: 0px 0px 5px #000000;
+.formElement{
+    padding: 15px;
 }
 
 .formHolder label{
@@ -21,6 +21,15 @@
 .formHolder textarea{
     width: 500px;
     height: 300px;
+    color: yellow;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid black;
+    padding: 15px;
+    box-shadow: 0px 0px 8px #000000;
+
+}
+
+.formHolder input{
     color: yellow;
     background-color: rgba(0,0,0,0.2);
     border: 1px solid black;
