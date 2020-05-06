@@ -20,9 +20,11 @@ abstract class SceneFormHelper {
     static TextAreaElement beforeTextElement;
     static TextAreaElement afterTextElement;
     static CheckboxInputElement targetOneElement;
+    static Element filterHolder;
+    static Element actionHolder;
 
     static void makeSceneBuilder(Element parent) {
-        DivElement formHolder = new DivElement()..classes.add("formHolder");
+        DivElement formHolder = new DivElement()..classes.add("formHolder")..text = "TODO need a button to add markup to before and after flavor text, as well as a preview of it with replacement stuff, also nested filters/effects";
         parent.append(formHolder);
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
 
@@ -51,6 +53,29 @@ abstract class SceneFormHelper {
             syncDataStringToScene();
         });
 
+        makeFilters(formHolder);
+        makeActions(formHolder);
+
+    }
+
+    static void makeFilters(Element parent) {
+        filterHolder = new DivElement()..classes.add("subholder");
+        Element header = HeadingElement.h1()..text = "Add TargetFilters";
+        filterHolder.append(header);
+        Element desc = new DivElement()..text = "Control what sorts of entities are valid targets of this scene (if there are no valid targets, the scene will not trigger).";
+        filterHolder.append(desc);
+        parent.append(filterHolder);
+        //filterHolder.text = "TODO: NEED A DROP DOWN OF ALL POSSIBLE FILTERS. CHOOSING ONE ADDS A FILTER OF THAT TYPE TO THE SCENE, THEN RESYNCS. ";
+    }
+
+    static void makeActions(Element parent) {
+        actionHolder = new DivElement()..classes.add("subholder");
+        Element header = HeadingElement.h1()..text = "Add ActionEffects";
+        actionHolder.append(header);
+        Element desc = new DivElement()..text = "Controls the post trigger effects on the valid targets or owner.";
+        actionHolder.append(desc);
+        parent.append(actionHolder);
+        //actionHolder.text = "TODO: NEED A DROP DOWN OF ALL POSSIBLE ACTIONS. CHOOSING ONE ADDS An action OF THAT TYPE TO THE SCENE, THEN RESYNCS. ";
     }
 
     static void syncDataStringToScene() {
@@ -69,6 +94,7 @@ abstract class SceneFormHelper {
         beforeTextElement.value = scene.beforeFlavorText;
         afterTextElement.value = scene.afterFlavorText;
         targetOneElement.checked = scene.targetOne;
+        //TODO HANDLE LOADING FILTERS/ACTIONS
     }
 
 

@@ -1,5 +1,15 @@
 .formHolder{
-    border: 8px solid black;
+    border: 8px solid rgba(0,0,0,0.6);
+    border-radius: 8px;
+    padding: 30px;
+    background-color: rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 20px #000000;
+}
+
+.subholder{
+    border: 8px solid rgba(0,0,0,0.6);
+    margin: 15px;
+    margin-top: 100px;
     border-radius: 8px;
     padding: 30px;
     background-color: rgba(0,0,0,0.2);
