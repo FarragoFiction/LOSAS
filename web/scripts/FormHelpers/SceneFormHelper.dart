@@ -60,31 +60,67 @@ abstract class SceneFormHelper {
 
     }
 
+    //rerenders every sync
     static void makeFilters(Element parent) {
-        filterHolder = new DivElement()..classes.add("subholder");
+
+        if(filterHolder == null) {
+            filterHolder = new DivElement()
+                ..classes.add("subholder");
+            parent.append(filterHolder);
+        }
+        filterHolder.text = "";
         Element header = HeadingElement.h1()..text = "Add TargetFilters";
         filterHolder.append(header);
         Element desc = new DivElement()..text = "Control what sorts of entities are valid targets of this scene (if there are no valid targets, the scene will not trigger).";
         filterHolder.append(desc);
-        parent.append(filterHolder);
         TargetFilter.setExamples();
         List<String> options = TargetFilter.exampleOfAllFilters.map((TargetFilter f) => f.type);
-        SelectElement select = attachDropDownElement(filterHolder,"FilterTypes:", options,null,null);
-        //filterHolder.text = "TODO: NEED A DROP DOWN OF ALL POSSIBLE FILTERS. CHOOSING ONE ADDS A FILTER OF THAT TYPE TO THE SCENE, THEN RESYNCS. ";
+        String selected = options.first;
+        ButtonElement button = new ButtonElement()..text = "Add $selected";
+
+        SelectElement select = attachDropDownElement(filterHolder,"FilterTypes:", options,selected,(e) {
+            button.text = "Add ${e.target.value}";
+            selected = e.target.value;
+        });
+        filterHolder.append(button);
+        renderFilters();
+        button.onClick.listen((Event e) {
+            scene.targetFilters.add(TargetFilter.makeNewFromString(selected));
+            makeFilters(null);
+        });
+
     }
 
+    //rerenders every sync
     static void makeActions(Element parent) {
-        actionHolder = new DivElement()..classes.add("subholder");
-        Element header = HeadingElement.h1()..text = "Add ActionEffects";
-        actionHolder.append(header);
-        Element desc = new DivElement()..text = "Controls the post trigger effects on the valid targets or owner.";
-        actionHolder.append(desc);
-        parent.append(actionHolder);
-        ActionEffect.setExamples();
-        List<String> options = ActionEffect.exampleOfAllEffects.map((ActionEffect f) => f.type);
-        SelectElement select = attachDropDownElement(actionHolder,"ActionTypes:", options,null,null);
+        if (actionHolder == null) {
+            actionHolder = new DivElement()
+                ..classes.add("subholder");
+            parent.append(actionHolder);
+        }
+        actionHolder.text = "";
 
-        //actionHolder.text = "TODO: NEED A DROP DOWN OF ALL POSSIBLE ACTIONS. CHOOSING ONE ADDS An action OF THAT TYPE TO THE SCENE, THEN RESYNCS. ";
+        Element header = HeadingElement.h1()
+            ..text = "Add ActionEffects";
+        actionHolder.append(header);
+        Element desc = new DivElement()
+            ..text = "Controls the post trigger effects on the valid targets or owner.";
+        actionHolder.append(desc);
+        ActionEffect.setExamples();
+        List<String> options = ActionEffect.exampleOfAllEffects.map((
+            ActionEffect f) => f.type);
+        String selected = options.first;
+        ButtonElement button = new ButtonElement()..text = "Add $selected";
+        SelectElement select = attachDropDownElement(actionHolder,"ActionTypes:", options,options.first,(e) {
+            button.text = "Add ${e.target.value}";
+            selected = e.target.value;
+        });
+        actionHolder.append(button);
+        button.onClick.listen((Event e) {
+            scene.effects.add(ActionEffect.makeNewFromString(selected));
+            makeActions(null);
+        });
+        renderActions();
     }
 
     static void syncDataStringToScene() {
@@ -103,7 +139,48 @@ abstract class SceneFormHelper {
         beforeTextElement.value = scene.beforeFlavorText;
         afterTextElement.value = scene.afterFlavorText;
         targetOneElement.checked = scene.targetOne;
+        makeFilters(null);
+        makeActions(null);
         //TODO HANDLE LOADING FILTERS/ACTIONS
+    }
+
+    static void renderFilters() {
+
+        if(scene.targetFilters.isEmpty) return;
+        DivElement container = new DivElement()..classes.add("subholder");
+        Element header = HeadingElement.h2()
+            ..text = "Existing TargetFilters";
+        container.append(header);
+        filterHolder.append(container);
+        for(TargetFilter f in scene.targetFilters) {
+            renderOneFilter(container,f);
+        }
+    }
+
+    static void renderOneFilter(Element parent, TargetFilter item) {
+        DivElement container = new DivElement()..classes.add("subholder")..text = "TODO ${item.type}";
+        parent.append(container);
+        //todo go through hashes
+    }
+
+    static void renderOneAction(Element parent, ActionEffect item) {
+        DivElement container = new DivElement()..classes.add("subholder")..text = "TODO ${item.type}";
+        parent.append(container);
+        //todo go through hashes
+
+    }
+
+    static void renderActions() {
+        if(scene.effects.isEmpty) return;
+        DivElement container = new DivElement()..classes.add("subholder");
+        Element header = HeadingElement.h2()
+            ..text = "Existing ActionEffects";
+        container.append(header);
+        actionHolder.append(container);
+        for(ActionEffect a in scene.effects) {
+            renderOneAction(container,a);
+        }
+
     }
 
 

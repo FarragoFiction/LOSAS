@@ -40,6 +40,17 @@ abstract class ActionEffect {
     ActionEffect(this.importantWords, this.importantNumbers);
     ActionEffect makeNewOfSameType();
 
+    static ActionEffect makeNewFromString(String type) {
+        setExamples();
+        for(ActionEffect effect in exampleOfAllEffects) {
+            if(effect.type == type) {
+                ActionEffect newEffect =  effect.makeNewOfSameType();
+                return newEffect;
+            }
+        }
+        throw "What kind of effect is ${type}";
+    }
+
     static ActionEffect fromSerialization(Map<String,dynamic> serialization){
         //first, figure out what sub type it is
         //then call that ones

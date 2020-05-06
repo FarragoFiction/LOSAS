@@ -2,7 +2,7 @@
     border: 8px solid rgba(0,0,0,0.6);
     border-radius: 8px;
     padding: 30px;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     box-shadow: 0px 0px 20px #000000;
 }
 
@@ -12,7 +12,7 @@
     margin-top: 100px;
     border-radius: 8px;
     padding: 30px;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     box-shadow: 0px 0px 20px #000000;
 }
 
@@ -34,7 +34,7 @@
     width: 500px;
     height: 100px;
     color: yellow;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     border: 1px solid black;
     padding: 15px;
     box-shadow: 0px 0px 8px #000000;
@@ -43,7 +43,7 @@
 
 .formHolder input{
     color: yellow;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     border: 1px solid black;
     padding: 15px;
     box-shadow: 0px 0px 8px #000000;
@@ -52,7 +52,7 @@
 
 .formHolder select{
     color: yellow;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.3);
     border: 1px solid black;
     padding: 15px;
     box-shadow: 0px 0px 8px #000000;
@@ -60,10 +60,19 @@
 }
 
 .formHolder option{
-    color: yellow;
-    background-color: rgba(0,0,0,0.2);
-    border: 1px solid black;
-    padding: 15px;
-    box-shadow: 0px 0px 8px #000000;
+     color: yellow;
+     background-color: rgba(0,0,0,0.9);
+     border: 1px solid black;
+     padding: 15px;
+     box-shadow: 0px 0px 8px #000000;
 
-}
+ }
+
+ .formHolder button{
+     color: yellow;
+     background-color: rgba(0,0,0,0.5);
+     border: 1px solid black;
+     padding: 15px;
+     box-shadow: 0px 0px 8px #000000;
+     display: inline-block;
+ }
