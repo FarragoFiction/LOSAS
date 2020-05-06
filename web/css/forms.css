@@ -49,3 +49,21 @@
     box-shadow: 0px 0px 8px #000000;
 
 }
+
+.formHolder select{
+    color: yellow;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid black;
+    padding: 15px;
+    box-shadow: 0px 0px 8px #000000;
+
+}
+
+.formHolder option{
+    color: yellow;
+    background-color: rgba(0,0,0,0.2);
+    border: 1px solid black;
+    padding: 15px;
+    box-shadow: 0px 0px 8px #000000;
+
+}

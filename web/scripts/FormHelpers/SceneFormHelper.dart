@@ -4,7 +4,9 @@
  */
 import 'dart:html';
 
+import '../ActionEffects/ActionEffect.dart';
 import '../Scene.dart';
+import '../TargetFilters/TargetFilter.dart';
 import 'GenericFormHelper.dart';
 
 /*
@@ -65,6 +67,9 @@ abstract class SceneFormHelper {
         Element desc = new DivElement()..text = "Control what sorts of entities are valid targets of this scene (if there are no valid targets, the scene will not trigger).";
         filterHolder.append(desc);
         parent.append(filterHolder);
+        TargetFilter.setExamples();
+        List<String> options = TargetFilter.exampleOfAllFilters.map((TargetFilter f) => f.type);
+        SelectElement select = attachDropDownElement(filterHolder,"FilterTypes:", options,null,null);
         //filterHolder.text = "TODO: NEED A DROP DOWN OF ALL POSSIBLE FILTERS. CHOOSING ONE ADDS A FILTER OF THAT TYPE TO THE SCENE, THEN RESYNCS. ";
     }
 
@@ -75,6 +80,10 @@ abstract class SceneFormHelper {
         Element desc = new DivElement()..text = "Controls the post trigger effects on the valid targets or owner.";
         actionHolder.append(desc);
         parent.append(actionHolder);
+        ActionEffect.setExamples();
+        List<String> options = ActionEffect.exampleOfAllEffects.map((ActionEffect f) => f.type);
+        SelectElement select = attachDropDownElement(actionHolder,"ActionTypes:", options,null,null);
+
         //actionHolder.text = "TODO: NEED A DROP DOWN OF ALL POSSIBLE ACTIONS. CHOOSING ONE ADDS An action OF THAT TYPE TO THE SCENE, THEN RESYNCS. ";
     }
 

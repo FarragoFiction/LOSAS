@@ -64,3 +64,26 @@ Element attachCheckInputElement(
   inputElement.onInput.listen((Event e) => callback(e));
   return inputElement;
 }
+
+Element attachDropDownElement(
+    Element parent, String label, List<String> values, String selected, Lambda callback) {
+  DivElement holder = new DivElement()..classes.add("formElement");
+  final LabelElement labelElement = new LabelElement()..text = label;
+  final SelectElement inputElement = new SelectElement();
+
+  for(String s in values) {
+    if(s == selected) {
+      OptionElement option = new OptionElement()..value = s..text = s..selected=true;
+      inputElement.append(option);
+    }else {
+      OptionElement option = new OptionElement()..value = s..text = s..selected=false;
+      inputElement.append(option);
+    }
+  }
+
+  holder.append(labelElement);
+  holder.append(inputElement);
+  parent.append(holder);
+  inputElement.onInput.listen((Event e) => callback(e));
+  return inputElement;
+}
