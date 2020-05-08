@@ -16,8 +16,18 @@ import 'TargetFilters/TargetFilter.dart';
     Worm (entities distribute prepacks of powers)
     Hogwartz
     Space Infection
+    SCP/SBURB
+    Star Trek
  */
-//TODO refactor out all the shit we don't need here into the game class, make scenarios have games, not the other way around.
+/*
+TODO scenarios to have a list of “suggested players” (so nico is canon for scp scenario)
+ and the first thing you unlock is the ability to remix the suggested players (but not add any new prepacks or double up or remove, or add/remove players)
+Then you’re allowed to use any prepack from the scenario (including doubling up or removing, or adding/removing players)
+Then you’re allowed to use any prepack from the systemwide scenarios
+Then you’re allowed to use any prepacks from the internet
+Then you’er allowed to just use any prepack at all you can upload
+
+ */
 class Scenario {
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
     int seed;
