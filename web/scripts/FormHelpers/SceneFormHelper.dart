@@ -86,7 +86,6 @@ abstract class SceneFormHelper {
         filterHolder.append(button);
         renderFilters();
         button.onClick.listen((Event e) {
-            print("imma let you finish, but just so you know, scene.targetFilters is a ${scene.targetFilters.runtimeType}");
             scene.targetFilters.add(TargetFilter.makeNewFromString(selected));
             makeFilters(null);
         });
@@ -194,10 +193,34 @@ abstract class SceneFormHelper {
     }
 
     static void renderOneAction(Element parent, ActionEffect item) {
-        DivElement container = new DivElement()..classes.add("subholder")..text = "TODO ${item.type}";
+        DivElement container = new DivElement()..classes.add("tinyholder");
+        Element header = HeadingElement.h3()..text = item.type;
+        Element instructions = new DivElement()..text = "${item.explanation}"..classes.add("instructions");
+        container.append(header);
+        container.append(instructions);
         parent.append(container);
-        //todo go through hashes
 
+        CheckboxInputElement vriskaElement = attachCheckInputElement(container, "Apply to Self,Not Target", item.vriska, (e)
+        {
+            item.vriska = e.target.checked;
+            syncDataStringToScene();
+        });
+
+        for(String key in item.importantWords.keys) {
+            attachInputElement(container, "$key:", "${item.importantWords[key]}", (e)
+            {
+                item.importantWords[key] = e.target.value;
+                syncDataStringToScene();
+            });
+        }
+
+        for(String key in item.importantNumbers.keys) {
+            attachNumberInputElement(container, "$key:", item.importantNumbers[key], (e)
+            {
+                item.importantNumbers[key] = num.parse(e.target.value);
+                syncDataStringToScene();
+            });
+        }
     }
 
     static void renderActions() {
