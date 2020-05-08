@@ -106,12 +106,6 @@ abstract class UnitTests {
 
         djcottonball(scenario);
         theDeacon(scenario);
-        print("JR get ready to slurp:");
-        for(Entity e in scenario.entitiesReadOnly) {
-            List<String> ret= e.readOnlyScenes.map((Scene s ) => DataStringHelper.serializationToDataString(s.name,s.getSerialization()));
-            print("Name: ${e.name} has ${e.readOnlyScenes.length} scenes.");
-            print(ret.join(","));
-        }
         scenario.curtainsUp(querySelector("#output"));
     }
 

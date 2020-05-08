@@ -26,7 +26,7 @@ abstract class SceneFormHelper {
     static Element actionHolder;
 
     static void makeSceneBuilder(Element parent) {
-        DivElement formHolder = new DivElement()..classes.add("formHolder")..text = "TODO need a button to add markup to before and after flavor text, as well as a preview of it with replacement stuff, also nested filters/effects";
+        DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
         DivElement instructions = new DivElement()..setInnerHtml("A Scene is the basic unit of AI for LOSAS. Scenes are how entities change the simulation, and the other entities within it.<br><br>Each tick of the simulation, each entity checks their list of scenes in order. The first scene to find at least one target is rendered to the screen, and its effects, if any, are applied.")..classes.add("instructions");
@@ -75,7 +75,7 @@ abstract class SceneFormHelper {
         Element desc = new DivElement()..text = "Control what sorts of entities are valid targets of this scene (if there are no valid targets, the scene will not trigger).";
         filterHolder.append(desc);
         TargetFilter.setExamples();
-        List<String> options = TargetFilter.exampleOfAllFilters.map((TargetFilter f) => f.type);
+        List<String> options = new List.from(TargetFilter.exampleOfAllFilters.map((TargetFilter f) => f.type));
         String selected = options.first;
         ButtonElement button = new ButtonElement()..text = "Add $selected";
 
@@ -108,8 +108,8 @@ abstract class SceneFormHelper {
             ..text = "Controls the post trigger effects on the valid targets or owner.";
         actionHolder.append(desc);
         ActionEffect.setExamples();
-        List<String> options = ActionEffect.exampleOfAllEffects.map((
-            ActionEffect f) => f.type);
+        List<String> options = new List.from(ActionEffect.exampleOfAllEffects.map((
+            ActionEffect f) => f.type));
         String selected = options.first;
         ButtonElement button = new ButtonElement()..text = "Add $selected";
         SelectElement select = attachDropDownElement(actionHolder,"ActionTypes:", options,options.first,(e) {
