@@ -86,6 +86,7 @@ abstract class SceneFormHelper {
         filterHolder.append(button);
         renderFilters();
         button.onClick.listen((Event e) {
+            print("imma let you finish, but just so you know, scene.targetFilters is a ${scene.targetFilters.runtimeType}");
             scene.targetFilters.add(TargetFilter.makeNewFromString(selected));
             makeFilters(null);
         });

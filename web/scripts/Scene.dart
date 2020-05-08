@@ -68,8 +68,8 @@ class Scene {
         afterFlavorText = serialization["afterFlavorText"];
         name = serialization["name"];
         print("target filters is ${serialization["targetFilters"]}");
-        targetFilters = (serialization["targetFilters"] as List).map((subserialization) => TargetFilter.fromSerialization(subserialization));
-        effects = (serialization["effects"] as List).map((subserialization) => ActionEffect.fromSerialization(subserialization));
+        targetFilters = new List.from((serialization["targetFilters"] as List).map((subserialization) => TargetFilter.fromSerialization(subserialization)));
+        effects = new List.from((serialization["effects"] as List).map((subserialization) => ActionEffect.fromSerialization(subserialization)));
     }
 
     Map<String,dynamic> getSerialization() {
