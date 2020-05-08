@@ -29,7 +29,8 @@ abstract class SceneFormHelper {
         DivElement formHolder = new DivElement()..classes.add("formHolder")..text = "TODO need a button to add markup to before and after flavor text, as well as a preview of it with replacement stuff, also nested filters/effects";
         parent.append(formHolder);
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
-
+        DivElement instructions = new DivElement()..text = "A Scene is the basic unit of AI for LOSAS. Scenes are how entities change the simulation, and the other entities within it.<br><br>Each tick, "..classes.add("instructions");
+        formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString(e));
         nameElement = attachInputElement(formHolder, "Scene Name:", "${scene.name}", (e)
         {
@@ -160,10 +161,22 @@ abstract class SceneFormHelper {
     static void renderOneFilter(Element parent, TargetFilter item) {
         DivElement container = new DivElement()..classes.add("subholder");
         Element header = HeadingElement.h3()..text = item.type;
-        Element instructions = new DivElement()..text = "When searching for targets, keep one ${item.explanation}";
+        Element instructions = new DivElement()..text = "When searching for targets, keep one ${item.explanation}"..classes.add("instructions");
         container.append(header);
         container.append(instructions);
         parent.append(container);
+
+        CheckboxInputElement vriskaElement = attachCheckInputElement(container, "Apply to Self,Not Target", item.vriska, (e)
+        {
+            item.vriska = e.target.checked;
+            syncDataStringToScene();
+        });
+
+        CheckboxInputElement notElement = attachCheckInputElement(container, "Invert Filter", item.not, (e)
+        {
+            item.not = e.target.checked;
+            syncDataStringToScene();
+        });
         //todo go through hashes
     }
 
