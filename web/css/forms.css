@@ -9,16 +9,25 @@
 .subholder{
     border: 8px solid rgba(0,0,0,0.6);
     margin: 15px;
-    margin-top: 100px;
+    margin-top: 50px;
     border-radius: 8px;
     padding: 30px;
     background-color: rgba(0,0,0,0.3);
     box-shadow: 0px 0px 20px #000000;
 }
 
+.tinyholder{
+    border: 8px solid rgba(0,0,0,0.6);
+    margin: 1px;
+    margin-top: 10px;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 20px #000000;
+}
+
 .instructions{
     margin: 15px;
-    margin-top: 100px;
     border-radius: 8px;
     padding: 30px;
     background-color: rgba(0,0,0,0.3);

@@ -148,10 +148,7 @@ abstract class SceneFormHelper {
     static void renderFilters() {
 
         if(scene.targetFilters.isEmpty) return;
-        DivElement container = new DivElement()..classes.add("subholder");
-        Element header = HeadingElement.h2()
-            ..text = "Existing TargetFilters";
-        container.append(header);
+        DivElement container = new DivElement();
         filterHolder.append(container);
         for(TargetFilter f in scene.targetFilters) {
             renderOneFilter(container,f);
@@ -159,7 +156,7 @@ abstract class SceneFormHelper {
     }
 
     static void renderOneFilter(Element parent, TargetFilter item) {
-        DivElement container = new DivElement()..classes.add("subholder");
+        DivElement container = new DivElement()..classes.add("tinyholder");
         Element header = HeadingElement.h3()..text = item.type;
         Element instructions = new DivElement()..text = "When searching for targets, keep one ${item.explanation}"..classes.add("instructions");
         container.append(header);
@@ -177,7 +174,22 @@ abstract class SceneFormHelper {
             item.not = e.target.checked;
             syncDataStringToScene();
         });
-        //todo go through hashes
+
+        for(String key in item.importantWords.keys) {
+            attachInputElement(container, "$key:", "${item.importantWords[key]}", (e)
+            {
+                item.importantWords[key] = e.target.value;
+                syncDataStringToScene();
+            });
+        }
+
+        for(String key in item.importantNumbers.keys) {
+            attachNumberInputElement(container, "$key:", item.importantNumbers[key], (e)
+            {
+                item.importantNumbers[key] = num.parse(e.target.value);
+                syncDataStringToScene();
+            });
+        }
     }
 
     static void renderOneAction(Element parent, ActionEffect item) {
