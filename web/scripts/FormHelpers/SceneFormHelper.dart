@@ -158,7 +158,11 @@ abstract class SceneFormHelper {
     }
 
     static void renderOneFilter(Element parent, TargetFilter item) {
-        DivElement container = new DivElement()..classes.add("subholder")..text = "TODO ${item.type}";
+        DivElement container = new DivElement()..classes.add("subholder");
+        Element header = HeadingElement.h3()..text = item.type;
+        Element instructions = new DivElement()..text = "When searching for targets, keep one ${item.explanation}";
+        container.append(header);
+        container.append(instructions);
         parent.append(container);
         //todo go through hashes
     }
