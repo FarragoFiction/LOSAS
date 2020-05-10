@@ -19,6 +19,7 @@ abstract class SceneFormHelper {
     static Scene scene;
     static TextAreaElement dataStringElement;
     static InputElement nameElement;
+    static InputElement authorElement;
     static TextAreaElement beforeTextElement;
     static TextAreaElement afterTextElement;
     static CheckboxInputElement targetOneElement;
@@ -35,6 +36,13 @@ abstract class SceneFormHelper {
         nameElement = attachInputElement(formHolder, "Scene Name:", "${scene.name}", (e)
         {
             scene.name = e.target.value;
+            syncDataStringToScene();
+        });
+
+
+        authorElement = attachInputElement(formHolder, "Author:", "${scene.author}", (e)
+        {
+            scene.author = e.target.value;
             syncDataStringToScene();
         });
 
@@ -137,6 +145,7 @@ abstract class SceneFormHelper {
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this.");
         }
         nameElement.value = scene.name;
+        authorElement.value = scene.author;
         beforeTextElement.value = scene.beforeFlavorText;
         afterTextElement.value = scene.afterFlavorText;
         targetOneElement.checked = scene.targetOne;
