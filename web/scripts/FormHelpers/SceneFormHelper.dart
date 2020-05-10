@@ -235,10 +235,18 @@ abstract class SceneFormHelper {
     static void renderOneFilter(Element parent, TargetFilter item) {
         DivElement container = new DivElement()..classes.add("tinyholder");
         Element header = HeadingElement.h3()..text = item.type;
+        ButtonElement remove = new ButtonElement()..text = "Remove?"..style.display="inline-block"..style.marginLeft="415px";
         Element instructions = new DivElement()..text = "When searching for targets, keep one ${item.explanation}"..classes.add("instructions");
         container.append(header);
+        header.append(remove);
         container.append(instructions);
         parent.append(container);
+
+        remove.onClick.listen((Event e) {
+            scene.targetFilters.remove(item);
+            syncDataStringToScene();
+            makeFilters(null);
+        });
 
         CheckboxInputElement vriskaElement = attachCheckInputElement(container, "Apply to Self,Not Target", item.vriska, (e)
         {
@@ -272,10 +280,19 @@ abstract class SceneFormHelper {
     static void renderOneAction(Element parent, ActionEffect item) {
         DivElement container = new DivElement()..classes.add("tinyholder");
         Element header = HeadingElement.h3()..text = item.type;
+        ButtonElement remove = new ButtonElement()..text = "Remove?"..style.display="inline-block"..style.marginLeft="415px";
+
         Element instructions = new DivElement()..text = "${item.explanation}"..classes.add("instructions");
         container.append(header);
+        header.append(remove);
         container.append(instructions);
         parent.append(container);
+
+        remove.onClick.listen((Event e) {
+            scene.effects.remove(item);
+            syncDataStringToScene();
+            makeActions(null);
+        });
 
         CheckboxInputElement vriskaElement = attachCheckInputElement(container, "Apply to Self,Not Target", item.vriska, (e)
         {
