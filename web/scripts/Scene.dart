@@ -9,11 +9,15 @@ import 'Util.dart';
 //TODO have scene know how to handle procedural text replacement STRINGMEMORY.secretMessage would put the value of the secret message in there, or null, for example
 //TODO stretch goal, can put these scripting tags in as input for filters and effects, too. "your best friend is now me" or hwatever.
 class Scene {
-    String author;
+    String author = "???";
     static int stageWidth = 980;
     static int stageHeight = 600;
     String bgLocationEnd;
+    String musicLocationEnd;
+
     static String bgLocationFront = "images/BGs/";
+    static String musicLocationFront = "Music/";
+
     DivElement stageHolder;
     CanvasElement beforeCanvas;
     CanvasElement afterCanvas;
@@ -22,8 +26,8 @@ class Scene {
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
-    //TODO let people upload their own backgrounds.
     String get bgLocation => "$bgLocationFront$bgLocationEnd";
+    String get musicLocation => "$bgLocationFront$musicLocationEnd";
     Scenario scenario;
     Entity owner;
     //target everything that meets this condition, or just a single one?
@@ -65,6 +69,7 @@ class Scene {
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];
         bgLocationEnd = serialization["bgLocationEnd"];
+        musicLocationEnd = serialization["musicLocationEnd"];
         afterFlavorText = serialization["afterFlavorText"];
         name = serialization["name"];
         print("target filters is ${serialization["targetFilters"]}");
@@ -78,6 +83,7 @@ class Scene {
         //TODO see how paldemic handles serializing images
         ret["bg"] = "TODO";
         ret["bgLocationEnd"] = bgLocationEnd;
+        ret["musicLocationEnd"] = musicLocationEnd;
         ret["targetOne"] = targetOne;
         ret["beforeFlavorText"] = beforeFlavorText;
         ret["afterFlavorText"] = afterFlavorText;

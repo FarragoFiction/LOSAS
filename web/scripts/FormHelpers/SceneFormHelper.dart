@@ -26,6 +26,8 @@ abstract class SceneFormHelper {
     static InputElement nameElement;
     static SelectElement bgElement;
     static ImageElement bgPreviewElement;
+    static SelectElement bgMusicElement;
+    static AudioElement bgMusicPreviewElement;
     static InputElement authorElement;
     static TextAreaElement beforeTextElement;
     static TextAreaElement afterTextElement;
@@ -54,6 +56,7 @@ abstract class SceneFormHelper {
         });
 
         await setupBGS(formHolder);
+        await setupBGMusics(formHolder);
 
         beforeTextElement = attachAreaElement(formHolder, "Before Text:", "${scene.beforeFlavorText}", (e)
         {
@@ -90,13 +93,32 @@ abstract class SceneFormHelper {
         bgPreviewElement = new ImageElement();
         bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
         formHolder.append(bgPreviewElement);
-        bgElement = attachDropDownElement(formHolder, "BG:", options, selected, (e)
+        bgElement = attachDropDownElement(formHolder, "BG Image:", options, selected, (e)
         {
             scene.bgLocationEnd = e.target.value;
             bgPreviewElement.src = "${scene.bgLocation}";
             syncDataStringToScene();
         });
-        formHolder.append(bgElement);
+    }
+
+    static void setupBGMusics(Element formHolder) async {
+        List<String> options = new List<String>();
+        Map<String,dynamic> results = await Loader.getResource(musicListSource,format: Formats.json );
+        for(String folder in results["folders"].keys) {
+            for(String file in results["folders"][folder]["files"]) {
+                if (file.contains("png")) options.add("$folder/$file");
+            }
+        }
+        String selected = options.first;
+        bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=true;
+        bgMusicPreviewElement.src = "${Scene.bgLocationFront}$selected";
+        formHolder.append(bgMusicPreviewElement);
+        bgMusicElement = attachDropDownElement(formHolder, "BG Music:", options, selected, (e)
+        {
+            scene.musicLocationEnd = e.target.value;
+            bgMusicPreviewElement.src = "${scene.musicLocation}";
+            syncDataStringToScene();
+        });
     }
 
     //rerenders every sync
@@ -180,15 +202,21 @@ abstract class SceneFormHelper {
         afterTextElement.value = scene.afterFlavorText;
         targetOneElement.checked = scene.targetOne;
         doBGS();
+        doMusic();
         makeFilters(null);
         makeActions(null);
     }
 
     static void doBGS() {
-        print("scene bg location is ${scene.bgLocation}");
         bgPreviewElement.src = "${scene.bgLocation}";
-        print("selected options is  ${bgElement.selectedOptions}");
         bgElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.bgLocationEnd);
+    }
+
+    static void doMusic() {
+        print("scene music location is ${scene.musicLocation}");
+        bgMusicPreviewElement.src = "${scene.musicLocation}";
+        print("selected options is  ${bgMusicElement.selectedOptions}");
+        bgMusicElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.musicLocationEnd);
     }
 
     static void renderFilters() {
