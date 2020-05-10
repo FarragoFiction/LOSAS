@@ -12,7 +12,6 @@ class KeepIfNameIsValue extends TargetFilter {
   KeepIfNameIsValue(String inputValue) : super(<String,String>{INPUTVALUE:inputValue}, <String,num>{});
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    print("actor is $actor possible target is $possibleTarget JR is going crazy,importantWords[INPUTVALUE] is ${importantWords[INPUTVALUE]}, ${possibleTarget.name  == importantWords[INPUTVALUE]} ");
     return possibleTarget.name  == importantWords[INPUTVALUE];
   }
   @override

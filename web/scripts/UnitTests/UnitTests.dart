@@ -148,16 +148,7 @@ abstract class UnitTests {
 
     static void setupCarol(Scenario scenario) {
         final Entity carol = scenario.entitiesReadOnly.last;
-        final Scene carolActivates = new Scene("Carol activates","Eve spreads the juicy gossip to Carol.","Carol can't believe Alice is talking shit about her. She knows [TARGET.STRINGMEMORY.name] is at scandal rating [OWNER.NUMMEMORY.scandalMemory].");
-        TargetFilter carolFilter = new KeepIfNumIsGreaterThanValue("scandalRating",1);
-        carolActivates.targetFilters.add(carolFilter);
-        ActionEffect effect = new AESetNumGenerator("randomNumber",3)..vriska=true;
-        ActionEffect rememberScandalRating = new AECopyNumFromTarget("scandalRating","scandalMemory");
-        ActionEffect rememberScandalRating2 = new AECopyNumFromTarget("scandalRating","scandalMemory");
-        carolActivates.effects.add(rememberScandalRating2);
-        carolActivates.bgLocationEnd = "AlternianBeachHivestem.png";
-
-        ActionEffect aggregate = new AEAddNumFromYourMemory("fumeRating","randomNumber")..vriska=true;
+        final Scene carolActivates = new Scene.fromDataString("Carol activates:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgBGA5iiACoDyAImyLYwDJwyYKAEs4AOwCi4zMwDi8CABsA9DEjiouAPrqlSgO5gAngDoADuKa0AthEIiyAoaInTZqDDnxES5SggqBtgiCJhgNnQi2JqmcAzWIFCkDNhQbOLYKABmYErEvNjZiNgAYkpgAG6ILNgAHlDMkpXYAASE5ggkmIStsG1oEI7GrQxwhA7mfXCtAMKkcEqmPODZWgjlVTX1jajzCIutQuIA5FCtdNhK0S2tAILXZG0ivclKANYiVu0wIudgdDg0FaAVMrQAypRWu9xHADL0ANosO54OSSFimcEsPAASQAcnIALKSQlsPAATVM4gi2AAuq0Xq1hO1juElK0EMIvgxWgi2AB1PGSPCmPEAVUJxNJFNMhFZeUJ2BsiGMtOWtGpNiyewW7LAZFElWERBWyQQqSgpRESnWhBQCNAUGM5m1IAA0thsOYcdk8RAbDjCHIusaECx1OIAGp5CBZWiVBAvd5gHJ5AogWG7XL5bC0EQ2cyIZKafmIHooUBa5UIYzvbDGZhysAyPJ4LlWEAAXzzBaLzagfsiVDtyFAX3M0CNSljKAAjJ3O7TaEVstgDSOHUlna7wWlB3IYlRhIgVvnCwhi1BS2ER5WlSqPQ3UJyZHAbIPLkhuyAz33NB-hwrEAcFyZQoGjadtQAZm-BMkxTZBs2IbtHW3ZhZjgcxjEHUoDhsFgUjSU9ewvftr3LUckkoUJB0fRt5SUNtRA7WxjHBKBEDAVI6NQJsWyURVqwbb9f1I-9-U-W9YMTQhk1THNF07IA");
 
         //TODO add a random element to this
         final Scene carolFumes = new Scene.fromDataString("Carol fumes:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbECCGKAFMEqVmBIQEUDMMEixEgHQAHVEVxQwCAsKhlUwlADMwGAM7Dawk4mEAxDGABuiEsIAeUYgG0S-ABKAOKcJMoAyiSBAJIAcsEAspyJZIEAmsqoYAC2wgC6AAQWqgjCYDwWhcIuwqiFOfaFAFYQrIwAnoUEcBYWrKqFUHCFAMI6cBjKNOAmik6u7l4+yCDjCJOFJhB5Vb5kAOpxnIHKcQCqicmpGcoIYLxwOXE7eKJFqnCsqFAW2IV4aCFOBAuAmQrwADuDQeHQA-IUABKiLY7YSFe5sDSFVh7Q7HU4XK4pNKZbZ5QIsb4EfL-B48YowdEAa1QcEhewCITCkWi8SSJNu2TyRVxhRYxWYvHMGKp2P2RxOZ0u11JygsUp45kSwkaCA6+WmuGFxlW6025OEFhm2l0+gcrCEomtyF8oCgHVUppAAGlhMJVDETC8cpxPLjfjMXAhccywKZzFZjXAVmZLNYQKwcp8ZA8oAdEJUUKA8nqOszhB1iBr6eZKViiABfXBZnPaH4ht4IF3ARvN92e71+gNBkMxCzBMosUQkGAPABq5ggjg2OR1ZajMYscYT6eTqcTGdbiHb+cLPZApcQHT9HTothWIBr0ow9epMyv+orHUCrAIMEfZ8tQwddrxAZtM2zE8807Z1iz7WkQFsExhEYSNXQHL1iAifQQ2COpRBYRAZmPXMfgLBAi2QEtdWvW9iHuR5nleURwJbKCyKgWDu2LEAeFsSAhEXDBlxQABmCDo1jeNkCgBBl37EAPSw1Z+B4HgQwcVcSB0PQoBIOAwwjd92LbPMKKoksOlA-VbwcRAHW7KA1J4RB+F4CJhnuPRiEtN8NBmDoQQQGyb0rAyXIY+knm4tjILMjsWJ46jJK3HdZPk4RFOU71RjgVQOk07TdP0EiONPCyL1gYRWAQEN6NWIC6zlTRLw6TzEDAPQGqfTVtVo-U4tI09uJ7VLpN3KxG3yRsgA");

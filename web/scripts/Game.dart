@@ -14,8 +14,11 @@ class Game {
     DivElement fullstory;
     //which scene are we on
     int currentSceneIndex = 0;
+    AudioElement bgMusic = new AudioElement()..loop=false;
     //you can go forward and back through all scenes easily.
     List<Element> sceneElements = new List<Element>();
+    List<AudioElement> audioElements = new List<AudioElement>();
+
     StreamSubscription<KeyboardEvent> keyListener;
 
     //all possible entitites for this
@@ -25,6 +28,7 @@ class Game {
 
     void setup(Element parent) {
         container = new DivElement()..classes.add("game");
+        container.append(bgMusic);
         parent.append(container);
         wireUpKeyBoardControls();
         renderNavigationArrows();
@@ -78,12 +82,19 @@ class Game {
         scenario.numberTriesForScene = 0;
         Element sceneElement = await spotlightScene.render(sceneElements.length);
         sceneElements.add(sceneElement);
+        AudioElement audio = new AudioElement()..loop=true;
+        if(spotlightScene.musicLocation != Scene.NOBGMUSIC) {
+            audio.src = spotlightScene.musicLocation;
+        }
+        audioElements.add(audio);
+        audio.play();
         container.append(sceneElement);
         readyForNextScene = true;
     }
 
     void renderCurrentScene() {
         container.append(sceneElements[currentSceneIndex]);
+        audioElements[currentSceneIndex].play();
     }
 
     void goRight() {
@@ -96,7 +107,10 @@ class Game {
             if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
             scenario.lookForNextScene();
         }else {
-            if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
+            if(sceneElements.isNotEmpty) {
+                sceneElements[currentSceneIndex - 1].remove();
+                audioElements[currentSceneIndex - 1].pause();
+            }
             renderCurrentScene();
         }
 
@@ -123,6 +137,8 @@ class Game {
     void goLeft() {
         if(!readyForNextScene) return;
         sceneElements[currentSceneIndex].remove();
+        audioElements[currentSceneIndex].pause();
+
         currentSceneIndex += -1;
         if(currentSceneIndex < 0) {
             currentSceneIndex = 0;

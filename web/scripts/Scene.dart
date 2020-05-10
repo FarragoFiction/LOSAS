@@ -9,6 +9,7 @@ import 'Util.dart';
 //TODO have scene know how to handle procedural text replacement STRINGMEMORY.secretMessage would put the value of the secret message in there, or null, for example
 //TODO stretch goal, can put these scripting tags in as input for filters and effects, too. "your best friend is now me" or hwatever.
 class Scene {
+    static final NOBGMUSIC = "None";
     String author = "???";
     static int stageWidth = 980;
     static int stageHeight = 600;
@@ -69,10 +70,9 @@ class Scene {
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];
         bgLocationEnd = serialization["bgLocationEnd"];
-        musicLocationEnd = serialization["musicLocationEnd"];
+        musicLocationEnd = serialization["musicLocationEnd"] == null ? Scene.NOBGMUSIC: serialization["musicLocationEnd"];
         afterFlavorText = serialization["afterFlavorText"];
         name = serialization["name"];
-        print("target filters is ${serialization["targetFilters"]}");
         targetFilters = new List.from((serialization["targetFilters"] as List).map((subserialization) => TargetFilter.fromSerialization(subserialization)));
         effects = new List.from((serialization["effects"] as List).map((subserialization) => ActionEffect.fromSerialization(subserialization)));
     }
@@ -80,7 +80,6 @@ class Scene {
     Map<String,dynamic> getSerialization() {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["author"] = author;
-        //TODO see how paldemic handles serializing images
         ret["bg"] = "TODO";
         ret["bgLocationEnd"] = bgLocationEnd;
         ret["musicLocationEnd"] = musicLocationEnd;
@@ -280,13 +279,9 @@ class Scene {
         }
 
         for(TargetFilter tc in targetFilters) {
-            print("JR Is going crazy, checking target filter $tc, targets is $targets");
-            print("tc serialization is ${tc.getSerialization()}");
             targets = new Set<Entity>.from(tc.filter(this,targets.toList()));
-            print("JR Is going crazy, after checking target filter $tc, targets is $targets");
 
         }
-        print("JR is going crazy: going to return ${targets.isNotEmpty} because targets is ${targets}");
         return targets.isNotEmpty;
     }
 }

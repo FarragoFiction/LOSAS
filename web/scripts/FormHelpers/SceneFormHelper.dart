@@ -104,7 +104,7 @@ abstract class SceneFormHelper {
 
     static void setupBGMusics(Element formHolder) async {
         List<String> options = new List<String>();
-        options.add("None");
+        options.add(Scene.NOBGMUSIC);
         Map<String,dynamic> results = await Loader.getResource(musicListSource,format: Formats.json );
         for(String folder in results["folders"].keys) {
             print("checking folder $folder");
