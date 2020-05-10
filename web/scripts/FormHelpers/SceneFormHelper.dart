@@ -90,6 +90,7 @@ abstract class SceneFormHelper {
             }
         }
         String selected = options.first;
+        scene.bgLocationEnd = options.first;
         bgPreviewElement = new ImageElement();
         bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
         formHolder.append(bgPreviewElement);
@@ -105,13 +106,14 @@ abstract class SceneFormHelper {
         List<String> options = new List<String>();
         Map<String,dynamic> results = await Loader.getResource(musicListSource,format: Formats.json );
         for(String folder in results["folders"].keys) {
+            print("checking folder $folder");
             for(String file in results["folders"][folder]["files"]) {
-                if (file.contains("png")) options.add("$folder/$file");
+                if (file.contains("ogg")) options.add("$folder/$file");
             }
         }
         String selected = options.first;
         bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=true;
-        bgMusicPreviewElement.src = "${Scene.bgLocationFront}$selected";
+        bgMusicPreviewElement.src = "${Scene.musicLocationFront}$selected";
         formHolder.append(bgMusicPreviewElement);
         bgMusicElement = attachDropDownElement(formHolder, "BG Music:", options, selected, (e)
         {

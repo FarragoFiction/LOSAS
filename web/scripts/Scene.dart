@@ -27,7 +27,7 @@ class Scene {
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
     String get bgLocation => "$bgLocationFront$bgLocationEnd";
-    String get musicLocation => "$bgLocationFront$musicLocationEnd";
+    String get musicLocation => "$musicLocationFront$musicLocationEnd";
     Scenario scenario;
     Entity owner;
     //target everything that meets this condition, or just a single one?
