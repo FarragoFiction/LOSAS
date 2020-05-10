@@ -4,6 +4,8 @@
  */
 import 'dart:html';
 
+import 'package:LoaderLib/Loader.dart';
+
 import '../ActionEffects/ActionEffect.dart';
 import '../Scene.dart';
 import '../TargetFilters/TargetFilter.dart';
@@ -16,9 +18,14 @@ import 'GenericFormHelper.dart';
     ability to add/remove filters/effects
  */
 abstract class SceneFormHelper {
+    static String imageListSource = "http://farragofiction.com/LOSASE/images/BGs/list.php";
+    static String musicListSource = "http://farragofiction.com/LOSASE/Music/list.php";
+
     static Scene scene;
     static TextAreaElement dataStringElement;
     static InputElement nameElement;
+    static SelectElement bgElement;
+    static ImageElement bgPreviewElement;
     static InputElement authorElement;
     static TextAreaElement beforeTextElement;
     static TextAreaElement afterTextElement;
@@ -26,7 +33,7 @@ abstract class SceneFormHelper {
     static Element filterHolder;
     static Element actionHolder;
 
-    static void makeSceneBuilder(Element parent) {
+    static void makeSceneBuilder(Element parent) async {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
@@ -45,6 +52,8 @@ abstract class SceneFormHelper {
             scene.author = e.target.value;
             syncDataStringToScene();
         });
+
+        await setupBGS(formHolder);
 
         beforeTextElement = attachAreaElement(formHolder, "Before Text:", "${scene.beforeFlavorText}", (e)
         {
@@ -67,6 +76,27 @@ abstract class SceneFormHelper {
         makeFilters(formHolder);
         makeActions(formHolder);
 
+    }
+
+    static void setupBGS(Element formHolder) async {
+        List<String> options = new List<String>();
+        Map<String,dynamic> results = await Loader.getResource(imageListSource,format: Formats.json );
+        for(String folder in results["folders"].keys) {
+            for(String file in results["folders"][folder]["files"]) {
+                if (file.contains("png")) options.add("$folder/$file");
+            }
+        }
+        String selected = options.first;
+        bgPreviewElement = new ImageElement();
+        bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
+        formHolder.append(bgPreviewElement);
+        bgElement = attachDropDownElement(formHolder, "BG:", options, selected, (e)
+        {
+            scene.bgLocationEnd = e.target.value;
+            bgPreviewElement.src = "${scene.bgLocation}";
+            syncDataStringToScene();
+        });
+        formHolder.append(bgElement);
     }
 
     //rerenders every sync
@@ -149,9 +179,16 @@ abstract class SceneFormHelper {
         beforeTextElement.value = scene.beforeFlavorText;
         afterTextElement.value = scene.afterFlavorText;
         targetOneElement.checked = scene.targetOne;
+        doBGS();
         makeFilters(null);
         makeActions(null);
-        //TODO HANDLE LOADING FILTERS/ACTIONS
+    }
+
+    static void doBGS() {
+        print("scene bg location is ${scene.bgLocation}");
+        bgPreviewElement.src = "${scene.bgLocation}";
+        print("selected options is  ${bgElement.selectedOptions}");
+        bgElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.bgLocationEnd);
     }
 
     static void renderFilters() {

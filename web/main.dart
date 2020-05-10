@@ -12,7 +12,7 @@ void main() async {
   Element output = querySelector("#output");
   //TODO modes for all builders, testing and then actually playing
   if(Uri.base.queryParameters['mode'] == "sceneBuilder") {
-    SceneFormHelper.makeSceneBuilder(output);
+    await SceneFormHelper.makeSceneBuilder(output);
   }else {
     Game game = new Game(Scenario.testScenario());
     UnitTests.runTests(output);

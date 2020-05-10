@@ -9,11 +9,11 @@ import 'Util.dart';
 //TODO have scene know how to handle procedural text replacement STRINGMEMORY.secretMessage would put the value of the secret message in there, or null, for example
 //TODO stretch goal, can put these scripting tags in as input for filters and effects, too. "your best friend is now me" or hwatever.
 class Scene {
-    //TODO let people sign their work
     String author;
     static int stageWidth = 980;
     static int stageHeight = 600;
     String bgLocationEnd;
+    static String bgLocationFront = "images/BGs/";
     DivElement stageHolder;
     CanvasElement beforeCanvas;
     CanvasElement afterCanvas;
@@ -23,7 +23,7 @@ class Scene {
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
     //TODO let people upload their own backgrounds.
-    String get bgLocation => "images/BGs/$bgLocationEnd";
+    String get bgLocation => "$bgLocationFront$bgLocationEnd";
     Scenario scenario;
     Entity owner;
     //target everything that meets this condition, or just a single one?
