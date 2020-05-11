@@ -57,10 +57,17 @@ abstract class SceneFormHelper {
 
         await setupBGS(formHolder);
         await setupBGMusics(formHolder);
+        targetOneElement = attachCheckInputElement(formHolder, "Single Target", scene.targetOne, (e)
+        {
+            scene.targetOne = e.target.checked;
+            syncDataStringToScene();
+        });
+
 
 
         DivElement beforeTextHolder = new DivElement()..classes.add("subholder");
         formHolder.append(beforeTextHolder);
+
 
         beforeTextElement = attachAreaElement(beforeTextHolder, "Before Text:", "${scene.beforeFlavorText}", (e)
         {
@@ -81,11 +88,7 @@ abstract class SceneFormHelper {
         wireUpScripting(afterTextElement, afterTextHolder);
 
 
-        targetOneElement = attachCheckInputElement(formHolder, "Single Target", scene.targetOne, (e)
-        {
-            scene.targetOne = e.target.checked;
-            syncDataStringToScene();
-        });
+
 
         makeFilters(formHolder);
         makeActions(formHolder);
