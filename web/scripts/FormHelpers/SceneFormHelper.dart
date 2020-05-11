@@ -38,7 +38,7 @@ abstract class SceneFormHelper {
     static void makeSceneBuilder(Element parent) async {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
-        scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name]. JR NOTE: make this insertable.","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
+        scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name].","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
         DivElement instructions = new DivElement()..setInnerHtml("A Scene is the basic unit of AI for LOSAS. Scenes are how entities change the simulation, and the other entities within it.<br><br>Each tick of the simulation, each entity checks their list of scenes in order. The first scene to find at least one target is rendered to the screen, and its effects, if any, are applied.")..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString(e));
@@ -58,17 +58,28 @@ abstract class SceneFormHelper {
         await setupBGS(formHolder);
         await setupBGMusics(formHolder);
 
-        beforeTextElement = attachAreaElement(formHolder, "Before Text:", "${scene.beforeFlavorText}", (e)
+
+        DivElement beforeTextHolder = new DivElement()..classes.add("subholder");
+        formHolder.append(beforeTextHolder);
+
+        beforeTextElement = attachAreaElement(beforeTextHolder, "Before Text:", "${scene.beforeFlavorText}", (e)
         {
             scene.beforeFlavorText = e.target.value;
             syncDataStringToScene();
         });
 
-        afterTextElement = attachAreaElement(formHolder, "After Text:", "${scene.afterFlavorText}", (e)
+        wireUpScripting(beforeTextElement, beforeTextHolder);
+
+        DivElement afterTextHolder = new DivElement()..classes.add("subholder");
+        formHolder.append(afterTextHolder);
+        afterTextElement = attachAreaElement(afterTextHolder, "After Text:", "${scene.afterFlavorText}", (e)
         {
             scene.afterFlavorText = e.target.value;
             syncDataStringToScene();
         });
+
+        wireUpScripting(afterTextElement, afterTextHolder);
+
 
         targetOneElement = attachCheckInputElement(formHolder, "Single Target", scene.targetOne, (e)
         {
@@ -79,6 +90,18 @@ abstract class SceneFormHelper {
         makeFilters(formHolder);
         makeActions(formHolder);
 
+    }
+
+    static void wireUpScripting(TextAreaElement target, Element parent) {
+        SelectElement dropdown = attachDropDownElement(parent,"",[Scene.TARGETSTRINGMEMORYTAG,Scene.TARGETNUMMEMORYTAG,Scene.OWNERSTRINGMEMORYTAG,Scene.OWNERNUMMEMORYTAG],Scene.TARGETSTRINGMEMORYTAG,null);
+        TextInputElement text = attachInputElement(parent,null,"variableName",null);
+        text.parent.style.display = "inline-block";
+        dropdown.parent.style.display = "inline-block";
+        ButtonElement button = new ButtonElement()..text = "Insert ScriptTag"..style.display = "inline-block";
+        parent.append(button);
+        button.onClick.listen((Event e) {
+            target.value = "${target.value} ${dropdown.options[dropdown.selectedIndex].value}${text.value}]";
+        });
     }
 
     static void setupBGS(Element formHolder) async {

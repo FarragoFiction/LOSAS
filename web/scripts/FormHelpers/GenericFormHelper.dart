@@ -18,7 +18,7 @@ Element attachInputElement(
   DivElement holder = new DivElement()..classes.add("formElement");
   final LabelElement labelElement = new LabelElement()..text = label;
   final InputElement inputElement = new InputElement()..value = value;
-  holder.append(labelElement);
+  if(label != null) holder.append(labelElement);
   holder.append(inputElement);
   parent.append(holder);
   inputElement.onInput.listen((Event e) => callback(e));
