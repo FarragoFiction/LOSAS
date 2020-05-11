@@ -69,7 +69,10 @@ class Game {
     //useful for pdfs and reviews of interesting stories
     void displayAll() {
           print("displaying all ${sceneElements.length} scenes");
-        if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
+        if(sceneElements.isNotEmpty) {
+            sceneElements[currentSceneIndex - 1].remove();
+            audioElements[currentSceneIndex - 1].pause();
+        }
         if(fullstory == null) {
             fullstory = new DivElement()..classes.add("fullstory");
             sceneElements.forEach((Element element) =>
@@ -84,7 +87,6 @@ class Game {
         sceneElements.add(sceneElement);
         AudioElement audio = new AudioElement()..loop=true;
         if(spotlightScene.musicLocationEnd != Scene.NOBGMUSIC) {
-            print("the src is ${spotlightScene.musicLocationEnd}");
             audio.src = spotlightScene.musicLocation;
         }
         audioElements.add(audio);
@@ -105,7 +107,10 @@ class Game {
             currentSceneIndex += -1; //take that back plz
             fullStoryWire();
         }else if(currentSceneIndex >= sceneElements.length && !scenario.theEnd) {
-            if(sceneElements.isNotEmpty) sceneElements[currentSceneIndex-1].remove();
+            if(sceneElements.isNotEmpty) {
+                sceneElements[currentSceneIndex - 1].remove();
+                audioElements[currentSceneIndex - 1].pause();
+            }
             scenario.lookForNextScene();
         }else {
             if(sceneElements.isNotEmpty) {
