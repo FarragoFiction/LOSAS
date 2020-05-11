@@ -204,7 +204,7 @@ class Scenario {
 
         name = "Alice messages Bob";
         //TODO introduction needs to be an array
-        frameScenes.add(new Scene("Introduction","In a cryptographically relevant corner of the universe...","")..scenario=this);
+        frameScenes.add(new Scene.fromDataString("Introduction:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgBGA5iiACoDyAImyLYwDJwyYKAEs4AOwCi4zMwDi8CABsA9DEjiouAPqLiAOgAO4prQC2EQiLIChoidNmoAniQTiAZsoBycHCoRrAGsRQgRsJREGMUt9OAZTEChSBmwoNnFsFA8wJWJebA9EbAAxJTAAN0QWbAAPKGYASXEAAjAWsgRnQyh4hDBDGGtcpWcW8KVsCrBNDsRMhBa4DxbYbBaIcREKqgN9fR5wDy0EMsrquobUQ-EwMyzUZqgEPwgye3FD5IRUqBKRJQnQgoADaAF1aIUPNh3sDkOCAL5AA")..scenario=this);
 
         seed = 85;
         rand = new Random(seed);

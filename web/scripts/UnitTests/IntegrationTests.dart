@@ -15,7 +15,6 @@ abstract class IntegrationTests {
         Entity bob = scenario.entitiesReadOnly[1];
         Scene relevantScene = scenario.entitiesReadOnly.first.readOnlyScenes.first;
         UnitTests.processTest("Alice's should have a target", true,relevantScene.targets.length >0 , element);
-        print("hey chief something is wrong, the relevant scene serialized is ${relevantScene.getSerialization()}");
 
         UnitTests.processTest("Alice's should be only targeting Bob.", bob.name,relevantScene.targets.first.name , element);
 

@@ -70,7 +70,9 @@ class Scene {
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];
         bgLocationEnd = serialization["bgLocationEnd"];
-        musicLocationEnd = serialization["musicLocationEnd"] == null ? Scene.NOBGMUSIC: serialization["musicLocationEnd"];
+        musicLocationEnd = serialization["musicLocationEnd"];
+        musicLocationEnd ??= Scene.NOBGMUSIC;
+
         afterFlavorText = serialization["afterFlavorText"];
         name = serialization["name"];
         targetFilters = new List.from((serialization["targetFilters"] as List).map((subserialization) => TargetFilter.fromSerialization(subserialization)));

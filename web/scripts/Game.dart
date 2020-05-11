@@ -83,7 +83,8 @@ class Game {
         Element sceneElement = await spotlightScene.render(sceneElements.length);
         sceneElements.add(sceneElement);
         AudioElement audio = new AudioElement()..loop=true;
-        if(spotlightScene.musicLocation != Scene.NOBGMUSIC) {
+        if(spotlightScene.musicLocationEnd != Scene.NOBGMUSIC) {
+            print("the src is ${spotlightScene.musicLocationEnd}");
             audio.src = spotlightScene.musicLocation;
         }
         audioElements.add(audio);
