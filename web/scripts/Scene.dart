@@ -97,6 +97,8 @@ class Scene {
         return "Scene $name TargetOne: $targetOne Filters: ${targetFilters.map((TargetFilter f) => f.debugString())}, Effects ${effects.map((ActionEffect f) => f.debugString())}";
     }
 
+    String get className => ("${name}-${author}").replaceAll(new RegExp(r"\s+\b|\b\s"),"");
+
     String get proccessedBeforeText => processText(beforeFlavorText);
     String get proccessedAfterText => processText(afterFlavorText);
 
@@ -168,7 +170,7 @@ class Scene {
 
 
     Future<Element> render(int debugNumber)async  {
-        container = new DivElement()..classes.add("scene")..classes.add("${name}-${author}");
+        container = new DivElement()..classes.add("scene")..classes.add(className);
         stageHolder = new DivElement()..classes.add("stageholder");
         stageHolder.style.width ="${stageWidth}px";
         stageHolder.style.height ="${stageHeight}px";
@@ -195,15 +197,16 @@ class Scene {
     }
 
     void attachDebugElement(Element parent) {
-        DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add("${name}-${author}");
-        for(Entity entity in scenario.entitiesReadOnly) {
+        DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add(className)..setInnerHtml("<h2>$className</h2>");
+        for(Entity entity in scenario.activeEntitiesReadOnly) {
             DivElement entityElement = new DivElement()..classes.add("debugEntity");
             Element header = new HeadingElement.h3()..text = "${entity.name}";
             entityElement.append(header);
             debug.append(entityElement);
             TableElement stringMemoryElement = new TableElement();
+            entityElement.append(stringMemoryElement);
             TableRowElement tr = new TableRowElement();
-            stringMemoryElement..append(tr);
+            stringMemoryElement.append(tr);
             Element th = new Element.th()..text = "String Memory Key";
             tr.append(th);
             Element th2 = new Element.th()..text = "Memory Value After Scene";
@@ -219,14 +222,15 @@ class Scene {
             }
 
             TableElement numMemoryElement = new TableElement();
+            entityElement.append(numMemoryElement);
             TableRowElement tr2 = new TableRowElement();
-            numMemoryElement..append(tr);
+            numMemoryElement.append(tr2);
             Element th4 = new Element.th()..text = "NumMemory Key";
             tr2.append(th4);
             Element th3 = new Element.th()..text = "Memory Value After Scene";
             tr2.append(th3);
 
-            Map<String,String> numMemory = entity.readOnlyStringMemory;
+            Map<String,num> numMemory = entity.readOnlyNumMemory;
             for(String key in numMemory.keys) {
                 TableRowElement tr_key = new TableRowElement();
                 numMemoryElement..append(tr_key);
