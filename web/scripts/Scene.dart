@@ -168,7 +168,7 @@ class Scene {
 
 
     Future<Element> render(int debugNumber)async  {
-        container = new DivElement()..classes.add("scene");
+        container = new DivElement()..classes.add("scene")..classes.add("${name}-${author}");
         stageHolder = new DivElement()..classes.add("stageholder");
         stageHolder.style.width ="${stageWidth}px";
         stageHolder.style.height ="${stageHeight}px";
