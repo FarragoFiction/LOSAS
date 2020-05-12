@@ -144,6 +144,7 @@ class Scenario {
 
     Scene checkStopScenes() {
       for(final Scene scene in stopScenes) {
+          scene.scenario ??=this;
           print("checking stop scene $scene with activeEntities $activeEntitiesReadOnly, btw the scene has these filters ${scene.targetFilters}");
           final bool active = scene.checkIfActivated(activeEntitiesReadOnly);
           print("was the stop scene activated: $active, the targets are ${scene.finalTargets}");
@@ -164,12 +165,14 @@ class Scenario {
               ret = e.performScene(activeEntitiesReadOnly);
               if(ret != null) {
                   spotLightEntity = e;
+                  ret.scenario ??=this;
                   return ret;
               }
           }else{
               ret = e.checkForActivationScenes(activeEntitiesReadOnly);
               if(ret != null) {
                   spotLightEntity = e;
+                  ret.scenario ??=this;
                   return ret;
               }
           }

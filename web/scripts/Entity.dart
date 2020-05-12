@@ -33,8 +33,11 @@ class Entity {
     Scenario scenario;
     Random get rand => scenario.rand;
     Map<String,String> _stringMemory = new Map<String,String>();
+    Map<String,String> get readOnlyStringMemory => new Map<String,String>.from(_stringMemory);
     Map<String,dynamic> get debugMemory => new Map<String,dynamic>.from(_stringMemory)..addAll(_numMemory);
     Map<String,num> _numMemory = new Map<String, num>();
+    Map<String,num> get readOnlyNumMemory => new Map<String,num>.from(_numMemory);
+
     //a generator will create a value for a given key and store it in either string memory or num memory based on what it is.
     Map<String, List<Generator>> _generators = new Map<String, List<Generator>>();
     bool isActive = false;

@@ -189,8 +189,55 @@ class Scene {
 
 
         container.append(narrationDiv);
-
+        //always do this, never know when people will want to debug their shit
+        attachDebugElement(container);
         return container;
+    }
+
+    void attachDebugElement(Element parent) {
+        DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add("${name}-${author}");
+        for(Entity entity in scenario.entitiesReadOnly) {
+            DivElement entityElement = new DivElement()..classes.add("debugEntity");
+            Element header = new HeadingElement.h3()..text = "${entity.name}";
+            entityElement.append(header);
+            debug.append(entityElement);
+            TableElement stringMemoryElement = new TableElement();
+            TableRowElement tr = new TableRowElement();
+            stringMemoryElement..append(tr);
+            Element th = new Element.th()..text = "String Memory Key";
+            tr.append(th);
+            Element th2 = new Element.th()..text = "Memory Value After Scene";
+            tr.append(th2);
+            Map<String,String> stringMemory = entity.readOnlyStringMemory;
+            for(String key in stringMemory.keys) {
+                TableRowElement tr_key = new TableRowElement();
+                stringMemoryElement..append(tr_key);
+                Element td = new Element.td()..text = key;
+                tr_key.append(td);
+                Element td2 = new Element.td()..text = "${stringMemory[key]}";
+                tr_key.append(td2);
+            }
+
+            TableElement numMemoryElement = new TableElement();
+            TableRowElement tr2 = new TableRowElement();
+            numMemoryElement..append(tr);
+            Element th4 = new Element.th()..text = "NumMemory Key";
+            tr2.append(th4);
+            Element th3 = new Element.th()..text = "Memory Value After Scene";
+            tr2.append(th3);
+
+            Map<String,String> numMemory = entity.readOnlyStringMemory;
+            for(String key in numMemory.keys) {
+                TableRowElement tr_key = new TableRowElement();
+                numMemoryElement..append(tr_key);
+                Element td = new Element.td()..text = key;
+                tr_key.append(td);
+                Element td2 = new Element.td()..text = "${numMemory[key]}";
+                tr_key.append(td2);
+            }
+
+        }
+        parent.append(debug);
     }
 
 
