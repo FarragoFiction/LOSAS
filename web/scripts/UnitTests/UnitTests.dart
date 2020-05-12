@@ -91,7 +91,7 @@ abstract class UnitTests {
     }
 
 
-    static void runDisplayTest(Element element) {
+    static void runDisplayTest(Element element) async {
         Scenario scenario = Scenario.testScenario();
 
         setupAliceSendsMessage(scenario);
