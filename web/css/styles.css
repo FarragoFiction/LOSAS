@@ -28,6 +28,15 @@ html, body {
   font-family: 'nunito', sans-serif;
 }
 
+.void{
+   background-color:navy;
+   color:white;
+}
+
+html:not([data-seerOf=void]) .void {
+  display:none;
+}
+
 #output {
   margin: 25px;
   padding: 20px;
