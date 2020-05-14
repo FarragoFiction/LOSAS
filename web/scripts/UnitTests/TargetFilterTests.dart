@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../DataStringHelper.dart';
+import '../TargetFilters/KeepIfHasSceneThatSerializesToValue.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
 import '../TargetFilters/KeepIfRandomNumberLessThan.dart';
 import '../TargetFilters/KeepIfYouAreMe.dart';
@@ -17,6 +18,8 @@ abstract class TargetFilterTests {
         testTFNumIsValue(element);
         testTFStringExists(element);
         testTFStringIsValue(element);
+        testTFSceneIsValue(element);
+
         testTFStringContainsValue(element);
         testTFNameIsValue(element);
         testTFYouAreNotMe(element);
@@ -216,6 +219,26 @@ abstract class TargetFilterTests {
         result = scene.checkIfActivated(scenario.entitiesReadOnly);
         UnitTests.processTest("testTFStringIsValue Test3", false, result, element);
         UnitTests.processTest("testTFStringIsValue 0 targets", "{}", scene.targets.toString(), element);
+    }
+
+    static void testTFSceneIsValue(Element element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        String dataString = "Be Deacon:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbF1kAygEFBACQCmjKBDAA6AA6oiuKGAQEJUMqgkooCCBNoSAZogkAxDGABuiEhIAeUYgG0yAdQBynAEpygiR+AJLeAOIAspyRZH4AmnKoYAC2EgC6AAQwYADOmTxSrIU8mbAsmW4kwn7hnCSBwWFRMXGJyWlZuTlYmXgSmRQAigAM3pl5mQDuElhyNOCmUBII1nYOzq7IIFU1dQ1BoRHRsQlJqRmZrPmocFODo97zuB162wBCAxQSYIwcC2oNFpLKwMMsELkUG5QFAAJ4KN4gADSEgkChCpj8YF4cBS3ggKX6CDoElyuRIOVQC1sCGuAGswChTGAMLljCBbltmaz2awUgpEGpUFBPIgeJDkMAAL64PkChBCqD4wkrCWgVioBTQWwsowoEZyACsUql6VwZlMUigEuhIDhCOIgi0FDgWEEBg1BEsCFxkVhkQkKUQsIWcsF2JFYrVIDSQYQsJRIe2jAgCAQEmFLrdHuUAGFKQRPS7Sd44LBPSAZSAwwqI8qiWqqzT6YzkNy2TKYfDEcIFAjeO7acoSHBvRxXLL+eHhaKEOKUKBclBEGBNIniK8FkuhwQR73+3xtsMxpXJ-LFfXVQum7TcgymSyO+kpUA";
+        TargetFilter filter = new KeepIfHasSceneThatSerializesToValue(dataString);
+        scene.targetFilters.add(filter);
+        scenario.entitiesReadOnly.first.addScene(scene);
+        bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFSceneIsValue Test1", false, result, element);
+        UnitTests.processTest("testTFSceneIsValue 0 targets", "{}", scene.targets.toString(), element);
+
+
+
+        scenario.entitiesReadOnly.first.addScene(new Scene.fromDataString(dataString));
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFSceneIsValue Test2", true, result, element);
+        UnitTests.processTest("testTFSceneIsValue 1 targets", "{Alice}", scene.targets.toString(), element);
+
     }
 
     static void testTFNameIsValue(Element element) {
