@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../Entity.dart';
 import '../Scene.dart';
+import 'KeepIfHasSceneThatSerializesToValue.dart';
 import 'KeepIfNameIsValue.dart';
 import 'KeepIfNumExists.dart';
 import 'KeepIfNumIsGreaterThanValue.dart';
@@ -81,7 +82,7 @@ abstract class TargetFilter {
     }
 
     static void setExamples() {
-        exampleOfAllFilters ??= <TargetFilter>[new KeepIfYouAreMe(), new KeepIfStringIsValue(null,null), new KeepIfStringExists(null),new KeepIfStringContainsValue(null,null),new KeepIfRandomNumberLessThan(null),new KeepIfNumIsValue(null,null),new KeepIfNumIsGreaterThanValueFromMemory(null,null),new KeepIfNumIsGreaterThanValue(null,null), new KeepIfNumExists(null),new KeepIfNameIsValue(null)];
+        exampleOfAllFilters ??= <TargetFilter>[new KeepIfYouAreMe(), new KeepIfHasSceneThatSerializesToValue(null), new KeepIfStringIsValue(null,null), new KeepIfStringExists(null),new KeepIfStringContainsValue(null,null),new KeepIfRandomNumberLessThan(null),new KeepIfNumIsValue(null,null),new KeepIfNumIsGreaterThanValueFromMemory(null,null),new KeepIfNumIsGreaterThanValue(null,null), new KeepIfNumExists(null),new KeepIfNameIsValue(null)];
     }
 
 

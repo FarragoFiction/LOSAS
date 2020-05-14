@@ -15,6 +15,7 @@ class Scene {
     static int stageHeight = 600;
     String bgLocationEnd;
     String musicLocationEnd;
+    //TODO this is implemented, but harder than i thought to get a file to start playing at time x without preloading it.
     num musicOffset = 0;
 
     static String bgLocationFront = "images/BGs/";
