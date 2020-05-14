@@ -150,7 +150,7 @@ class Scene {
             String replacement = "";
             for(Entity entity in finalTargets) {
                 if(entity == finalTargets.first) {
-                    replacement = entity.getNumMemory(tag);
+                    replacement = "${entity.getNumMemory(tag)}";
                 }else if(finalTargets.length > 1 && entity !=finalTargets.last) {
                     replacement = "$replacement, ${entity.getNumMemory(tag)}";
                 }else {
