@@ -149,7 +149,7 @@ abstract class SceneFormHelper {
             }
         }
         String selected = options.first;
-        bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=true;
+        bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=false;
 
 
 

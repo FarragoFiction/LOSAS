@@ -67,7 +67,6 @@ class Scene {
     }
 
     void loadFromSerialization(Map<String,dynamic> serialization) {
-        print("loading from serialization ${serialization}");
         author = serialization["author"];
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];
@@ -96,7 +95,6 @@ class Scene {
         ret["name"] = name;
         ret["targetFilters"] = targetFilters.map((TargetFilter filter) => filter.getSerialization()).toList();
         ret["effects"] = effects.map((ActionEffect effect) => effect.getSerialization()).toList();
-        print("serializing $ret");
         return ret;
     }
     String debugString() {
