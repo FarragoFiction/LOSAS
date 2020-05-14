@@ -117,9 +117,10 @@ abstract class ActionEffectTests {
         ActionEffect effect = new AEAddScene(dataString);
         scene.effects.add(effect);
         scene.targets.add(scenario.entitiesReadOnly[1]);
-        int numberScenes = scenario.entitiesReadOnly.first.readOnlyScenes.length;
+        int numberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
         scene.applyEffects();
-        UnitTests.processTest("testSetScene alice has a new scene", scenario.entitiesReadOnly.first.readOnlyScenes.length==numberScenes+1 , false, element);
+        int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
+        UnitTests.processTest("testSetScene target has a new scene ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
     }
 
     static void testDollStringFromMemory(element) {
