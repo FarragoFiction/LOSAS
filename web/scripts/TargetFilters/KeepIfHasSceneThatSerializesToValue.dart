@@ -14,7 +14,8 @@ class KeepIfHasSceneThatSerializesToValue extends TargetFilter {
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
     for(Scene s in possibleTarget.readOnlyScenes) {
-      if(s.toDataString() == importantWords[INPUTVALUE]) {
+      final Scene comparison = new Scene.fromDataString(importantWords[INPUTVALUE]);
+      if(s.toDataString() == comparison.toDataString()) {
         return true;
       }
     }
