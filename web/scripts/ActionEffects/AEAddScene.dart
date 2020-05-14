@@ -14,7 +14,7 @@ class AEAddScene extends ActionEffect {
 
   @override
   void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.addScene(new Scene.fromDataString((importantWords[INPUTVALUE]))));
+    entities.forEach((Entity e) => e.addSceneFront(new Scene.fromDataString((importantWords[INPUTVALUE]))));
   }
 
 }

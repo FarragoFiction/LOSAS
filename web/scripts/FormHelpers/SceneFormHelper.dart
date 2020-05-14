@@ -149,7 +149,7 @@ abstract class SceneFormHelper {
             }
         }
         String selected = options.first;
-        bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=false;
+        bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=true;
 
 
 
@@ -268,9 +268,8 @@ abstract class SceneFormHelper {
     }
 
     static void doMusic() {
-        print("scene music offset is ${scene.musicOffset}");
         bgMusicPreviewElement.src = "${scene.musicLocation}";
-        musicOffSetElement.value = "${scene.musicOffset}";
+        //musicOffSetElement.value = "${scene.musicOffset}";
         bgMusicPreviewElement.currentTime = scene.musicOffset;
         print("selected options is  ${bgMusicElement.selectedOptions}");
         bgMusicElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.musicLocationEnd);

@@ -128,6 +128,11 @@ class Entity {
         _scenes.add(scene);
     }
 
+    void addSceneFront(Scene scene) {
+        scene.owner = this;
+        _scenes.insert(0,scene);
+    }
+
     void addActivationScene(Scene scene) {
         scene.owner = this;
         _activationScenes.add(scene);
