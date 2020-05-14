@@ -15,6 +15,7 @@ class Scene {
     static int stageHeight = 600;
     String bgLocationEnd;
     String musicLocationEnd;
+    num musicOffset = 0;
 
     static String bgLocationFront = "images/BGs/";
     static String musicLocationFront = "Music/";
@@ -66,6 +67,7 @@ class Scene {
     }
 
     void loadFromSerialization(Map<String,dynamic> serialization) {
+        print("loading from serialization ${serialization}");
         author = serialization["author"];
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];
@@ -75,6 +77,9 @@ class Scene {
 
         afterFlavorText = serialization["afterFlavorText"];
         name = serialization["name"];
+        musicOffset = serialization["musicOffset"];
+        musicOffset ??= 0;
+
         targetFilters = new List.from((serialization["targetFilters"] as List).map((subserialization) => TargetFilter.fromSerialization(subserialization)));
         effects = new List.from((serialization["effects"] as List).map((subserialization) => ActionEffect.fromSerialization(subserialization)));
     }
@@ -82,7 +87,7 @@ class Scene {
     Map<String,dynamic> getSerialization() {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["author"] = author;
-        ret["bg"] = "TODO";
+        ret["musicOffset"] = musicOffset;
         ret["bgLocationEnd"] = bgLocationEnd;
         ret["musicLocationEnd"] = musicLocationEnd;
         ret["targetOne"] = targetOne;
@@ -91,6 +96,7 @@ class Scene {
         ret["name"] = name;
         ret["targetFilters"] = targetFilters.map((TargetFilter filter) => filter.getSerialization()).toList();
         ret["effects"] = effects.map((ActionEffect effect) => effect.getSerialization()).toList();
+        print("serializing $ret");
         return ret;
     }
     String debugString() {

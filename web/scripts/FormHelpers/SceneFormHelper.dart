@@ -24,6 +24,7 @@ abstract class SceneFormHelper {
     static Scene scene;
     static TextAreaElement dataStringElement;
     static InputElement nameElement;
+    static InputElement musicOffSetElement;
     static SelectElement bgElement;
     static ImageElement bgPreviewElement;
     static SelectElement bgMusicElement;
@@ -55,8 +56,7 @@ abstract class SceneFormHelper {
             syncDataStringToScene();
         });
 
-        await setupBGS(formHolder);
-        await setupBGMusics(formHolder);
+
         targetOneElement = attachCheckInputElement(formHolder, "Single Target", scene.targetOne, (e)
         {
             scene.targetOne = e.target.checked;
@@ -86,7 +86,8 @@ abstract class SceneFormHelper {
         });
 
         wireUpScripting(afterTextElement, afterTextHolder);
-
+        await setupBGS(formHolder);
+        await setupBGMusics(formHolder);
 
 
 
@@ -107,7 +108,11 @@ abstract class SceneFormHelper {
         });
     }
 
-    static void setupBGS(Element formHolder) async {
+    static void setupBGS(Element parent) async {
+        DivElement holder = new DivElement()..classes.add("subholder");
+        parent.append(holder);
+        Element header = HeadingElement.h1()..text = "BG Image:";
+        holder.append(header);
         List<String> options = new List<String>();
         Map<String,dynamic> results = await Loader.getResource(imageListSource,format: Formats.json );
         for(String folder in results["folders"].keys) {
@@ -117,10 +122,10 @@ abstract class SceneFormHelper {
         }
         String selected = options.first;
         scene.bgLocationEnd = options.first;
-        bgPreviewElement = new ImageElement();
+        bgPreviewElement = new ImageElement()..style.width="820px";
         bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
-        formHolder.append(bgPreviewElement);
-        bgElement = attachDropDownElement(formHolder, "BG Image:", options, selected, (e)
+        holder.append(bgPreviewElement);
+        bgElement = attachDropDownElement(holder, "BG Image:", options, selected, (e)
         {
             scene.bgLocationEnd = e.target.value;
             bgPreviewElement.src = "${scene.bgLocation}";
@@ -128,7 +133,12 @@ abstract class SceneFormHelper {
         });
     }
 
-    static void setupBGMusics(Element formHolder) async {
+    static void setupBGMusics(Element parent) async {
+        DivElement holder = new DivElement()..classes.add("subholder");
+        parent.append(holder);
+        Element header = HeadingElement.h1()..text = "BG Music:";
+        holder.append(header);
+
         List<String> options = new List<String>();
         options.add(Scene.NOBGMUSIC);
         Map<String,dynamic> results = await Loader.getResource(musicListSource,format: Formats.json );
@@ -140,14 +150,27 @@ abstract class SceneFormHelper {
         }
         String selected = options.first;
         bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=true;
+
+
+
         bgMusicPreviewElement.src = "${Scene.musicLocationFront}$selected";
-        formHolder.append(bgMusicPreviewElement);
-        bgMusicElement = attachDropDownElement(formHolder, "BG Music:", options, selected, (e)
+        holder.append(bgMusicPreviewElement);
+        bgMusicElement = attachDropDownElement(holder, "BG Music:", options, selected, (e)
         {
             scene.musicLocationEnd = e.target.value;
             bgMusicPreviewElement.src = "${scene.musicLocation}";
             syncDataStringToScene();
         });
+        musicOffSetElement = attachNumberInputElement(holder, "Music Offset (seconds): ", 0,(e) {
+            scene.musicOffset = num.parse(e.target.value);
+        });
+        ButtonElement button = new ButtonElement()..text = "Get OffSet From Preview Current Time";
+        button.onClick.listen((Event e) {
+            musicOffSetElement.value = "${bgMusicPreviewElement.currentTime}";
+            scene.musicOffset = num.parse(musicOffSetElement.value);
+            syncDataStringToScene();
+        });
+        holder.append(button);
     }
 
     //rerenders every sync
@@ -242,8 +265,10 @@ abstract class SceneFormHelper {
     }
 
     static void doMusic() {
-        print("scene music location is ${scene.musicLocation}");
+        print("scene music offset is ${scene.musicOffset}");
         bgMusicPreviewElement.src = "${scene.musicLocation}";
+        musicOffSetElement.value = "${scene.musicOffset}";
+        bgMusicPreviewElement.currentTime = scene.musicOffset;
         print("selected options is  ${bgMusicElement.selectedOptions}");
         bgMusicElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.musicLocationEnd);
     }
