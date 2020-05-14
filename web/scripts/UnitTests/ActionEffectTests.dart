@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:DollLibCorrect/DollRenderer.dart';
 
 import '../ActionEffects/AEAddNumFromYourMemory.dart';
+import '../ActionEffects/AEAddScene.dart';
 import '../ActionEffects/AEAppendStringFront.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyNumToTarget.dart';
@@ -23,6 +24,7 @@ abstract class ActionEffectTests {
         testAddNum(element);
         testAddNumFromMemory(element);
         testSetString(element);
+        testSetScene(element);
         testUnSetString(element);
         testAppendString(element);
         testUnAppendString(element);
@@ -106,6 +108,18 @@ abstract class ActionEffectTests {
         UnitTests.processTest("testSetString ", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
         UnitTests.processTest("testSetString text is replaced", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+    }
+
+    static void testSetScene(element) {
+        Scenario scenario = Scenario.testScenario();
+        String dataString = "Be Deacon:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbF1kAygEFBACQCmjKBDAA6AA6oiuKGAQEJUMqgkooCCBNoSAZogkAxDGABuiEhIAeUYgG0yAdQBynAEpygiR+AJLeAOIAspyRZH4AmnKoYAC2EgC6AAQwYADOmTxSrIU8mbAsmW4kwn7hnCSBwWFRMXGJyWlZuTlYmXgSmRQAigAM3pl5mQDuElhyNOCmUBII1nYOzq7IIFU1dQ1BoRHRsQlJqRmZrPmocFODo97zuB162wBCAxQSYIwcC2oNFpLKwMMsELkUG5QFAAJ4KN4gADSEgkChCpj8YF4cBS3ggKX6CDoElyuRIOVQC1sCGuAGswChTGAMLljCBbltmaz2awUgpEGpUFBPIgeJDkMAAL64PkChBCqD4wkrCWgVioBTQWwsowoEZyACsUql6VwZlMUigEuhIDhCOIgi0FDgWEEBg1BEsCFxkVhkQkKUQsIWcsF2JFYrVIDSQYQsJRIe2jAgCAQEmFLrdHuUAGFKQRPS7Sd44LBPSAZSAwwqI8qiWqqzT6YzkNy2TKYfDEcIFAjeO7acoSHBvRxXLL+eHhaKEOKUKBclBEGBNIniK8FkuhwQR73+3xtsMxpXJ-LFfXVQum7TcgymSyO+kpUA";
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AEAddScene(dataString);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        int numberScenes = scenario.entitiesReadOnly.first.readOnlyScenes.length;
+        scene.applyEffects();
+        UnitTests.processTest("testSetScene alice has a new scene", scenario.entitiesReadOnly.first.readOnlyScenes.length==numberScenes+1 , false, element);
     }
 
     static void testDollStringFromMemory(element) {
