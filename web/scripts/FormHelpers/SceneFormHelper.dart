@@ -161,8 +161,10 @@ abstract class SceneFormHelper {
             bgMusicPreviewElement.src = "${scene.musicLocation}";
             syncDataStringToScene();
         });
-        musicOffSetElement = attachNumberInputElement(holder, "Music Offset (seconds): ", 0,(e) {
+        //TODO offset stuff doesn't seem to work consistently, not all songs are seekable?
+        /*musicOffSetElement = attachNumberInputElement(holder, "Music Offset (seconds): ", 0,(e) {
             scene.musicOffset = num.parse(e.target.value);
+            syncDataStringToScene();
         });
         ButtonElement button = new ButtonElement()..text = "Get OffSet From Preview Current Time";
         button.onClick.listen((Event e) {
@@ -171,6 +173,7 @@ abstract class SceneFormHelper {
             syncDataStringToScene();
         });
         holder.append(button);
+        */
     }
 
     //rerenders every sync

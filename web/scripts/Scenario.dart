@@ -207,7 +207,7 @@ class Scenario {
 
         name = "Alice messages Bob";
         //TODO introduction needs to be an array
-        frameScenes.add(new Scene.fromDataString("Introduction:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgBGA5iiACoDyAImyLYwDJwyYKAEs4AOwCi4zMwDi8CABsA9DEjiouAPqLiAOgAO4prQC2EQiLIChoidNmoAniQTiAZsoBycHCoRrAGsRQgRsJREGMUt9OAZTEChSBmwoNnFsFA8wJWJebA9EbAAxJTAAN0QWbAAPKGYASXEAAjAWsgRnQyh4hDBDGGtcpWcW8KVsCrBNDsRMhBa4DxbYbBaIcREKqgN9fR5wDy0EMsrquobUQ-EwMyzUZqgEPwgye3FD5IRUqBKRJQnQgoADaAF1aIUPNh3sDkOCAL5AA")..scenario=this);
+        frameScenes.add(new Scene.fromDataString("Introduction:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgC2EhAlmQPIBm7xUKAjAJwA6fgBYArACZevWgCMA5gBk4ZMFCZwAdgFFNmFCADi8CABsA9DEiaouAPoniggA6b5IWg2Zllq9Vt19VDowTRYASU1CODowsDJzADVSeQRQqEE4eXdaKBTsKFZNbBR2MFNiOWx2RGwAMVMwADdEABVsAA8eVEiAAjBesgQAT2coLLTnGBZy02HehGxTbCb0wcRihF64dl7YbF6IMKaqJ0FBD3B2WwQG5rbO7pBLzTA6Ep6bBDhMCDJ-TSXPIIeQFOpMUw3QgoADaAF1aNV2Nh-tDkPCAL5AA")..scenario=this);
 
         seed = 85;
         rand = new Random(seed);
