@@ -60,6 +60,8 @@ class Scene {
         loadFromSerialization(serialization);
     }
 
+    String toString() => name;
+
     String toDataString() {
         return DataStringHelper.serializationToDataString(name,getSerialization());
     }
@@ -210,7 +212,9 @@ class Scene {
             DivElement entityElement = new DivElement()..classes.add("debugEntity");
             Element header = new HeadingElement.h3()..text = "${entity.name}";
             entityElement.append(header);
+            DivElement scenes = new DivElement()..text = "Scenes: ${entity.readOnlyScenes.join(",")}, ActivationScenes: ${entity.readOnlyActivationScenes.join(",")}";
             debug.append(entityElement);
+            entityElement.append(scenes);
             TableElement stringMemoryElement = new TableElement();
             entityElement.append(stringMemoryElement);
             TableRowElement tr = new TableRowElement();
