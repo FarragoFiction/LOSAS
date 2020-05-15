@@ -1,17 +1,40 @@
 //there should be an effect to set a string or num to a generated value, that ALSO takes in a backup default value if the entity can't find one.
 import 'package:CommonLib/Random.dart';
 
+import 'DataStringHelper.dart';
 import 'Entity.dart';
 
 abstract class Generator {
 
     String key;
+
     Generator(this.key);
     dynamic generateValue(Random rand);
     String values();
+    Map<String,dynamic> getSerialization();
+    void loadFromSerialization(Map<String,dynamic> serialization);
+    void loadFromDataString(String dataString);
+
+    String toDataString() {
+        return DataStringHelper.serializationToDataString(key,getSerialization());
+    }
+
+    static Generator fromSerialization(Map<String,dynamic> serialization) {
+        final String type = serialization["type"];
+        if(type == StringGenerator.TYPE) {
+            return new StringGenerator(null,null)..loadFromSerialization(serialization);
+        }else if(type == NumGenerator.TYPE) {
+            return new NumGenerator(null,null,null)..loadFromSerialization(serialization);
+        }else {
+            print("ERROR: UNKNOWN TYPE");
+            return null;
+        }
+    }
+
 }
 
 class StringGenerator extends Generator {
+    static final String TYPE = "STRING";
     List<String> possibleValues = new List<String>();
     StringGenerator(String key,this.possibleValues, ) : super(key);
 
@@ -25,9 +48,29 @@ class StringGenerator extends Generator {
     return "<li>${possibleValues.join("<li>")}";
   }
 
+  @override
+  Map<String, dynamic> getSerialization() {
+      Map<String,dynamic> ret = new Map<String,dynamic>();
+      ret["key"] = key;
+      ret["type"] = TYPE;
+      ret["possibleValues"] = possibleValues;
+    return ret;
+  }
+
+  @override
+  void loadFromDataString(String dataString) {
+    // TODO: implement loadFromDataString
+  }
+
+  @override
+  void loadFromSerialization(Map<String, dynamic> serialization) {
+    // TODO: implement loadFromSerialization
+  }
+
 }
 
 class NumGenerator extends Generator {
+    static final String TYPE = "NUM";
     num max;
     num min;
   NumGenerator(String key,this.min, this.max) : super(key);
@@ -45,6 +88,26 @@ class NumGenerator extends Generator {
   @override
   String values() {
     return "<li>[$min, $max]";
+  }
+
+  @override
+  Map<String, dynamic> getSerialization() {
+      Map<String,dynamic> ret = new Map<String,dynamic>();
+      ret["key"] = key;
+      ret["type"] = TYPE;
+      ret["min"] = min;
+      ret["min"] = max;
+      return ret;
+  }
+
+  @override
+  void loadFromDataString(String dataString) {
+    // TODO: implement loadFromDataString
+  }
+
+  @override
+  void loadFromSerialization(Map<String, dynamic> serialization) {
+    // TODO: implement loadFromSerialization
   }
 
 }
