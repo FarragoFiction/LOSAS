@@ -13,10 +13,16 @@ abstract class Generator {
     String values();
     Map<String,dynamic> getSerialization();
     void loadFromSerialization(Map<String,dynamic> serialization);
-    void loadFromDataString(String dataString);
 
+    void loadFromDataString(String dataString) {
+        loadFromSerialization(DataStringHelper.serializationFromDataString(dataString));
+    }
     String toDataString() {
         return DataStringHelper.serializationToDataString(key,getSerialization());
+    }
+
+    static Generator fromDataString(String dataString) {
+        return fromSerialization(DataStringHelper.serializationFromDataString(dataString));
     }
 
     static Generator fromSerialization(Map<String,dynamic> serialization) {
@@ -57,14 +63,12 @@ class StringGenerator extends Generator {
     return ret;
   }
 
-  @override
-  void loadFromDataString(String dataString) {
-    // TODO: implement loadFromDataString
-  }
+
 
   @override
   void loadFromSerialization(Map<String, dynamic> serialization) {
-    // TODO: implement loadFromSerialization
+    key = serialization["key"];
+    possibleValues = serialization["possibleValues"];
   }
 
 }
@@ -96,18 +100,18 @@ class NumGenerator extends Generator {
       ret["key"] = key;
       ret["type"] = TYPE;
       ret["min"] = min;
-      ret["min"] = max;
+      ret["max"] = max;
       return ret;
   }
 
-  @override
-  void loadFromDataString(String dataString) {
-    // TODO: implement loadFromDataString
-  }
+
 
   @override
   void loadFromSerialization(Map<String, dynamic> serialization) {
-    // TODO: implement loadFromSerialization
+      key = serialization["key"];
+      min = serialization["min"];
+      max = serialization["max"];
+
   }
 
 }
