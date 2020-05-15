@@ -8,6 +8,7 @@ abstract class Generator {
     String key;
     Generator(this.key);
     dynamic generateValue(Random rand);
+    String values();
 }
 
 class StringGenerator extends Generator {
@@ -17,6 +18,11 @@ class StringGenerator extends Generator {
   @override
   dynamic generateValue(Random rand) {
     return rand.pickFrom(possibleValues);
+  }
+
+  @override
+  String values() {
+    return "<li>${possibleValues.join("<li>")}";
   }
 
 }
@@ -34,6 +40,11 @@ class NumGenerator extends Generator {
     }else {
        return (rand.nextDoubleRange(min,max)*100).round()/100.0;
     }
+  }
+
+  @override
+  String values() {
+    return "<li>[$min, $max]";
   }
 
 }

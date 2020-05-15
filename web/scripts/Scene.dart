@@ -1,6 +1,7 @@
 import "dart:html";
 import 'ActionEffects/ActionEffect.dart';
 import 'DataStringHelper.dart';
+import 'Generator.dart';
 import 'Scenario.dart';
 import "TargetFilters/TargetFilter.dart";
 import 'Entity.dart';
@@ -221,7 +222,7 @@ class Scene {
             Map<String,String> stringMemory = entity.readOnlyStringMemory;
             for(String key in stringMemory.keys) {
                 TableRowElement tr_key = new TableRowElement();
-                stringMemoryElement..append(tr_key);
+                stringMemoryElement.append(tr_key);
                 Element td = new Element.td()..text = key;
                 tr_key.append(td);
                 Element td2 = new Element.td()..text = "${stringMemory[key]}";
@@ -240,10 +241,32 @@ class Scene {
             Map<String,num> numMemory = entity.readOnlyNumMemory;
             for(String key in numMemory.keys) {
                 TableRowElement tr_key = new TableRowElement();
-                numMemoryElement..append(tr_key);
+                numMemoryElement.append(tr_key);
                 Element td = new Element.td()..text = key;
                 tr_key.append(td);
                 Element td2 = new Element.td()..text = "${numMemory[key]}";
+                tr_key.append(td2);
+            }
+
+            TableElement generatorElement = new TableElement();
+            entityElement.append(generatorElement);
+            TableRowElement tr2g = new TableRowElement();
+            generatorElement.append(tr2g);
+            Element th4g = new Element.th()..text = "Generator Key";
+            tr2g.append(th4g);
+            Element th3g = new Element.th()..text = "Generator Values Post Scene";
+            tr2g.append(th3g);
+
+            Map<String, List<Generator>> generators = entity.readOnlyGenerators;
+            for(String key in generators.keys) {
+
+                TableRowElement tr_key = new TableRowElement();
+                generatorElement.append(tr_key);
+                Element td = new Element.td()..text = key;
+                tr_key.append(td);
+
+                List<String> values = generators[key].map((Generator g) => g.values());
+                Element td2 = new Element.td()..setInnerHtml("${values.join("")}");
                 tr_key.append(td2);
             }
 

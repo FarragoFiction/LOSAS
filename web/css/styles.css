@@ -28,6 +28,16 @@ html, body {
   font-family: 'nunito', sans-serif;
 }
 
+table{
+    padding: 30px;
+}
+
+td{
+    border: 1px solid white;
+    padding: 5px;
+    margin: 5px;
+}
+
 .void{
    background-color:navy;
    color:white;

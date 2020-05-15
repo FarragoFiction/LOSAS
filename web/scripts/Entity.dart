@@ -40,14 +40,15 @@ class Entity {
 
     //a generator will create a value for a given key and store it in either string memory or num memory based on what it is.
     Map<String, List<Generator>> _generators = new Map<String, List<Generator>>();
+    Map<String, List<Generator>> get readOnlyGenerators => new Map<String, List<Generator>>.from(_generators);
     bool isActive = false;
     //once active, these will be checked each tick
     List<Scene> _scenes = new List<Scene>();
     //before activation, these will be checked each tick, will activate once fired, you don't need to do this explicitly
     List<Scene> _activationScenes = new List<Scene>();
 
-    List<Scene> get readOnlyScenes => _scenes;
-    List<Scene> get readOnlyActivationScenes => _activationScenes;
+    List<Scene> get readOnlyScenes => new List<Scene>.from(_scenes);
+    List<Scene> get readOnlyActivationScenes => new List<Scene>.from(_activationScenes);
 
     Entity(this.name, optionalDollString) {
         setStringMemory(NAMEKEY,this.name);
