@@ -85,9 +85,10 @@ abstract class StringGeneratorFormHelper {
         try {
             generator.loadFromDataString(e.target.value);
         }catch(e) {
-            window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this.");
+            window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
         }
         keyElement.value = generator.key;
+        handleWords(null);
 
     }
 

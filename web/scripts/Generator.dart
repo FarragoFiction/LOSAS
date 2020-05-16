@@ -68,7 +68,7 @@ class StringGenerator extends Generator {
   @override
   void loadFromSerialization(Map<String, dynamic> serialization) {
     key = serialization["key"];
-    possibleValues = serialization["possibleValues"];
+    possibleValues = new List<String>.from(serialization["possibleValues"]);
   }
 
 }

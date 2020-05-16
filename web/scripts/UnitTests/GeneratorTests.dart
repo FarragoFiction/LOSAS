@@ -27,6 +27,7 @@ abstract class GeneratorTests {
         //do one specific example.
         final Generator numGen = new NumGenerator("secretNumber",13,133);
         final Generator stringGen = new StringGenerator("secretWord",<String>["hello","world"]);
+        String testString = "unitTest:___ N4Ig1gpgniBcIFcB2BLALgFQgZzSANCGlAA4RwgDKGASgJIByA4gSCQPbbYoBGANhABqAQz4IccANogAFhD592rAO7sATnwAmrZOlZoceALoBfIA";
 
         Map<String, dynamic> numSerialization = numGen.getSerialization();
         Map<String, dynamic> stringSerialization = stringGen.getSerialization();
@@ -38,5 +39,7 @@ abstract class GeneratorTests {
 
         UnitTests.processTest("Num Generator can be serialized to and from datastring",DataStringHelper.serializationToDataString("TestEffect",numGen.getSerialization()), DataStringHelper.serializationToDataString("TestEffect",recoveredNum.getSerialization()), element);
 
+        Generator g = Generator.fromDataString(testString);
+        UnitTests.processTest("Can load a generator from a datastring. ",stringGen.runtimeType, g.runtimeType,element);
     }
 }
