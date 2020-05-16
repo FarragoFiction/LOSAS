@@ -189,9 +189,9 @@ class Scenario {
 
 
 
-        Generator messageGenerator = new StringGenerator("secretMessageDraft", <String>["Carol actually kind of sucks...","I've never really liked Carol.", "Don't you think Carol's actually a ghost in disguise?"]);
-        Generator reactionGeneratorBob = new StringGenerator("reaction", <String>["[OWNER.STRINGMEMORY.name] posts a bear","[OWNER.STRINGMEMORY.name] doesn't really react"]);
-        Generator reactionGeneratorEve = new StringGenerator("reaction", <String>["She is scandalized that it reads '[TARGET.STRINGMEMORY.secretMessage]'.","Reading '[TARGET.STRINGMEMORY.secretMessage]', she reaches new heights of scandalized.", "[OWNER.STRINGMEMORY.name] can not even BELIEVE Alice would say '[TARGET.STRINGMEMORY.secretMessage]' about poor Carol."]);
+        Generator messageGenerator = Generator.fromDataString("secretMessageDraft:___ N4Ig1gpgniBcIGcIGMBOEAuBZCCEEMBzCAEVXwDMMQAaEDKABwjhAGUAVAJQEkA5AOK0QjAPZ4AlgCMANhABq+GQFdccANogAwvlSiZAAnzIMypTKgGwEgHYATA6IoGEy5GAQA6b8J4vl6AYAFqLMBjp6hjYQAG4QqAYUtnYIjsoYBgDuEADkcQZSEBA2BhhK1jaERlKi6cHx3p7CEfpGJmYyFlbJjs6u7l4+dCSiNjkZULWlQbZg4br6OanGpuaW+AaEIQgZtgZ2EgiEyocQAPwgALoAvkA");
+        Generator reactionGeneratorBob = Generator.fromDataString("reaction:___ N4Ig1gpgniBcICcIEMDGAXAlgewHYgBoR0oAHCOEAZQBUAlASQDkBxQkU7AZy8wCMANhABqyAQFcIXOAG0QMgPIB1JgFE6AOlqNWAWVW6FdAJobcyALYQAugAJOXdF1vJbfFAnaKV6rfWYs+oYmZpY2tgAm2FK4AOTotkhiAlCJKBgg1gC+QA");
+        Generator reactionGeneratorEve = Generator.fromDataString("reaction:___ N4Ig1gpgniBcICcIEMDGAXAlgewHYgBoR0oAHCOEAZQBUAlASQDkBxQkU7AZy8wCMANhABqyAQFcIXOAG1qACwgACTFyVdUyXABMxmAF4RtS9POToVFpMm1qA5DJoBBOiwCiNAHS1GrALJufgDydACanlwQqEjoflJcyADmEAC6dp7sdCjamLiJSg7Orh7e9MwsAcFhEVExcTxJqXYE6opK1qiKargQAO5KipiJ8uhq2ABm6po6eobaGUQyQQDqTG50pb4VgSHhuMgAtqlK00q42BYQAG4QuEoAQm4AMgxuwm5KTgKYqMq92OIBMYElACo4XO4vD5ypVdjVohBYvFGmklMg+ACLJxsAglABhZAIbACDIpAC+QA");
         Generator randomNumber =  Generator.fromDataString("randomNumber:___ N4Ig1gpgniBcICcCGA7AJgewLYDkCuWARhAiADQgAuUADhHCDgKoCy5IWAlinALQCM-AMwA6ACwUsSAB5xBogEwBfIA");
         Generator randomNumberInt = Generator.fromDataString("randomNumber:___ N4Ig1gpgniBcICcCGA7AJgewLYDkCuWARhAiADQgAuUADhHCDgKoCy5IWAlinAAwVYkADzgBGUQGYAvkA");
 
