@@ -10,6 +10,7 @@ import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyNumToTarget.dart';
 import '../ActionEffects/AECopyStringFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
+import '../ActionEffects/AERemoveGeneratorsForKey.dart';
 import '../ActionEffects/AESetDollStringFromMyMemory.dart';
 import '../ActionEffects/AESetDollStringFromYourMemory.dart';
 import '../ActionEffects/AESetNumGenerator.dart';
@@ -123,6 +124,19 @@ abstract class ActionEffectTests {
         scene.applyEffects();
         int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyGenerators["reaction"].length;
         UnitTests.processTest("testAddGenerator target has a new generator ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
+    }
+
+    static void testRemoveGeneratorsForKey(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AERemoveAllGeneratorsForKey("reaction");
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        int numberScenes = scenario.entitiesReadOnly[1].readOnlyGenerators["reaction"].length;
+        UnitTests.processTest("testAddGenerator target starts out with 1 key for reaction ", 1,numberScenes, element);
+        scene.applyEffects();
+        int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyGenerators["reaction"].length;
+        UnitTests.processTest("testAddGenerator target has removed all generators for key reaction ", 0,newNumberScenes, element);
     }
 
     static void testSetScene(element) {

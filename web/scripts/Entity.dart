@@ -108,6 +108,10 @@ class Entity {
         }
     }
 
+    void removeGeneratorsForKey(String key) {
+        _generators[key] = new List<Generator>();
+    }
+
     void generateStringValueForKey(Random rand, String key, String defaultValue){
         if(_generators.containsKey(key)){
             setStringMemory(key,rand.pickFrom(_generators[key]).generateValue(rand));
