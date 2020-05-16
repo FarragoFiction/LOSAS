@@ -33,7 +33,7 @@ void main() async {
 void debugLinks(Element parent) {
   addDebugLink(parent, "index.html", "Tests");
   addDebugLink(parent, "${window.location.href}?seerOfVoid=true", "seerOfVoid");
-  addDebugLink(parent, "${window.location.href}?mode=sceneBuilder", "SeneratorBuilder");
+  addDebugLink(parent, "${window.location.href}?mode=sceneBuilder", "SceneBuilder");
   addDebugLink(parent, "${window.location.href}?mode=stringGeneratorBuilder", "StringGeneratorBuilder");
   addDebugLink(parent, "${window.location.href}?mode=numGeneratorBuilder", "NumGeneratorBuilder");
 
