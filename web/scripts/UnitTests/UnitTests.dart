@@ -92,6 +92,7 @@ abstract class UnitTests {
 
 
     static void runDisplayTest(Element element) async {
+        print("Going to run the display test now, unit tests should be over");
         Scenario scenario = Scenario.testScenario();
 
         setupAliceSendsMessage(scenario);
