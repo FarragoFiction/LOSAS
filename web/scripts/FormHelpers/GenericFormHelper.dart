@@ -2,6 +2,8 @@ import 'dart:html';
 
 import 'package:CommonLib/Utility.dart';
 
+import '../Scene.dart';
+
 void testForm(Element parent) {
   attachInputElement(parent, "Test1", "Bumble",
       (e) => window.alert("test1 event fired with e of ${e.target.value}"));
@@ -11,6 +13,17 @@ void testForm(Element parent) {
       (e) => window.alert("test3 event fired with e of ${e.target.value}"));
   attachCheckInputElement(parent, "Test4", true,
       (e) => window.alert("test4 event fired with e of ${e.target.checked}"));
+}
+ void wireUpScripting(TextAreaElement target, Element parent) {
+  SelectElement dropdown = attachDropDownElement(parent,"",[Scene.TARGETSTRINGMEMORYTAG,Scene.TARGETNUMMEMORYTAG,Scene.OWNERSTRINGMEMORYTAG,Scene.OWNERNUMMEMORYTAG],Scene.TARGETSTRINGMEMORYTAG,null);
+  TextInputElement text = attachInputElement(parent,null,"variableName",null);
+  text.parent.style.display = "inline-block";
+  dropdown.parent.style.display = "inline-block";
+  ButtonElement button = new ButtonElement()..text = "Insert ScriptTag"..style.display = "inline-block";
+  parent.append(button);
+  button.onClick.listen((Event e) {
+  target.value = "${target.value} ${dropdown.options[dropdown.selectedIndex].value}${text.value}]";
+  });
 }
 
 Element attachInputElement(

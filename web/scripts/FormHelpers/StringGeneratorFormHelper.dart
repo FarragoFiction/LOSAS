@@ -45,6 +45,7 @@ abstract class StringGeneratorFormHelper {
             button.text = "Add ${e.target.value}";
 
         });
+        wireUpScripting(input, wordsElement);
 
         button.onClick.listen((Event e) {
             generator.possibleValues.add( input.value);

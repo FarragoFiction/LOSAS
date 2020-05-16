@@ -96,17 +96,7 @@ abstract class SceneFormHelper {
 
     }
 
-    static void wireUpScripting(TextAreaElement target, Element parent) {
-        SelectElement dropdown = attachDropDownElement(parent,"",[Scene.TARGETSTRINGMEMORYTAG,Scene.TARGETNUMMEMORYTAG,Scene.OWNERSTRINGMEMORYTAG,Scene.OWNERNUMMEMORYTAG],Scene.TARGETSTRINGMEMORYTAG,null);
-        TextInputElement text = attachInputElement(parent,null,"variableName",null);
-        text.parent.style.display = "inline-block";
-        dropdown.parent.style.display = "inline-block";
-        ButtonElement button = new ButtonElement()..text = "Insert ScriptTag"..style.display = "inline-block";
-        parent.append(button);
-        button.onClick.listen((Event e) {
-            target.value = "${target.value} ${dropdown.options[dropdown.selectedIndex].value}${text.value}]";
-        });
-    }
+
 
     static void setupBGS(Element parent) async {
         DivElement holder = new DivElement()..classes.add("subholder");
