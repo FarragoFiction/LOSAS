@@ -36,7 +36,7 @@ abstract class SceneFormHelper {
     static Element filterHolder;
     static Element actionHolder;
 
-    static void makeSceneBuilder(Element parent) async {
+    static void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name].","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");

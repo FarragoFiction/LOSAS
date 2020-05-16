@@ -2,7 +2,9 @@ import 'dart:html';
 
 import 'package:CommonLib/NavBar.dart';
 
+import 'scripts/FormHelpers/NumGeneratorFormHelper.dart';
 import 'scripts/FormHelpers/SceneFormHelper.dart';
+import 'scripts/FormHelpers/StringGeneratorFormHelper.dart';
 import 'scripts/Game.dart';
 import 'scripts/Scenario.dart';
 import 'scripts/UnitTests/UnitTests.dart';
@@ -17,7 +19,11 @@ void main() async {
 
   //TODO modes for all builders, testing and then actually playing
   if(Uri.base.queryParameters['mode'] == "sceneBuilder") {
-    await SceneFormHelper.makeSceneBuilder(output);
+    await SceneFormHelper.makeBuilder(output);
+  }else if(Uri.base.queryParameters['mode'] == "numGeneratorBuilder") {
+    await NumGeneratorFormHelper.makeBuilder(output);
+  }else if(Uri.base.queryParameters['mode'] == "stringGeneratorBuilder") {
+    await StringGeneratorFormHelper.makeBuilder(output);
   }else {
     Game game = new Game(Scenario.testScenario());
     UnitTests.runTests(output);
@@ -25,11 +31,17 @@ void main() async {
 }
 
 void debugLinks(Element parent) {
-  AnchorElement seerOfVoid = new AnchorElement(href: "${window.location.href}?seerOfVoid=true")..text = "| seerOfVoid |";
-  AnchorElement sceneBuilder = new AnchorElement(href: "${window.location.href}?mode=sceneBuilder")..text = "| sceneBuilder |";
-  AnchorElement runTests = new AnchorElement(href: "${window.location.href}")..text = "| runTests |";
-  parent.append(seerOfVoid);
-  parent.append(sceneBuilder);
-  parent.append(runTests);
+  addDebugLink(parent, "index.html", "Tests");
+  addDebugLink(parent, "${window.location.href}?seerOfVoid=true", "seerOfVoid");
+  addDebugLink(parent, "${window.location.href}?mode=sceneBuilder", "SeneratorBuilder");
+  addDebugLink(parent, "${window.location.href}?mode=stringGeneratorBuilder", "StringGeneratorBuilder");
+  addDebugLink(parent, "${window.location.href}?mode=c", "NumGeneratorBuilder");
+
+}
+
+void addDebugLink(Element parent, String url, String text) {
+  AnchorElement anchor = new AnchorElement(href: url)..text = "| $text |"..style.padding="5px";
+  parent.append(anchor);
+
 }
 
