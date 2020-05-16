@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:DollLibCorrect/DollRenderer.dart';
 
+import '../ActionEffects/AEAddGenerator.dart';
 import '../ActionEffects/AEAddNumFromYourMemory.dart';
 import '../ActionEffects/AEAddScene.dart';
 import '../ActionEffects/AEAppendStringFront.dart';
@@ -25,6 +26,7 @@ abstract class ActionEffectTests {
         testAddNumFromMemory(element);
         testSetString(element);
         testSetScene(element);
+        testAddGenerator(element);
         testUnSetString(element);
         testAppendString(element);
         testUnAppendString(element);
@@ -108,6 +110,19 @@ abstract class ActionEffectTests {
         UnitTests.processTest("testSetString ", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
         scene.applyEffects();
         UnitTests.processTest("testSetString text is replaced", "Carol kind of sucks.", scenario.entitiesReadOnly[1].getStringMemory("secretMessage"), element);
+    }
+
+    static void testAddGenerator(element) {
+        Scenario scenario = Scenario.testScenario();
+        String dataString = "reaction:___ N4Ig1gpgniBcICcIEMDGAXAlgewHYgBoR0oAHCOEAZQBUAlASQDkBxQkU7AZy8wCMANhABqyAQFcIXOAG0QMgPIB1JgFE6AOlqNWAWVW6FdAJobcyALYQAugAJOXdF1vJbfFAnaKV6rfWYs+oYmZpY2tgAm2FK4AOTotkhiAlCJKBgg1gC+QA";
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AEAddGenerator(dataString);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        int numberScenes = scenario.entitiesReadOnly[1].readOnlyGenerators["reaction"].length;
+        scene.applyEffects();
+        int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyGenerators["reaction"].length;
+        UnitTests.processTest("testAddGenerator target has a new generator ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
     }
 
     static void testSetScene(element) {

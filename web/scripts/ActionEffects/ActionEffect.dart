@@ -2,6 +2,7 @@ import 'package:CommonLib/Random.dart';
 
 import '../Entity.dart';
 import '../Scene.dart';
+import 'AEAddGenerator.dart';
 import 'AEAddNum.dart';
 import 'AEAddNumFromMyMemory.dart';
 import 'AEAddNumFromYourMemory.dart';
@@ -71,7 +72,7 @@ abstract class ActionEffect {
     }
 
     static void setExamples() {
-      exampleOfAllEffects ??= <ActionEffect>[new AEUnSetString(null),new AEAddScene(null),new AEUnAppendString(null,null),new AESetStringGenerator(null,null),new AESetString(null,null),new AESetNumGenerator(null,null),new AESetNum(null,null),new AESetDollStringFromYourMemory(null),new AESetDollStringFromMyMemory(null),new AECopyStringToTarget(null,null),new AECopyStringFromTarget(null,null),new AECopyNumToTarget(null,null),new AECopyNumFromTarget(null,null),new AEAppendStringFront(null,null),new AEAppendString(null,null),new AEAddNum(null,null), new AEAddNumFromYourMemory(null,null),new AEAddNumFromMyMemory(null,null)];
+      exampleOfAllEffects ??= <ActionEffect>[new AEAddGenerator(null), new AEUnSetString(null),new AEAddScene(null),new AEUnAppendString(null,null),new AESetStringGenerator(null,null),new AESetString(null,null),new AESetNumGenerator(null,null),new AESetNum(null,null),new AESetDollStringFromYourMemory(null),new AESetDollStringFromMyMemory(null),new AECopyStringToTarget(null,null),new AECopyStringFromTarget(null,null),new AECopyNumToTarget(null,null),new AECopyNumFromTarget(null,null),new AEAppendStringFront(null,null),new AEAppendString(null,null),new AEAddNum(null,null), new AEAddNumFromYourMemory(null,null),new AEAddNumFromMyMemory(null,null)];
     }
 
     void effectEntities(Entity effector, List<Entity> entities);
