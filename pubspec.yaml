@@ -7,18 +7,18 @@ description: An absolute bare-bones web app.
 environment:
   sdk: '>=2.2.0 <3.0.0'
 
-#dependencies:
-#  path: ^1.4.1
+dependencies:
+  source_map_stack_trace: any
 
 dev_dependencies:
-  CommonLib:
-    git: git://github.com/FarragoFiction/CommonLib.git
-  LoaderLib:
-    git: git://github.com/FarragoFiction/LoaderLib.git
   TextEngine:
-    git: git://github.com/FarragoFiction/TextEngine.git
+    git:
+      url: git://github.com/FarragoFiction/TextEngine.git
+      ref: Dart-2.2.0
   DollLibCorrect:
-    git: git://github.com/FarragoFiction/DollLibCorrect.git
+    git:
+      url: git://github.com/FarragoFiction/DollLibCorrect.git
+      ref: Dart-2.2.0
   recase: ^2.0.1
   build_runner: ^1.0.0
   build_test: ^0.10.2

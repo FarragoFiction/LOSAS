@@ -69,9 +69,13 @@ class Scenario {
 
 
     void curtainsUp(Element parent) {
+        print("curtains are going up");
         game = new Game(this);
+        print("made a new game");
         game.setup(parent);
+        print("setup the game");
         lookForNextScene();
+        print("looked for a scene");
     }
 
     void addEntity(Entity entity) {
