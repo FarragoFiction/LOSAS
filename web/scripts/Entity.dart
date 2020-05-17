@@ -109,7 +109,7 @@ class Entity {
     }
 
     void removeGeneratorsForKey(String key) {
-        _generators[key] = new List<Generator>();
+        _generators.remove(key);
     }
 
     void generateStringValueForKey(Random rand, String key, String defaultValue){

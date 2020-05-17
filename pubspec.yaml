@@ -7,9 +7,6 @@ description: An absolute bare-bones web app.
 environment:
   sdk: '>=2.2.0 <3.0.0'
 
-dependencies:
-  source_map_stack_trace: any
-
 dev_dependencies:
   TextEngine:
     git:
