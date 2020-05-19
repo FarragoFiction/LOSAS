@@ -12,6 +12,8 @@ class Prepack extends DataObject {
     List<Generator> generators;
     //an entity given this prepack is going to have these scenes at a prioritization based on what order you give the prepacks to em
     List<Scene> scenes;
+    //when an entity slurps this prepack it keeps track of unique initial keys and generates shit based on them
+    List<String> initialKeysToGenerate;
     String name;
     String description = "This prepack has a default description";
     String author = "???";
