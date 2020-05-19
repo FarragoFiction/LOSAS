@@ -1,10 +1,11 @@
 //there should be an effect to set a string or num to a generated value, that ALSO takes in a backup default value if the entity can't find one.
 import 'package:CommonLib/Random.dart';
 
+import 'DataObject.dart';
 import 'DataStringHelper.dart';
 import 'Entity.dart';
 
-abstract class Generator {
+abstract class Generator extends DataObject {
 
     String key;
 

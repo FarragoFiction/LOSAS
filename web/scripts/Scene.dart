@@ -1,5 +1,6 @@
 import "dart:html";
 import 'ActionEffects/ActionEffect.dart';
+import 'DataObject.dart';
 import 'DataStringHelper.dart';
 import 'Generator.dart';
 import 'Scenario.dart';
@@ -9,7 +10,7 @@ import 'Util.dart';
 //TODO scenes have optional background imagery
 //TODO have scene know how to handle procedural text replacement STRINGMEMORY.secretMessage would put the value of the secret message in there, or null, for example
 //TODO stretch goal, can put these scripting tags in as input for filters and effects, too. "your best friend is now me" or hwatever.
-class Scene {
+class Scene extends DataObject {
     static final NOBGMUSIC = "None";
     String author = "???";
     static int stageWidth = 980;
@@ -38,6 +39,7 @@ class Scene {
     bool targetOne = false;
     String beforeFlavorText;
     String afterFlavorText;
+    @override
     String name;
     List<TargetFilter> targetFilters = new List<TargetFilter>();
     List<ActionEffect> effects = new List<ActionEffect>();

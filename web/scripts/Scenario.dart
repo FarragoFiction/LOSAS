@@ -4,6 +4,7 @@ import 'dart:html';
 
 import 'package:CommonLib/Random.dart';
 
+import 'DataObject.dart';
 import 'Entity.dart';
 import 'Game.dart';
 import 'Generator.dart';
@@ -28,7 +29,7 @@ Then you’re allowed to use any prepacks from the internet
 Then you’er allowed to just use any prepack at all you can upload
 
  */
-class Scenario {
+class Scenario extends DataObject {
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
     int seed;
     //TODO when you make a scenario with a builder, need to be able to specify what dollstrings the char creator should be asking for
@@ -217,5 +218,15 @@ class Scenario {
         rand = new Random(seed);
 
     }
+
+  @override
+  void loadFromDataString(String dataString) {
+    // TODO: implement loadFromDataString
+  }
+
+  @override
+  void loadFromSerialization(Map<String, dynamic > serialization) {
+    // TODO: implement loadFromSerialization
+  }
 
 }

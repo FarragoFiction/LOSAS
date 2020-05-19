@@ -10,11 +10,12 @@ import 'dart:html';
 import 'package:CommonLib/Random.dart';
 import 'package:DollLibCorrect/DollRenderer.dart';
 
+import 'DataObject.dart';
 import 'Generator.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
 
-class Entity {
+class Entity extends DataObject {
     static const String CURRENTDOLLKEY = "currentDollStringChangingDoesNothing";
     static const String ORIGINALDOLLKEY = "originalDollString";
     static const String NAMEKEY = "name";
@@ -23,6 +24,7 @@ class Entity {
 
     //TODO most chars will be generated randomly but if someone wants to say "i made this" sure why not
     String author;
+    @override
     String name;
     bool facingRightByDefault = true;
     int maxCanvasWidth  =400;
@@ -188,6 +190,16 @@ class Entity {
     void setNumMemory(String key, num value) {
         _numMemory[key] = value;
     }
+
+  @override
+  void loadFromDataString(String dataString) {
+    // TODO: implement loadFromDataString
+  }
+
+  @override
+  void loadFromSerialization(Map<String,dynamic > serialization) {
+    // TODO: implement loadFromSerialization
+  }
 
 
 
