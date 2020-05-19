@@ -5,7 +5,7 @@ import 'ActionEffect.dart';
 class AEAddSceneFromOwner extends ActionEffect {
     static const String INPUTVALUE = "sceneDataString";
     @override
-    String type ="AEAddScene";
+    String type ="AEAddSceneFromOwner";
     @override
     String explanation = "Sets the targets current dollstring based on the value of a given memory key belonging to the owner.";
     AEAddSceneFromOwner(String inputValue) : super({INPUTVALUE:inputValue}, {});

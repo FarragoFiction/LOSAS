@@ -5,6 +5,8 @@ import 'package:DollLibCorrect/DollRenderer.dart';
 import '../ActionEffects/AEAddGenerator.dart';
 import '../ActionEffects/AEAddNumFromYourMemory.dart';
 import '../ActionEffects/AEAddScene.dart';
+import '../ActionEffects/AEAddSceneFromOwner.dart';
+import '../ActionEffects/AEAddSceneFromTarget.dart';
 import '../ActionEffects/AEAppendStringFront.dart';
 import '../ActionEffects/AECopyNumFromTarget.dart';
 import '../ActionEffects/AECopyNumToTarget.dart';
@@ -27,6 +29,9 @@ abstract class ActionEffectTests {
         testAddNumFromMemory(element);
         testSetString(element);
         testSetScene(element);
+        testSetSceneFromOwner(element);
+        testSetSceneFromTarget(element);
+
         testAddGenerator(element);
         testUnSetString(element);
         testAppendString(element);
@@ -150,6 +155,35 @@ abstract class ActionEffectTests {
         scene.applyEffects();
         int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
         UnitTests.processTest("testSetScene target has a new scene ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
+    }
+
+    static void testSetSceneFromOwner(element) {
+        Scenario scenario = Scenario.testScenario();
+        String dataString = "Be Deacon:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbF1kAygEFBACQCmjKBDAA6AA6oiuKGAQEJUMqgkooCCBNoSAZogkAxDGABuiEhIAeUYgG0yAdQBynAEpygiR+AJLeAOIAspyRZH4AmnKoYAC2EgC6AAQwYADOmTxSrIU8mbAsmW4kwn7hnCSBwWFRMXGJyWlZuTlYmXgSmRQAigAM3pl5mQDuElhyNOCmUBII1nYOzq7IIFU1dQ1BoRHRsQlJqRmZrPmocFODo97zuB162wBCAxQSYIwcC2oNFpLKwMMsELkUG5QFAAJ4KN4gADSEgkChCpj8YF4cBS3ggKX6CDoElyuRIOVQC1sCGuAGswChTGAMLljCBbltmaz2awUgpEGpUFBPIgeJDkMAAL64PkChBCqD4wkrCWgVioBTQWwsowoEZyACsUql6VwZlMUigEuhIDhCOIgi0FDgWEEBg1BEsCFxkVhkQkKUQsIWcsF2JFYrVIDSQYQsJRIe2jAgCAQEmFLrdHuUAGFKQRPS7Sd44LBPSAZSAwwqI8qiWqqzT6YzkNy2TKYfDEcIFAjeO7acoSHBvRxXLL+eHhaKEOKUKBclBEGBNIniK8FkuhwQR73+3xtsMxpXJ-LFfXVQum7TcgymSyO+kpUA";
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AEAddSceneFromOwner("secretScene");
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        scenario.entitiesReadOnly[0].addScene(scene);
+        scenario.entitiesReadOnly[0].setStringMemory("secretScene",dataString);
+        int numberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
+        scene.applyEffects();
+        int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
+        UnitTests.processTest("testSetSceneFromOwner target has a new scene ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
+    }
+
+    static void testSetSceneFromTarget(element) {
+        Scenario scenario = Scenario.testScenario();
+        String dataString = "Be Deacon:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbF1kAygEFBACQCmjKBDAA6AA6oiuKGAQEJUMqgkooCCBNoSAZogkAxDGABuiEhIAeUYgG0yAdQBynAEpygiR+AJLeAOIAspyRZH4AmnKoYAC2EgC6AAQwYADOmTxSrIU8mbAsmW4kwn7hnCSBwWFRMXGJyWlZuTlYmXgSmRQAigAM3pl5mQDuElhyNOCmUBII1nYOzq7IIFU1dQ1BoRHRsQlJqRmZrPmocFODo97zuB162wBCAxQSYIwcC2oNFpLKwMMsELkUG5QFAAJ4KN4gADSEgkChCpj8YF4cBS3ggKX6CDoElyuRIOVQC1sCGuAGswChTGAMLljCBbltmaz2awUgpEGpUFBPIgeJDkMAAL64PkChBCqD4wkrCWgVioBTQWwsowoEZyACsUql6VwZlMUigEuhIDhCOIgi0FDgWEEBg1BEsCFxkVhkQkKUQsIWcsF2JFYrVIDSQYQsJRIe2jAgCAQEmFLrdHuUAGFKQRPS7Sd44LBPSAZSAwwqI8qiWqqzT6YzkNy2TKYfDEcIFAjeO7acoSHBvRxXLL+eHhaKEOKUKBclBEGBNIniK8FkuhwQR73+3xtsMxpXJ-LFfXVQum7TcgymSyO+kpUA";
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AEAddSceneFromTarget("secretScene");
+        scene.effects.add(effect);
+        scenario.entitiesReadOnly[1].setStringMemory("secretScene",dataString);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        int numberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
+        scene.applyEffects();
+        int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
+        UnitTests.processTest("testSetSceneFromTarget target has a new scene ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
     }
 
     static void testDollStringFromMemory(element) {
