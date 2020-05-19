@@ -269,7 +269,7 @@ class Scene {
                 Element td = new Element.td()..text = key;
                 tr_key.append(td);
 
-                List<String> values = generators[key].map((Generator g) => g.values());
+                Iterable<String> values = generators[key].map((Generator g) => g.values());
                 Element td2 = new Element.td()..setInnerHtml("${values.join("")}");
                 tr_key.append(td2);
             }

@@ -7,7 +7,7 @@ class AEAddScene extends ActionEffect {
     @override
     String type ="AEAddScene";
     @override
-    String explanation = "Sets the targets current dollstring based on the value of a given memory key belonging to the owner.";
+    String explanation = "Sets the targets current dollstring based on the value of a datastring entered here.";
     AEAddScene(String inputValue) : super({INPUTVALUE:inputValue}, {});
     @override
     ActionEffect makeNewOfSameType() => new AEAddScene(null);
