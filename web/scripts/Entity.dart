@@ -63,12 +63,14 @@ class Entity extends DataObject {
     }
 
     void processPrepacks(Random rand) {
+        print("processing prepack sfor $name");
         for(Prepack p in prepacks) {
+            print("processing prepack ${p.name}");
             for(Generator g in p.generators) {
+                print("processing generator with key ${g.key}}, btw should i initalize it? ${p.initialKeysToGenerate.contains(g.key)}");
                 addGenerator(g);
                 if(p.initialKeysToGenerate.contains(g.key)){
-                    //we don't need the scenario's random, its based on your name
-                    g.generateValue(rand);
+                    generateStringValueForKey(rand, g.key, "null");
                 }
             }
 
