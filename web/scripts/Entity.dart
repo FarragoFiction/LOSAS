@@ -12,6 +12,7 @@ import 'package:DollLibCorrect/DollRenderer.dart';
 
 import 'DataObject.dart';
 import 'Generator.dart';
+import 'Prepack.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
 
@@ -28,6 +29,7 @@ class Entity extends DataObject {
     String name;
     bool facingRightByDefault = true;
     int maxCanvasWidth  =400;
+    List<Prepack> prepacks;
 
     Doll _doll;
     //used whether doll or not
@@ -52,15 +54,24 @@ class Entity extends DataObject {
     List<Scene> get readOnlyScenes => new List<Scene>.from(_scenes);
     List<Scene> get readOnlyActivationScenes => new List<Scene>.from(_activationScenes);
 
-    Entity(this.name, optionalDollString) {
+    Entity(this.name, this.prepacks, optionalDollString) {
         setStringMemory(NAMEKEY,this.name);
         setStringMemory(ORIGINALNAMEKEY,this.name);
         if(optionalDollString != null) {
-            setStringMemory(ORIGINALDOLLKEY,optionalDollString);
-            setStringMemory(CURRENTDOLLKEY,optionalDollString);
-            _doll = Doll.loadSpecificDoll(optionalDollString);
-            setStringMemory(SPECIESKEY,_doll.name);
+            setDollString(optionalDollString);
         }
+        processPrepacks();
+    }
+
+    void processPrepacks() {
+
+    }
+
+    void setDollString(optionalDollString) {
+      setStringMemory(ORIGINALDOLLKEY,optionalDollString);
+      setStringMemory(CURRENTDOLLKEY,optionalDollString);
+      _doll = Doll.loadSpecificDoll(optionalDollString);
+      setStringMemory(SPECIESKEY,_doll.name);
     }
 
     @override

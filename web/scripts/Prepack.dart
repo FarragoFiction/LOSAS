@@ -19,6 +19,8 @@ class Prepack extends DataObject {
     String author = "???";
     ImageElement cardImage;
 
+    Prepack(this.name, this.description, this.author, this.generators, this.scenes);
+
     Prepack.fromDataString(String dataString){
         Map<String,dynamic> serialization = DataStringHelper.serializationFromDataString(dataString);
         loadFromSerialization(serialization);
