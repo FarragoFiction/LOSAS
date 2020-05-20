@@ -74,9 +74,14 @@ class Scenario extends DataObject {
         game = new Game(this);
         print("made a new game");
         game.setup(parent);
+        initializeEntities();
         print("setup the game");
         lookForNextScene();
         print("looked for a scene");
+    }
+
+    void initializeEntities() {
+        _entities.forEach((Entity e) => e.processPrepacks(rand));
     }
 
     void addEntity(Entity entity) {

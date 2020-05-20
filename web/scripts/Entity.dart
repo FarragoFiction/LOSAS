@@ -60,10 +60,22 @@ class Entity extends DataObject {
         if(optionalDollString != null) {
             setDollString(optionalDollString);
         }
-        processPrepacks();
     }
 
-    void processPrepacks() {
+    void processPrepacks(Random rand) {
+        for(Prepack p in prepacks) {
+            for(Generator g in p.generators) {
+                addGenerator(g);
+                if(p.initialKeysToGenerate.contains(g.key)){
+                    //we don't need the scenario's random, its based on your name
+                    g.generateValue(rand);
+                }
+            }
+
+            for(Scene s in p.scenes) {
+                addScene(s);
+            }
+        }
 
     }
 
