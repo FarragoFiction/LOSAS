@@ -216,14 +216,16 @@ class Entity extends DataObject {
         _numMemory[key] = value;
     }
 
-  @override
-  void loadFromDataString(String dataString) {
-    // TODO: implement loadFromDataString
-  }
 
   @override
   void loadFromSerialization(Map<String,dynamic > serialization) {
     // TODO: implement loadFromSerialization
+  }
+
+  @override
+  Map<String,dynamic > getSerialization() {
+    // TODO: implement getSerialization
+    return null;
   }
 
 

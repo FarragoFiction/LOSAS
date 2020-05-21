@@ -223,14 +223,16 @@ class Scenario extends DataObject {
 
     }
 
-  @override
-  void loadFromDataString(String dataString) {
-    // TODO: implement loadFromDataString
-  }
 
   @override
   void loadFromSerialization(Map<String, dynamic > serialization) {
     // TODO: implement loadFromSerialization
+  }
+
+  @override
+  Map<String,dynamic > getSerialization() {
+    // TODO: implement getSerialization
+    return null;
   }
 
 }

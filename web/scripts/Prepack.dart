@@ -27,13 +27,28 @@ class Prepack extends DataObject {
     }
 
   @override
-  void loadFromDataString(String dataString) {
-    // TODO: implement loadFromDataString
+  void loadFromSerialization(Map<String, dynamic> serialization) {
+      author = serialization["author"];
+      name = serialization["name"];
+      description = serialization["description"];
+      initialKeysToGenerate = serialization["initialKeysToGenerate"];
+      scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
+
+      generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
+
   }
 
   @override
-  void loadFromSerialization(Map<String, dynamic> serialization) {
-    // TODO: implement loadFromSerialization
+  Map<String, dynamic> getSerialization() {
+      Map<String,dynamic> ret = new Map<String,dynamic>();
+      ret["author"] = author;
+      ret["name"] = name;
+      ret["description"] = description;
+      ret["initialKeysToGenerate"] = initialKeysToGenerate;
+      ret["scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();
+      ret["generators"] = generators.map((Generator gen) => gen.getSerialization()).toList();
+
+      return ret;
   }
 
 

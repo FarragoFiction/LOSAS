@@ -62,6 +62,11 @@ class Scene extends DataObject {
         loadFromSerialization(serialization);
     }
 
+    Scene.fromSerialization(Map<String,dynamic> serialization){
+        loadFromSerialization(serialization);
+    }
+
+
     String toString() => name;
 
     String toDataString() {
