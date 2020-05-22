@@ -39,6 +39,7 @@ import '../TargetFilters/KeepIfNumIsGreaterThanValue.dart';
 import '../TargetFilters/KeepIfNumIsValue.dart';
 import '../TargetFilters/TargetFilter.dart';
 import '../Util.dart';
+import 'PrepackTests.dart';
 import 'TargetFilterTests.dart';
 import 'UtilTests.dart';
 
@@ -78,6 +79,7 @@ abstract class UnitTests {
         print("todo test VRISKA for one filter and one effect");
         UtilTests.run(element);
         GeneratorTests.run(element);
+        PrepackTests.run(element);
         TargetFilterTests.run(element);
         ActionEffectTests.run(element);
         IntegrationTests.run(element);

@@ -26,6 +26,10 @@ class Prepack extends DataObject {
         loadFromSerialization(serialization);
     }
 
+    Prepack.fromSerialization(Map<String, dynamic> serialization){
+        loadFromSerialization(serialization);
+    }
+
   @override
   void loadFromSerialization(Map<String, dynamic> serialization) {
       author = serialization["author"];
