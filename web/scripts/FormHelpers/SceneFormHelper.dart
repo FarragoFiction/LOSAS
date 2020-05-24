@@ -122,7 +122,8 @@ class SceneFormHelper {
                 if (file.contains("png")) options.add("$folder/$file");
             }
         }
-        String selected = options.first;
+        String selected = scene.bgLocationEnd;
+        selected ??= options.first;
         scene.bgLocationEnd = options.first;
         bgPreviewElement = new ImageElement()..style.width="820px";
         bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
@@ -150,7 +151,8 @@ class SceneFormHelper {
                 if (file.contains("ogg")) options.add("$folder/$file");
             }
         }
-        String selected = options.first;
+        String selected = scene.musicLocationEnd;
+        selected ??= options.first;
         bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=true;
 
 

@@ -201,10 +201,10 @@ class PrepackBuilder {
     }
 
     void renderScenes() {
-        prepack.scenes.forEach((Scene s) {
+        prepack.scenes.forEach((Scene s) async {
             SceneFormHelper helper = new SceneFormHelper(s);
             helper.callback = syncDataStringToPrepack;
-            helper.makeBuilder(sceneElement);
+            await helper.makeBuilder(sceneElement);
         });
     }
 
