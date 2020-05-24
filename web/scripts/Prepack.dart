@@ -35,7 +35,7 @@ class Prepack extends DataObject {
       author = serialization["author"];
       name = serialization["name"];
       description = serialization["description"];
-      initialKeysToGenerate = serialization["initialKeysToGenerate"];
+      initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
 
       generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));

@@ -30,23 +30,23 @@ abstract class PrepackBuilder {
         prepack = new Prepack("Sample Prepack","Describe what kind of character would have this prepack, and what this prepack does.","???",[],[],[]);
         DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc)." )..classes.add("instructions");
         formHolder.append(instructions);
-        dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncDataStringToGenerator(e));
+        dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncPrepackToDataString(e));
         nameElement = attachInputElement(formHolder, "Name:", "${prepack.name}", (e)
         {
             prepack.name = e.target.value;
-            syncDataStringToGen();
+            syncDataStringToPrepack();
         });
 
         authorElement = attachInputElement(formHolder, "Author:", "${prepack.author}", (e)
         {
             prepack.author = e.target.value;
-            syncDataStringToGen();
+            syncDataStringToPrepack();
         });
 
         descElement = attachAreaElement(formHolder, "Description:", "${prepack.description}", (e)
         {
             prepack.description = e.target.value;
-            syncDataStringToGen();
+            syncDataStringToPrepack();
         });
 
         handleInitializers(formHolder);
@@ -77,7 +77,7 @@ abstract class PrepackBuilder {
 
         button.onClick.listen((Event e) {
             prepack.initialKeysToGenerate.add( input.value);
-            syncDataStringToGen();
+            syncDataStringToPrepack();
             handleInitializers(null);
         });
         initializerElement.append(button);
@@ -97,23 +97,30 @@ abstract class PrepackBuilder {
             holder.append(remove);
             remove.onClick.listen((Event e ) {
                 prepack.initialKeysToGenerate.remove(word);
-                syncDataStringToGen();
+                syncDataStringToPrepack();
                 handleInitializers(null);
             });
         }
     }
 
-    static void syncDataStringToGen() {
+    static void syncDataStringToPrepack() {
         print("syncing datastring to generator");
         dataStringElement.value = prepack.toDataString();
     }
 
-    static void syncDataStringToGenerator(e) {
+    static void syncPrepackToDataString(e) {
         print("syncing gen to datastring");
+        prepack.loadFromDataString(e.target.value);
+
         try {
             prepack.loadFromDataString(e.target.value);
         }catch(e) {
+            window.console.error(e);
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
         }
+        authorElement.value = prepack.author;
+        nameElement.value = prepack.name;
+        descElement.value = prepack.description;
+        handleInitializers(null);
     }
 }

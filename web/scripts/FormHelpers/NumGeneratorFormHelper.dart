@@ -48,6 +48,7 @@ abstract class NumGeneratorFormHelper {
         try {
             generator.loadFromDataString(e.target.value);
         }catch(e) {
+            window.console.error(e);
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this.");
         }
         keyElement.value = generator.key;
