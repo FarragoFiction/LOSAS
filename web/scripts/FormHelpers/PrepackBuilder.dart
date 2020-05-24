@@ -17,6 +17,8 @@ abstract class PrepackBuilder {
     static Prepack prepack;
     static TextAreaElement dataStringElement;
     static InputElement nameElement;
+    static InputElement authorElement;
+    static TextAreaElement descElement;
 
 
 
@@ -24,13 +26,25 @@ abstract class PrepackBuilder {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        prepack = new Prepack("Sample Prepack","Describe what kind of character would have this prepack.","???",[],[],[]);
+        prepack = new Prepack("Sample Prepack","Describe what kind of character would have this prepack, and what this prepack does.","???",[],[],[]);
         DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc)." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncDataStringToGenerator(e));
         nameElement = attachInputElement(formHolder, "Name:", "${prepack.name}", (e)
         {
             prepack.name = e.target.value;
+            syncDataStringToGen();
+        });
+
+        authorElement = attachInputElement(formHolder, "Author:", "${prepack.author}", (e)
+        {
+            prepack.author = e.target.value;
+            syncDataStringToGen();
+        });
+
+        descElement = attachAreaElement(formHolder, "Description:", "${prepack.description}", (e)
+        {
+            prepack.description = e.target.value;
             syncDataStringToGen();
         });
 
