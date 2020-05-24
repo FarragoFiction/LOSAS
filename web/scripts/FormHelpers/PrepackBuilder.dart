@@ -240,13 +240,25 @@ class PrepackBuilder {
 
     }
 
+    bool orphanInitializer(String word) {
+        for(Generator gen in prepack.generators) {
+            if(gen.key == word) return false;
+        }
+        return true;
+    }
+
     void renderWords() {
         DivElement container = new DivElement();
+        bool displayWarning = false;
         initializerElement.append(container);
         for(String word in prepack.initialKeysToGenerate) {
             DivElement holder = new DivElement()..style.padding="3px"..style.display="inline-block";
             container.append(holder);
             DivElement wordElement = new DivElement()..text = word..style.display="inline-block";
+            if(orphanInitializer(word)) {
+                wordElement.text = "${wordElement.text} (*)";
+                displayWarning = true;
+            }
             holder.append(wordElement);
             ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x");
             holder.append(remove);
@@ -255,6 +267,11 @@ class PrepackBuilder {
                 syncDataStringToPrepack();
                 handleInitializers(null);
             });
+        }
+
+        if(displayWarning) {
+            DivElement warning = new DivElement()..text = "WARNING: KEYS MARKED WITH A (*) ARE NOT FOUND IN THIS PREPACK'S GENERATORS. THEY MAY INITIALIZE WITH A NULL VALUE IF NO OTHER GENERATOR DEFINES THEM. KNOWN KEYS ARE ${prepack.generators.map((Generator g) => g.key).join(",")}";
+            container.append(warning);
         }
     }
 
