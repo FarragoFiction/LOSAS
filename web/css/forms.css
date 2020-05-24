@@ -35,7 +35,7 @@
 
 .formHolder::before{
     content: url(../images/VMA.png);
-    filter: grayscale(100%) brightness(30%);
+    filter: grayscale(100%) brightness(20%); contrast(100%)
     opacity: 80%;
 }
 
