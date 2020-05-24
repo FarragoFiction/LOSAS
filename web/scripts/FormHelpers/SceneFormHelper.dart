@@ -38,11 +38,13 @@ class SceneFormHelper {
     Element actionHolder;
     Action callback;
 
-    SceneFormHelper([this.scene]) {
+    SceneFormHelper([Scene this.scene]) {
+        print("i just made a new sceneform helper with initial scene of $scene");
         scene ??= makeTestScene();
     }
 
     static Scene makeTestScene() {
+        print("Making a brand new test scene");
         return new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name].","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
     }
 
@@ -50,7 +52,6 @@ class SceneFormHelper {
     void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
-        scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name].","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
         DivElement instructions = new DivElement()..setInnerHtml("A Scene is the basic unit of AI for LOSAS. Scenes are how entities change the simulation, and the other entities within it.<br><br>Each tick of the simulation, each entity checks their list of scenes in order. The first scene to find at least one target is rendered to the screen, and its effects, if any, are applied.")..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString(e));

@@ -139,6 +139,8 @@ class Entity extends DataObject {
         _generators.remove(key);
     }
 
+    //TODO check if this key is in the blacklist
+    //(this will be important for characters imported from wigglersim/creditsim so their stats aren't overriden)
     void generateStringValueForKey(Random rand, String key, String defaultValue){
         if(_generators.containsKey(key)){
             setStringMemory(key,rand.pickFrom(_generators[key]).generateValue(rand));

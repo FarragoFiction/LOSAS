@@ -43,7 +43,7 @@ class PrepackBuilder {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player, GoldBlood, Lamia.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc)." )..classes.add("instructions");
+        DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player, GoldBlood, Lamia.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc).<Br><br>Note: You can either create generators and scenes in the stand alone builders and load them here by datastring, or you can create them inline here." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncPrepackToDataString(e));
         nameElement = attachInputElement(formHolder, "Name:", "${prepack.name}", (e)
@@ -259,7 +259,7 @@ class PrepackBuilder {
     }
 
     void syncDataStringToPrepack() {
-        print("syncing datastring to generator");
+        print("syncing datastring to generator, scenes is ${prepack.scenes.join(",")}");
         dataStringElement.value = prepack.toDataString();
     }
 
@@ -273,6 +273,7 @@ class PrepackBuilder {
             window.console.error(e);
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
         }
+        print("after loading i have scenes ${prepack.scenes.join(",")}");
         authorElement.value = prepack.author;
         nameElement.value = prepack.name;
         descElement.value = prepack.description;
