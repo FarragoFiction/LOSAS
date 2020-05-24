@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:CommonLib/NavBar.dart';
 
 import 'scripts/FormHelpers/NumGeneratorFormHelper.dart';
+import 'scripts/FormHelpers/PrepackBuilder.dart';
 import 'scripts/FormHelpers/SceneFormHelper.dart';
 import 'scripts/FormHelpers/StringGeneratorFormHelper.dart';
 import 'scripts/Game.dart';
@@ -24,6 +25,8 @@ void main() async {
     await NumGeneratorFormHelper.makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "stringGeneratorBuilder") {
     await StringGeneratorFormHelper.makeBuilder(output);
+  }else if(Uri.base.queryParameters['mode'] == "prepackBuilder") {
+    await PrepackBuilder.makeBuilder(output);
   }else {
     Game game = new Game(Scenario.testScenario());
     UnitTests.runTests(output);
@@ -36,6 +39,8 @@ void debugLinks(Element parent) {
   addDebugLink(parent, "${window.location.href}?mode=sceneBuilder", "SceneBuilder");
   addDebugLink(parent, "${window.location.href}?mode=stringGeneratorBuilder", "StringGeneratorBuilder");
   addDebugLink(parent, "${window.location.href}?mode=numGeneratorBuilder", "NumGeneratorBuilder");
+  addDebugLink(parent, "${window.location.href}?mode=prepackBuilder", "PrepackBuilder");
+
 
 }
 
