@@ -2,20 +2,27 @@ import 'dart:html';
 import '../Generator.dart';
 import 'GenericFormHelper.dart';
 
-abstract class StringGeneratorFormHelper {
+class StringGeneratorFormHelper {
 
-    static TextAreaElement dataStringElement;
-    static InputElement keyElement;
-    static StringGenerator generator;
-    static Element wordsElement;
-    static InputElement addWordElement;
+     TextAreaElement dataStringElement;
+     InputElement keyElement;
+     StringGenerator generator;
+     Element wordsElement;
+     InputElement addWordElement;
+
+     StringGeneratorFormHelper([StringGenerator  this.generator]) {
+             generator ??= makeTestGenerator();
+     }
+
+     static StringGenerator makeTestGenerator() {
+         return new StringGenerator("sampleKey",["hello","world"]);
+     }
 
 
-    static void makeBuilder(Element parent) async {
+     void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        generator = new StringGenerator("sampleKey",["hello","world"]);
         DivElement instructions = new DivElement()..setInnerHtml("A string generator is how an individual entity handles random words or phrases. <br><br>Example include varying reactions to situations, generating consorts for a given land, or generating the name of a beloved pet.<br><br>NOTE: Scripting tags such as a scene target's name are valid here." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${generator.toDataString()}", (e) => syncDataStringToGenerator(e));
@@ -28,7 +35,7 @@ abstract class StringGeneratorFormHelper {
         handleWords(formHolder);
     }
 
-    static void handleWords(Element parent) {
+     void handleWords(Element parent) {
         if(wordsElement == null) {
             wordsElement = new Element.div()..classes.add("subholder");
             parent.append(wordsElement);
@@ -57,7 +64,7 @@ abstract class StringGeneratorFormHelper {
 
     }
 
-    static void renderWords() {
+     void renderWords() {
         DivElement container = new DivElement();
         wordsElement.append(container);
         for(String word in generator.possibleValues) {
@@ -75,12 +82,12 @@ abstract class StringGeneratorFormHelper {
         }
     }
 
-    static void syncDataStringToGen() {
+     void syncDataStringToGen() {
         print("syncing datastring to generator");
         dataStringElement.value = generator.toDataString();
     }
 
-    static void syncDataStringToGenerator(e) {
+     void syncDataStringToGenerator(e) {
         print("syncing gen to datastring");
         try {
             generator.loadFromDataString(e.target.value);

@@ -10,24 +10,34 @@ probably easier to just have scenes/generators be nested builders.
 
 import 'dart:html';
 
+import '../Generator.dart';
 import '../Prepack.dart';
 import 'GenericFormHelper.dart';
+import 'StringGeneratorFormHelper.dart';
 
-abstract class PrepackBuilder {
-    static Prepack prepack;
-    static TextAreaElement dataStringElement;
-    static InputElement nameElement;
-    static InputElement authorElement;
-    static TextAreaElement descElement;
-    static Element initializerElement;
+class PrepackBuilder {
+    Prepack prepack;
+    TextAreaElement dataStringElement;
+    InputElement nameElement;
+    InputElement authorElement;
+    TextAreaElement descElement;
+    Element initializerElement;
+    Element stringGeneratorElement;
+
+    PrepackBuilder([this.prepack]) {
+        this.prepack ??= makeNewPrepack();
+    }
+
+    static makeNewPrepack() {
+        return  new Prepack("Sample Prepack","Describe what kind of character would have this prepack, and what this prepack does.","???",[],[],[]);
+    }
 
 
 
-    static void makeBuilder(Element parent) async {
+    void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        prepack = new Prepack("Sample Prepack","Describe what kind of character would have this prepack, and what this prepack does.","???",[],[],[]);
         DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc)." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncPrepackToDataString(e));
@@ -50,10 +60,55 @@ abstract class PrepackBuilder {
         });
 
         handleInitializers(formHolder);
+        handleStringGenerators(formHolder);
+
+    }
+    void handleStringGenerators(Element parent) {
+        if(stringGeneratorElement == null) {
+            stringGeneratorElement = new Element.div()..classes.add("subholder");
+            parent.append(stringGeneratorElement);
+        }
+        stringGeneratorElement.text = "";
+        Element header = HeadingElement.h1()..text = "Associated Generators:";
+        DivElement instructions = new DivElement()..setInnerHtml("Whenever a character needs to generate a random word or phrase, they will look to their prepacks. ")..classes.add("instructions");
+        stringGeneratorElement.append(header);
+
+        stringGeneratorElement.append(instructions);
+
+
+
+        StringGenerator g = StringGeneratorFormHelper.makeTestGenerator();
+         attachAreaElement(stringGeneratorElement, "Add Generator From DataString:", "${g.toDataString()}", (e)
+        {
+            try {
+                g.loadFromDataString(e.target.value);
+            }catch(e) {
+                window.console.error(e);
+                window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+            }
+
+        });
+
+         ButtonElement button = new ButtonElement()..text = "Add String Generator";
+         stringGeneratorElement.append(button);
+         button.onClick.listen((Event e) {
+             prepack.generators.add(g);
+             syncDataStringToPrepack();
+             handleStringGenerators(null);
+        });
+
+        renderStringGenerators();
 
     }
 
-    static void handleInitializers(Element parent) {
+    void renderStringGenerators() {
+        prepack.generators.where((Generator g) => g is StringGenerator).forEach((Generator sg) {
+            StringGeneratorFormHelper helper = new StringGeneratorFormHelper(sg);
+            helper.makeBuilder(stringGeneratorElement);
+        });
+    }
+
+    void handleInitializers(Element parent) {
         if(initializerElement == null) {
             initializerElement = new Element.div()..classes.add("subholder");
             parent.append(initializerElement);
@@ -85,7 +140,7 @@ abstract class PrepackBuilder {
 
     }
 
-    static void renderWords() {
+    void renderWords() {
         DivElement container = new DivElement();
         initializerElement.append(container);
         for(String word in prepack.initialKeysToGenerate) {
@@ -103,12 +158,12 @@ abstract class PrepackBuilder {
         }
     }
 
-    static void syncDataStringToPrepack() {
+    void syncDataStringToPrepack() {
         print("syncing datastring to generator");
         dataStringElement.value = prepack.toDataString();
     }
 
-    static void syncPrepackToDataString(e) {
+    void syncPrepackToDataString(e) {
         print("syncing gen to datastring");
         prepack.loadFromDataString(e.target.value);
 

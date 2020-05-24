@@ -24,9 +24,9 @@ void main() async {
   }else if(Uri.base.queryParameters['mode'] == "numGeneratorBuilder") {
     await NumGeneratorFormHelper.makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "stringGeneratorBuilder") {
-    await StringGeneratorFormHelper.makeBuilder(output);
+    await new StringGeneratorFormHelper().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "prepackBuilder") {
-    await PrepackBuilder.makeBuilder(output);
+    await new PrepackBuilder().makeBuilder(output);
   }else {
     Game game = new Game(Scenario.testScenario());
     UnitTests.runTests(output);
