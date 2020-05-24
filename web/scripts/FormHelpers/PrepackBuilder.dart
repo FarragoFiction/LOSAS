@@ -13,6 +13,7 @@ import 'dart:html';
 import '../Generator.dart';
 import '../Prepack.dart';
 import 'GenericFormHelper.dart';
+import 'NumGeneratorFormHelper.dart';
 import 'StringGeneratorFormHelper.dart';
 
 class PrepackBuilder {
@@ -23,6 +24,7 @@ class PrepackBuilder {
     TextAreaElement descElement;
     Element initializerElement;
     Element stringGeneratorElement;
+    Element numGeneratorElement;
 
     PrepackBuilder([this.prepack]) {
         this.prepack ??= makeNewPrepack();
@@ -61,6 +63,7 @@ class PrepackBuilder {
 
         handleInitializers(formHolder);
         handleStringGenerators(formHolder);
+        handleNumGenerators(formHolder);
 
     }
     void handleStringGenerators(Element parent) {
@@ -78,7 +81,7 @@ class PrepackBuilder {
 
 
         StringGenerator g = StringGeneratorFormHelper.makeTestGenerator();
-         attachAreaElement(stringGeneratorElement, "Add Generator From DataString:", "${g.toDataString()}", (e)
+         attachAreaElement(stringGeneratorElement, "Add StringGenerator From DataString:", "${g.toDataString()}", (e)
         {
             try {
                 g.loadFromDataString(e.target.value);
@@ -101,9 +104,55 @@ class PrepackBuilder {
 
     }
 
+    void handleNumGenerators(Element parent) {
+        if(numGeneratorElement == null) {
+            numGeneratorElement = new Element.div()..classes.add("subholder");
+            parent.append(numGeneratorElement);
+        }
+        numGeneratorElement.text = "";
+        Element header = HeadingElement.h1()..text = "Associated Generators:";
+        DivElement instructions = new DivElement()..setInnerHtml("Whenever a character needs to generate a random number, they will look to their prepacks. ")..classes.add("instructions");
+        numGeneratorElement.append(header);
+
+        numGeneratorElement.append(instructions);
+
+
+
+        NumGenerator g = NumGeneratorFormHelper.makeTestGenerator();
+        attachAreaElement(numGeneratorElement, "Add NumGenerator From DataString:", "${g.toDataString()}", (e)
+        {
+            try {
+                g.loadFromDataString(e.target.value);
+            }catch(e) {
+                window.console.error(e);
+                window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+            }
+
+        });
+
+        ButtonElement button = new ButtonElement()..text = "Add String Generator";
+        numGeneratorElement.append(button);
+        button.onClick.listen((Event e) {
+            prepack.generators.add(g);
+            syncDataStringToPrepack();
+            handleNumGenerators(null);
+        });
+
+        renderNumGenerators();
+
+    }
+
     void renderStringGenerators() {
         prepack.generators.where((Generator g) => g is StringGenerator).forEach((Generator sg) {
             StringGeneratorFormHelper helper = new StringGeneratorFormHelper(sg);
+            helper.callback = syncDataStringToPrepack;
+            helper.makeBuilder(stringGeneratorElement);
+        });
+    }
+
+    void renderNumGenerators() {
+        prepack.generators.where((Generator g) => g is NumGenerator).forEach((Generator ng) {
+            NumGeneratorFormHelper helper = new NumGeneratorFormHelper(ng);
             helper.callback = syncDataStringToPrepack;
             helper.makeBuilder(stringGeneratorElement);
         });

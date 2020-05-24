@@ -22,7 +22,7 @@ void main() async {
   if(Uri.base.queryParameters['mode'] == "sceneBuilder") {
     await SceneFormHelper.makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "numGeneratorBuilder") {
-    await NumGeneratorFormHelper.makeBuilder(output);
+    await new NumGeneratorFormHelper().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "stringGeneratorBuilder") {
     await new StringGeneratorFormHelper().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "prepackBuilder") {

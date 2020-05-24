@@ -1,21 +1,31 @@
 import 'dart:html';
+import 'package:CommonLib/Utility.dart';
+
 import '../Generator.dart';
 import 'GenericFormHelper.dart';
 
-abstract class NumGeneratorFormHelper {
+class NumGeneratorFormHelper {
 
-    static TextAreaElement dataStringElement;
-    static InputElement keyElement;
-    static NumGenerator generator;
-    static InputElement minElement;
-    static InputElement maxElement;
+    TextAreaElement dataStringElement;
+    InputElement keyElement;
+    NumGenerator generator;
+    InputElement minElement;
+    InputElement maxElement;
+    Action callback;
+
+    NumGeneratorFormHelper([this.generator]) {
+        generator ??= makeTestGenerator();
+    }
+
+    static NumGenerator makeTestGenerator() {
+        return new NumGenerator("sampleKey",-13,13);
+    }
 
 
-    static void makeBuilder(Element parent) async {
+    void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        generator = new NumGenerator("sampleKey",-13,13);
         DivElement instructions = new DivElement()..setInnerHtml("A number generator is how an individual entity handles random numbers. <br><br>Example uses include 'generate a random number between 0 and 1 for the key 'chanceSuccess' or 'generate a random number between  and 13 for 'attack'.  <br><br>Since each entity has their own generators for a value they can produce very different behavior. A high strength character might generate an attack between 10 and 30, while a low strength might generate one between 1 and 3. <br><br>An entity can have multiple generators for the same value, in which case all have an equal chance of being used to generate a value.<br><br>Note: Numbers default to whole integers unless a decimal is included in the min/max." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${generator.toDataString()}", (e) => syncDataStringToGenerator(e));
@@ -38,12 +48,14 @@ abstract class NumGeneratorFormHelper {
         });
     }
 
-    static void syncDataStringToGen() {
+    void syncDataStringToGen() {
         print("syncing datastring to generator");
         dataStringElement.value = generator.toDataString();
+        if(callback !=null) callback();
+
     }
 
-    static void syncDataStringToGenerator(e) {
+    void syncDataStringToGenerator(e) {
         print("syncing gen to datastring");
         try {
             generator.loadFromDataString(e.target.value);
@@ -54,6 +66,8 @@ abstract class NumGeneratorFormHelper {
         keyElement.value = generator.key;
         minElement.value = "${generator.min}";
         maxElement.value = "${generator.max}";
+        if(callback !=null) callback();
+
 
     }
 
