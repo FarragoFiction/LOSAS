@@ -12,8 +12,10 @@ import 'dart:html';
 
 import '../Generator.dart';
 import '../Prepack.dart';
+import '../Scene.dart';
 import 'GenericFormHelper.dart';
 import 'NumGeneratorFormHelper.dart';
+import 'SceneFormHelper.dart';
 import 'StringGeneratorFormHelper.dart';
 
 class PrepackBuilder {
@@ -25,6 +27,7 @@ class PrepackBuilder {
     Element initializerElement;
     Element stringGeneratorElement;
     Element numGeneratorElement;
+    Element sceneElement;
 
     PrepackBuilder([this.prepack]) {
         this.prepack ??= makeNewPrepack();
@@ -64,6 +67,7 @@ class PrepackBuilder {
         handleInitializers(formHolder);
         handleStringGenerators(formHolder);
         handleNumGenerators(formHolder);
+        handleScenes(formHolder);
 
     }
     void handleStringGenerators(Element parent) {
@@ -72,7 +76,7 @@ class PrepackBuilder {
             parent.append(stringGeneratorElement);
         }
         stringGeneratorElement.text = "";
-        Element header = HeadingElement.h1()..text = "Associated Generators:";
+        Element header = HeadingElement.h1()..text = "Associated Word/Phrase Generators:";
         DivElement instructions = new DivElement()..setInnerHtml("Whenever a character needs to generate a random word or phrase, they will look to their prepacks. ")..classes.add("instructions");
         stringGeneratorElement.append(header);
 
@@ -110,7 +114,7 @@ class PrepackBuilder {
             parent.append(numGeneratorElement);
         }
         numGeneratorElement.text = "";
-        Element header = HeadingElement.h1()..text = "Associated Generators:";
+        Element header = HeadingElement.h1()..text = "Associated Number Generators:";
         DivElement instructions = new DivElement()..setInnerHtml("Whenever a character needs to generate a random number, they will look to their prepacks. ")..classes.add("instructions");
         numGeneratorElement.append(header);
 
@@ -142,6 +146,44 @@ class PrepackBuilder {
 
     }
 
+    void handleScenes(Element parent) {
+        if(sceneElement == null) {
+            sceneElement = new Element.div()..classes.add("subholder");
+            parent.append(sceneElement);
+        }
+        sceneElement.text = "";
+        Element header = HeadingElement.h1()..text = "Associated Scenes:";
+        DivElement instructions = new DivElement()..setInnerHtml("The scenes a character has access to from their prepack. ")..classes.add("instructions");
+        sceneElement.append(header);
+
+        sceneElement.append(instructions);
+
+
+
+        Scene s = SceneFormHelper.makeTestScene();
+        attachAreaElement(sceneElement, "Add Scene From DataString:", "${s.toDataString()}", (e)
+        {
+            try {
+                s.loadFromDataString(e.target.value);
+            }catch(e) {
+                window.console.error(e);
+                window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+            }
+
+        });
+
+        ButtonElement button = new ButtonElement()..text = "Add String Generator";
+        sceneElement.append(button);
+        button.onClick.listen((Event e) {
+            prepack.scenes.add(s);
+            syncDataStringToPrepack();
+            handleScenes(null);
+        });
+
+        renderScenes();
+
+    }
+
     void renderStringGenerators() {
         prepack.generators.where((Generator g) => g is StringGenerator).forEach((Generator sg) {
             StringGeneratorFormHelper helper = new StringGeneratorFormHelper(sg);
@@ -154,7 +196,15 @@ class PrepackBuilder {
         prepack.generators.where((Generator g) => g is NumGenerator).forEach((Generator ng) {
             NumGeneratorFormHelper helper = new NumGeneratorFormHelper(ng);
             helper.callback = syncDataStringToPrepack;
-            helper.makeBuilder(stringGeneratorElement);
+            helper.makeBuilder(numGeneratorElement);
+        });
+    }
+
+    void renderScenes() {
+        prepack.scenes.forEach((Scene s) {
+            SceneFormHelper helper = new SceneFormHelper(s);
+            helper.callback = syncDataStringToPrepack;
+            helper.makeBuilder(sceneElement);
         });
     }
 
@@ -228,5 +278,7 @@ class PrepackBuilder {
         descElement.value = prepack.description;
         handleInitializers(null);
         handleStringGenerators(null);
+        handleNumGenerators(null);
+        handleScenes(null);
     }
 }

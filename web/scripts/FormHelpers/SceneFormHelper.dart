@@ -4,6 +4,7 @@
  */
 import 'dart:html';
 
+import 'package:CommonLib/Utility.dart';
 import 'package:LoaderLib/Loader.dart';
 
 import '../ActionEffects/ActionEffect.dart';
@@ -17,26 +18,36 @@ import 'GenericFormHelper.dart';
     ability to pick bg image from list
     ability to add/remove filters/effects
  */
-abstract class SceneFormHelper {
-    static String imageListSource = "http://farragofiction.com/LOSASE/images/BGs/list.php";
-    static String musicListSource = "http://farragofiction.com/LOSASE/Music/list.php";
+class SceneFormHelper {
+    String imageListSource = "http://farragofiction.com/LOSASE/images/BGs/list.php";
+    String musicListSource = "http://farragofiction.com/LOSASE/Music/list.php";
 
-    static Scene scene;
-    static TextAreaElement dataStringElement;
-    static InputElement nameElement;
-    static InputElement musicOffSetElement;
-    static SelectElement bgElement;
-    static ImageElement bgPreviewElement;
-    static SelectElement bgMusicElement;
-    static AudioElement bgMusicPreviewElement;
-    static InputElement authorElement;
-    static TextAreaElement beforeTextElement;
-    static TextAreaElement afterTextElement;
-    static CheckboxInputElement targetOneElement;
-    static Element filterHolder;
-    static Element actionHolder;
+    Scene scene;
+    TextAreaElement dataStringElement;
+    InputElement nameElement;
+    InputElement musicOffSetElement;
+    SelectElement bgElement;
+    ImageElement bgPreviewElement;
+    SelectElement bgMusicElement;
+    AudioElement bgMusicPreviewElement;
+    InputElement authorElement;
+    TextAreaElement beforeTextElement;
+    TextAreaElement afterTextElement;
+    CheckboxInputElement targetOneElement;
+    Element filterHolder;
+    Element actionHolder;
+    Action callback;
 
-    static void makeBuilder(Element parent) async {
+    SceneFormHelper([this.scene]) {
+        scene ??= makeTestScene();
+    }
+
+    static Scene makeTestScene() {
+        return new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name].","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
+    }
+
+
+    void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
         scene = new Scene("Example Scene","The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name].","The text AFTER things happen. Any changes will reflect here, such as new names, or whatever.");
@@ -98,7 +109,7 @@ abstract class SceneFormHelper {
 
 
 
-    static void setupBGS(Element parent) async {
+     void setupBGS(Element parent) async {
         DivElement holder = new DivElement()..classes.add("subholder");
         parent.append(holder);
         Element header = HeadingElement.h1()..text = "BG Image:";
@@ -123,7 +134,7 @@ abstract class SceneFormHelper {
         });
     }
 
-    static void setupBGMusics(Element parent) async {
+     void setupBGMusics(Element parent) async {
         DivElement holder = new DivElement()..classes.add("subholder");
         parent.append(holder);
         Element header = HeadingElement.h1()..text = "BG Music:";
@@ -167,7 +178,7 @@ abstract class SceneFormHelper {
     }
 
     //rerenders every sync
-    static void makeFilters(Element parent) {
+     void makeFilters(Element parent) {
 
         if(filterHolder == null) {
             filterHolder = new DivElement()
@@ -198,7 +209,7 @@ abstract class SceneFormHelper {
     }
 
     //rerenders every sync
-    static void makeActions(Element parent) {
+     void makeActions(Element parent) {
         if (actionHolder == null) {
             actionHolder = new DivElement()
                 ..classes.add("subholder");
@@ -229,12 +240,14 @@ abstract class SceneFormHelper {
         renderActions();
     }
 
-    static void syncDataStringToScene() {
+     void syncDataStringToScene() {
         print("syncing datastring to scene");
         dataStringElement.value = scene.toDataString();
-    }
+        if(callback !=null) callback();
 
-    static void syncSceneToDataString(e) {
+     }
+
+     void syncSceneToDataString(e) {
         print("syncing scene to datastring");
         try {
             scene.loadFromDataString(e.target.value);
@@ -251,14 +264,16 @@ abstract class SceneFormHelper {
         doMusic();
         makeFilters(null);
         makeActions(null);
-    }
+        if(callback !=null) callback();
 
-    static void doBGS() {
+     }
+
+     void doBGS() {
         bgPreviewElement.src = "${scene.bgLocation}";
         bgElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.bgLocationEnd);
     }
 
-    static void doMusic() {
+     void doMusic() {
         bgMusicPreviewElement.src = "${scene.musicLocation}";
         //musicOffSetElement.value = "${scene.musicOffset}";
         bgMusicPreviewElement.currentTime = scene.musicOffset;
@@ -266,7 +281,7 @@ abstract class SceneFormHelper {
         bgMusicElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.musicLocationEnd);
     }
 
-    static void renderFilters() {
+     void renderFilters() {
 
         if(scene.targetFilters.isEmpty) return;
         DivElement container = new DivElement();
@@ -276,7 +291,7 @@ abstract class SceneFormHelper {
         }
     }
 
-    static void renderOneFilter(Element parent, TargetFilter item) {
+     void renderOneFilter(Element parent, TargetFilter item) {
         DivElement container = new DivElement()..classes.add("tinyholder");
         Element header = HeadingElement.h3()..text = item.type;
         ButtonElement remove = new ButtonElement()..text = "Remove?"..style.display="inline-block"..style.marginLeft="415px";
@@ -321,7 +336,7 @@ abstract class SceneFormHelper {
         }
     }
 
-    static void renderOneAction(Element parent, ActionEffect item) {
+     void renderOneAction(Element parent, ActionEffect item) {
         DivElement container = new DivElement()..classes.add("tinyholder");
         Element header = HeadingElement.h3()..text = item.type;
         ButtonElement remove = new ButtonElement()..text = "Remove?"..style.display="inline-block"..style.marginLeft="415px";
@@ -361,7 +376,7 @@ abstract class SceneFormHelper {
         }
     }
 
-    static void renderActions() {
+     void renderActions() {
         if(scene.effects.isEmpty) return;
         DivElement container = new DivElement()..classes.add("subholder");
         Element header = HeadingElement.h2()

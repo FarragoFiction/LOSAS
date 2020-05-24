@@ -20,7 +20,7 @@ void main() async {
 
   //TODO modes for all builders, testing and then actually playing
   if(Uri.base.queryParameters['mode'] == "sceneBuilder") {
-    await SceneFormHelper.makeBuilder(output);
+    await new SceneFormHelper().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "numGeneratorBuilder") {
     await new NumGeneratorFormHelper().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "stringGeneratorBuilder") {

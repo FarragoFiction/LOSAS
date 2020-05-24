@@ -22,25 +22,28 @@
 <div id = "todo">
    <h1> Next Five Minutes:</h1>
     <br>
-    <li>have nested number generators inside prepack builder mimic stringgen</li>
+    <li>have nested scene  inside prepack builder mimic generators</li>
 
 
     <h1>Next Hour:</h1>
     <br>
-    <li>have nested scene  inside prepack builder mimic generators</li>
     <li>print warning if you have generators in initializer that aren't in either generator list</li>
     <li>have ability to save prepack to an image (write author on bottom?)</li>
     <li>make bastard prepack an image (load it remotely like you do bgs, store in remote folder)</li>
 
     <h1>Next Day:</h1>
     <br>
+    <li>make sure reference memory keys are a thing so that aspect sets associated good/bad stats (or wahtever) adn class can modify them
+    <li>maybe things like stored [TARGET.STRINGMEMORY.ASSOCIATEDGOODSTAT] as the key to add -13 to or whatever</li></li>
+    <li>make bro a bard of blood (he unites everyone to destroy him) test reference memory keys (he should lower everyones loyal value or whatever)</li>
     <li>action effect scromble scene priority (shuffle scene list)</li>
-    <li>scenario intro scene has list of generators for all entities (active or not)</li>
-    <li>make scenario builder (has prepacks, suggested players (or abilitiy to generate random ones based on seed), etc)</li>
+    <li>make scenario builder (has prepacks (images/datastrings only, no nested builders plz, just display description and name and image), suggested players (or abilitiy to generate random ones based on seed), etc)</li>
     <li>(useful for romance)filters for both target and owner having the same value stored to two given keys (checks both num and string for key)</li>
     <li>make char builder (assign prepacks)</li>
     <h1>Major TODO</h1>
     <br>
+
+    <li>scenario, prepack and entities should all have optional associated datapngs</li>
     <li>make  action effects that deactivates/kills/revives a target. (scenarios or whatever can have auto things that kill someone if the hp stat is under 0 or whatever)</li>
     <li>final ui (i.e. load a scenario, tweak its starting conditions, pick a seed (or randomize it), and go) (shareable url with scenario name and seed (iff scenario is included))</li>
     <li>IMPORTANT: how do we wanna handle custom image uploads? if you reuse a bg for a scene you don't wanna attach it PER scene...</li>
@@ -62,7 +65,8 @@
     <li>ability to specify a palette (serialized to json, string string pairs) to replace your palette with (if it doesn't have all your colors it only replaces some)(ignores any colors not in your palette)</li>
     <li>palette creator</li>
     <li>scenes load their bg image from their entities memory (useful for things like land background from generators?)</li>
-
+    <li>WigglerSim tie in, given a wiggler sim json data thingy (including known castes) for a grub/alumni, automatically generate a character imagefile that can be loaded into the wigglersim scenario</li>
+    <li>CreditSim tie in, loads a credit datastring in and turns it into an Entity (associated phrase and all)</li>
     <li>ability to set temporary doll to render with (then return to normal?) (complicated action effect?)</li>
     <li>once i can serialize scenes, make a full on stand alone DQ0n that turns others into DQ0n as well but if their original name is restored they turn back.</li>
     <li>lamia doll creator (packaged with LOSAS, not just doll lib)</li>
