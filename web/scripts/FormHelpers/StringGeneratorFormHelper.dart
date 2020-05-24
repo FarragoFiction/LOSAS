@@ -1,4 +1,6 @@
 import 'dart:html';
+import 'package:CommonLib/Utility.dart';
+
 import '../Generator.dart';
 import 'GenericFormHelper.dart';
 
@@ -9,6 +11,7 @@ class StringGeneratorFormHelper {
      StringGenerator generator;
      Element wordsElement;
      InputElement addWordElement;
+     Action callback;
 
      StringGeneratorFormHelper([StringGenerator  this.generator]) {
              generator ??= makeTestGenerator();
@@ -85,6 +88,7 @@ class StringGeneratorFormHelper {
      void syncDataStringToGen() {
         print("syncing datastring to generator");
         dataStringElement.value = generator.toDataString();
+        if(callback !=null) callback();
     }
 
      void syncDataStringToGenerator(e) {
@@ -97,6 +101,7 @@ class StringGeneratorFormHelper {
         }
         keyElement.value = generator.key;
         handleWords(null);
+        if(callback !=null) callback();
 
     }
 

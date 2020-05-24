@@ -38,7 +38,7 @@ class PrepackBuilder {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc)." )..classes.add("instructions");
+        DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player, GoldBlood, Lamia.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc)." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncPrepackToDataString(e));
         nameElement = attachInputElement(formHolder, "Name:", "${prepack.name}", (e)
@@ -104,6 +104,7 @@ class PrepackBuilder {
     void renderStringGenerators() {
         prepack.generators.where((Generator g) => g is StringGenerator).forEach((Generator sg) {
             StringGeneratorFormHelper helper = new StringGeneratorFormHelper(sg);
+            helper.callback = syncDataStringToPrepack;
             helper.makeBuilder(stringGeneratorElement);
         });
     }
@@ -177,5 +178,6 @@ class PrepackBuilder {
         nameElement.value = prepack.name;
         descElement.value = prepack.description;
         handleInitializers(null);
+        handleStringGenerators(null);
     }
 }
