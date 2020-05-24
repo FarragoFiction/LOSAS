@@ -19,6 +19,7 @@ abstract class PrepackBuilder {
     static InputElement nameElement;
     static InputElement authorElement;
     static TextAreaElement descElement;
+    static Element initializerElement;
 
 
 
@@ -48,6 +49,58 @@ abstract class PrepackBuilder {
             syncDataStringToGen();
         });
 
+        handleInitializers(formHolder);
+
+    }
+
+    static void handleInitializers(Element parent) {
+        if(initializerElement == null) {
+            initializerElement = new Element.div()..classes.add("subholder");
+            parent.append(initializerElement);
+        }
+        initializerElement.text = "";
+        Element header = HeadingElement.h1()..text = "Initial Generator Keys:";
+        DivElement instructions = new DivElement()..setInnerHtml("When a scenario starts, all entities will check their prepacks for what generators should generate even before a single scene triggers. <br><br>This allows things like 'all characters begin with strength, dexterity, charisma and constitution' ")..classes.add("instructions");
+        initializerElement.append(header);
+
+        initializerElement.append(instructions);
+
+        renderWords();
+
+        ButtonElement button = new ButtonElement()..text = "Add";
+
+        TextAreaElement input = attachAreaElement(initializerElement, "Add Word/Phrase:", "", (e)
+        {
+            button.text = "Add ${e.target.value}";
+
+        });
+
+        button.onClick.listen((Event e) {
+            prepack.initialKeysToGenerate.add( input.value);
+            syncDataStringToGen();
+            handleInitializers(null);
+        });
+        initializerElement.append(button);
+
+
+    }
+
+    static void renderWords() {
+        DivElement container = new DivElement();
+        initializerElement.append(container);
+        for(String word in prepack.initialKeysToGenerate) {
+            DivElement holder = new DivElement()..style.padding="3px"..style.display="inline-block";
+            container.append(holder);
+            DivElement wordElement = new DivElement()..text = word..style.display="inline-block";
+            holder.append(wordElement);
+            ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x");
+            holder.append(remove);
+            remove.onClick.listen((Event e ) {
+                prepack.initialKeysToGenerate.remove(word);
+                syncDataStringToGen();
+                handleInitializers(null);
+            });
+        }
     }
 
     static void syncDataStringToGen() {

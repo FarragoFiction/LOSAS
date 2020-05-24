@@ -20,29 +20,29 @@
 
   <div id="output"></div>
 <div id = "todo">
-    Next Five Minutes:
+   <h1> Next Five Minutes:</h1>
     <br>
-    <li>make prepack builder (including export to image)
-        (consider allowing generators at least to have a nested form element here?)
-        (have a warning if you have a key in your initailzer list that isn't represented in your generators) </li>
-    Next Hour:
-    <br>
+    <li>have string adding system (like generator) for initializers</li>
 
+    <h1>Next Hour:</h1>
+    <br>
+    <li>have nested generators inside prepack builder</li>
+    <li>have nested scene  inside prepack builder </li>
+    <li>have ability to save prepack to an image (write author on bottom?)</li>
     <li>make bastard prepack an image (load it remotely like you do bgs, store in remote folder)</li>
 
-    Next Day:
+    <h1>Next Day:</h1>
     <br>
     <li>action effect scromble scene priority (shuffle scene list)</li>
     <li>scenario intro scene has list of generators for all entities (active or not)</li>
     <li>make scenario builder (has prepacks, suggested players (or abilitiy to generate random ones based on seed), etc)</li>
     <li>(useful for romance)filters for both target and owner having the same value stored to two given keys (checks both num and string for key)</li>
     <li>make char builder (assign prepacks)</li>
-    Major TODO
+    <h1>Major TODO</h1>
     <br>
     <li>make  action effects that deactivates/kills/revives a target. (scenarios or whatever can have auto things that kill someone if the hp stat is under 0 or whatever)</li>
     <li>final ui (i.e. load a scenario, tweak its starting conditions, pick a seed (or randomize it), and go) (shareable url with scenario name and seed (iff scenario is included))</li>
     <li>IMPORTANT: how do we wanna handle custom image uploads? if you reuse a bg for a scene you don't wanna attach it PER scene...</li>
-    <li>effects for adding scenes/generators etc to target</li>
     <li>serialize to data png (review viking book for how it works) (including images uploaded to scenes/chars)</li>
     <li>builders (scene, scenario, entity, generator, prepack</li>
     <li>prepacks have location data (like derse or whatever, so a "Derse" prepack has scenes that a carapace or a human could do with a derse bg)</li>
@@ -50,7 +50,7 @@
     <li>partial doll creator (specifies doll type and layers that have important values and orientation thats it, so you can do things like define "dead" graphic) and palette</li>
     <li>skald and neb commentary during story (triggered by keywords) zoom out to show audience and storyteller</li>
     <li>*realy* want a fake wiki rip (maybe just the hosted paldemics)</li>
-    Incidental TODO:<br>
+    <h1>Incidental TODO:<br></h1>
     <li>if cpu usage of animation is high, before adding class, detect if the two canvases have the same image data</li>
     <li>peewee scenario for 858 (scenario shoved into image for EVERY paldemic in audio logs)</li>
     <li>scenes actually have two canvas's rendered, one before effects and one after, animates between them using css</li>
@@ -68,12 +68,11 @@
     <li>have a random filter like sburbsim does</li>
     <li>need ways to identify if an entity is the same entity in your memory, such as enenmy, SO whatever</li>
     <li>KeepIfStringIsSameAsMemory</li>
-    <li>concept of prepacks, has list of generators and list of scenes, assigning it to a char makes copies  of them to add to char</li>
     <li>ability to deactivate (no longer targetable) or kill(can't tick, but can be targeted)/revive an entity as an effect</li>
     <li>ability for action effects to add generators to target/owner (example use case, giving them new reasons to flip out) WILL REQUIRE SERIALIZATION</li>
     <li>scenarios have prepacks associated with them, let you do things like decide what are valid options (scenes, generators, etc all together) for character creators to have. can also add prepacks directly to chars, but thats a higher waste tier (things like adding highschool ai to a sburb game)</li>
     <br>
-    Dubious TODO: Are these a good idea? Or maybe they just aren't fleshed out yet
+    <h1> Dubious TODO: Are these a good idea? Or maybe they just aren't fleshed out yet</h1>
     <br>
     <li>audio offsets might be harder than i thought, pl says to look into: Media Fragment URI schema</li>
     <li>in builder, output examples of polarity (this will add 2 to a stored value of 4 or whatever)</li>
