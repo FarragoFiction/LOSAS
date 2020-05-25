@@ -9,7 +9,7 @@ import 'Scene.dart';
 
 class ScenarioRunner {
     int seed;
-    Game game;
+    GameUI game;
     Scenario scenario;
     //seriously if NOTHING HAPPENS for 13 ticks in a row, lets just call it
     int numberTriesForScene = 0;
@@ -35,7 +35,7 @@ class ScenarioRunner {
 
     void curtainsUp(Element parent) {
         print("curtains are going up");
-        game = new Game(scenario);
+        game = new GameUI(scenario);
         print("made a new game");
         game.setup(parent);
         initializeEntities();

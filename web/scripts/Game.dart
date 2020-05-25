@@ -6,7 +6,7 @@ import 'Scenario.dart';
 import 'Scene.dart';
 import 'UnitTests/UnitTests.dart';
 
-class Game {
+class GameUI {
     static String dataPngFolder = "LOSAS/";
     Element container;
     Scenario scenario;
@@ -23,7 +23,7 @@ class Game {
     StreamSubscription<KeyboardEvent> keyListener;
 
     //all possible entitites for this
-    Game(Scenario this.scenario) {
+    GameUI(Scenario this.scenario) {
     }
 
 

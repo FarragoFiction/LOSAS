@@ -31,7 +31,7 @@ void main() async {
   }else if(Uri.base.queryParameters['mode'] == "scenarioBuilder") {
     await new ScenarioFormHelper().makeBuilder(output);
   }else {
-    Game game = new Game(Scenario.testScenario());
+    GameUI game = new GameUI(Scenario.testScenario());
     UnitTests.runTests(output);
   }
 }

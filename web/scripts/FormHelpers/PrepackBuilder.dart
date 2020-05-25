@@ -22,7 +22,7 @@ import 'SceneFormHelper.dart';
 import 'StringGeneratorFormHelper.dart';
 
 class PrepackBuilder {
-    static String fileKey = "${Game.dataPngFolder}${Prepack.dataPngFile}";
+    static String fileKey = "${GameUI.dataPngFolder}${Prepack.dataPngFile}";
     Prepack prepack;
     TextAreaElement dataStringElement;
     InputElement nameElement;

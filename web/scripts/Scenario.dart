@@ -58,6 +58,7 @@ class Scenario extends DataObject {
     }
 
     //pass throughs for scenario runner
+    bool get theEnd => scenarioRunner.theEnd;
     List<Entity> get entitiesReadOnly => scenarioRunner.entitiesReadOnly;
     List<Entity> get activeEntitiesReadOnly => scenarioRunner.activeEntitiesReadOnly;
     Random get rand => scenarioRunner.rand;
