@@ -7,6 +7,7 @@ import 'Scene.dart';
 import 'UnitTests/UnitTests.dart';
 
 class Game {
+    static String dataPngFolder = "LOSAS/";
     Element container;
     Scenario scenario;
     bool readyForNextScene = true;

@@ -10,6 +10,8 @@ probably easier to just have scenes/generators be nested builders.
 
 import 'dart:html';
 
+import 'package:LoaderLib/Loader.dart';
+import "package:ImageLib/Encoding.dart";
 import '../Generator.dart';
 import '../Prepack.dart';
 import '../Scene.dart';
@@ -45,7 +47,8 @@ class PrepackBuilder {
         parent.append(formHolder);
         DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player, GoldBlood, Lamia.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc).<Br><br>Note: You can either create generators and scenes in the stand alone builders and load them here by datastring, or you can create them inline here." )..classes.add("instructions");
         formHolder.append(instructions);
-        dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncPrepackToDataString(e));
+        dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncPrepackToDataString(e.target.value));
+        handleImageUpload(formHolder);
         nameElement = attachInputElement(formHolder, "Name:", "${prepack.name}", (e)
         {
             prepack.name = e.target.value;
@@ -68,8 +71,42 @@ class PrepackBuilder {
         handleStringGenerators(formHolder);
         handleNumGenerators(formHolder);
         handleScenes(formHolder);
+    }
+
+    //for datapngs
+    void handleImageUpload(Element parent) {
+        DivElement instructions = new DivElement()..setInnerHtml(" You can store your prepack to an image here." )..classes.add("instructions");
+        parent.append(instructions);
+        Element uploadElement = FileFormat.loadButton(ArchivePng.format, (ArchivePng inputImage, String fileName) {
+            //doing it this way in case theres data already in it. don't copy to context.
+            //TODO display the uploaded image once the datapng is stored into it.
+            //TODO have a button for reexporting your prepack to file (downoad button plus preview)
+            //todo pl says: the saveButton method takes an object in and generates the blob for downloading, and automatically deals with disposing of the previous one
+        });
+        parent.append(uploadElement);
+
+       handleLoadingPrepackFromImage(parent);
 
     }
+
+    void handleLoadingPrepackFromImage(Element parent) {
+        //by getting the upload this way we can maintain any data already in it (so in theory you could have a char, scenario AND prepack all in the same image
+        DivElement instructions = new DivElement()..setInnerHtml("If you have an image with a prepack stored in it, you can load it here." )..classes.add("instructions");
+        parent.append(instructions);
+        Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncPrepackToImage);
+        parent.append(uploadElement);
+
+        String dataString;
+        syncPrepackToDataString(dataString);
+    }
+
+    void syncPrepackToImage(ArchivePng inputImage, String fileName) {
+        print("JR NOTE TODO: $fileName");
+        /*
+            TODO get the prepack datastring out. ignore anything else.
+         */
+    }
+
     void handleStringGenerators(Element parent) {
         if(stringGeneratorElement == null) {
             stringGeneratorElement = new Element.div()..classes.add("subholder");
@@ -280,12 +317,12 @@ class PrepackBuilder {
         dataStringElement.value = prepack.toDataString();
     }
 
-    void syncPrepackToDataString(e) {
+    void syncPrepackToDataString(String dataString) {
         print("syncing gen to datastring");
-        prepack.loadFromDataString(e.target.value);
+        prepack.loadFromDataString(dataString);
 
         try {
-            prepack.loadFromDataString(e.target.value);
+            prepack.loadFromDataString(dataString);
         }catch(e) {
             window.console.error(e);
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");

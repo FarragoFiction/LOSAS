@@ -30,6 +30,9 @@ Then you’er allowed to just use any prepack at all you can upload
 
  */
 class Scenario extends DataObject {
+    static String dataPngFile = "scenario.datastring";
+
+
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
     int seed;
     //TODO when you make a scenario with a builder, need to be able to specify what dollstrings the char creator should be asking for

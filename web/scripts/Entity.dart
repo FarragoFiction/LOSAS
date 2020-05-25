@@ -22,6 +22,8 @@ class Entity extends DataObject {
     static const String NAMEKEY = "name";
     static const String ORIGINALNAMEKEY = "originalName";
     static const String SPECIESKEY = "species";
+    static String dataPngFile = "entity.datastring";
+
 
     //TODO most chars will be generated randomly but if someone wants to say "i made this" sure why not
     String author;

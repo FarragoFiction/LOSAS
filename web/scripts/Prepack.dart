@@ -9,6 +9,8 @@ import 'Generator.dart';
 import 'Scene.dart';
 
 class Prepack extends DataObject {
+    static String dataPngFile = "prepack.datastring";
+
     List<Generator> generators;
     //an entity given this prepack is going to have these scenes at a prioritization based on what order you give the prepacks to em
     List<Scene> scenes;

@@ -8,6 +8,10 @@ environment:
   sdk: '>=2.2.0 <3.0.0'
 
 dev_dependencies:
+  ImageLib:
+    git:
+      url: git://github.com/FarragoFiction/ImageLib.git
+      ref: Dart-2.2.0
   TextEngine:
     git:
       url: git://github.com/FarragoFiction/TextEngine.git
