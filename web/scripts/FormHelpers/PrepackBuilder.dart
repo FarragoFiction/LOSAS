@@ -84,7 +84,7 @@ class PrepackBuilder {
             //TODO display the uploaded image once the datapng is stored into it.
             //TODO have a button for reexporting your prepack to file (downoad button plus preview)
             //todo pl says: the saveButton method takes an object in and generates the blob for downloading, and automatically deals with disposing of the previous one
-        });
+        }, caption: "Upload Image to Contain Prepack");
         holder.append(uploadElement);
 
        handleLoadingPrepackFromImage(parent);
@@ -97,7 +97,7 @@ class PrepackBuilder {
         //by getting the upload this way we can maintain any data already in it (so in theory you could have a char, scenario AND prepack all in the same image
         DivElement instructions = new DivElement()..setInnerHtml("If you have an image with a prepack stored in it, you can load it here." )..style.marginBottom="30px";;
         holder.append(instructions);
-        Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncPrepackToImage);
+        Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncPrepackToImage,caption: "Load Prepack From Image");
         holder.append(uploadElement);
 
         String dataString;
