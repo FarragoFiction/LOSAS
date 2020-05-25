@@ -75,7 +75,7 @@ class PrepackBuilder {
 
     //for datapngs
     void handleImageUpload(Element parent) {
-        DivElement instructions = new DivElement()..setInnerHtml(" You can store your prepack to an image here." )..classes.add("instructions");
+        DivElement instructions = new DivElement()..setInnerHtml(" You can upload any image to store your prepack into here." )..classes.add("instructions");
         parent.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, (ArchivePng inputImage, String fileName) {
             //doing it this way in case theres data already in it. don't copy to context.
@@ -97,7 +97,7 @@ class PrepackBuilder {
         parent.append(uploadElement);
 
         String dataString;
-        syncPrepackToDataString(dataString);
+        if(dataString != null)syncPrepackToDataString(dataString);
     }
 
     void syncPrepackToImage(ArchivePng inputImage, String fileName) {
