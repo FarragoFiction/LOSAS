@@ -22,6 +22,7 @@ import 'SceneFormHelper.dart';
 import 'StringGeneratorFormHelper.dart';
 
 class PrepackBuilder {
+    static String fileKey = "${Game.dataPngFolder}${Prepack.dataPngFile}";
     Prepack prepack;
     TextAreaElement dataStringElement;
     InputElement nameElement;
@@ -33,6 +34,8 @@ class PrepackBuilder {
     Element sceneElement;
     Element archiveSaveButton;
     Element imageUploaderHolder;
+    Element archiveUploaderHolder;
+
 
     PrepackBuilder([this.prepack]) {
         this.prepack ??= makeNewPrepack();
@@ -80,7 +83,7 @@ class PrepackBuilder {
     void handleImageUpload(Element parent) {
         imageUploaderHolder =new DivElement()..classes.add("instructions");
         parent.append(imageUploaderHolder);
-        DivElement instructions = new DivElement()..setInnerHtml(" You can upload any image to store your prepack into here." )..style.marginBottom="30px";
+        DivElement instructions = new DivElement()..setInnerHtml(" You can upload any image to store your prepack into here. (Note any changes to the datastring will require you to reupload the image)." )..style.marginBottom="30px";
         imageUploaderHolder.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, handleWritingPrepackToPng, caption: "Upload Image to Contain Prepack");
         imageUploaderHolder.append(uploadElement);
@@ -91,12 +94,13 @@ class PrepackBuilder {
 
     void handleWritingPrepackToPng(ArchivePng png, String fileName) async {
         //doing it this way in case theres data already in it. don't copy to context.
-        String fileKey = "${Game.dataPngFolder}${Prepack.dataPngFile}";
+        archiveSaveButton = new DivElement()..text = "Processing...";
+        imageUploaderHolder.append(archiveSaveButton);
         await png.archive.setFile(fileKey, prepack.toDataString());
-        //todo pl says: the saveButton method takes an object in and generates the blob for downloading, and automatically deals with disposing of the previous one
-        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, ()=> imageUploaderHolder.append(archiveSaveButton));
-        //TODO remove download link if the datastring changes at all
-        //TODO button to reexport prepack to download button
+        archiveSaveButton.remove();
+        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, ()=> png, filename: ()=>"${prepack.name}.png", caption: "Download Prepack Archive Image (Be Patient)");
+        imageUploaderHolder.append(archiveSaveButton);
+        //TODO if ppl complain about having to reupload their image cache it and have a button explicitly for reexporting. not worth it rn
     }
 
     //any time the datastring gets changed the download link gets nuked
@@ -104,24 +108,24 @@ class PrepackBuilder {
         archiveSaveButton.remove();
     }
 
-    void handleLoadingPrepackFromImage(Element parent) {
-        DivElement holder =new DivElement()..classes.add("instructions");
-        parent.append(holder);
+    Future handleLoadingPrepackFromImage(Element parent) {
+        archiveUploaderHolder =new DivElement()..classes.add("instructions");
+        parent.append(archiveUploaderHolder);
         //by getting the upload this way we can maintain any data already in it (so in theory you could have a char, scenario AND prepack all in the same image
         DivElement instructions = new DivElement()..setInnerHtml("If you have an image with a prepack stored in it, you can load it here." )..style.marginBottom="30px";;
-        holder.append(instructions);
+        archiveUploaderHolder.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncPrepackToImage,caption: "Load Prepack From Image");
-        holder.append(uploadElement);
+        archiveUploaderHolder.append(uploadElement);
 
-        String dataString;
-        if(dataString != null)syncPrepackToDataString(dataString);
+
     }
 
-    void syncPrepackToImage(ArchivePng inputImage, String fileName) {
-        print("JR NOTE TODO: $fileName");
-        /*
-            TODO get the prepack datastring out. ignore anything else.
-         */
+    Future syncPrepackToImage(ArchivePng png, String fileName) async {
+        DivElement processing = new DivElement()..text = "processing";
+        archiveUploaderHolder.append(processing);
+        String dataString = await png.getFile(fileKey);
+        processing.remove();
+        if(dataString != null) syncPrepackToDataString(dataString);
     }
 
     void handleStringGenerators(Element parent) {
