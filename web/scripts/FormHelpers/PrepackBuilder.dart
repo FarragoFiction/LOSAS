@@ -12,6 +12,7 @@ import 'dart:html';
 
 import 'package:LoaderLib/Loader.dart';
 import "package:ImageLib/Encoding.dart";
+import '../Game.dart';
 import '../Generator.dart';
 import '../Prepack.dart';
 import '../Scene.dart';
@@ -30,6 +31,8 @@ class PrepackBuilder {
     Element stringGeneratorElement;
     Element numGeneratorElement;
     Element sceneElement;
+    Element archiveSaveButton;
+    Element imageUploaderHolder;
 
     PrepackBuilder([this.prepack]) {
         this.prepack ??= makeNewPrepack();
@@ -45,7 +48,7 @@ class PrepackBuilder {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        DivElement instructions = new DivElement()..setInnerHtml("A prepack is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player, GoldBlood, Lamia.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc).<Br><br>Note: You can either create generators and scenes in the stand alone builders and load them here by datastring, or you can create them inline here." )..classes.add("instructions");
+        DivElement instructions = new DivElement()..setInnerHtml("A prepack (prepackaged set) is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. A prepack will be known as a 'Trait' to the regular Observers. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player, GoldBlood, Lamia.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc).<Br><br>Note: You can either create generators and scenes in the stand alone builders and load them here by datastring, or you can create them inline here." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${prepack.toDataString()}", (e) => syncPrepackToDataString(e.target.value));
         handleImageUpload(formHolder);
@@ -75,20 +78,30 @@ class PrepackBuilder {
 
     //for datapngs
     void handleImageUpload(Element parent) {
-        DivElement holder =new DivElement()..classes.add("instructions");
-        parent.append(holder);
+        imageUploaderHolder =new DivElement()..classes.add("instructions");
+        parent.append(imageUploaderHolder);
         DivElement instructions = new DivElement()..setInnerHtml(" You can upload any image to store your prepack into here." )..style.marginBottom="30px";
-        holder.append(instructions);
-        Element uploadElement = FileFormat.loadButton(ArchivePng.format, (ArchivePng inputImage, String fileName) {
-            //doing it this way in case theres data already in it. don't copy to context.
-            //TODO display the uploaded image once the datapng is stored into it.
-            //TODO have a button for reexporting your prepack to file (downoad button plus preview)
-            //todo pl says: the saveButton method takes an object in and generates the blob for downloading, and automatically deals with disposing of the previous one
-        }, caption: "Upload Image to Contain Prepack");
-        holder.append(uploadElement);
+        imageUploaderHolder.append(instructions);
+        Element uploadElement = FileFormat.loadButton(ArchivePng.format, handleWritingPrepackToPng, caption: "Upload Image to Contain Prepack");
+        imageUploaderHolder.append(uploadElement);
 
        handleLoadingPrepackFromImage(parent);
 
+    }
+
+    void handleWritingPrepackToPng(ArchivePng png, String fileName) async {
+        //doing it this way in case theres data already in it. don't copy to context.
+        String fileKey = "${Game.dataPngFolder}${Prepack.dataPngFile}";
+        await png.archive.setFile(fileKey, prepack.toDataString());
+        //todo pl says: the saveButton method takes an object in and generates the blob for downloading, and automatically deals with disposing of the previous one
+        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, ()=> imageUploaderHolder.append(archiveSaveButton));
+        //TODO remove download link if the datastring changes at all
+        //TODO button to reexport prepack to download button
+    }
+
+    //any time the datastring gets changed the download link gets nuked
+    void clearArchiveDownload() {
+        archiveSaveButton.remove();
     }
 
     void handleLoadingPrepackFromImage(Element parent) {
@@ -319,6 +332,7 @@ class PrepackBuilder {
     void syncDataStringToPrepack() {
         print("syncing datastring to generator, scenes is ${prepack.scenes.join(",")}");
         dataStringElement.value = prepack.toDataString();
+        clearArchiveDownload();
     }
 
     void syncPrepackToDataString(String dataString) {
