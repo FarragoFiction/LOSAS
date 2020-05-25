@@ -57,13 +57,16 @@ class Scenario extends DataObject {
 
     }
 
-    void curtainsUp(Element parent) {
-        scenarioRunner.curtainsUp(parent);
-    }
+    //pass throughs for scenario runner
+    List<Entity> get entitiesReadOnly => scenarioRunner.entitiesReadOnly;
+    List<Entity> get activeEntitiesReadOnly => scenarioRunner.activeEntitiesReadOnly;
+    Random get rand => scenarioRunner.rand;
+    int get numberTriesForScene => scenarioRunner.numberTriesForScene;
+    set numberTriesForScene(int val) => scenarioRunner.numberTriesForScene = val;
+    void lookForNextScene() => scenarioRunner.lookForNextScene();
+    void curtainsUp(Element parent) => scenarioRunner.curtainsUp(parent);
+    void addEntity(Entity entity) => scenarioRunner.addEntity(entity);
 
-    void addEntity(Entity entity) {
-        scenarioRunner.addEntity(entity);
-    }
     Scenario.testScenario(){
         scenarioRunner = new ScenarioRunner(this,85);
         description = "A test scenario with a Pigeon/Bro/Doc ecosystem.";
@@ -71,9 +74,6 @@ class Scenario extends DataObject {
         final Entity bob = new Entity("Bob",[],"Bob%3A___A5GM5n_EOD_AKS7_v1J1tYBKiJY%3D")..isActive = true..facingRightByDefault=false;;
         final Entity eve = new Entity("Eve",[],"Eve%3A___A5GPGpdulkxChkWJS4sAAAALEeA%3D")..isActive = true..facingRightByDefault=false;;
         final Entity carol = new Entity("Carol",[],"Carol%3A___A5GAAAAMzMzA1AOCEcR-NxXKvg%3D%3D")..facingRightByDefault=false;
-
-
-
 
         Generator messageGenerator = Generator.fromDataString("secretMessageDraft:___ N4Ig1gpgniBcIGcIGMBOEAuBZCCEEMBzCAEVXwDMMQAaEDKABwjhAGUAVAJQEkA5AOK0QjAPZ4AlgCMANhABq+GQFdccANogAwvlSiZAAnzIMypTKgGwEgHYATA6IoGEy5GAQA6b8J4vl6AYAFqLMBjp6hjYQAG4QqAYUtnYIjsoYBgDuEADkcQZSEBA2BhhK1jaERlKi6cHx3p7CEfpGJmYyFlbJjs6u7l4+dCSiNjkZULWlQbZg4br6OanGpuaW+AaEIQgZtgZ2EgiEyocQAPwgALoAvkA");
         Generator reactionGeneratorBob = Generator.fromDataString("reaction:___ N4Ig1gpgniBcICcIEMDGAXAlgewHYgBoR0oAHCOEAZQBUAlASQDkBxQkU7AZy8wCMANhABqyAQFcIXOAG0QMgPIB1JgFE6AOlqNWAWVW6FdAJobcyALYQAugAJOXdF1vJbfFAnaKV6rfWYs+oYmZpY2tgAm2FK4AOTotkhiAlCJKBgg1gC+QA");
