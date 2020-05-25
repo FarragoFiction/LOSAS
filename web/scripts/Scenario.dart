@@ -8,6 +8,7 @@ import 'DataObject.dart';
 import 'Entity.dart';
 import 'Game.dart';
 import 'Generator.dart';
+import 'ScenarioRunner.dart';
 import 'Scene.dart';
 import 'TargetFilters/KeepIfNumIsGreaterThanValue.dart';
 import 'TargetFilters/TargetFilter.dart';
@@ -34,167 +35,40 @@ class Scenario extends DataObject {
 
 
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
-    int seed;
+
     //TODO when you make a scenario with a builder, need to be able to specify what dollstrings the char creator should be asking for
     //TODO such as godtier, dead, dream etc
     List<String> suggestedDollStringTags = new List<String>();
-    Game game;
+
     //TODO let people sign their work
     String author = "???";
-    //seriously if NOTHING HAPPENS for 13 ticks in a row, lets just call it
-    int numberTriesForScene = 0;
-    int maxNumberTriesForScene = 13;
+
     String description;
-
-    bool theEnd = false;
-
-
-
-    Random rand;
-
-    List<Entity> _entities = new List<Entity>();
-    List<Entity> get entitiesReadOnly  => _entities;
-
-    //the person in the spotlight is on screen right now
-    Entity spotLightEntity;
-    //if not entities are active on spawn, nothing can happen. I advise having at least an invisible entity, like "Skaia".
-    List<Entity> get activeEntitiesReadOnly => _entities.where((Entity entity) =>entity.isActive).toList();
-
     //if ANY of these trigger, then its time to stop ticking
     List<Scene> frameScenes = new List<Scene>();
 
     //if ANY of these trigger, then its time to stop ticking
     List<Scene> stopScenes = new List<Scene>();
     String name;
+    ScenarioRunner scenarioRunner;
 
-    Scenario(this.name, this.description, this.seed) {
-        rand = new Random(seed);
+    Scenario(this.name, this.description, seed) {
+        scenarioRunner = new ScenarioRunner(this,seed);
 
     }
 
 
     void curtainsUp(Element parent) {
-        print("curtains are going up");
-        game = new Game(this);
-        print("made a new game");
-        game.setup(parent);
-        initializeEntities();
-        print("setup the game");
-        lookForNextScene();
-        print("looked for a scene");
-    }
-
-    void initializeEntities() {
-        _entities.forEach((Entity e) => e.processPrepacks(rand));
+        scenarioRunner.curtainsUp(parent);
     }
 
     void addEntity(Entity entity) {
-        _entities.add(entity);
-        entity.scenario = this;
+        scenarioRunner.addEntity(entity);
     }
 
-
-
-    void debugScenario() {
-        entitiesReadOnly.forEach((Entity e)=> print(e.debugString()));
-    }
-
-    //if no scenes trigger, no introduction
-    Scene getIntroduction() {
-        for(final Scene scene in frameScenes) {
-            final bool active = scene.checkIfActivated(activeEntitiesReadOnly);
-            if(active){
-                return  scene;
-            }
-        }
-        return null;
-    }
-
-
-    //unlike sburbsim this doesn't just tick infinitely. instead it renders a button for next.
-    //if you try to page to the right and the scene doesn't exist and we aren't ended, do this
-    //first you check all your entities
-    //then you check your stop scenes
-    //then you repeat
-    void lookForNextScene() {
-        if(theEnd) return;
-        game.readyForNextScene = false;
-        if(game.sceneElements.length == 0){
-            Scene introduction = getIntroduction();
-            if(introduction != null) {
-                game.showScene(introduction);
-                return;
-            }
-        }
-        //could be some amount of randomness baked in
-        if(numberTriesForScene > maxNumberTriesForScene) {
-            window.alert("something has gone wrong, went $numberTriesForScene loops without anything happening");
-        }
-        Scene spotlightScene;
-        List<Entity> entitiesToCheck = null;
-        if(spotLightEntity != null) {
-            entitiesToCheck = entitiesReadOnly.sublist(entitiesReadOnly.indexOf(spotLightEntity)+1);
-        }else {
-            //every time we get to the start of entities, we shuffle so its not so samey
-            _entities.shuffle(rand);
-            entitiesToCheck = entitiesReadOnly;
-        }
-        spotlightScene = checkEntitiesForScene(entitiesToCheck);
-        if(spotlightScene != null) {
-            game.showScene(spotlightScene);
-        }else {
-            print("Time to check stop scenes");
-            spotlightScene = checkStopScenes();
-            if(spotlightScene == null) {
-                numberTriesForScene ++;
-                spotLightEntity = null;
-                lookForNextScene();
-            }else {
-                theEnd = true;
-                game.showScene(spotlightScene);
-            }
-        }
-    }
-
-    Scene checkStopScenes() {
-      for(final Scene scene in stopScenes) {
-          scene.scenario ??=this;
-          print("checking stop scene $scene with activeEntities $activeEntitiesReadOnly, btw the scene has these filters ${scene.targetFilters}");
-          final bool active = scene.checkIfActivated(activeEntitiesReadOnly);
-          print("was the stop scene activated: $active, the targets are ${scene.finalTargets}");
-          if(active){
-              return  scene;
-          }
-      }
-      return null;
-    }
-
-
-
-    Scene checkEntitiesForScene(List<Entity> entitiesToCheck) {
-        Scene ret;
-       for(final Entity e in entitiesToCheck) {
-          if(e.isActive) {
-              //yes it includes yourself, what if you're gonna buff your party or something
-              ret = e.performScene(activeEntitiesReadOnly);
-              if(ret != null) {
-                  spotLightEntity = e;
-                  ret.scenario ??=this;
-                  return ret;
-              }
-          }else{
-              ret = e.checkForActivationScenes(activeEntitiesReadOnly);
-              if(ret != null) {
-                  spotLightEntity = e;
-                  ret.scenario ??=this;
-                  return ret;
-              }
-          }
-      }
-       return null;
-    }
 
     Scenario.testScenario(){
+        scenarioRunner = new ScenarioRunner(this,85);
         description = "A test scenario with a Pigeon/Bro/Doc ecosystem.";
         final Entity alice = new Entity("Alice",[],"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true..facingRightByDefault=false;
         final Entity bob = new Entity("Bob",[],"Bob%3A___A5GM5n_EOD_AKS7_v1J1tYBKiJY%3D")..isActive = true..facingRightByDefault=false;;
@@ -223,8 +97,6 @@ class Scenario extends DataObject {
         name = "Alice messages Bob";
         frameScenes.add(new Scene.fromDataString("Introduction:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgC2EhAlmQPIBm7xUKAjAJwA6fgBYArACZevWgCMA5gBk4ZMFCZwAdgFFNmFCADi8CABsA9DEiaouAPoniggA6b5IWg2Zllq9Vt19VDowTRYASU1CODowsDJzADVSeQRQqEE4eXdaKBTsKFZNbBR2MFNiOWx2RGwAMVMwADdEABVsAA8eVEiAAjBesgQAT2coLLTnGBZy02HehGxTbCb0wcRihF64dl7YbF6IMKaqJ0FBD3B2WwQG5rbO7pBLzTA6Ep6bBDhMCDJ-TSXPIIeQFOpMUw3QgoADaAF1aNV2Nh-tDkPCAL5AA")..scenario=this);
 
-        seed = 85;
-        rand = new Random(seed);
 
     }
 
