@@ -8,6 +8,7 @@ import 'DataObject.dart';
 import 'Entity.dart';
 import 'Game.dart';
 import 'Generator.dart';
+import 'ScenarioRunner.dart';
 import 'Scene.dart';
 import 'TargetFilters/KeepIfNumIsGreaterThanValue.dart';
 import 'TargetFilters/TargetFilter.dart';
@@ -34,47 +35,37 @@ class Scenario extends DataObject {
 
 
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
-    int seed;
+
     //TODO when you make a scenario with a builder, need to be able to specify what dollstrings the char creator should be asking for
     //TODO such as godtier, dead, dream etc
     List<String> suggestedDollStringTags = new List<String>();
-    Game game;
+
     //TODO let people sign their work
     String author = "???";
-
-    String description;
-
-
-
-
-
-    Random rand;
-
-
     //optional intro
+    String description;
+    //if ANY of these trigger, then its time to stop ticking
     List<Scene> frameScenes = new List<Scene>();
 
     //if ANY of these trigger, then its time to stop ticking
     List<Scene> stopScenes = new List<Scene>();
     String name;
+    ScenarioRunner scenarioRunner;
 
-    Scenario(this.name, this.description, this.seed) {
-        rand = new Random(seed);
+    Scenario(this.name, this.description, seed) {
+        scenarioRunner = new ScenarioRunner(this,seed);
 
     }
 
+    void curtainsUp(Element parent) {
+        scenarioRunner.curtainsUp(parent);
+    }
 
-
-
-
-
-
-
-
-
-
-
+    void addEntity(Entity entity) {
+        scenarioRunner.addEntity(entity);
+    }
     Scenario.testScenario(){
+        scenarioRunner = new ScenarioRunner(this,85);
         description = "A test scenario with a Pigeon/Bro/Doc ecosystem.";
         final Entity alice = new Entity("Alice",[],"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true..facingRightByDefault=false;
         final Entity bob = new Entity("Bob",[],"Bob%3A___A5GM5n_EOD_AKS7_v1J1tYBKiJY%3D")..isActive = true..facingRightByDefault=false;;
@@ -103,8 +94,6 @@ class Scenario extends DataObject {
         name = "Alice messages Bob";
         frameScenes.add(new Scene.fromDataString("Introduction:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgC2EhAlmQPIBm7xUKAjAJwA6fgBYArACZevWgCMA5gBk4ZMFCZwAdgFFNmFCADi8CABsA9DEiaouAPoniggA6b5IWg2Zllq9Vt19VDowTRYASU1CODowsDJzADVSeQRQqEE4eXdaKBTsKFZNbBR2MFNiOWx2RGwAMVMwADdEABVsAA8eVEiAAjBesgQAT2coLLTnGBZy02HehGxTbCb0wcRihF64dl7YbF6IMKaqJ0FBD3B2WwQG5rbO7pBLzTA6Ep6bBDhMCDJ-TSXPIIeQFOpMUw3QgoADaAF1aNV2Nh-tDkPCAL5AA")..scenario=this);
 
-        seed = 85;
-        rand = new Random(seed);
 
     }
 
