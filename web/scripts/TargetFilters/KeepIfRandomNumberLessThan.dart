@@ -15,6 +15,8 @@ class KeepIfRandomNumberLessThan extends TargetFilter {
 
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
+    print("actor scenario is ${actor.scenario}, target scenario is ${possibleTarget.scenario}");
+    print("JR here, trying to debug KeepIfRandomNumberLessThan, my scenarios scene runner is ${possibleTarget.scenario.scenarioRunner} and its rand is,${possibleTarget.scenario.scenarioRunner.rand} and my reference to it is ${possibleTarget.rand} ");
     Random rand = possibleTarget.scenario.rand;
     return rand.nextDouble() <= importantNumbers[INPUTVALUE];
   }

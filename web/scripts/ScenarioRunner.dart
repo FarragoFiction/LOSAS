@@ -29,7 +29,7 @@ class ScenarioRunner {
     //if not entities are active on spawn, nothing can happen. I advise having at least an invisible entity, like "Skaia".
     List<Entity> get activeEntitiesReadOnly => _entities.where((Entity entity) =>entity.isActive).toList();
 
-    ScenarioRunner(Scenario scenario, this.seed) {
+    ScenarioRunner(Scenario this.scenario, this.seed) {
         rand = new Random(seed);
     }
 
