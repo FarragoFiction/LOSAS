@@ -40,10 +40,11 @@ class Scenario extends DataObject {
     List<String> suggestedDollStringTags = new List<String>();
     Game game;
     //TODO let people sign their work
-    String author;
+    String author = "???";
     //seriously if NOTHING HAPPENS for 13 ticks in a row, lets just call it
     int numberTriesForScene = 0;
     int maxNumberTriesForScene = 13;
+    String description;
 
     bool theEnd = false;
 
@@ -66,7 +67,7 @@ class Scenario extends DataObject {
     List<Scene> stopScenes = new List<Scene>();
     String name;
 
-    Scenario(this.name, this.seed) {
+    Scenario(this.name, this.description, this.seed) {
         rand = new Random(seed);
 
     }
@@ -194,6 +195,7 @@ class Scenario extends DataObject {
     }
 
     Scenario.testScenario(){
+        description = "A test scenario with a Pigeon/Bro/Doc ecosystem.";
         final Entity alice = new Entity("Alice",[],"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true..facingRightByDefault=false;
         final Entity bob = new Entity("Bob",[],"Bob%3A___A5GM5n_EOD_AKS7_v1J1tYBKiJY%3D")..isActive = true..facingRightByDefault=false;;
         final Entity eve = new Entity("Eve",[],"Eve%3A___A5GPGpdulkxChkWJS4sAAAALEeA%3D")..isActive = true..facingRightByDefault=false;;

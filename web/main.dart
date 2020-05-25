@@ -4,6 +4,7 @@ import 'package:CommonLib/NavBar.dart';
 
 import 'scripts/FormHelpers/NumGeneratorFormHelper.dart';
 import 'scripts/FormHelpers/PrepackBuilder.dart';
+import 'scripts/FormHelpers/ScenarioFormHelper.dart';
 import 'scripts/FormHelpers/SceneFormHelper.dart';
 import 'scripts/FormHelpers/StringGeneratorFormHelper.dart';
 import 'scripts/Game.dart';
@@ -27,6 +28,8 @@ void main() async {
     await new StringGeneratorFormHelper().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "prepackBuilder") {
     await new PrepackBuilder().makeBuilder(output);
+  }else if(Uri.base.queryParameters['mode'] == "scenarioBuilder") {
+    await new ScenarioFormHelper().makeBuilder(output);
   }else {
     Game game = new Game(Scenario.testScenario());
     UnitTests.runTests(output);
