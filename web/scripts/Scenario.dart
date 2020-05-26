@@ -8,6 +8,7 @@ import 'DataObject.dart';
 import 'Entity.dart';
 import 'Game.dart';
 import 'Generator.dart';
+import 'Prepack.dart';
 import 'ScenarioRunner.dart';
 import 'Scene.dart';
 import 'TargetFilters/KeepIfNumIsGreaterThanValue.dart';
@@ -52,6 +53,9 @@ class Scenario extends DataObject {
     List<Scene> stopScenes = new List<Scene>();
     String name;
     ScenarioRunner scenarioRunner;
+
+    //these are the 'canon' prepacks for this scenario. they should all work well together.
+    List<Prepack> prepacks = new List<Prepack>();
 
     Scenario(this.name, this.description, seed) {
         scenarioRunner = new ScenarioRunner(this,seed);

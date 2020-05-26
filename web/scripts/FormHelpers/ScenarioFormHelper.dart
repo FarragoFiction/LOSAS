@@ -18,7 +18,7 @@ class ScenarioFormHelper {
         parent.append(formHolder);
         DivElement instructions = new DivElement()
             ..setInnerHtml(
-                "A prepack (prepackaged set) is the basic buildling block of LOSAS, defining the scenes, generators and initializations a character will have. A prepack will be known as a 'Trait' to the regular Observers to protect their delicate sanity. <br><Br>A given Entity can have multiple prepacks, as an example in a SBURB Scenario a character might have the following prepacks: Knight, Mind, Derse, Athletics, Music, GodDestiny, Player, GoldBlood, Lamia.<br><br>A good prepack should be very focused in terms of content.  The Player prepack, as an example, should have only the generic things any player should be able to do (generic side quests, kissing dead players, etc).<Br><br>Note: You can either create generators and scenes in the stand alone builders and load them here by datastring, or you can create them inline here.")
+                "Scenarios are everything needed to tell a given story. It contains both stand alone scenes meant to be the start/end of the story, as well as the various prepacks that will be used to build entities within it. <br><br>Ideally, the prepacks should be designed for a specific scenario and all reference the same memory keys.<br><br>An example of a scenario is SBURB, which contains various prepacks to let you assigned class, aspect, moon, interests and species to entities. <br><br>Another example is Hogwartz, which might assign one of the four Houses, Student, Teacher and Villain status to entities.")
             ..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(
