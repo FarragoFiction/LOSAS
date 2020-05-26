@@ -40,6 +40,8 @@ import '../TargetFilters/KeepIfNumIsValue.dart';
 import '../TargetFilters/TargetFilter.dart';
 import '../Util.dart';
 import 'PrepackTests.dart';
+import 'ScenarioTests.dart';
+import 'SceneTests.dart';
 import 'TargetFilterTests.dart';
 import 'UtilTests.dart';
 
@@ -80,6 +82,8 @@ abstract class UnitTests {
         UtilTests.run(element);
         GeneratorTests.run(element);
         PrepackTests.run(element);
+        SceneTests.run(element);
+        ScenarioTests.run(element);
         TargetFilterTests.run(element);
         ActionEffectTests.run(element);
         IntegrationTests.run(element);

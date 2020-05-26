@@ -57,9 +57,13 @@ class Scenario extends DataObject {
     //these are the 'canon' prepacks for this scenario. they should all work well together.
     List<Prepack> prepacks = new List<Prepack>();
 
-    Scenario(this.name, this.description, seed) {
+    Scenario(this.name, this.author, this.description, int seed) {
         scenarioRunner = new ScenarioRunner(this,seed);
 
+    }
+
+    Scenario.fromSerialization(Map<String,dynamic> serialization){
+        loadFromSerialization(serialization);
     }
 
     //pass throughs for scenario runner
