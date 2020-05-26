@@ -22,6 +22,7 @@ import 'TargetFilters/TargetFilter.dart';
     Star Trek
  */
 /*
+TODO eventually need to handle suggested doll mutations for the suggested doll type, as well as slots for "actually redraw the char entirely"
 TODO scenarios to have a list of “suggested players” (so nico is canon for scp scenario)
  and the first thing you unlock is the ability to remix the suggested players (but not add any new prepacks or double up or remove, or add/remove players)
 Then you’re allowed to use any prepack from the scenario (including doubling up or removing, or adding/removing players)
