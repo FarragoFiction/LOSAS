@@ -106,14 +106,26 @@ class Scenario extends DataObject {
 
   @override
   void loadFromSerialization(Map<String, dynamic > serialization) {
-    // TODO: implement loadFromSerialization
-      //if no seed specified pick a random one
+    author = serialization["author"];
+    name = serialization["name"];
+    description = serialization["description"];
+    frameScenes = new List.from((serialization["frameScenes"] as List).map((subserialization) => Scene.fromSerialization(subserialization)));
+    stopScenes = new List.from((serialization["stopScenes"] as List).map((subserialization) => Scene.fromSerialization(subserialization)));
+    prepacks = new List.from((serialization["prepacks"] as List).map((subserialization) => Prepack.fromSerialization(subserialization)));
+
+
   }
 
   @override
   Map<String,dynamic > getSerialization() {
-    // TODO: implement getSerialization
-    return null;
+      Map<String,dynamic> ret = new Map<String,dynamic>();
+      ret["author"] = author;
+      ret["name"] = name;
+      ret["description"] = description;
+      ret["frameScenes"] = frameScenes.map((Scene s) => s.getSerialization()).toList();
+      ret["stopScenes"] = stopScenes.map((Scene s) => s.getSerialization()).toList();
+      ret["prepacks"] = prepacks.map((Prepack p) => p.getSerialization()).toList();
+      return ret;
   }
 
 }

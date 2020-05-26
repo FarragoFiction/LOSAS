@@ -83,7 +83,7 @@ class PrepackBuilder {
     void handleImageUpload(Element parent) {
         imageUploaderHolder =new DivElement()..classes.add("instructions");
         parent.append(imageUploaderHolder);
-        DivElement instructions = new DivElement()..setInnerHtml(" You can upload any image to store your prepack into here. (Note any changes to the datastring will require you to reupload the image)." )..style.marginBottom="30px";
+        DivElement instructions = new DivElement()..setInnerHtml(" You can upload any image to store your prepack into here. Smaller filesizes will be faster/easier. (Note any changes to the datastring will require you to reupload the image)." )..style.marginBottom="30px";
         imageUploaderHolder.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, handleWritingPrepackToPng, caption: "Upload Image to Contain Prepack");
         imageUploaderHolder.append(uploadElement);
