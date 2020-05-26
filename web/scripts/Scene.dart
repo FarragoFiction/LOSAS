@@ -100,6 +100,7 @@ class Scene extends DataObject {
         ret["musicOffset"] = musicOffset;
         ret["bgLocationEnd"] = bgLocationEnd;
         ret["musicLocationEnd"] = musicLocationEnd;
+        ret["musicLocationEnd"] ??= Scene.NOBGMUSIC;
         ret["targetOne"] = targetOne;
         ret["beforeFlavorText"] = beforeFlavorText;
         ret["afterFlavorText"] = afterFlavorText;
