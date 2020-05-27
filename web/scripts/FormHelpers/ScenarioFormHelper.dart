@@ -12,6 +12,14 @@ class ScenarioFormHelper {
     InputElement authorElement;
     TextAreaElement descElement;
 
+    ScenarioFormHelper([this.scenario]) {
+        this.scenario ??= makeNewScenario();
+    }
+
+    static makeNewScenario() {
+        return  new Scenario("Sample Scenario","Describe what kind of story this is telling, and what sorts of characters you can build in it.","???",13);
+    }
+
     void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
@@ -24,6 +32,24 @@ class ScenarioFormHelper {
         dataStringElement = attachAreaElement(
             formHolder, "DataString:", "${scenario.toDataString()}", (e) =>
             syncScenarioToDataString(e.target.value));
+
+        nameElement = attachInputElement(formHolder, "Name:", "${scenario.name}", (e)
+        {
+            scenario.name = e.target.value;
+            syncDataStringToScenario();
+        });
+
+        authorElement = attachInputElement(formHolder, "Author:", "${scenario.author}", (e)
+        {
+            scenario.author = e.target.value;
+            syncDataStringToScenario();
+        });
+
+        descElement = attachAreaElement(formHolder, "Description:", "${scenario.description}", (e)
+        {
+            scenario.description = e.target.value;
+            syncDataStringToScenario();
+        });
     }
 
 

@@ -43,6 +43,7 @@ void debugLinks(Element parent) {
   addDebugLink(parent, "${window.location.href}?mode=stringGeneratorBuilder", "StringGeneratorBuilder");
   addDebugLink(parent, "${window.location.href}?mode=numGeneratorBuilder", "NumGeneratorBuilder");
   addDebugLink(parent, "${window.location.href}?mode=prepackBuilder", "PrepackBuilder");
+  addDebugLink(parent, "${window.location.href}?mode=scenarioBuilder", "ScenarioBuilder");
 
 
 }
