@@ -32,7 +32,7 @@ Then you’re allowed to use any prepacks from the internet
 Then you’er allowed to just use any prepack at all you can upload
 
  */
-class Scenario extends DataObject {
+class Scenario extends ArchivePNGObject {
     static String dataPngFile = "scenario.txt";
 
 
@@ -60,6 +60,10 @@ class Scenario extends DataObject {
     Scenario(this.name, this.author, this.description, int seed) {
         scenarioRunner = new ScenarioRunner(this,seed);
 
+    }
+
+    Scenario.fromDataString(String dataString){
+        loadFromDataString(dataString);
     }
 
     Scenario.fromSerialization(Map<String,dynamic> serialization){

@@ -123,6 +123,7 @@ class PrepackBuilder {
     Future syncPrepackToImage(ArchivePng png, String fileName) async {
         DivElement processing = new DivElement()..text = "processing";
         archiveUploaderHolder.append(processing);
+        //yes i could use the build in dataobject loader but that wouldn't get me a datastring directly
         String dataString = await png.getFile(fileKey);
         processing.remove();
         if(dataString != null) syncPrepackToDataString(dataString);

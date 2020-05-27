@@ -3,13 +3,17 @@
 //TODO on import of a prepack it stores the datapng it came with so it can be displayed
 import 'dart:html';
 
+import 'package:ImageLib/Encoding.dart';
+
 import 'DataObject.dart';
 import 'DataStringHelper.dart';
 import 'Generator.dart';
 import 'Scene.dart';
 
-class Prepack extends DataObject {
+class Prepack extends ArchivePNGObject {
     static String dataPngFile = "prepack.txt";
+    //keep this around so you can render yourself as a black box
+    ArchivePng externalForm;
 
     List<Generator> generators;
     //an entity given this prepack is going to have these scenes at a prioritization based on what order you give the prepacks to em
@@ -24,8 +28,7 @@ class Prepack extends DataObject {
     Prepack(this.name, this.description, this.author, this.initialKeysToGenerate,this.generators, this.scenes);
 
     Prepack.fromDataString(String dataString){
-        Map<String,dynamic> serialization = DataStringHelper.serializationFromDataString(dataString);
-        loadFromSerialization(serialization);
+        loadFromDataString(dataString);
     }
 
     Prepack.fromSerialization(Map<String, dynamic> serialization){

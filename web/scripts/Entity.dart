@@ -16,7 +16,7 @@ import 'Prepack.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
 
-class Entity extends DataObject {
+class Entity extends ArchivePNGObject {
     static const String CURRENTDOLLKEY = "currentDollStringChangingDoesNothing";
     static const String ORIGINALDOLLKEY = "originalDollString";
     static const String NAMEKEY = "name";
@@ -62,6 +62,14 @@ class Entity extends DataObject {
         if(optionalDollString != null) {
             setDollString(optionalDollString);
         }
+    }
+
+    Entity.fromDataString(String dataString){
+        loadFromDataString(dataString);
+    }
+
+    Entity.fromSerialization(Map<String, dynamic> serialization){
+        loadFromSerialization(serialization);
     }
 
     void processPrepacks(Random rand) {
