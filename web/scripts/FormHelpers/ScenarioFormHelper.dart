@@ -23,7 +23,7 @@ class ScenarioFormHelper {
     }
 
     static makeNewScenario() {
-        return  new Scenario("Sample Scenario","Describe what kind of story this is telling, and what sorts of characters you can build in it.","???",13);
+        return  new Scenario("Sample Scenario","???","Describe what kind of story this is telling, and what sorts of characters you can build in it.",13);
     }
 
     void makeBuilder(Element parent) async {
@@ -79,7 +79,7 @@ class ScenarioFormHelper {
         handleScenes(outroHolder,"Outro",scenario.stopScenes, handleOutroScenes, renderOutroScenes, "Scenarios have optional ending conditions (such as party wipes) that can trigger at any time. If no ending happens, eventually the simulation will time out (possibly abruptly). ");
     }
 
-    void handleScenes(Element holder, String label, List<Scene> sceneArray, Lambda handleCallBack, Action renderCallBack,String instruction) {
+    void handleScenes(Element holder, String label, List<Scene> sceneArray, Lambda<Element> handleCallBack, Action renderCallBack,String instruction) {
         holder.text = "";
       Element header = HeadingElement.h1()..text = "Associated ${label} Scenes:";
       DivElement instructions = new DivElement()..setInnerHtml(instruction)..classes.add("instructions");
