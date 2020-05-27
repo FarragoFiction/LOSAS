@@ -230,7 +230,7 @@ class PrepackBuilder {
 
         });
 
-        ButtonElement button = new ButtonElement()..text = "Add String Generator";
+        ButtonElement button = new ButtonElement()..text = "Add Scene";
         sceneElement.append(button);
         button.onClick.listen((Event e) {
             prepack.scenes.add(s);

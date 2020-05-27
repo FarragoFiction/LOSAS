@@ -1,8 +1,12 @@
 
 import 'dart:html';
 
+import 'package:CommonLib/Utility.dart';
+
 import '../Scenario.dart';
+import '../Scene.dart';
 import 'GenericFormHelper.dart';
+import 'SceneFormHelper.dart';
 
 class ScenarioFormHelper {
 
@@ -11,6 +15,8 @@ class ScenarioFormHelper {
     InputElement nameElement;
     InputElement authorElement;
     TextAreaElement descElement;
+    Element introHolder;
+    Element outroHolder;
 
     ScenarioFormHelper([this.scenario]) {
         this.scenario ??= makeNewScenario();
@@ -50,6 +56,77 @@ class ScenarioFormHelper {
             scenario.description = e.target.value;
             syncDataStringToScenario();
         });
+
+        handleIntroScenes(formHolder);
+        handleOutroScenes(formHolder);
+    }
+
+    void handleIntroScenes(Element parent) {
+        if(introHolder == null) {
+            introHolder = new Element.div()..classes.add("subholder");
+            parent.append(introHolder);
+        }
+        handleScenes(introHolder,"Intro",scenario.frameScenes, handleIntroScenes, renderIntroScenes, "Scenarios have a list of possible intro scenes (complete with shadow graphics). <br>Examples might be a different opening for an all troll session vs an all human one, vs a mixed one. ");
+
+
+    }
+
+    void handleOutroScenes(Element parent) {
+        if(outroHolder == null) {
+            outroHolder = new Element.div()..classes.add("subholder");
+            parent.append(outroHolder);
+        }
+        handleScenes(outroHolder,"Outro",scenario.stopScenes, handleOutroScenes, renderOutroScenes, "Scenarios have optional ending conditions (such as party wipes) that can trigger at any time. If no ending happens, eventually the simulation will time out (possibly abruptly). ");
+    }
+
+    void handleScenes(Element holder, String label, List<Scene> sceneArray, Lambda handleCallBack, Action renderCallBack,String instruction) {
+        holder.text = "";
+      Element header = HeadingElement.h1()..text = "Associated ${label} Scenes:";
+      DivElement instructions = new DivElement()..setInnerHtml(instruction)..classes.add("instructions");
+        holder.append(header);
+
+        holder.append(instructions);
+
+
+
+      Scene s = SceneFormHelper.makeTestScene();
+      attachAreaElement(holder, "Add Scene From DataString:", "${s.toDataString()}", (e)
+      {
+          try {
+              s.loadFromDataString(e.target.value);
+          }catch(e) {
+              window.console.error(e);
+              window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+          }
+
+      });
+
+      ButtonElement button = new ButtonElement()..text = "Add ${label} Scene";
+        holder.append(button);
+      button.onClick.listen((Event e) {
+          sceneArray.add(s);
+          syncDataStringToScenario();
+          handleCallBack(null);
+      });
+
+      renderCallBack();
+    }
+
+    void renderIntroScenes() {
+        renderScenes(scenario.frameScenes, introHolder);
+
+    }
+
+    void renderOutroScenes() {
+        renderScenes(scenario.stopScenes, outroHolder);
+    }
+
+    void renderScenes(List<Scene> scenes, Element element) {
+        scenes.forEach((Scene s) async {
+            SceneFormHelper helper = new SceneFormHelper(s);
+            helper.callback = syncDataStringToScenario;
+            await helper.makeBuilder(element);
+        });
     }
 
 
@@ -71,6 +148,8 @@ class ScenarioFormHelper {
         authorElement.value = scenario.author;
         nameElement.value = scenario.name;
         descElement.value = scenario.description;
+        handleIntroScenes(null);
+        handleOutroScenes(null);
     }
 
 }
