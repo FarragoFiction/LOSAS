@@ -22,12 +22,14 @@
 <div id = "todo">
    <h1> Next Five Minutes:</h1>
     <br>
-    <li>make scenario builder alpha (has name, start and end scenes, author, prepacks (archive images  only, no nested builders plz,
-        just display description and name and image), etc) NO entities yet, just define a sceanrio with valid
-        prepacks (need this for char builder)</li>
+    <li>make bg generator (really its just string generator, add drop down of images to the string generator builder so you can EITHER write your own in OR enter in a known good bg)</li>
+    <li>scene can take in a string memory key, if owner hs valid image stored at that key, use that instead of default bg</li>
 
     <h1>Next Hour:</h1>
     <br>
+    <li>upload prepack archive pngs for scenario builder. display the image uploaded (nothing else) store in scenario datastring.</li>
+
+    <li>store scenario to archivepng (yes that includes the archive pngs of the prepacks)</li>
 
  <li>scenario builder list out every generator key it knows about (from its prepacks) and every memory key the scenes within those prepacks (and in intro/outtro scenes) refer to.</li>
  <li>scenario can serialize to datastring</li>
@@ -91,6 +93,7 @@
     <br>
     <h1> Dubious TODO: Are these a good idea? Or maybe they just aren't fleshed out yet</h1>
     <br>
+    <li>bg fx: (scene takes in array of FX objects using pl's mutators or putting overlays on top (fire, tentacles, etc).  while fx are applied on a scene, you can have a boolean to make them PERMANENT to a bg (stored in the scenario itself).  so if "haunted basement" is on fire it STAYS on fire no matter what scene it is or who has it.</li>
     <li>audio offsets might be harder than i thought, pl says to look into: Media Fragment URI schema</li>
     <li>in builder, output examples of polarity (this will add 2 to a stored value of 4 or whatever)</li>
     <li>series of Decision Points that cause the sim to show the "zoomed out" version, and the player can choose between a few options the Audience throws out</li>

@@ -21,6 +21,7 @@ import 'TargetFilters/TargetFilter.dart';
     Space Infection
     SCP/SBURB
     Star Trek
+    Dungeon Desolation (play as a new dungeon, absorb things that wander in (creatures, adventurerers, gear, etc))
  */
 /*
 TODO eventually need to handle suggested doll mutations for the suggested doll type, as well as slots for "actually redraw the char entirely"

@@ -125,7 +125,7 @@ class SceneFormHelper {
         String selected = scene.bgLocationEnd;
         selected ??= options.first;
         scene.bgLocationEnd = options.first;
-        bgPreviewElement = new ImageElement()..style.width="820px";
+        bgPreviewElement = new ImageElement()..style.width="620px";
         bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
         holder.append(bgPreviewElement);
         bgElement = attachDropDownElement(holder, "BG Image:", options, selected, (e)

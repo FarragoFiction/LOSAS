@@ -1,7 +1,9 @@
 import 'dart:html';
 import 'package:CommonLib/Utility.dart';
+import 'package:LoaderLib/Loader.dart';
 
 import '../Generator.dart';
+import '../Scene.dart';
 import 'GenericFormHelper.dart';
 
 class StringGeneratorFormHelper {
@@ -12,6 +14,12 @@ class StringGeneratorFormHelper {
      Element wordsElement;
      InputElement addWordElement;
      Action callback;
+     String imageListSource = "http://farragofiction.com/LOSASE/images/BGs/list.php";
+     String musicListSource = "http://farragofiction.com/LOSASE/Music/list.php";
+     SelectElement bgElement;
+     ImageElement bgPreviewElement;
+     SelectElement bgMusicElement;
+     AudioElement bgMusicPreviewElement;
 
      StringGeneratorFormHelper([StringGenerator  this.generator]) {
              generator ??= makeTestGenerator();
@@ -26,7 +34,7 @@ class StringGeneratorFormHelper {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
-        DivElement instructions = new DivElement()..setInnerHtml("A string generator is how an individual entity handles random words or phrases. <br><br>Example include varying reactions to situations, generating consorts for a given land, or generating the name of a beloved pet.<br><br>NOTE: Scripting tags such as a scene target's name are valid here." )..classes.add("instructions");
+        DivElement instructions = new DivElement()..setInnerHtml("A string generator is how an individual entity handles random words or phrases. <br><br>Example include varying reactions to situations, generating consorts for a given land, or generating the name of a beloved pet. <br><br>You can also choose to add the location of bg music or images. This can be used to overwrite a scenes normal bg music or image with a character/situation appropriate one.<br><br>NOTE: Scripting tags such as a scene target's name are valid here." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${generator.toDataString()}", (e) => syncDataStringToGenerator(e));
         keyElement = attachInputElement(formHolder, "Key:", "${generator.key}", (e)
@@ -36,6 +44,7 @@ class StringGeneratorFormHelper {
         });
 
         handleWords(formHolder);
+
     }
 
      void handleWords(Element parent) {
@@ -63,6 +72,8 @@ class StringGeneratorFormHelper {
             handleWords(null);
         });
         wordsElement.append(button);
+        setupBGS(wordsElement);
+        setupBGMusics(wordsElement);
 
 
     }
@@ -84,6 +95,64 @@ class StringGeneratorFormHelper {
             });
         }
     }
+
+     void setupBGS(Element parent) async {
+         DivElement holder = new DivElement()..classes.add("subholder");
+         parent.append(holder);
+         List<String> options = new List<String>();
+         Map<String,dynamic> results = await Loader.getResource(imageListSource,format: Formats.json );
+         for(String folder in results["folders"].keys) {
+             for(String file in results["folders"][folder]["files"]) {
+                 if (file.contains("png")) options.add("$folder/$file");
+             }
+         }
+         String selected = options.first;
+         bgPreviewElement = new ImageElement()..style.width="620px";
+         bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
+         holder.append(bgPreviewElement);
+         bgElement = attachDropDownElement(holder, "BG Image Value:", options, selected,  null);
+         ButtonElement button = new ButtonElement()..text = "Add";
+         holder.append(button);
+
+         button.onClick.listen((Event e) {
+             generator.possibleValues.add( bgElement.value);
+             syncDataStringToGen();
+             handleWords(null);
+         });
+     }
+
+     void setupBGMusics(Element parent) async {
+         DivElement holder = new DivElement()..classes.add("subholder");
+         parent.append(holder);
+
+         List<String> options = new List<String>();
+         Map<String,dynamic> results = await Loader.getResource(musicListSource,format: Formats.json );
+         for(String folder in results["folders"].keys) {
+             print("checking folder $folder");
+             for(String file in results["folders"][folder]["files"]) {
+                 if (file.contains("ogg")) options.add("$folder/$file");
+             }
+         }
+         String selected =options.first;
+         bgMusicPreviewElement = new AudioElement()..loop=true..controls=true..autoplay=false;
+
+
+
+         bgMusicPreviewElement.src = "${Scene.musicLocationFront}$selected";
+         holder.append(bgMusicPreviewElement);
+         bgMusicElement = attachDropDownElement(holder, "BG Music Value:", options, selected, null);
+
+         ButtonElement button = new ButtonElement()..text = "Add";
+         holder.append(button);
+
+         button.onClick.listen((Event e) {
+             generator.possibleValues.add( bgMusicElement.value);
+             syncDataStringToGen();
+             handleWords(null);
+         });
+     }
+
+
 
      void syncDataStringToGen() {
         print("syncing datastring to generator");
