@@ -201,6 +201,9 @@ class Entity extends ArchivePNGObject {
         }
     }
 
+    bool hasStringKey(String key) => _stringMemory.containsKey(key);
+    bool hasNumKey(String key) => _numMemory.containsKey(key);
+
     String getStringMemory(String key) {
         return _stringMemory[key];
     }
