@@ -36,9 +36,15 @@ class Scene extends DataObject {
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
     String get bgLocation => "$bgLocationFront$bgLocationEnd";
-    String get musicLocation => "$musicLocationFront$musicLocationEnd";
+    String get musicLocation {
+        if(musicLocationEndKey.isNotEmpty && owner != null) {
+            return "$musicLocationFront${owner.getStringMemory(musicLocationEndKey)}}";
+        }else {
+            return "$musicLocationFront$musicLocationEnd";
+        }
+    }
     Scenario scenario;
-    Entity owner;
+    Entity owner; //can be null, in the case of intro/outro scenes.
     //target everything that meets this condition, or just a single one?
     bool targetOne = false;
     String beforeFlavorText;
