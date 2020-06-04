@@ -37,14 +37,14 @@ class Scene extends DataObject {
     Element container;
     String get bgLocation {
         if(bgLocationEndKey.isNotEmpty && owner != null) {
-            return "$bgLocationFront${owner.getStringMemory(bgLocationEndKey)}}";
+            return "$bgLocationFront${owner.getStringMemory(bgLocationEndKey)}";
         }else {
             return "$bgLocationFront$bgLocationEnd";
         }
     }
     String get musicLocation {
         if(musicLocationEndKey.isNotEmpty && owner != null) {
-            return "$musicLocationFront${owner.getStringMemory(musicLocationEndKey)}}";
+            return "$musicLocationFront${owner.getStringMemory(musicLocationEndKey)}";
         }else {
             return "$musicLocationFront$musicLocationEnd";
         }
