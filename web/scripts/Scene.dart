@@ -17,6 +17,10 @@ class Scene extends DataObject {
     static int stageHeight = 600;
     String bgLocationEnd;
     String musicLocationEnd;
+    //the two keys are for overriding the default image with something custom to the owner. both are optional.
+    //expect something like "land" or "moon" or "house commonroom" or whatever.
+    String bgLocationEndKey = "";
+    String musicLocationEndKey = "";
     //TODO this is implemented, but harder than i thought to get a file to start playing at time x without preloading it.
     num musicOffset = 0;
 
@@ -83,6 +87,8 @@ class Scene extends DataObject {
         beforeFlavorText = serialization["beforeFlavorText"];
         bgLocationEnd = serialization["bgLocationEnd"];
         musicLocationEnd = serialization["musicLocationEnd"];
+        bgLocationEndKey = serialization.containsKey("bgLocationEndKey")? serialization["bgLocationEndKey"]: "";
+        musicLocationEndKey = serialization.containsKey("musicLocationEndKey")? serialization["musicLocationEndKey"]: "";
         musicLocationEnd ??= Scene.NOBGMUSIC;
 
         afterFlavorText = serialization["afterFlavorText"];
@@ -103,6 +109,8 @@ class Scene extends DataObject {
         ret["musicLocationEnd"] ??= Scene.NOBGMUSIC;
         ret["targetOne"] = targetOne;
         ret["beforeFlavorText"] = beforeFlavorText;
+        ret["bgLocationEndKey"] = bgLocationEndKey;
+        ret["musicLocationEndKey"] = musicLocationEndKey;
         ret["afterFlavorText"] = afterFlavorText;
         ret["name"] = name;
         ret["targetFilters"] = targetFilters.map((TargetFilter filter) => filter.getSerialization()).toList();
@@ -288,7 +296,7 @@ class Scene extends DataObject {
 
 
     //asyncly renders to the element, lets the canvas go on screen asap
-    //TODO render name underneath birb
+    //TODO render name underneath birb?
     Future<Null> renderStageFrame(bool before) async {
         CanvasElement canvas = new CanvasElement(width: stageWidth, height: stageHeight);
         if(before) {
@@ -301,7 +309,7 @@ class Scene extends DataObject {
             await renderTargets(canvas.width-400,250,finalTargets.toList(), canvas);
             //don't add a bg to a start/end scene, the point is its not got the illusion going yet.
             //thats why its still a shadow
-            if(bgLocationEnd != null) canvas.style.background="url('${bgLocation}')";
+            handleImageOverride(canvas);
         }else {
             canvas.classes.add("shadows");
             await renderTargets(canvas.width-400, 0,scenario.entitiesReadOnly, canvas);
@@ -309,6 +317,16 @@ class Scene extends DataObject {
         if(!before) {
             setupAnimations();
         }
+    }
+
+    void handleImageOverride(CanvasElement canvas) {
+        if(bgLocationEndKey.isNotEmpty && owner != null) {
+            canvas.style.background = "url('${owner.getStringMemory(bgLocationEndKey)}')";
+        }else {
+            if (bgLocationEnd != null)
+                canvas.style.background = "url('${bgLocation}')";
+        }
+
     }
 
     void setupAnimations() {
