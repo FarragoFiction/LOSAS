@@ -25,6 +25,9 @@ class SceneFormHelper {
     Scene scene;
     TextAreaElement dataStringElement;
     InputElement nameElement;
+    InputElement imageKeyElement;
+    InputElement musicKeyElement;
+
     InputElement musicOffSetElement;
     SelectElement bgElement;
     ImageElement bgPreviewElement;
@@ -74,7 +77,6 @@ class SceneFormHelper {
             scene.targetOne = e.target.checked;
             syncDataStringToScene();
         });
-
 
 
         DivElement beforeTextHolder = new DivElement()..classes.add("subholder");
@@ -134,6 +136,15 @@ class SceneFormHelper {
             bgPreviewElement.src = "${scene.bgLocation}";
             syncDataStringToScene();
         });
+        DivElement instructions = new DivElement()..setInnerHtml("Optionally, you can add a memory key here.<br><br> If the owner of the scene has it, they will use the background stored in that key. If the owner does NOT they will default to whatever image this scene has set. (WARNING: IF A VALID IMAGE LOCATION IS NOT STORED THERE YOU WILL GET A BLANK BG.)<br><br>Use cases include procedurally displaying a players land in a SBURB setting, or their moon.")..classes.add("instructions");
+        holder.append(instructions);
+        imageKeyElement = attachInputElement(holder, "Image Key:", "${scene.bgLocationEndKey}", (e)
+        {
+            scene.bgLocationEndKey = e.target.value;
+            syncDataStringToScene();
+        });
+
+
     }
 
      void setupBGMusics(Element parent) async {
@@ -163,6 +174,14 @@ class SceneFormHelper {
         {
             scene.musicLocationEnd = e.target.value;
             bgMusicPreviewElement.src = "${scene.musicLocation}";
+            syncDataStringToScene();
+        });
+
+        DivElement instructions = new DivElement()..setInnerHtml("Optionally, you can add a memory key here.<br><br> If the owner of the scene has it, they will use the music stored in that key. If the owner does NOT they will default to whatever background music this scene has set. (WARNING: IF A VALID MUSIC LOCATION IS NOT STORED THERE YOU WILL GET NO MUSIC.)<br><br>Use cases include procedurally showing a characters theme song or leitmotif.")..classes.add("instructions");
+        holder.append(instructions);
+        musicKeyElement = attachInputElement(holder, "Music Key:", "${scene.musicLocationEndKey}", (e)
+        {
+            scene.musicLocationEndKey = e.target.value;
             syncDataStringToScene();
         });
         //TODO offset stuff doesn't seem to work consistently, not all songs are seekable?
@@ -260,6 +279,8 @@ class SceneFormHelper {
         }
         nameElement.value = scene.name;
         authorElement.value = scene.author;
+        musicKeyElement.value = scene.musicLocationEndKey;
+        imageKeyElement.value = scene.bgLocationEndKey;
         beforeTextElement.value = scene.beforeFlavorText;
         afterTextElement.value = scene.afterFlavorText;
         targetOneElement.checked = scene.targetOne;
