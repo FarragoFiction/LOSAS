@@ -35,7 +35,13 @@ class Scene extends DataObject {
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
     Element container;
-    String get bgLocation => "$bgLocationFront$bgLocationEnd";
+    String get bgLocation {
+        if(bgLocationEndKey.isNotEmpty && owner != null) {
+            return "$bgLocationFront${owner.getStringMemory(bgLocationEndKey)}}";
+        }else {
+            return "$bgLocationFront$bgLocationEnd";
+        }
+    }
     String get musicLocation {
         if(musicLocationEndKey.isNotEmpty && owner != null) {
             return "$musicLocationFront${owner.getStringMemory(musicLocationEndKey)}}";
@@ -315,7 +321,8 @@ class Scene extends DataObject {
             await renderTargets(canvas.width-400,250,finalTargets.toList(), canvas);
             //don't add a bg to a start/end scene, the point is its not got the illusion going yet.
             //thats why its still a shadow
-            handleImageOverride(canvas);
+            canvas.style.background = "url('${bgLocation}')";
+
         }else {
             canvas.classes.add("shadows");
             await renderTargets(canvas.width-400, 0,scenario.entitiesReadOnly, canvas);
@@ -323,16 +330,6 @@ class Scene extends DataObject {
         if(!before) {
             setupAnimations();
         }
-    }
-
-    void handleImageOverride(CanvasElement canvas) {
-        if(bgLocationEndKey.isNotEmpty && owner != null) {
-            canvas.style.background = "url('${owner.getStringMemory(bgLocationEndKey)}')";
-        }else {
-            if (bgLocationEnd != null)
-                canvas.style.background = "url('${bgLocation}')";
-        }
-
     }
 
     void setupAnimations() {

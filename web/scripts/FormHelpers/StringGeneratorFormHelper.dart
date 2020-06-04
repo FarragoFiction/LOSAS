@@ -110,7 +110,7 @@ class StringGeneratorFormHelper {
          bgPreviewElement = new ImageElement()..style.width="620px";
          bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
          holder.append(bgPreviewElement);
-         bgElement = attachDropDownElement(holder, "BG Image Value:", options, selected,  null);
+         bgElement = attachDropDownElement(holder, "BG Image Value:", options, selected,  (e) =>  bgPreviewElement.src = "${Scene.bgLocationFront}${e.target.value}");
          ButtonElement button = new ButtonElement()..text = "Add";
          holder.append(button);
 
@@ -140,7 +140,7 @@ class StringGeneratorFormHelper {
 
          bgMusicPreviewElement.src = "${Scene.musicLocationFront}$selected";
          holder.append(bgMusicPreviewElement);
-         bgMusicElement = attachDropDownElement(holder, "BG Music Value:", options, selected, null);
+         bgMusicElement = attachDropDownElement(holder, "BG Music Value:", options, selected, (e) =>  bgMusicPreviewElement.src = "${Scene.musicLocationFront}${e.target.value}");
 
          ButtonElement button = new ButtonElement()..text = "Add";
          holder.append(button);
