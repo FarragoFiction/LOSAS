@@ -18,6 +18,7 @@ import 'TargetFilters/TargetFilter.dart';
     SBURB/Farragnarok
     Worm (entities distribute prepacks of powers)
     Hogwartz
+    super hero au
     Space Infection
     SCP/SBURB
     Star Trek
