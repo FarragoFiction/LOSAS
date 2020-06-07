@@ -21,11 +21,11 @@ void main() async {
 
   //TODO modes for all builders, testing and then actually playing
   if(Uri.base.queryParameters['mode'] == "sceneBuilder") {
-    await new SceneFormHelper().makeBuilder(output);
+    await new SceneFormHelper().makeBuilder(output,null);
   }else if(Uri.base.queryParameters['mode'] == "numGeneratorBuilder") {
-    await new NumGeneratorFormHelper().makeBuilder(output);
+    await new NumGeneratorFormHelper().makeBuilder(output,null);
   }else if(Uri.base.queryParameters['mode'] == "stringGeneratorBuilder") {
-    await new StringGeneratorFormHelper().makeBuilder(output);
+    await new StringGeneratorFormHelper().makeBuilder(output,null);
   }else if(Uri.base.queryParameters['mode'] == "prepackBuilder") {
     await new PrepackBuilder().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "scenarioBuilder") {

@@ -22,10 +22,15 @@ class NumGeneratorFormHelper {
     }
 
 
-    void makeBuilder(Element parent) async {
+    void makeBuilder(Element parent,Lambda<NumGenerator> remove) async {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
+        if(remove != null) {
+            ButtonElement button = new ButtonElement()..classes.add("x")..text = "X";
+            button.onClick.listen((Event e) => remove(generator));
+            formHolder.append(button);
+        }
         DivElement instructions = new DivElement()..setInnerHtml("A number generator is how an individual entity handles random numbers. <br><br>Example uses include 'generate a random number between 0 and 1 for the key 'chanceSuccess' or 'generate a random number between  and 13 for 'attack'.  <br><br>Since each entity has their own generators for a value they can produce very different behavior. A high strength character might generate an attack between 10 and 30, while a low strength might generate one between 1 and 3. <br><br>An entity can have multiple generators for the same value, in which case all have an equal chance of being used to generate a value.<br><br>Note: Numbers default to whole integers unless a decimal is included in the min/max." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${generator.toDataString()}", (e) => syncDataStringToGenerator(e));

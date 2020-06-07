@@ -129,6 +129,21 @@ class PrepackBuilder {
         if(dataString != null) syncPrepackToDataString(dataString);
     }
 
+    void removeStringGenerator(Generator g) {
+        prepack.generators.remove(g);
+        handleStringGenerators(null);
+    }
+
+    void removeNumGenerator(Generator g) {
+        prepack.generators.remove(g);
+        handleNumGenerators(null);
+    }
+
+    void removeScene(Scene s) {
+        prepack.scenes.remove(s);
+        handleScenes(null);
+    }
+
     void handleStringGenerators(Element parent) {
         if(stringGeneratorElement == null) {
             stringGeneratorElement = new Element.div()..classes.add("subholder");
@@ -247,7 +262,7 @@ class PrepackBuilder {
         prepack.generators.where((Generator g) => g is StringGenerator).forEach((Generator sg) {
             StringGeneratorFormHelper helper = new StringGeneratorFormHelper(sg);
             helper.callback = syncDataStringToPrepack;
-            helper.makeBuilder(stringGeneratorElement);
+            helper.makeBuilder(stringGeneratorElement,removeStringGenerator);
         });
     }
 
@@ -255,7 +270,7 @@ class PrepackBuilder {
         prepack.generators.where((Generator g) => g is NumGenerator).forEach((Generator ng) {
             NumGeneratorFormHelper helper = new NumGeneratorFormHelper(ng);
             helper.callback = syncDataStringToPrepack;
-            helper.makeBuilder(numGeneratorElement);
+            helper.makeBuilder(numGeneratorElement,removeNumGenerator);
         });
     }
 
@@ -263,7 +278,7 @@ class PrepackBuilder {
         prepack.scenes.forEach((Scene s) async {
             SceneFormHelper helper = new SceneFormHelper(s);
             helper.callback = syncDataStringToPrepack;
-            await helper.makeBuilder(sceneElement);
+            await helper.makeBuilder(sceneElement,removeScene);
         });
     }
 

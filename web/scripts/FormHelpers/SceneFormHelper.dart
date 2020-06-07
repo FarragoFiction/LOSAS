@@ -52,9 +52,14 @@ class SceneFormHelper {
     }
 
 
-    void makeBuilder(Element parent) async {
+    void makeBuilder(Element parent, Lambda<Scene> remove) async {
         DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
+        if(remove != null) {
+            ButtonElement button = new ButtonElement()..classes.add("x")..text = "X";
+            button.onClick.listen((Event e) => remove(scene));
+            formHolder.append(button);
+        }
         DivElement instructions = new DivElement()..setInnerHtml("A Scene is the basic unit of AI for LOSAS. Scenes are how entities change the simulation, and the other entities within it.<br><br>Each tick of the simulation, each entity checks their list of scenes in order. The first scene to find at least one target is rendered to the screen, and its effects, if any, are applied.")..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${scene.toDataString()}", (e) => syncSceneToDataString(e));

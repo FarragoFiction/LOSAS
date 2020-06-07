@@ -30,10 +30,15 @@ class StringGeneratorFormHelper {
      }
 
 
-     void makeBuilder(Element parent) async {
+     void makeBuilder(Element parent, Lambda<StringGenerator> remove) async {
         DivElement formHolder = new DivElement()
             ..classes.add("formHolder");
         parent.append(formHolder);
+        if(remove != null) {
+            ButtonElement button = new ButtonElement()..classes.add("x")..text = "X";
+            button.onClick.listen((Event e) => remove(generator));
+            formHolder.append(button);
+        }
         DivElement instructions = new DivElement()..setInnerHtml("A string generator is how an individual entity handles random words or phrases. <br><br>Example include varying reactions to situations, generating consorts for a given land, or generating the name of a beloved pet. <br><br>You can also choose to add the location of bg music or images. This can be used to overwrite a scenes normal bg music or image with a character/situation appropriate one.<br><br>NOTE: Scripting tags such as a scene target's name are valid here." )..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(formHolder, "DataString:", "${generator.toDataString()}", (e) => syncDataStringToGenerator(e));

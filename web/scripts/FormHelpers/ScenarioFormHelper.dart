@@ -113,19 +113,29 @@ class ScenarioFormHelper {
     }
 
     void renderIntroScenes() {
-        renderScenes(scenario.frameScenes, introHolder);
+        renderScenes(scenario.frameScenes, introHolder, removeIntroScene);
 
+    }
+
+    void removeIntroScene(Scene s) {
+        scenario.frameScenes.remove(s);
+        handleIntroScenes(null);
+    }
+
+    void removeOutroScene(Scene s) {
+        scenario.stopScenes.remove(s);
+        handleOutroScenes(null);
     }
 
     void renderOutroScenes() {
-        renderScenes(scenario.stopScenes, outroHolder);
+        renderScenes(scenario.stopScenes, outroHolder, removeOutroScene);
     }
 
-    void renderScenes(List<Scene> scenes, Element element) {
+    void renderScenes(List<Scene> scenes, Element element, Lambda remove) {
         scenes.forEach((Scene s) async {
             SceneFormHelper helper = new SceneFormHelper(s);
             helper.callback = syncDataStringToScenario;
-            await helper.makeBuilder(element);
+            await helper.makeBuilder(element,remove);
         });
     }
 
