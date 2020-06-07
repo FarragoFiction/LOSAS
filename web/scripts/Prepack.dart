@@ -7,6 +7,7 @@ import 'package:ImageLib/Encoding.dart';
 
 import 'DataObject.dart';
 import 'DataStringHelper.dart';
+import 'Game.dart';
 import 'Generator.dart';
 import 'Scene.dart';
 
@@ -14,6 +15,7 @@ class Prepack extends ArchivePNGObject {
     static String dataPngFile = "prepack.txt";
     //keep this around so you can render yourself as a black box
     ArchivePng externalForm;
+    static String fileKey = "${GameUI.dataPngFolder}${Prepack.dataPngFile}";
 
     List<Generator> generators;
     //an entity given this prepack is going to have these scenes at a prioritization based on what order you give the prepacks to em
@@ -26,6 +28,7 @@ class Prepack extends ArchivePNGObject {
     ImageElement cardImage;
 
     Prepack(this.name, this.description, this.author, this.initialKeysToGenerate,this.generators, this.scenes);
+    Prepack.empty();
 
     Prepack.fromDataString(String dataString){
         loadFromDataString(dataString);
@@ -45,6 +48,12 @@ class Prepack extends ArchivePNGObject {
 
       generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
 
+  }
+
+  void loadFromArchive(ArchivePng png) async {
+      String dataString = await png.getFile(fileKey);
+      loadFromDataString(dataString);
+      externalForm = png;
   }
 
   @override

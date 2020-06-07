@@ -13,7 +13,6 @@ import 'GenericFormHelper.dart';
 import 'SceneFormHelper.dart';
 
 class ScenarioFormHelper {
-    static String fileKey = "${GameUI.dataPngFolder}${Prepack.dataPngFile}";
     TextAreaElement dataStringElement;
     Scenario scenario;
     InputElement nameElement;
@@ -85,13 +84,13 @@ class ScenarioFormHelper {
         print("I'm loading a prepack from image $fileName");
         DivElement processing = new DivElement()..text = "processing";
         prepackHolder.append(processing);
+        Prepack prepack = new Prepack.empty();
+
         //yes i could use the build in dataobject loader but that wouldn't get me a datastring directly
-        String dataString = await png.getFile(fileKey);
-        processing.remove();
-        print("datastring from prepack is $dataString");
-        if(dataString != null) {
             try {
-                scenario.prepacks.add(new Prepack.fromDataString(dataString));
+                await prepack.loadFromArchive(png);
+                processing.remove();
+                scenario.prepacks.add(prepack);
                 print("actually loaded a prepack from the archive, added it to the scenario");
                 syncDataStringToScenario();
                 handlePrepacks(null);
@@ -99,8 +98,6 @@ class ScenarioFormHelper {
                 window.console.error(e);
                 window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
             }
-
-        }
     }
 
 
