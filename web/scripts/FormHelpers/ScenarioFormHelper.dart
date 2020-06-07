@@ -79,16 +79,20 @@ class ScenarioFormHelper {
         prepackHolder.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, loadPrepackFromImage,caption: "Load Prepack From Archive Image");
         prepackHolder.append(uploadElement);
+        renderPrepacks();
     }
     Future loadPrepackFromImage(ArchivePng png, String fileName) async {
+        print("I'm loading a prepack from image $fileName");
         DivElement processing = new DivElement()..text = "processing";
         prepackHolder.append(processing);
         //yes i could use the build in dataobject loader but that wouldn't get me a datastring directly
         String dataString = await png.getFile(fileKey);
         processing.remove();
+        print("datastring from prepack is $dataString");
         if(dataString != null) {
             try {
                 scenario.prepacks.add(new Prepack.fromDataString(dataString));
+                print("actually loaded a prepack from the archive, added it to the scenario");
                 syncDataStringToScenario();
                 handlePrepacks(null);
             }catch(e) {
@@ -208,6 +212,7 @@ class ScenarioFormHelper {
         descElement.value = scenario.description;
         handleIntroScenes(null);
         handleOutroScenes(null);
+        handlePrepacks(null);
     }
 
 }
