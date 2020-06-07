@@ -119,11 +119,13 @@ class ScenarioFormHelper {
 
     void removeIntroScene(Scene s) {
         scenario.frameScenes.remove(s);
+        syncDataStringToScenario();
         handleIntroScenes(null);
     }
 
     void removeOutroScene(Scene s) {
         scenario.stopScenes.remove(s);
+        syncDataStringToScenario();
         handleOutroScenes(null);
     }
 

@@ -131,16 +131,19 @@ class PrepackBuilder {
 
     void removeStringGenerator(Generator g) {
         prepack.generators.remove(g);
+        syncDataStringToPrepack();
         handleStringGenerators(null);
     }
 
     void removeNumGenerator(Generator g) {
         prepack.generators.remove(g);
+        syncDataStringToPrepack();
         handleNumGenerators(null);
     }
 
     void removeScene(Scene s) {
         prepack.scenes.remove(s);
+        syncDataStringToPrepack();
         handleScenes(null);
     }
 
