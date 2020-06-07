@@ -2,14 +2,18 @@
 import 'dart:html';
 
 import 'package:CommonLib/Utility.dart';
+import 'package:ImageLib/Encoding.dart';
+import 'package:LoaderLib/Loader.dart';
 
+import '../Game.dart';
+import '../Prepack.dart';
 import '../Scenario.dart';
 import '../Scene.dart';
 import 'GenericFormHelper.dart';
 import 'SceneFormHelper.dart';
 
 class ScenarioFormHelper {
-
+    static String fileKey = "${GameUI.dataPngFolder}${Prepack.dataPngFile}";
     TextAreaElement dataStringElement;
     Scenario scenario;
     InputElement nameElement;
@@ -17,6 +21,7 @@ class ScenarioFormHelper {
     TextAreaElement descElement;
     Element introHolder;
     Element outroHolder;
+    Element prepackHolder;
 
     ScenarioFormHelper([this.scenario]) {
         this.scenario ??= makeNewScenario();
@@ -32,7 +37,7 @@ class ScenarioFormHelper {
         parent.append(formHolder);
         DivElement instructions = new DivElement()
             ..setInnerHtml(
-                "Scenarios are everything needed to tell a given story. It contains both stand alone scenes meant to be the start/end of the story, as well as the various prepacks that will be used to build entities within it. <br><br>Ideally, the prepacks should be designed for a specific scenario and all reference the same memory keys.<br><br>An example of a scenario is SBURB, which contains various prepacks to let you assigned class, aspect, moon, interests and species to entities. <br><br>Another example is Hogwartz, which might assign one of the four Houses, Student, Teacher and Villain status to entities.")
+                "Scenarios are everything needed to tell a given story. It contains both stand alone scenes meant to be the start/end of the story, as well as the various prepacks that will be used to build entities within it. <br><br>Ideally, the prepacks should be designed for a specific scenario and all reference the same memory keys.<br><br>An example of a scenario is SBURB, which contains various prepacks to let you assigned class, aspect, moon, interests and species to entities. <br><br>Another example is Hogwartz, which might assign one of the four Houses, Student, Teacher and Villain status to entities as prepacks.")
             ..classes.add("instructions");
         formHolder.append(instructions);
         dataStringElement = attachAreaElement(
@@ -59,7 +64,41 @@ class ScenarioFormHelper {
 
         handleIntroScenes(formHolder);
         handleOutroScenes(formHolder);
+        handlePrepacks(formHolder);
     }
+
+    void handlePrepacks(Element parent) {
+        if(prepackHolder == null) {
+            prepackHolder = new Element.div()..classes.add("subholder");
+            parent.append(prepackHolder);
+        }
+        prepackHolder.text = "";
+        Element header = HeadingElement.h1()..text = "Associated Prepacks:";
+        DivElement instructions = new DivElement()..setInnerHtml("The prepacks you add here will be the *only* prepacks available for characters in this scenario to be created from. They should use similar memory keys and flow well together, having been created specifically for this scenario. <br><br>NOTE: Prepacks can *only* be added from ArchiveImage, as prepacks are represented as images to the Observer. Thems the breaks.")..classes.add("instructions");
+        prepackHolder.append(header);
+        prepackHolder.append(instructions);
+        Element uploadElement = FileFormat.loadButton(ArchivePng.format, loadPrepackFromImage,caption: "Load Prepack From Archive Image");
+        prepackHolder.append(uploadElement);
+    }
+    Future loadPrepackFromImage(ArchivePng png, String fileName) async {
+        DivElement processing = new DivElement()..text = "processing";
+        prepackHolder.append(processing);
+        //yes i could use the build in dataobject loader but that wouldn't get me a datastring directly
+        String dataString = await png.getFile(fileKey);
+        processing.remove();
+        if(dataString != null) {
+            try {
+                scenario.prepacks.add(new Prepack.fromDataString(dataString));
+                syncDataStringToScenario();
+                handlePrepacks(null);
+            }catch(e) {
+                window.console.error(e);
+                window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+            }
+
+        }
+    }
+
 
     void handleIntroScenes(Element parent) {
         if(introHolder == null) {
@@ -114,7 +153,6 @@ class ScenarioFormHelper {
 
     void renderIntroScenes() {
         renderScenes(scenario.frameScenes, introHolder, removeIntroScene);
-
     }
 
     void removeIntroScene(Scene s) {
@@ -133,7 +171,15 @@ class ScenarioFormHelper {
         renderScenes(scenario.stopScenes, outroHolder, removeOutroScene);
     }
 
-    void renderScenes(List<Scene> scenes, Element element, Lambda remove) {
+    void renderPrepacks() {
+        scenario.prepacks.forEach((Prepack p)
+        {
+            prepackHolder.append(new DivElement()..text = "todo ${p.name} each should be p small, 50 wide? also display name, and have x button to remove");
+
+        });
+    }
+
+    void renderScenes(List<Scene> scenes, Element element, Lambda<Scene> remove) {
         scenes.forEach((Scene s) async {
             SceneFormHelper helper = new SceneFormHelper(s);
             helper.callback = syncDataStringToScenario;
