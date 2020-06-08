@@ -19,6 +19,11 @@ abstract class ScenarioTests {
         toTest.stopScenes.add(scene);
         toTest.frameScenes.add(scene);
         Map<String, dynamic> serialization = await toTest.getSerialization();
+        print("Scenario unit test datastring is \n\n${toTest.toDataString()}");
+        toTest.toDataString();
+        Scenario scenario = new Scenario.empty();
+        await scenario.loadFromDataString(toTest.toDataString());
+        UnitTests.processTest("Loaded scenario should have exactly one prepack.", 1, scenario.prepacks.length,element);
 
         final Scenario recovered = Scenario.empty();
         await recovered.loadFromSerialization(serialization);

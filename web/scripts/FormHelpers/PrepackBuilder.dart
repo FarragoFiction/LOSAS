@@ -358,12 +358,10 @@ class PrepackBuilder {
         clearArchiveDownload();
     }
 
-    void syncPrepackToDataString(String dataString) {
+    void syncPrepackToDataString(String dataString) async {
         print("syncing gen to datastring");
-        prepack.loadFromDataString(dataString);
-
         try {
-            prepack.loadFromDataString(dataString);
+            await prepack.loadFromDataString(dataString);
         }catch(e) {
             window.console.error(e);
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");

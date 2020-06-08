@@ -181,9 +181,15 @@ class ScenarioFormHelper {
             print('rendering prepack ${p.name}');
             DivElement sub = new DivElement()..style.display = "inline-block";
             DivElement text = new DivElement()..text = p.name;
-            CanvasElement element = p.externalForm.canvas..classes.add("prepack-icon");
             prepackHolder.append(sub);
-            sub.append(element);
+
+            try {
+                CanvasElement element = p.externalForm.canvas
+                    ..classes.add("prepack-icon");
+                sub.append(element);
+            }catch(e) {
+                window.alert("some kind of error displaying prepack, are you sure it had an image?");
+            }
             sub.append(text);
         });
     }
@@ -204,8 +210,6 @@ class ScenarioFormHelper {
 
     Future<void> syncScenarioToDataString(String dataString) async{
         print("syncing gen to datastring");
-        scenario.loadFromDataString(dataString);
-
         try {
             await scenario.loadFromDataString(dataString);
         }catch(e) {
