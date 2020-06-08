@@ -13,9 +13,9 @@ abstract class Generator extends DataObject {
     dynamic generateValue(Random rand);
     String values();
     Map<String,dynamic> getSerialization();
-    void loadFromSerialization(Map<String,dynamic> serialization);
+    Future<void>  loadFromSerialization(Map<String,dynamic> serialization);
 
-    void loadFromDataString(String dataString) {
+    Future<void> loadFromDataString(String dataString) async{
         loadFromSerialization(DataStringHelper.serializationFromDataString(dataString));
     }
     String toDataString() {
@@ -67,7 +67,7 @@ class StringGenerator extends Generator {
 
 
   @override
-  void loadFromSerialization(Map<String, dynamic> serialization) {
+  Future<void>  loadFromSerialization(Map<String, dynamic> serialization) {
     key = serialization["key"];
     possibleValues = new List<String>.from(serialization["possibleValues"]);
   }
@@ -108,7 +108,7 @@ class NumGenerator extends Generator {
 
 
   @override
-  void loadFromSerialization(Map<String, dynamic> serialization) {
+  Future<void>  loadFromSerialization(Map<String, dynamic> serialization) {
       key = serialization["key"];
       min = serialization["min"];
       max = serialization["max"];

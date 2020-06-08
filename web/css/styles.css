@@ -58,6 +58,10 @@ html:not([data-seerOf=void]) .void {
   width: 1000px;
 }
 
+.prepack-icon{
+    max-width: 100px;
+}
+
 .shadows{
    filter: contrast(0%) brightness(10%);
 }

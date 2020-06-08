@@ -67,6 +67,7 @@ class ScenarioFormHelper {
     }
 
     void handlePrepacks(Element parent) {
+        print("IN FORM: handling prepacks");
         if(prepackHolder == null) {
             prepackHolder = new Element.div()..classes.add("subholder");
             parent.append(prepackHolder);
@@ -81,7 +82,7 @@ class ScenarioFormHelper {
         renderPrepacks();
     }
     Future loadPrepackFromImage(ArchivePng png, String fileName) async {
-        print("I'm loading a prepack from image $fileName");
+        print("IN FORM: I'm loading a prepack from image $fileName");
         DivElement processing = new DivElement()..text = "processing";
         prepackHolder.append(processing);
         Prepack prepack = new Prepack.empty();
@@ -89,9 +90,10 @@ class ScenarioFormHelper {
         //yes i could use the build in dataobject loader but that wouldn't get me a datastring directly
             try {
                 await prepack.loadFromArchive(png);
+                print("IN FORM: the load completed");
                 processing.remove();
                 scenario.prepacks.add(prepack);
-                print("actually loaded a prepack from the archive, added it to the scenario");
+                print("IN FORM: actually loaded a prepack from the archive, added it to the scenario");
                 syncDataStringToScenario();
                 handlePrepacks(null);
             }catch(e) {
@@ -173,10 +175,16 @@ class ScenarioFormHelper {
     }
 
     void renderPrepacks() {
+        print("IN FORM: Rendering prepacks");
         scenario.prepacks.forEach((Prepack p)
         {
-            prepackHolder.append(new DivElement()..text = "todo ${p.name} each should be p small, 50 wide? also display name, and have x button to remove");
-
+            print('rendering prepack ${p.name}');
+            DivElement sub = new DivElement()..style.display = "inline-block";
+            DivElement text = new DivElement()..text = p.name;
+            CanvasElement element = p.externalForm.canvas..classes.add("prepack-icon");
+            prepackHolder.append(sub);
+            sub.append(element);
+            sub.append(text);
         });
     }
 
@@ -194,12 +202,12 @@ class ScenarioFormHelper {
         dataStringElement.value = scenario.toDataString();
     }
 
-    void syncScenarioToDataString(String dataString) {
+    Future<void> syncScenarioToDataString(String dataString) async{
         print("syncing gen to datastring");
         scenario.loadFromDataString(dataString);
 
         try {
-            scenario.loadFromDataString(dataString);
+            await scenario.loadFromDataString(dataString);
         }catch(e) {
             window.console.error(e);
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");

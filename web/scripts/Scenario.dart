@@ -115,13 +115,19 @@ class Scenario extends ArchivePNGObject {
 
 
   @override
-  void loadFromSerialization(Map<String, dynamic > serialization) {
+  Future<void>  loadFromSerialization(Map<String, dynamic > serialization) async {
     author = serialization["author"];
     name = serialization["name"];
     description = serialization["description"];
     frameScenes = new List.from((serialization["frameScenes"] as List).map((subserialization) => Scene.fromSerialization(subserialization)));
     stopScenes = new List.from((serialization["stopScenes"] as List).map((subserialization) => Scene.fromSerialization(subserialization)));
-    prepacks = new List.from((serialization["prepacks"] as List).map((subserialization) => Prepack.fromSerialization(subserialization)));
+    //prepack has to be async because it will have an archive image to set up
+    prepacks = new List<Prepack>();
+    for(Map<String,dynamic> subserialization in serialization["prepacks"]) {
+        final Prepack p = new Prepack.empty();
+        await p.loadFromSerialization(subserialization);
+        prepacks.add(p);
+    }
 
 
   }

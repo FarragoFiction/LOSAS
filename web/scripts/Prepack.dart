@@ -1,6 +1,7 @@
 //TODO a prepack consists of a lot of generators (which can include datastrings of scenes or dolls or whatever) and a description and  a list of scenes (that aren't tied to generators)
 //TODO it should also have an image that does NOT get serialized. instead it is the datapng the datastring gets saved to on export.
 //TODO on import of a prepack it stores the datapng it came with so it can be displayed
+import 'dart:async';
 import 'dart:html';
 
 import 'package:ImageLib/Encoding.dart';
@@ -39,20 +40,38 @@ class Prepack extends ArchivePNGObject {
     }
 
   @override
-  void loadFromSerialization(Map<String, dynamic> serialization) {
+  Future<void> loadFromSerialization(Map<String, dynamic> serialization) async {
+        print("starting the load from serialization for prepack");
       author = serialization["author"];
       name = serialization["name"];
       description = serialization["description"];
       initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
-
+      if(serialization.containsKey("externalForm")){
+          print("data url is: ${ serialization["externalForm"]}");
+          final ImageElement image = new ImageElement()..src = serialization["externalForm"];
+          final Completer completer = new Completer<void>();
+          image.onLoad.listen((Event e) {
+              completer.complete();
+          });
+          await completer.future;
+          print("after awaiting JR NOTE the image is this wide: ${image.width} vs natural ${image.naturalWidth}");
+          CanvasElement canvas = new CanvasElement(
+              width: image.width, height: image.height);
+          canvas.context2D.drawImage(image, 0, 0);
+          externalForm = new ArchivePng.fromCanvas(canvas);
+      }
       generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
 
+      print("returning loadFromSerialization for $name");
   }
 
-  void loadFromArchive(ArchivePng png) async {
-      String dataString = await png.getFile(fileKey);
-      loadFromDataString(dataString);
+  Future<void> loadFromArchive(ArchivePng png) async {
+        print("starting load from archive)");
+      final String dataString = await png.getFile(fileKey);
+      print("got the datastring, gonna await loading it (cuz image)");
+      await loadFromDataString(dataString);
+      print("god the load done, gonna set externalForm");
       externalForm = png;
   }
 
@@ -65,6 +84,7 @@ class Prepack extends ArchivePNGObject {
       ret["initialKeysToGenerate"] = initialKeysToGenerate;
       ret["scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();
       ret["generators"] = generators.map((Generator gen) => gen.getSerialization()).toList();
+      ret["externalForm"] = externalForm?.canvas.toDataUrl();
 
       return ret;
   }

@@ -19,10 +19,10 @@ abstract class DataObject {
         return DataStringHelper.serializationToDataString(name,getSerialization());
     }
 
-    void loadFromSerialization(Map<String, dynamic> serialization);
+    Future<void> loadFromSerialization(Map<String, dynamic> serialization);
 
-    void loadFromDataString(String dataString) {
-        loadFromSerialization(DataStringHelper.serializationFromDataString(dataString));
+    Future<void> loadFromDataString(String dataString) async {
+        await loadFromSerialization(DataStringHelper.serializationFromDataString(dataString));
     }
 }
 

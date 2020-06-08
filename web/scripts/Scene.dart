@@ -89,11 +89,11 @@ class Scene extends DataObject {
         return DataStringHelper.serializationToDataString(name,getSerialization());
     }
 
-    void loadFromDataString(String dataString) {
+    Future<void> loadFromDataString(String dataString) async {
         loadFromSerialization(DataStringHelper.serializationFromDataString(dataString));
     }
 
-    void loadFromSerialization(Map<String,dynamic> serialization) {
+    Future<void>  loadFromSerialization(Map<String,dynamic> serialization) {
         author = serialization["author"];
         targetOne = serialization["targetOne"];
         beforeFlavorText = serialization["beforeFlavorText"];

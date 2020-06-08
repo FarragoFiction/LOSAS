@@ -230,7 +230,7 @@ class Entity extends ArchivePNGObject {
 
 
   @override
-  void loadFromSerialization(Map<String,dynamic > serialization) {
+  Future<void> loadFromSerialization(Map<String,dynamic > serialization) {
     // TODO: implement loadFromSerialization
   }
 
