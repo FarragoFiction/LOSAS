@@ -41,21 +41,18 @@ class Prepack extends ArchivePNGObject {
 
   @override
   Future<void> loadFromSerialization(Map<String, dynamic> serialization) async {
-        print("starting the load from serialization for prepack");
       author = serialization["author"];
       name = serialization["name"];
       description = serialization["description"];
       initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
       if(serialization.containsKey("externalForm")){
-          print("data url is: ${ serialization["externalForm"]}");
           final ImageElement image = new ImageElement()..src = serialization["externalForm"];
           final Completer completer = new Completer<void>();
           image.onLoad.listen((Event e) {
               completer.complete();
           });
           await completer.future;
-          print("after awaiting JR NOTE the image is this wide: ${image.width} vs natural ${image.naturalWidth}");
           CanvasElement canvas = new CanvasElement(
               width: image.width, height: image.height);
           canvas.context2D.drawImage(image, 0, 0);
@@ -63,15 +60,11 @@ class Prepack extends ArchivePNGObject {
       }
       generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
 
-      print("returning loadFromSerialization for $name");
   }
 
   Future<void> loadFromArchive(ArchivePng png) async {
-        print("starting load from archive)");
       final String dataString = await png.getFile(fileKey);
-      print("got the datastring, gonna await loading it (cuz image)");
       await loadFromDataString(dataString);
-      print("god the load done, gonna set externalForm");
       externalForm = png;
   }
 
@@ -84,7 +77,7 @@ class Prepack extends ArchivePNGObject {
       ret["initialKeysToGenerate"] = initialKeysToGenerate;
       ret["scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();
       ret["generators"] = generators.map((Generator gen) => gen.getSerialization()).toList();
-      ret["externalForm"] = externalForm?.canvas.toDataUrl();
+      if(externalForm != null) ret["externalForm"] = externalForm.canvas.toDataUrl();
 
       return ret;
   }

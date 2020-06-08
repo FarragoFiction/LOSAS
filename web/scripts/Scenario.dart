@@ -124,10 +124,12 @@ class Scenario extends ArchivePNGObject {
     //prepack has to be async because it will have an archive image to set up
     prepacks = new List<Prepack>();
     for(Map<String,dynamic> subserialization in serialization["prepacks"]) {
+        print("loading a subserialization");
         final Prepack p = new Prepack.empty();
         await p.loadFromSerialization(subserialization);
         prepacks.add(p);
     }
+    print("after loading scenario from serialization, there are this many prepacks: ${prepacks.length}");
 
 
   }
