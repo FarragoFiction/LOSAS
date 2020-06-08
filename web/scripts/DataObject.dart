@@ -33,12 +33,16 @@ abstract class ArchivePNGObject extends DataObject {
 
     static Future<Scenario> getScenario(ArchivePng png) async{
         String dataString = await png.getFile(Scenario.dataPngFile);
-        return new Scenario.fromDataString(dataString);
+        Scenario s = new Scenario.empty();
+        await s.loadFromDataString(dataString);
+        return s;
     }
 
     static Future<Prepack> getPrepack(ArchivePng png) async{
         String dataString = await png.getFile(Scenario.dataPngFile);
-        return new Prepack.fromDataString(dataString);
+        Prepack s = new Prepack.empty();
+        await s.loadFromDataString(dataString);
+        return s;
     }
 
     static Future<Entity> getEntity(ArchivePng png) async{

@@ -64,13 +64,7 @@ class Scenario extends ArchivePNGObject {
 
     }
 
-    Scenario.fromDataString(String dataString){
-        loadFromDataString(dataString);
-    }
-
-    Scenario.fromSerialization(Map<String,dynamic> serialization){
-        loadFromSerialization(serialization);
-    }
+    Scenario.empty();
 
     //pass throughs for scenario runner
     bool get theEnd => scenarioRunner.theEnd;
