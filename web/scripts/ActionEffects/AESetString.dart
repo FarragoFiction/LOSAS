@@ -4,6 +4,8 @@ import 'ActionEffect.dart';
 class AESetString extends ActionEffect {
   static const String STORAGEKEY = "memoryKey";
   static const String STRINGKEY = "stringToStore";
+  List<String> get knownKeys => [importantWords[STORAGEKEY]];
+
   @override
   String type ="SetString";
   @override

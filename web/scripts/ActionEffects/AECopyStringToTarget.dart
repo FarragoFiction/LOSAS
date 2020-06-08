@@ -4,6 +4,8 @@ import 'ActionEffect.dart';
 class AECopyStringToTarget extends ActionEffect {
     static const String THEIRKEY = "theirStringKey";
     static const String MYKEY = "myStorageKey";
+    List<String> get knownKeys => [importantWords[THEIRKEY], importantWords[MYKEY]];
+
     @override
     String type ="CopyStringToTarget";
     @override

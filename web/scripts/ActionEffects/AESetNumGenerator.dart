@@ -4,6 +4,8 @@ import 'ActionEffect.dart';
 class AESetNumGenerator extends ActionEffect {
   static const String KEY = "memoryKey";
   static const String NUM = "defaultValue";
+  List<String> get knownKeys => [importantWords[KEY]];
+
 
   @override
   String type ="SetNumGenerator";

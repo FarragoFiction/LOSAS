@@ -2,6 +2,8 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAppendString extends ActionEffect {
+  List<String> get knownKeys => [importantWords[STORAGEKEY]];
+
   static const String STORAGEKEY = "storageKey";
   static const String STRINGKEY = "stringToAppend";
   @override

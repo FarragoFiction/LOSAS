@@ -38,7 +38,7 @@ class Prepack extends ArchivePNGObject {
 
     //don't forget intro/outro
     Set<String> get allMemoryKeysRefScenes {
-        return new Set.from(["Hello", "World", "jr note: scenes need to somehow both grab out any key printed out AND any key used by filters/actions. much harder."]);
+        return new Set.from(["TODO", "L8r", "jr note: scenes need to somehow both grab out any key printed out AND any key used by filters/actions. much harder. punt this forward in time"]);
     }
 
     Prepack(this.name, this.description, this.author, this.initialKeysToGenerate,this.generators, this.scenes);

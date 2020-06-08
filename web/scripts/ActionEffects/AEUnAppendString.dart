@@ -4,6 +4,8 @@ import 'ActionEffect.dart';
 class AEUnAppendString extends ActionEffect {
   static const String STOREDSTRING = "storedString";
   static const String STRINGTOAPPEND = "stringToUnAppend";
+  List<String> get knownKeys => [importantWords[STOREDSTRING]];
+
   @override
   String type ="UnAppendString";
   @override

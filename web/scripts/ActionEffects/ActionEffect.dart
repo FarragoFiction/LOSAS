@@ -41,6 +41,8 @@ abstract class ActionEffect {
     //useful for generating forms and serialization
     static List<ActionEffect> exampleOfAllEffects;
 
+    List<String> get knownKeys => [];
+
 
     ActionEffect(this.importantWords, this.importantNumbers);
     ActionEffect makeNewOfSameType();
