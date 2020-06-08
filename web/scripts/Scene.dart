@@ -82,6 +82,30 @@ class Scene extends DataObject {
         loadFromSerialization(serialization);
     }
 
+    Set<String>get allMemoryKeys {
+        final Set<String> ret = new Set<String>();
+        for(final TargetFilter filter in targetFilters) {
+            ret.addAll(filter.knownKeys);
+        }
+
+        for(final ActionEffect effect in effects) {
+            ret.addAll(effect.knownKeys);
+        }
+        for(final String text in [beforeFlavorText, afterFlavorText]) {
+            print("tags are: ${Util.getTagsForKey(text, TARGETSTRINGMEMORYTAG)}");
+            ret.addAll(
+                Util.getTagsForKey(text, TARGETSTRINGMEMORYTAG));
+            ret.addAll(
+                Util.getTagsForKey(text, TARGETNUMMEMORYTAG));
+            ret.addAll(
+                Util.getTagsForKey(text, OWNERSTRINGMEMORYTAG));
+            ret.addAll(Util.getTagsForKey(text, OWNERNUMMEMORYTAG));
+        }
+
+        return ret;
+
+    }
+
 
     String toString() => name;
 
