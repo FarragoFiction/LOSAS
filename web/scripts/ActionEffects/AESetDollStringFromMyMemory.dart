@@ -3,6 +3,7 @@ import 'ActionEffect.dart';
 
 class AESetDollStringFromMyMemory extends ActionEffect {
     static const String SHAREDKEY = "memoryKey";
+    @override
     List<String> get knownKeys => [importantWords[SHAREDKEY]];
 
     @override

@@ -4,6 +4,7 @@ import 'ActionEffect.dart';
 class AESetStringGenerator extends ActionEffect {
     static const String GENERATORKEY = "generatorKey";
     static const String DEFAULTVALUE = "defaultValue";
+    @override
     List<String> get knownKeys => [importantWords[GENERATORKEY]];
 
     @override

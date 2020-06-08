@@ -3,6 +3,7 @@ import 'ActionEffect.dart';
 
 class AEUnSetString extends ActionEffect {
     static const String KEY = "memoryKey";
+    @override
     List<String> get knownKeys => [importantWords[KEY]];
 
     @override

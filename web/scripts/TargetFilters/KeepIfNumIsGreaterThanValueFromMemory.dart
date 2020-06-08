@@ -5,6 +5,8 @@ import 'TargetFilter.dart';
 class KeepIfNumIsGreaterThanValueFromMemory extends TargetFilter {
 static String MEMORYKEYLEFT="memoryKeyLeft";
 static String MEMORYKEYRIGHT="memorykeyRight";
+@override
+List<String> get knownKeys => [importantWords[MEMORYKEYRIGHT], importantWords[MEMORYKEYLEFT]];
 
 String type ="KeepIfNumIsGreaterThanValueFromMemory";
 @override

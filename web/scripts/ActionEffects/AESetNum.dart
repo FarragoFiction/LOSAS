@@ -4,6 +4,7 @@ import 'ActionEffect.dart';
 class AESetNum extends ActionEffect {
   static const String KEY = "memoryKey";
   static const String NUM = "num";
+  @override
   List<String> get knownKeys => [importantWords[KEY]];
 
   @override

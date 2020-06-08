@@ -5,6 +5,8 @@ import 'TargetFilter.dart';
 class KeepIfNumExists extends TargetFilter {
   static String MEMORYKEY="memorykey";
   @override
+  List<String> get knownKeys => [importantWords[MEMORYKEY]];
+  @override
   String type ="KeepIfNumExists";
   @override
   String explanation = "Keep if target knows about a number (its non zero) with a given key.";

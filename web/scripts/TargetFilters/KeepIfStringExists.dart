@@ -5,6 +5,8 @@ import 'TargetFilter.dart';
 class KeepIfStringExists extends TargetFilter {
   static String MEMORYKEY="memoryKey";
   @override
+  List<String> get knownKeys => [importantWords[MEMORYKEY]];
+  @override
   String type ="KeepIfStringExists";
   @override
   String explanation = "If the target has a word or phrase stored to a given key (regardless of what the word or phrase is).";

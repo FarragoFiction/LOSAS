@@ -2,6 +2,7 @@ import '../Entity.dart';
 import 'ActionEffect.dart';
 
 class AEAddNumFromYourMemory extends ActionEffect {
+  @override
   List<String> get knownKeys => [importantWords[RESULTNUM], importantWords[ADDOR]];
 
   static const String RESULTNUM = "myMemoryKeyForFirstAddorAndStorage";

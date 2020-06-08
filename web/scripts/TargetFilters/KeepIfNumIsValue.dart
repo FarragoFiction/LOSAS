@@ -6,6 +6,8 @@ class KeepIfNumIsValue extends TargetFilter {
   static String MEMORYKEY = "memorykey";
   static String INPUTVALUE = "inputvalue";
   @override
+  List<String> get knownKeys => [importantWords[MEMORYKEY]];
+  @override
   String type ="KeepIfNumIsValue";
   @override
   String explanation = "If the target has a number stored to a given key, and its equal to a supplied value";

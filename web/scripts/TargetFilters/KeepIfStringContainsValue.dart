@@ -5,6 +5,8 @@ import 'TargetFilter.dart';
 class KeepIfStringContainsValue extends TargetFilter {
   static String MEMORYKEY = "memorykey";
   static String INPUTVALUE = "inputvalue";
+  @override
+  List<String> get knownKeys => [importantWords[MEMORYKEY]];
 
   @override
   String type ="KeepIfStringContainsValue";

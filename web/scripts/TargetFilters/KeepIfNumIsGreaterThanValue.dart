@@ -6,6 +6,8 @@ class KeepIfNumIsGreaterThanValue extends TargetFilter {
   static String MEMORYKEY = "memorykey";
   static String INPUTVALUE = "inputvalue";
   @override
+  List<String> get knownKeys => [importantWords[MEMORYKEY]];
+  @override
   String type ="KeepIfNumIsGreaterThanValue";
   @override
   String explanation = "If the target has a number stored to a given key, and its bigger than a supplied value";

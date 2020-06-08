@@ -4,6 +4,7 @@ import 'ActionEffect.dart';
 class AEAddNum extends ActionEffect {
   static const String MEMORYKEY = "memoryKey";
   static const String ADDOR = "numToAdd";
+  @override
   List<String> get knownKeys => [importantWords[MEMORYKEY]];
 
   @override

@@ -3,6 +3,7 @@ import 'ActionEffect.dart';
 
 class AERemoveAllGeneratorsForKey extends ActionEffect {
   static const String STORAGEKEY = "generatorKey";
+  @override
   List<String> get knownKeys => [importantWords[STORAGEKEY]];
 
   @override

@@ -19,6 +19,8 @@ import 'KeepIfYouAreMe.dart';
     has scene that serializes to X
  */
 abstract class TargetFilter {
+    List<String> get knownKeys => [];
+
     //should I invert my value?
     bool not = false;
     //should I apply my condition to myself, rather than my targets? (i.e. if I meet the condition I allow all targets to pass through to the next condition).
