@@ -13,6 +13,7 @@ import 'GenericFormHelper.dart';
 import 'SceneFormHelper.dart';
 
 class ScenarioFormHelper {
+    static String fileKey = "${GameUI.dataPngFolder}${Scenario.dataPngFile}";
     TextAreaElement dataStringElement;
     Scenario scenario;
     InputElement nameElement;
@@ -21,6 +22,10 @@ class ScenarioFormHelper {
     Element introHolder;
     Element outroHolder;
     Element prepackHolder;
+    Element archiveSaveButton;
+    Element imageUploaderHolder;
+    Element archiveUploaderHolder;
+    Element debugHelperElement;
 
     ScenarioFormHelper([this.scenario]) {
         this.scenario ??= makeNewScenario();
@@ -43,6 +48,9 @@ class ScenarioFormHelper {
             formHolder, "DataString:", "${scenario.toDataString()}", (e) =>
             syncScenarioToDataString(e.target.value));
 
+        handleImageUpload(formHolder);
+
+
         nameElement = attachInputElement(formHolder, "Name:", "${scenario.name}", (e)
         {
             scenario.name = e.target.value;
@@ -64,10 +72,59 @@ class ScenarioFormHelper {
         handleIntroScenes(formHolder);
         handleOutroScenes(formHolder);
         handlePrepacks(formHolder);
+        handleDebugHelpers(formHolder);
+    }
+
+    //for datapngs
+    void handleImageUpload(Element parent) {
+        imageUploaderHolder =new DivElement()..classes.add("instructions");
+        parent.append(imageUploaderHolder);
+        DivElement instructions = new DivElement()..setInnerHtml(" You can upload any image to store your scenario into here. Smaller filesizes will be faster/easier. (Note any changes to the datastring will require you to reupload the image)." )..style.marginBottom="30px";
+        imageUploaderHolder.append(instructions);
+        Element uploadElement = FileFormat.loadButton(ArchivePng.format, handleWritingScenarioToPng, caption: "Upload Image to Contain Scenario");
+        imageUploaderHolder.append(uploadElement);
+
+        handleLoadingScenarioFromImage(parent);
+
+    }
+
+    void handleWritingScenarioToPng(ArchivePng png, String fileName) async {
+        //doing it this way in case theres data already in it. don't copy to context.
+        archiveSaveButton = new DivElement()..text = "Processing...";
+        imageUploaderHolder.append(archiveSaveButton);
+        await png.archive.setFile(fileKey, scenario.toDataString());
+        clearArchiveDownload();
+        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, ()=> png, filename: ()=>"${scenario.name}.png", caption: "Download Scenario Archive Image (Be Patient)");
+        imageUploaderHolder.append(archiveSaveButton);
+        //TODO if ppl complain about having to reupload their image cache it and have a button explicitly for reexporting. not worth it rn
+    }
+
+    Future handleLoadingScenarioFromImage(Element parent) {
+        archiveUploaderHolder =new DivElement()..classes.add("instructions");
+        parent.append(archiveUploaderHolder);
+        //by getting the upload this way we can maintain any data already in it (so in theory you could have a char, scenario AND prepack all in the same image
+        DivElement instructions = new DivElement()..setInnerHtml("If you have an image with a scenario stored in it, you can load it here." )..style.marginBottom="30px";;
+        archiveUploaderHolder.append(instructions);
+        Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncScenarioToImage,caption: "Load Scenario From Image");
+        archiveUploaderHolder.append(uploadElement);
+    }
+
+    Future syncScenarioToImage(ArchivePng png, String fileName) async {
+        DivElement processing = new DivElement()..text = "processing";
+        archiveUploaderHolder.append(processing);
+        //yes i could use the build in dataobject loader but that wouldn't get me a datastring directly
+        String dataString = await png.getFile(fileKey);
+        processing.remove();
+        if(dataString != null) syncScenarioToDataString(dataString);
+    }
+
+
+    //any time the datastring gets changed the download link gets nuked
+    void clearArchiveDownload() {
+        if(archiveSaveButton != null ) archiveSaveButton.remove();
     }
 
     void handlePrepacks(Element parent) {
-        print("IN FORM: handling prepacks");
         if(prepackHolder == null) {
             prepackHolder = new Element.div()..classes.add("subholder");
             parent.append(prepackHolder);
@@ -202,6 +259,55 @@ class ScenarioFormHelper {
         });
     }
 
+    void handleDebugHelpers(Element parent) {
+        if(debugHelperElement == null) {
+            debugHelperElement = new DivElement()..classes.add("subholder");
+            parent.append(debugHelperElement);
+        }
+        debugHelperElement.text = "";
+        Element header = HeadingElement.h1()..text = "Memory Keys' Info:";
+        DivElement instructions = new DivElement()..setInnerHtml("Here you can review all memory keys known by the scenario, separated into those referenced by generators, those referenced by scenes.<br><br>NOTE: will not catch errors such as thinking a key is a string when its a num or whatever. sorry.<br><br>NOTE: anything weird you do like nested keys or pointers or whatever won't show up here. Probably.")..classes.add("instructions");
+        debugHelperElement.append(header);
+        debugHelperElement.append(instructions);
+        handleGenDebug(debugHelperElement);
+        handleSceneDebug(debugHelperElement);
+
+    }
+
+    void handleGenDebug(Element parent) {
+        Element debugHolder = new DivElement()..classes.add("subholder");
+        parent.append(debugHolder);
+        Element header = HeadingElement.h1()..text = "Generator Keys' Info:";
+        DivElement instructions = new DivElement()..setInnerHtml("Any key a prepack initializes or generates.")..classes.add("instructions");
+        debugHolder.append(header);
+        debugHolder.append(instructions);
+        final List<String> keys = new List.from(scenario.allGeneratorMemoryKeys)..sort();
+        for(String key in keys) {
+            DivElement div = new DivElement()..text = key..classes.add("memoryKey");
+            debugHolder.append(div);
+        }
+    }
+
+    void handleSceneDebug(Element parent) {
+        Element debugHolder = new DivElement()..classes.add("subholder");
+        parent.append(debugHolder);
+        Element header = HeadingElement.h1()..text = "Scene Keys' Info:";
+        DivElement instructions = new DivElement()..setInnerHtml("Any key a scene references in its text.")..classes.add("instructions");
+        debugHolder.append(header);
+        debugHolder.append(instructions);
+        final List<String> keys = new List.from(scenario.allMemoryKeysRefScenes)..sort();
+        for(String key in keys) {
+            DivElement div = new DivElement()..text = key..classes.add("memoryKey");
+            debugHolder.append(div);
+        }
+    }
+
+
+
+
+
+
+
 
 
     void syncDataStringToScenario() {
@@ -222,6 +328,7 @@ class ScenarioFormHelper {
         handleIntroScenes(null);
         handleOutroScenes(null);
         handlePrepacks(null);
+        handleDebugHelpers(null);
     }
 
 }

@@ -28,6 +28,19 @@ class Prepack extends ArchivePNGObject {
     String author = "???";
     ImageElement cardImage;
 
+    Set<String> get allGeneratorMemoryKeys {
+        Set<String> ret = new Set.from(initialKeysToGenerate);
+        for(Generator g in generators) {
+            ret.add(g.key);
+        }
+        return ret;
+    }
+
+    //don't forget intro/outro
+    Set<String> get allMemoryKeysRefScenes {
+        return new Set.from(["Hello", "World"]);
+    }
+
     Prepack(this.name, this.description, this.author, this.initialKeysToGenerate,this.generators, this.scenes);
     Prepack.empty();
 

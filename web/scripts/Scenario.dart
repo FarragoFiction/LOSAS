@@ -107,6 +107,33 @@ class Scenario extends ArchivePNGObject {
 
     }
 
+    Set<String> get allGeneratorMemoryKeys {
+        Set<String> ret = new Set<String>();
+        for(Prepack p in prepacks) {
+            ret.addAll(p.allGeneratorMemoryKeys);
+        }
+        return ret;
+    }
+
+
+    //don't forget intro/outro
+    Set<String> get allMemoryKeysRefScenes {
+        Set<String> ret = new Set<String>();
+        for(Prepack p in prepacks) {
+            ret.addAll(p.allMemoryKeysRefScenes);
+        }
+        for(Scene s in frameScenes) {
+            ret.add("TODO framescenes");
+        }
+
+        for(Scene s in stopScenes) {
+            ret.add("TODO stopScenes");
+
+        }
+        return ret;
+    }
+
+
 
   @override
   Future<void>  loadFromSerialization(Map<String, dynamic > serialization) async {

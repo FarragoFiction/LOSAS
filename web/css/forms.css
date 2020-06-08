@@ -33,6 +33,12 @@
     background-color: rgba(0,0,0,0.3);
 }
 
+.memoryKey{
+    padding: 5px;
+    display: inline-block;
+    border: 1px solid yellow;
+}
+
 .formHolder::before{
     content: url(../images/VMA.png);
     filter: grayscale(100%) brightness(20%); contrast(100%)

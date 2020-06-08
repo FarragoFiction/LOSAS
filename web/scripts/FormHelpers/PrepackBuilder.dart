@@ -116,8 +116,6 @@ class PrepackBuilder {
         archiveUploaderHolder.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncPrepackToImage,caption: "Load Prepack From Image");
         archiveUploaderHolder.append(uploadElement);
-
-
     }
 
     Future syncPrepackToImage(ArchivePng png, String fileName) async {
