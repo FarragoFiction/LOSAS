@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:CommonLib/NavBar.dart';
 
+import 'scripts/FormHelpers/GameRunner.dart';
 import 'scripts/FormHelpers/NumGeneratorFormHelper.dart';
 import 'scripts/FormHelpers/PrepackBuilder.dart';
 import 'scripts/FormHelpers/ScenarioFormHelper.dart';
@@ -30,6 +31,8 @@ void main() async {
     await new PrepackBuilder().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "scenarioBuilder") {
     await new ScenarioFormHelper().makeBuilder(output);
+  }else if(Uri.base.queryParameters['mode'] == "betaGame") {
+    await new GameRunner().makeUglyRunner(output);
   }else {
     GameUI game = new GameUI(Scenario.testScenario());
     UnitTests.runTests(output);
@@ -44,6 +47,7 @@ void debugLinks(Element parent) {
   addDebugLink(parent, "${window.location.href}?mode=numGeneratorBuilder", "NumGeneratorBuilder");
   addDebugLink(parent, "${window.location.href}?mode=prepackBuilder", "PrepackBuilder");
   addDebugLink(parent, "${window.location.href}?mode=scenarioBuilder", "ScenarioBuilder");
+  addDebugLink(parent, "${window.location.href}?mode=betaGame", "BetaGame");
 
 
 }

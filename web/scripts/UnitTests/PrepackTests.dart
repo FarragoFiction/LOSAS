@@ -29,6 +29,8 @@ abstract class PrepackTests {
         Map<String, dynamic> serialization = prepack.getSerialization();
 
         final Prepack recoveredPrepack = new Prepack.fromSerialization(serialization);
+        print("JR NOTE: first serialization is $serialization");
+        print("JR NOTE: second serialization is ${recoveredPrepack.getSerialization()}");
 
         UnitTests.processTest("Prepack can be serialized to and from datastring",DataStringHelper.serializationToDataString("TestEffect",prepack.getSerialization()), DataStringHelper.serializationToDataString("TestEffect",recoveredPrepack.getSerialization()), element);
 

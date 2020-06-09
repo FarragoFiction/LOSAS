@@ -64,8 +64,8 @@ class Prepack extends ArchivePNGObject {
       description = serialization["description"];
       initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
-      await loadImage(serialization);
       generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
+      await loadImage(serialization);
 
   }
 
