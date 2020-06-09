@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:html';
+
 import 'package:ImageLib/Encoding.dart';
 
 import 'DataStringHelper.dart';
@@ -29,7 +32,28 @@ abstract class DataObject {
 abstract class ArchivePNGObject extends DataObject {
     //keep this around so you can render yourself as a black box
     ArchivePng externalForm;
-    //TODO handle rendering your archive png to the screen
+    String fileKey; //override this plz
+
+    Future<void> loadImage(Map<String, dynamic > serialization) async {
+        if(serialization.containsKey("externalForm")){
+            final ImageElement image = new ImageElement()..src = serialization["externalForm"];
+            final Completer completer = new Completer<void>();
+            image.onLoad.listen((Event e) {
+                completer.complete();
+            });
+            await completer.future;
+            CanvasElement canvas = new CanvasElement(
+                width: image.width, height: image.height);
+            canvas.context2D.drawImage(image, 0, 0);
+            externalForm = new ArchivePng.fromCanvas(canvas);
+        }
+    }
+
+    Future<void> loadFromArchive(ArchivePng png) async {
+        final String dataString = await png.getFile(fileKey);
+        await loadFromDataString(dataString);
+        externalForm = png;
+    }
 
     static Future<Scenario> getScenario(ArchivePng png) async{
         String dataString = await png.getFile(Scenario.dataPngFile);

@@ -16,7 +16,8 @@ class Prepack extends ArchivePNGObject {
     static String dataPngFile = "prepack.txt";
     //keep this around so you can render yourself as a black box
     ArchivePng externalForm;
-    static String fileKey = "${GameUI.dataPngFolder}${Prepack.dataPngFile}";
+    @override
+    String fileKey = "${GameUI.dataPngFolder}${Prepack.dataPngFile}";
 
     List<Generator> generators;
     //an entity given this prepack is going to have these scenes at a prioritization based on what order you give the prepacks to em
@@ -63,27 +64,11 @@ class Prepack extends ArchivePNGObject {
       description = serialization["description"];
       initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
-      if(serialization.containsKey("externalForm")){
-          final ImageElement image = new ImageElement()..src = serialization["externalForm"];
-          final Completer completer = new Completer<void>();
-          image.onLoad.listen((Event e) {
-              completer.complete();
-          });
-          await completer.future;
-          CanvasElement canvas = new CanvasElement(
-              width: image.width, height: image.height);
-          canvas.context2D.drawImage(image, 0, 0);
-          externalForm = new ArchivePng.fromCanvas(canvas);
-      }
+      await loadImage(serialization);
       generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
 
   }
 
-  Future<void> loadFromArchive(ArchivePng png) async {
-      final String dataString = await png.getFile(fileKey);
-      await loadFromDataString(dataString);
-      externalForm = png;
-  }
 
   @override
   Map<String, dynamic> getSerialization() {

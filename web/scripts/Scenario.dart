@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:html';
 
 import 'package:CommonLib/Random.dart';
+import 'package:ImageLib/Encoding.dart';
 
 import 'DataObject.dart';
 import 'Entity.dart';
@@ -36,8 +37,9 @@ Then you’er allowed to just use any prepack at all you can upload
  */
 class Scenario extends ArchivePNGObject {
     static String dataPngFile = "scenario.txt";
-
-
+    ArchivePng externalForm;
+    @override
+    String fileKey = "${GameUI.dataPngFolder}${dataPngFile}";
     //TODO be able to serialize the scenarios entire current state so you can return to any version of it for time shenanigans
 
     //TODO when you make a scenario with a builder, need to be able to specify what dollstrings the char creator should be asking for
@@ -64,6 +66,8 @@ class Scenario extends ArchivePNGObject {
 
     }
 
+
+
     Scenario.empty();
 
     //pass throughs for scenario runner
@@ -76,6 +80,8 @@ class Scenario extends ArchivePNGObject {
     void lookForNextScene() => scenarioRunner.lookForNextScene();
     void curtainsUp(Element parent) => scenarioRunner.curtainsUp(parent);
     void addEntity(Entity entity) => scenarioRunner.addEntity(entity);
+    int get seed => scenarioRunner.seed;
+    set seed(int value) => scenarioRunner.seed =value;
 
     Scenario.testScenario(){
         scenarioRunner = new ScenarioRunner(this,85);
@@ -150,6 +156,7 @@ class Scenario extends ArchivePNGObject {
         await p.loadFromSerialization(subserialization);
         prepacks.add(p);
     }
+    await loadImage(serialization);
     print("after loading scenario from serialization, there are this many prepacks: ${prepacks.length}");
 
 
@@ -164,6 +171,8 @@ class Scenario extends ArchivePNGObject {
       ret["frameScenes"] = frameScenes.map((Scene s) => s.getSerialization()).toList();
       ret["stopScenes"] = stopScenes.map((Scene s) => s.getSerialization()).toList();
       ret["prepacks"] = prepacks.map((Prepack p) => p.getSerialization()).toList();
+      if(externalForm != null) ret["externalForm"] = externalForm.canvas.toDataUrl();
+
       return ret;
   }
 

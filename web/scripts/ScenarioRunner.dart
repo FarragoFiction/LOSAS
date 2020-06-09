@@ -1,14 +1,21 @@
 import 'dart:html';
 
 import 'package:CommonLib/Random.dart';
+import 'package:DollLibCorrect/DollRenderer.dart';
 
 import 'Entity.dart';
 import 'Game.dart';
+import 'Prepack.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
 
 class ScenarioRunner {
-    int seed;
+    int _seed;
+    int get seed => _seed;
+    set seed(int value) {
+        _seed = value;
+        rand = new Random(seed);
+    }
     GameUI game;
     Scenario scenario;
     //seriously if NOTHING HAPPENS for 13 ticks in a row, lets just call it
@@ -29,12 +36,13 @@ class ScenarioRunner {
     //if not entities are active on spawn, nothing can happen. I advise having at least an invisible entity, like "Skaia".
     List<Entity> get activeEntitiesReadOnly => _entities.where((Entity entity) =>entity.isActive).toList();
 
-    ScenarioRunner(Scenario this.scenario, this.seed) {
+    ScenarioRunner(Scenario this.scenario, this._seed) {
         rand = new Random(seed);
     }
 
     void curtainsUp(Element parent) {
         print("curtains are going up");
+        if(_entities.length == 0 ) batshitchars();
         game = new GameUI(scenario);
         print("made a new game");
         game.setup(parent);
@@ -42,6 +50,29 @@ class ScenarioRunner {
         print("setup the game");
         lookForNextScene();
         print("looked for a scene");
+    }
+
+    void batshitchars() {
+        Random rand = new Random(seed);
+        int numberChars = rand.nextInt(13);
+        for(int i = 0; i<numberChars; i++) {
+            addEntity(spawnOneBatShitChar(rand));
+        }
+
+
+    }
+
+    Entity spawnOneBatShitChar(Random rand) {
+        Doll doll = new PigeonDoll();
+        Entity ret = new Entity(doll.dollName,[],doll.toDataBytesX());
+        int numberTraits = rand.nextInt(13);
+        Set<Prepack> traits = new Set<Prepack>();
+        for(int i = 0; i<numberTraits; i++) {
+            traits.add(rand.pickFrom(scenario.prepacks));
+        }
+        if(rand.nextBool()) ret.isActive = true;
+        return ret;
+
     }
 
     void initializeEntities() {
