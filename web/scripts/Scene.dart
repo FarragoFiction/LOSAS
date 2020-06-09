@@ -254,11 +254,11 @@ class Scene extends DataObject {
 
         container.append(narrationDiv);
         //always do this, never know when people will want to debug their shit
-        attachDebugElement(container);
+        attachDebugElement(container, scenario, className);
         return container;
     }
 
-    void attachDebugElement(Element parent) {
+    static void attachDebugElement(Element parent, Scenario scenario, String className) {
         DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add(className)..setInnerHtml("<h2>$className</h2>");
         for(Entity entity in scenario.activeEntitiesReadOnly) {
             DivElement entityElement = new DivElement()..classes.add("debugEntity");

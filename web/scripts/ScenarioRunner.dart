@@ -47,6 +47,7 @@ class ScenarioRunner {
         print("made a new game");
         game.setup(parent);
         initializeEntities();
+        Scene.attachDebugElement(parent, scenario, "test");
         print("setup the game");
         lookForNextScene();
         print("looked for a scene");
@@ -54,10 +55,11 @@ class ScenarioRunner {
 
     void batshitchars() {
         Random rand = new Random(seed);
-        int numberChars = rand.nextInt(13);
+        int numberChars = rand.nextInt(13)+1;
         for(int i = 0; i<numberChars; i++) {
             addEntity(spawnOneBatShitChar(rand));
         }
+        _entities.first.isActive = true;
 
 
     }
@@ -65,11 +67,12 @@ class ScenarioRunner {
     Entity spawnOneBatShitChar(Random rand) {
         Doll doll = new PigeonDoll();
         Entity ret = new Entity(doll.dollName,[],doll.toDataBytesX());
-        int numberTraits = rand.nextInt(13);
+        int numberTraits = rand.nextInt(13)+1;
         Set<Prepack> traits = new Set<Prepack>();
         for(int i = 0; i<numberTraits; i++) {
             traits.add(rand.pickFrom(scenario.prepacks));
         }
+        ret.prepacks.addAll(traits);
         if(rand.nextBool()) ret.isActive = true;
         return ret;
 
@@ -117,7 +120,9 @@ class ScenarioRunner {
         }
         //could be some amount of randomness baked in
         if(numberTriesForScene > maxNumberTriesForScene) {
-            window.alert("something has gone wrong, went $numberTriesForScene loops without anything happening");
+            window.alert("something has gone wrong, went $numberTriesForScene loops without anything happening. There were ${activeEntitiesReadOnly.length} active entities.");
+            theEnd = true;
+            return;
         }
         Scene spotlightScene;
         List<Entity> entitiesToCheck = null;

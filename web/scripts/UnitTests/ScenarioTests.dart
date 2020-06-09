@@ -32,5 +32,6 @@ abstract class ScenarioTests {
         UnitTests.processTest("Scenario can be serialized to (${toTest.prepacks.length} prepacks and from ${recovered.prepacks.length} prepacks datastring",DataStringHelper.serializationToDataString("TestEffect",toTest.getSerialization()), DataStringHelper.serializationToDataString("TestEffect",recovered.getSerialization()), element);
 
 
+
     }
 }

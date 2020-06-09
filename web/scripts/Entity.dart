@@ -34,7 +34,7 @@ class Entity extends ArchivePNGObject {
     List<Prepack> prepacks;
 
     Doll _doll;
-    //used whether doll or not
+    //used whefther doll or not
     CanvasElement cachedCanvas;
     Scenario scenario;
     Random get rand => scenario.rand;
@@ -77,7 +77,12 @@ class Entity extends ArchivePNGObject {
             for(Generator g in p.generators) {
                 addGenerator(g);
                 if(p.initialKeysToGenerate.contains(g.key)){
-                    generateStringValueForKey(rand, g.key, "null");
+                    //let god sort it out. if somehow you have both string and num generators keyed to the same value just...figure it out.
+                    if(g is StringGenerator){
+                        generateStringValueForKey(rand, g.key, "null");
+                    }else if(g is NumGenerator) {
+                        generateNumValueForKey(rand, g.key, 0);
+                    }
                 }
             }
 
@@ -146,11 +151,20 @@ class Entity extends ArchivePNGObject {
         _generators.remove(key);
     }
 
+    bool hasStringGeneratorWithKey(String key) {
+        return _generators[key].where((Generator g) => g is StringGenerator).length > 0;
+    }
+
+    bool hasNumGeneratorWithKey(String key) {
+        return _generators[key].where((Generator g) => g is NumGenerator).length > 0;
+
+    }
+
     //TODO check if this key is in the blacklist
     //(this will be important for characters imported from wigglersim/creditsim so their stats aren't overriden)
     void generateStringValueForKey(Random rand, String key, String defaultValue){
         if(_generators.containsKey(key)){
-            setStringMemory(key,rand.pickFrom(_generators[key]).generateValue(rand));
+            setStringMemory(key,rand.pickFrom(_generators[key].where((Generator g) => g is StringGenerator)).generateValue(rand));
         }else{
            setStringMemory(key, defaultValue);
         }
@@ -158,7 +172,7 @@ class Entity extends ArchivePNGObject {
 
     void generateNumValueForKey(Random rand, String key, num defaultValue){
         if(_generators.containsKey(key)){
-            setNumMemory(key,rand.pickFrom(_generators[key]).generateValue(rand));
+            setNumMemory(key,rand.pickFrom(_generators[key].where((Generator g) => g is NumGenerator)).generateValue(rand));
         }else{
             setNumMemory(key, defaultValue);
         }

@@ -68,7 +68,9 @@ class Scenario extends ArchivePNGObject {
 
 
 
-    Scenario.empty();
+    Scenario.empty(){
+        scenarioRunner = new ScenarioRunner(this,13);
+    }
 
     //pass throughs for scenario runner
     bool get theEnd => scenarioRunner.theEnd;
