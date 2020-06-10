@@ -122,7 +122,8 @@ class SceneFormHelper {
             debugTextElement = new DivElement()..classes.add("subholder");
             parent.append(debugTextElement);
         }
-        debugTextElement..text = "Tags Identified in Text, Filters, And Actions: ${scene.allMemoryKeys.toList()}";
+        print("doing new tags");
+        debugTextElement.text = "Tags Identified in Text, Filters, And Actions: ${scene.allMemoryKeys.toList()}";
     }
 
 
@@ -278,7 +279,7 @@ class SceneFormHelper {
     }
 
      void syncDataStringToScene() {
-        print("syncing datastring to scene");
+        print("syncing datastring to scene callback is $callback");
         wireUpDebug(null);
         dataStringElement.value = scene.toDataString();
         if(callback !=null) callback();

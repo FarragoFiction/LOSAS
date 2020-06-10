@@ -15,15 +15,16 @@ void testForm(Element parent) {
       (e) => window.alert("test4 event fired with e of ${e.target.checked}"));
 }
  void wireUpScripting(TextAreaElement target, Element parent) {
-  SelectElement dropdown = attachDropDownElement(parent,"",[Scene.TARGETSTRINGMEMORYTAG,Scene.TARGETNUMMEMORYTAG,Scene.OWNERSTRINGMEMORYTAG,Scene.OWNERNUMMEMORYTAG],Scene.TARGETSTRINGMEMORYTAG,null);
-  TextInputElement text = attachInputElement(parent,null,"variableName",null);
-  text.parent.style.display = "inline-block";
-  dropdown.parent.style.display = "inline-block";
-  ButtonElement button = new ButtonElement()..text = "Insert ScriptTag"..style.display = "inline-block";
-  parent.append(button);
-  button.onClick.listen((Event e) {
-  target.value = "${target.value} ${dropdown.options[dropdown.selectedIndex].value}${text.value}]";
-  });
+    SelectElement dropdown = attachDropDownElement(parent,"",[Scene.TARGETSTRINGMEMORYTAG,Scene.TARGETNUMMEMORYTAG,Scene.OWNERSTRINGMEMORYTAG,Scene.OWNERNUMMEMORYTAG],Scene.TARGETSTRINGMEMORYTAG,null);
+    TextInputElement text = attachInputElement(parent,null,"variableName",null);
+    text.parent.style.display = "inline-block";
+    dropdown.parent.style.display = "inline-block";
+    ButtonElement button = new ButtonElement()..text = "Insert ScriptTag"..style.display = "inline-block";
+    parent.append(button);
+    button.onClick.listen((Event e) {
+      target.value = "${target.value} ${dropdown.options[dropdown.selectedIndex].value}${text.value}]";
+      target.dispatchEvent(new Event("input"));
+    });
 }
 
 Element attachInputElement(
@@ -34,7 +35,7 @@ Element attachInputElement(
   if(label != null) holder.append(labelElement);
   holder.append(inputElement);
   parent.append(holder);
-  inputElement.onInput.listen((Event e) => callback(e));
+  if(callback!=null)inputElement.onInput.listen((Event e) => callback(e));
   return inputElement;
 }
 
@@ -46,7 +47,7 @@ Element attachAreaElement(
   holder.append(labelElement);
   holder.append(inputElement);
   parent.append(holder);
-  inputElement.onInput.listen((Event e) => callback(e));
+  if(callback!=null) inputElement.onInput.listen((Event e) => callback(e));
   return inputElement;
 }
 
@@ -59,7 +60,7 @@ Element attachNumberInputElement(
   holder.append(labelElement);
   holder.append(inputElement);
   parent.append(holder);
-  inputElement.onInput.listen((Event e) => callback(e));
+  if(callback!=null) inputElement.onInput.listen((Event e) => callback(e));
   return inputElement;
 }
 
@@ -74,7 +75,7 @@ Element attachCheckInputElement(
   holder.append(labelElement);
   holder.append(inputElement);
   parent.append(holder);
-  inputElement.onInput.listen((Event e) => callback(e));
+  if(callback!=null) inputElement.onInput.listen((Event e) => callback(e));
   return inputElement;
 }
 
@@ -97,6 +98,6 @@ Element attachDropDownElement(
   holder.append(labelElement);
   holder.append(inputElement);
   parent.append(holder);
-  inputElement.onInput.listen((Event e) => callback(e));
+  if(callback!=null) inputElement.onInput.listen((Event e) => callback(e));
   return inputElement;
 }

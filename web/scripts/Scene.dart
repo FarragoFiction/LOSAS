@@ -92,21 +92,16 @@ class Scene extends DataObject {
             ret.addAll(effect.knownKeys);
         }
         for(final String text in [beforeFlavorText, afterFlavorText]) {
-            print("start of loop, text is $text, ret is $ret");
             ret.addAll(
                 Util.getTagsForKey(text, TARGETSTRINGMEMORYTAG));
-            print("after TARGETSTRINGMEMORYTAG ret is $ret");
 
             ret.addAll(
                 Util.getTagsForKey(text, TARGETNUMMEMORYTAG));
-            print("after TARGETNUMMEMORYTAG ret is $ret");
 
             ret.addAll(
                 Util.getTagsForKey(text, OWNERSTRINGMEMORYTAG));
-            print("after OWNERSTRINGMEMORYTAG ret is $ret");
 
             ret.addAll(Util.getTagsForKey(text, OWNERNUMMEMORYTAG));
-            print("after OWNERNUMMEMORYTAG ret is $ret");
 
         }
 
