@@ -131,11 +131,11 @@ class Scenario extends ArchivePNGObject {
             ret.addAll(p.allMemoryKeysRefScenes);
         }
         for(Scene s in frameScenes) {
-            ret.add("TODO framescenes");
+            ret.addAll(s.allMemoryKeys);
         }
 
         for(Scene s in stopScenes) {
-            ret.add("TODO stopScenes");
+            ret.addAll(s.allMemoryKeys);
 
         }
         return ret;

@@ -35,6 +35,7 @@ class SceneFormHelper {
     AudioElement bgMusicPreviewElement;
     InputElement authorElement;
     TextAreaElement beforeTextElement;
+    Element debugTextElement;
     TextAreaElement afterTextElement;
     CheckboxInputElement targetOneElement;
     Element filterHolder;
@@ -82,6 +83,7 @@ class SceneFormHelper {
             scene.targetOne = e.target.checked;
             syncDataStringToScene();
         });
+        wireUpDebug(formHolder);
 
 
         DivElement beforeTextHolder = new DivElement()..classes.add("subholder");
@@ -113,6 +115,14 @@ class SceneFormHelper {
         makeFilters(formHolder);
         makeActions(formHolder);
 
+    }
+
+    void wireUpDebug(Element parent) {
+        if(debugTextElement == null) {
+            debugTextElement = new DivElement()..classes.add("subholder");
+            parent.append(debugTextElement);
+        }
+        debugTextElement..text = "Tags Identified in Text, Filters, And Actions: ${scene.allMemoryKeys.toList()}";
     }
 
 
@@ -269,6 +279,7 @@ class SceneFormHelper {
 
      void syncDataStringToScene() {
         print("syncing datastring to scene");
+        wireUpDebug(null);
         dataStringElement.value = scene.toDataString();
         if(callback !=null) callback();
 
@@ -293,6 +304,7 @@ class SceneFormHelper {
         doMusic();
         makeFilters(null);
         makeActions(null);
+        wireUpDebug(null);
         if(callback !=null) callback();
 
      }

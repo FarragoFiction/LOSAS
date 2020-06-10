@@ -7,6 +7,7 @@ abstract class Util {
     static List<String> getTagsForKey(String text, String key) {
         List<String> ret = new List<String>();
         List<String> parts = text.split(key);
+        if(parts.length == 1) return []; //if you couldn't split the key aint in there.
         for(String part in parts) {
             List<String> subParts = part.split("]");
             if(subParts.length > 1) {
