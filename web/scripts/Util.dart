@@ -8,20 +8,16 @@ abstract class Util {
         List<String> ret = <String>[];
         dynamic matches = key.allMatches(text);
         for (Match m in matches) {
-            print(m.group);
             String match = m.group(0);
             if(match != null){
                 RegExp reg = new RegExp(r"[^.]*.[.]*]");
                 dynamic submatches = reg.allMatches(match);
                 for(Match m2 in submatches){
                     String match2 = m2.group(0);
-                    print(match2);
                     ret.add(match2.replaceAll("]",""));
                 }
 
             }
-            print(match);
-
         }
         return ret;
     }

@@ -84,6 +84,7 @@ class GameUI {
 
     void showScene(Scene spotlightScene)async {
         scenario.numberTriesForScene = 0;
+        spotlightScene.scenario ??= scenario;
         Element sceneElement = await spotlightScene.render(sceneElements.length);
         sceneElements.add(sceneElement);
         AudioElement audio = new AudioElement()..loop=true;
