@@ -5,7 +5,7 @@ import 'UnitTests.dart';
 abstract class UtilTests {
 
     static void run(Element element) {
-        List<String> parts = Util.getTagsForKey("Alice, having sent [OWNER.STRINGMEMORY.secretMessage] as a message. And her email is [OWNER.STRINGMEMORY.email] ",Scene.OWNERSTRINGMEMORYTAG);
+        List<String> parts = Util.getTagsForKey("Alice, having sent [OWNER.STRINGMEMORY.secretMessage] as a message. And her email is [OWNER.STRINGMEMORY.email] ",Scene.OWNERSTRINGMEMORYREGEXP);
         UnitTests.processTest("Util Tests ", ["secretMessage","email"].toString(), parts.toString(), element);
         Scenario scenario = Scenario.testScenario();
         UnitTests.setupAliceSendsMessage(scenario);
@@ -23,10 +23,10 @@ abstract class UtilTests {
 
     static void testTargetString(Element element) {
       String text = "The text before things happen. Uses markup like this [TARGET.STRINGMEMORY.name].";
-      List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYTAG);
-      List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYTAG);
-      List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYTAG);
-      List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYTAG);
+      List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYREGEXP);
+      List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYREGEXP);
+      List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYREGEXP);
+      List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYREGEXP);
 
       UnitTests.processTest("Util testTargetString get targetStringTags 1 ${targetStringTags} ", 1, targetStringTags.length, element);
       UnitTests.processTest("Util testTargetString get ownerStringTags 0 ${ownerStringTags}", 0, ownerStringTags.length, element);
@@ -36,10 +36,10 @@ abstract class UtilTests {
 
     static void testOwnerString(Element element) {
         String text = "The text before things happen. Uses markup like this [OWNER.STRINGMEMORY.name].";
-        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYTAG);
-        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYTAG);
-        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYTAG);
-        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYTAG);
+        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYREGEXP);
+        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYREGEXP);
+        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYREGEXP);
+        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYREGEXP);
 
         UnitTests.processTest("Util testOwnerString get targetStringTags 1 ${targetStringTags} ", 0, targetStringTags.length, element);
         UnitTests.processTest("Util testOwnerString get ownerStringTags 0 ${ownerStringTags}", 1, ownerStringTags.length, element);
@@ -49,10 +49,10 @@ abstract class UtilTests {
 
     static void testTargetNum(Element element) {
         String text = "The text before things happen. Uses markup like this [TARGET.NUMMEMORY.name].";
-        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYTAG);
-        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYTAG);
-        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYTAG);
-        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYTAG);
+        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYREGEXP);
+        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYREGEXP);
+        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYREGEXP);
+        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYREGEXP);
 
         UnitTests.processTest("Util testTargetNum get targetStringTags 1 ${targetStringTags} ", 0, targetStringTags.length, element);
         UnitTests.processTest("Util testTargetNum get ownerStringTags 0 ${ownerStringTags}", 0, ownerStringTags.length, element);
@@ -62,10 +62,10 @@ abstract class UtilTests {
 
     static void testOwnerNum(Element element) {
         String text = "The text before things happen. Uses markup like this [OWNER.NUMMEMORY.name].";
-        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYTAG);
-        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYTAG);
-        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYTAG);
-        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYTAG);
+        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYREGEXP);
+        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYREGEXP);
+        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYREGEXP);
+        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYREGEXP);
 
         UnitTests.processTest("Util testOwnerNum get targetStringTags 1 ${targetStringTags} ", 0, targetStringTags.length, element);
         UnitTests.processTest("Util testOwnerNum get ownerStringTags 0 ${ownerStringTags}", 0, ownerStringTags.length, element);
@@ -75,10 +75,10 @@ abstract class UtilTests {
 
     static void testMultiple(Element element) {
         String text = "The text [OWNER.NUMMEMORY.rank] before things [OWNER.NUMMEMORY.name] happen. Uses markup like this [OWNER.NUMMEMORY.name].";
-        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYTAG);
-        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYTAG);
-        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYTAG);
-        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYTAG);
+        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYREGEXP);
+        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYREGEXP);
+        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYREGEXP);
+        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYREGEXP);
 
         UnitTests.processTest("Util testMultiple get targetStringTags 3 ${targetStringTags} ", 0, targetStringTags.length, element);
         UnitTests.processTest("Util testMultiple get ownerStringTags 0 ${ownerStringTags}", 0, ownerStringTags.length, element);
@@ -87,11 +87,13 @@ abstract class UtilTests {
     }
 
     static void testClusterFuck(Element element) {
-        String text = "The [OWNER.STRINGMEMORY.name]text before things[TARGET.NUMMEMORY.name] happen. Uses [OWNER.STRINGMEMORY.name]markup like this [TARGET.STRINGMEMORY.name]. [OWNER.NUMMEMORY.name]";
-        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYTAG);
-        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYTAG);
-        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYTAG);
-        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYTAG);
+        String text = "The [OWNER.STRINGMEMORY.name] text before things [TARGET.NUMMEMORY.name] happen. Uses [OWNER.STRINGMEMORY.name] markup like this [TARGET.STRINGMEMORY.name]. [OWNER.NUMMEMORY.name]";
+        print("gonna test target");
+        List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYREGEXP);
+        print("gonna test owner");
+        List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYREGEXP);
+        List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYREGEXP);
+        List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYREGEXP);
 
         UnitTests.processTest("Util testClusterFuck get targetStringTags 1 ${targetStringTags} ", 1, targetStringTags.length, element);
         UnitTests.processTest("Util testClusterFuck get ownerStringTags 2 ${ownerStringTags}", 2, ownerStringTags.length, element);

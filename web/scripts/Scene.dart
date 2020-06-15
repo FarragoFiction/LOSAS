@@ -34,6 +34,11 @@ class Scene extends DataObject {
     static String TARGETNUMMEMORYTAG ="[TARGET.NUMMEMORY.";
     static String OWNERSTRINGMEMORYTAG ="[OWNER.STRINGMEMORY.";
     static String OWNERNUMMEMORYTAG ="[OWNER.NUMMEMORY.";
+    static RegExp TARGETSTRINGMEMORYREGEXP = new RegExp(r"\[TARGET.STRINGMEMORY[.][^\]]*]");
+    static RegExp TARGETNUMMEMORYREGEXP = new RegExp(r"\[TARGET.NUMMEMORY[.][^\]]*]");
+    static RegExp OWNERSTRINGMEMORYREGEXP = new RegExp(r"\[OWNER.STRINGMEMORY[.][^\]]*]");
+    static RegExp OWNERNUMMEMORYREGEXP = new RegExp(r"\[OWNER.NUMMEMORY[.][^\]]*]");
+
     Element container;
     String get bgLocation {
         if(bgLocationEndKey.isNotEmpty && owner != null && owner.hasStringKey(bgLocationEndKey)) {
@@ -93,15 +98,15 @@ class Scene extends DataObject {
         }
         for(final String text in [beforeFlavorText, afterFlavorText]) {
             ret.addAll(
-                Util.getTagsForKey(text, TARGETSTRINGMEMORYTAG));
+                Util.getTagsForKey(text, TARGETSTRINGMEMORYREGEXP));
 
             ret.addAll(
-                Util.getTagsForKey(text, TARGETNUMMEMORYTAG));
+                Util.getTagsForKey(text, TARGETNUMMEMORYREGEXP));
 
             ret.addAll(
-                Util.getTagsForKey(text, OWNERSTRINGMEMORYTAG));
+                Util.getTagsForKey(text, OWNERSTRINGMEMORYREGEXP));
 
-            ret.addAll(Util.getTagsForKey(text, OWNERNUMMEMORYTAG));
+            ret.addAll(Util.getTagsForKey(text, OWNERNUMMEMORYREGEXP));
 
         }
 
@@ -185,7 +190,7 @@ class Scene extends DataObject {
     }
 
     String processTargetStringTags(String text) {
-        List<String> tags = Util.getTagsForKey(text, TARGETSTRINGMEMORYTAG);
+        List<String> tags = Util.getTagsForKey(text, TARGETSTRINGMEMORYREGEXP);
         for(String tag in tags) {
             String replacement = "";
             for(Entity entity in finalTargets) {
@@ -203,7 +208,7 @@ class Scene extends DataObject {
     }
 
     String processTargetNumTags(String text) {
-        List<String> tags = Util.getTagsForKey(text, TARGETNUMMEMORYTAG);
+        List<String> tags = Util.getTagsForKey(text, TARGETNUMMEMORYREGEXP);
         for(String tag in tags) {
             String replacement = "";
             for(Entity entity in finalTargets) {
@@ -221,13 +226,13 @@ class Scene extends DataObject {
     }
 
     String processOwnerStringTags(String text) {
-        List<String> tags = Util.getTagsForKey(text, OWNERSTRINGMEMORYTAG);
+        List<String> tags = Util.getTagsForKey(text, OWNERSTRINGMEMORYREGEXP);
         tags.forEach((String tag) =>text = text.replaceAll("$OWNERSTRINGMEMORYTAG$tag","${owner.getStringMemory(tag)}"));
         return text;
     }
 
     String processOwnerNumTags(String text) {
-        List<String> tags = Util.getTagsForKey(text, OWNERNUMMEMORYTAG);
+        List<String> tags = Util.getTagsForKey(text, OWNERNUMMEMORYREGEXP);
         tags.forEach((String tag) =>text =text.replaceAll("$OWNERNUMMEMORYTAG$tag","${owner.getNumMemory(tag)}"));
         return text;
     }
