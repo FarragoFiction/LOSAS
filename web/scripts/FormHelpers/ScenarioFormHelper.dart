@@ -244,8 +244,8 @@ class ScenarioFormHelper {
                 CanvasElement element = p.externalForm.canvas
                     ..classes.add("prepack-icon");
                 sub.append(element);
-                ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x");
-                prepackHolder.append(remove);
+                ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x")..style.display="block";
+                sub.append(remove);
                 remove.onClick.listen((Event e ) {
                     scenario.prepacks.remove(p);
                     syncDataStringToScenario();
