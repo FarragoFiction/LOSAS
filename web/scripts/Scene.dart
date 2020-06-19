@@ -270,7 +270,7 @@ class Scene extends DataObject {
         DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add(className)..setInnerHtml("<h2>$className</h2>");
         for(Entity entity in scenario.activeEntitiesReadOnly) {
             DivElement entityElement = new DivElement()..classes.add("debugEntity");
-            Element header = new HeadingElement.h3()..text = "${entity.name}";
+            Element header = new HeadingElement.h3()..text = "${entity.getStringMemory("name")}: Active: ${entity.isActive}";
             entityElement.append(header);
             DivElement scenes = new DivElement()..text = "Scenes: ${entity.readOnlyScenes.join(",")}, ActivationScenes: ${entity.readOnlyActivationScenes.join(",")}";
             debug.append(entityElement);
