@@ -22,6 +22,7 @@ import 'TargetFilters/TargetFilter.dart';
     super hero au
     Space Infection
     SCP/SBURB
+     magic the gathering color wheel personality thing
     Star Trek
     Dungeon Desolation (play as a new dungeon, absorb things that wander in (creatures, adventurerers, gear, etc))
  */
