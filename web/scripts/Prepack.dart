@@ -22,6 +22,8 @@ class Prepack extends ArchivePNGObject {
     List<Generator> generators;
     //an entity given this prepack is going to have these scenes at a prioritization based on what order you give the prepacks to em
     List<Scene> scenes;
+    //prepacks can control what causes the entity to activate
+    List<Scene> activation_scenes;
     //when an entity slurps this prepack it keeps track of unique initial keys and generates shit based on them
     List<String> initialKeysToGenerate;
     String name;
@@ -41,6 +43,10 @@ class Prepack extends ArchivePNGObject {
     Set<String> get allMemoryKeysRefScenes {
         Set<String> ret = new Set.from(initialKeysToGenerate);
         for(Scene s in scenes) {
+            ret.addAll(s.allMemoryKeys);
+        }
+
+        for(Scene s in activation_scenes) {
             ret.addAll(s.allMemoryKeys);
         }
         return ret;

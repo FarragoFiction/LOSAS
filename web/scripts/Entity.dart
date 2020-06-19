@@ -89,6 +89,10 @@ class Entity extends ArchivePNGObject {
             for(Scene s in p.scenes) {
                 addScene(s);
             }
+
+            for(Scene s in p.activation_scenes) {
+                addActivationScene(s);
+            }
         }
 
     }
