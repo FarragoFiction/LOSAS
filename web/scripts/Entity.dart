@@ -231,8 +231,12 @@ class Entity extends ArchivePNGObject {
     }
 
     void setStringMemory(String key, String value) {
+        if(key == NAMEKEY) {
+            name = value;
+        }
         _stringMemory[key] = value;
     }
+
 
     num getNumMemory(String key) {
         if(_numMemory.containsKey(key)){
