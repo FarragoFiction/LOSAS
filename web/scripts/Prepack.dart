@@ -42,11 +42,11 @@ class Prepack extends ArchivePNGObject {
     //don't forget intro/outro
     Set<String> get allMemoryKeysRefScenes {
         Set<String> ret = new Set.from(initialKeysToGenerate);
-        for(Scene s in scenes) {
+        for(final Scene s in scenes) {
             ret.addAll(s.allMemoryKeys);
         }
 
-        for(Scene s in activation_scenes) {
+        for(final Scene s in activation_scenes) {
             ret.addAll(s.allMemoryKeys);
         }
         return ret;
