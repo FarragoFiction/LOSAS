@@ -70,8 +70,15 @@ class Prepack extends ArchivePNGObject {
       description = serialization["description"];
       initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
-      activation_scenes = new List.from((serialization["activation_scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
-      generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
+      if(serialization.containsKey("activation_scenes")) {
+          activation_scenes = new List.from(
+              (serialization["activation_scenes"] as List).map((
+                  subserialization) =>
+              new Scene.fromSerialization(subserialization)));
+      }else {
+          activation_scenes = [];
+      }
+          generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
       await loadImage(serialization);
 
   }
@@ -85,7 +92,7 @@ class Prepack extends ArchivePNGObject {
       ret["description"] = description;
       ret["initialKeysToGenerate"] = initialKeysToGenerate;
       ret["scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();
-      ret["activation_scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();
+      ret["activation_scenes"] = activation_scenes.map((Scene scene) => scene.getSerialization()).toList();
       ret["generators"] = generators.map((Generator gen) => gen.getSerialization()).toList();
       if(externalForm != null) ret["externalForm"] = externalForm.canvas.toDataUrl();
 
