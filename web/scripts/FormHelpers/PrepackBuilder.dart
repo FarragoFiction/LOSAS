@@ -32,6 +32,7 @@ class PrepackBuilder {
     Element stringGeneratorElement;
     Element numGeneratorElement;
     Element sceneElement;
+    Element activationSceneElement;
     Element archiveSaveButton;
     Element imageUploaderHolder;
     Element archiveUploaderHolder;
@@ -76,6 +77,7 @@ class PrepackBuilder {
         handleInitializers(formHolder);
         handleStringGenerators(formHolder);
         handleNumGenerators(formHolder);
+        handleActivationScenes(formHolder);
         handleScenes(formHolder);
     }
 
@@ -143,6 +145,12 @@ class PrepackBuilder {
         prepack.scenes.remove(s);
         syncDataStringToPrepack();
         handleScenes(null);
+    }
+
+    void removeActivationScene(Scene s) {
+        prepack.activation_scenes.remove(s);
+        syncDataStringToPrepack();
+        handleActivationScenes(null);
     }
 
     void handleStringGenerators(Element parent) {
@@ -221,6 +229,44 @@ class PrepackBuilder {
 
     }
 
+    void handleActivationScenes(Element parent) {
+        if(activationSceneElement == null) {
+            activationSceneElement = new Element.div()..classes.add("subholder");
+            parent.append(activationSceneElement);
+        }
+        activationSceneElement.text = "";
+        Element header = HeadingElement.h1()..text = "Associated Activation Scenes:";
+        DivElement instructions = new DivElement()..setInnerHtml("The conditions controlling when a character activates and what effect this has. Activated characters are free to do any of their non activation scenes afterwards.")..classes.add("instructions");
+        activationSceneElement.append(header);
+
+        activationSceneElement.append(instructions);
+
+
+
+        Scene s = SceneFormHelper.makeTestScene();
+        attachAreaElement(activationSceneElement, "Add Activation Scene From DataString:", "${s.toDataString()}", (e)
+        {
+            try {
+                s.loadFromDataString(e.target.value);
+            }catch(e) {
+                window.console.error(e);
+                window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+            }
+
+        });
+
+        ButtonElement button = new ButtonElement()..text = "Add Scene";
+        activationSceneElement.append(button);
+        button.onClick.listen((Event e) {
+            prepack.activation_scenes.add(s);
+            syncDataStringToPrepack();
+            handleActivationScenes(null);
+        });
+
+        renderActivationScenes();
+
+    }
+
     void handleScenes(Element parent) {
         if(sceneElement == null) {
             sceneElement = new Element.div()..classes.add("subholder");
@@ -228,7 +274,7 @@ class PrepackBuilder {
         }
         sceneElement.text = "";
         Element header = HeadingElement.h1()..text = "Associated Scenes:";
-        DivElement instructions = new DivElement()..setInnerHtml("The scenes a character has access to from their prepack. ")..classes.add("instructions");
+        DivElement instructions = new DivElement()..setInnerHtml("What actions the character takes while activated in the simulation.  ")..classes.add("instructions");
         sceneElement.append(header);
 
         sceneElement.append(instructions);
@@ -280,6 +326,14 @@ class PrepackBuilder {
             SceneFormHelper helper = new SceneFormHelper(s);
             helper.callback = syncDataStringToPrepack;
             await helper.makeBuilder(sceneElement,removeScene);
+        });
+    }
+
+    void renderActivationScenes() {
+        prepack.activation_scenes.forEach((Scene s) async {
+            SceneFormHelper helper = new SceneFormHelper(s);
+            helper.callback = syncDataStringToPrepack;
+            await helper.makeBuilder(activationSceneElement,removeActivationScene);
         });
     }
 
@@ -372,5 +426,7 @@ class PrepackBuilder {
         handleStringGenerators(null);
         handleNumGenerators(null);
         handleScenes(null);
+        handleActivationScenes(null);
+
     }
 }
