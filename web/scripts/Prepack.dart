@@ -52,7 +52,7 @@ class Prepack extends ArchivePNGObject {
         return ret;
     }
 
-    Prepack(this.name, this.description, this.author, this.initialKeysToGenerate,this.generators, this.scenes);
+    Prepack(this.name, this.description, this.author, this.initialKeysToGenerate,this.generators, this.scenes, this.activation_scenes);
     Prepack.empty();
 
     Prepack.fromDataString(String dataString){
@@ -70,6 +70,7 @@ class Prepack extends ArchivePNGObject {
       description = serialization["description"];
       initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
+      activation_scenes = new List.from((serialization["activation_scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
       generators = new List.from((serialization["generators"] as List).map((subserialization) => Generator.fromSerialization(subserialization)));
       await loadImage(serialization);
 
@@ -84,6 +85,7 @@ class Prepack extends ArchivePNGObject {
       ret["description"] = description;
       ret["initialKeysToGenerate"] = initialKeysToGenerate;
       ret["scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();
+      ret["activation_scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();
       ret["generators"] = generators.map((Generator gen) => gen.getSerialization()).toList();
       if(externalForm != null) ret["externalForm"] = externalForm.canvas.toDataUrl();
 

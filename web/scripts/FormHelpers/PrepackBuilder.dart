@@ -42,7 +42,7 @@ class PrepackBuilder {
     }
 
     static makeNewPrepack() {
-        return  new Prepack("Sample Prepack","Describe what kind of character would have this prepack, and what this prepack does.","???",[],[],[]);
+        return  new Prepack("Sample Prepack","Describe what kind of character would have this prepack, and what this prepack does.","???",[],[],[],[]);
     }
 
 
