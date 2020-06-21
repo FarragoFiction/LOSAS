@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:CommonLib/NavBar.dart';
 
+import 'scripts/FormHelpers/CharBuilder.dart';
 import 'scripts/FormHelpers/GameRunner.dart';
 import 'scripts/FormHelpers/NumGeneratorFormHelper.dart';
 import 'scripts/FormHelpers/PrepackBuilder.dart';
@@ -34,7 +35,7 @@ void main() async {
   }else if(Uri.base.queryParameters['mode'] == "betaGame") {
     await new GameRunner().makeUglyRunner(output);
   }else if(Uri.base.queryParameters['mode'] == "charBuilder") {
-    await new GameRunner().makeUglyRunner(output);
+    await new CharBuilder().makeBuilder(output);
   }else {
     GameUI game = new GameUI(Scenario.testScenario());
     UnitTests.runTests(output);
