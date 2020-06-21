@@ -105,6 +105,7 @@ class Entity extends ArchivePNGObject {
       setStringMemory(ORIGINALDOLLKEY,optionalDollString);
       setStringMemory(CURRENTDOLLKEY,optionalDollString);
       _doll = Doll.loadSpecificDoll(optionalDollString);
+      cachedCanvas = null;
       setStringMemory(SPECIESKEY,_doll.name);
       name ??= _doll.dollName;
     }
@@ -120,6 +121,7 @@ class Entity extends ArchivePNGObject {
 
     void setNewDoll(String dollString) {
         if(dollString != getStringMemory("currentDollString") && dollString != null && dollString.isNotEmpty) {
+
             try{
                 Doll testDoll = Doll.loadSpecificDoll(dollString);
                 setStringMemory(CURRENTDOLLKEY,dollString);
@@ -132,6 +134,8 @@ class Entity extends ArchivePNGObject {
 
         }
     }
+
+    String get dollstring => _doll.toDataBytesX();
 
     Future<CanvasElement> get canvas async {
         if(cachedCanvas == null) {
@@ -278,7 +282,6 @@ class Entity extends ArchivePNGObject {
       ret[ORIGINALDOLLKEY] = _doll.toDataBytesX();
       ret["isActive"] =isActive;
       ret["prepacks"] = prepacks.map((Prepack p) => p.getSerialization()).toList();
-      print("entity ret is $ret");
 
       return ret;
   }

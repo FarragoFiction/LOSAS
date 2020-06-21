@@ -10,7 +10,7 @@ class CharBuilder {
     Entity entity;
     TextAreaElement dataStringElement;
     InputElement nameElement;
-    Element archiveSaveButton;
+    Element dollHolder;
 
 
     CharBuilder([this.entity]) {
@@ -35,19 +35,43 @@ class CharBuilder {
             syncEntityToDataString(e.target.value));
         nameElement =
             attachInputElement(formHolder, "Name:", "${entity.name}", (e) {
+                print("name is going to be ${e.target.value}");
                 entity.name = e.target.value;
                 syncDataStringToEntity();
             });
+        handleDolls(formHolder);
     }
 
-    //any time the datastring gets changed the download link gets nuked
-    void clearArchiveDownload() {
-        if(archiveSaveButton != null ) archiveSaveButton.remove();
+    void handleDolls(Element parent) {
+        if(dollHolder == null) {
+            dollHolder = new Element.div()
+                ..classes.add("subholder");
+            parent.append(dollHolder);
+        }
+        dollHolder.text = "";
+        displayDoll();
+
+
     }
+
+    void displayDoll() async{
+        print("cached canvas is ${entity.cachedCanvas}");
+        CanvasElement canvas = await entity.canvas;
+        dollHolder.append(canvas);
+        attachAreaElement(
+            dollHolder, "DollString:", "${entity.dollstring}", (e){
+                print("going to change doll string to ${e.target.value}");
+            entity.setDollString(e.target.value);
+            handleDolls(null);
+            syncDataStringToEntity();
+        });
+    }
+
+
 
     void syncDataStringToEntity() {
         dataStringElement.value = entity.toDataString();
-        clearArchiveDownload();
+        print("value is ${dataStringElement.value}");
     }
 
     void syncEntityToDataString(String dataString) async {
@@ -59,6 +83,7 @@ class CharBuilder {
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
         }
         nameElement.value = entity.name;
+        handleDolls(null);
 
     }
 
