@@ -29,6 +29,7 @@ class Entity extends ArchivePNGObject {
     String author;
     @override
     String name;
+    //todo load this from doll type
     bool facingRightByDefault = true;
     int maxCanvasWidth  =400;
     List<Prepack> prepacks;
@@ -102,6 +103,7 @@ class Entity extends ArchivePNGObject {
       setStringMemory(CURRENTDOLLKEY,optionalDollString);
       _doll = Doll.loadSpecificDoll(optionalDollString);
       setStringMemory(SPECIESKEY,_doll.name);
+      name ??= _doll.dollName;
     }
 
     @override
@@ -252,14 +254,26 @@ class Entity extends ArchivePNGObject {
 
 
   @override
-  Future<void> loadFromSerialization(Map<String,dynamic > serialization) {
-    // TODO: implement loadFromSerialization
+  Future<void> loadFromSerialization(Map<String,dynamic > serialization) async{
+      name = serialization["name"];
+      setDollString(serialization["ORIGINALDOLLKEY"]);
+      prepacks = new List<Prepack>();
+      for(Map<String,dynamic> subserialization in serialization["prepacks"]) {
+          print("loading a subserialization");
+          final Prepack p = new Prepack.empty();
+          await p.loadFromSerialization(subserialization);
+          prepacks.add(p);
+      }
   }
 
   @override
   Map<String,dynamic > getSerialization() {
-    // TODO: implement getSerialization
-    return null;
+      Map<String,dynamic> ret = new Map<String,dynamic>();
+      ret["name"] = name;
+      ret[ORIGINALDOLLKEY] = _doll.toDataBytesX();
+      ret["prepacks"] = prepacks.map((Prepack p) => p.getSerialization()).toList();
+
+      return ret;
   }
 
 
