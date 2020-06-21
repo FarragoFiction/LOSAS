@@ -19,7 +19,6 @@ abstract class ScenarioTests {
         toTest.stopScenes.add(scene);
         toTest.frameScenes.add(scene);
         Map<String, dynamic> serialization = await toTest.getSerialization();
-        print("Scenario unit test datastring is \n\n${toTest.toDataString()}");
         toTest.toDataString();
         Scenario scenario = new Scenario.empty();
         await scenario.loadFromDataString(toTest.toDataString());

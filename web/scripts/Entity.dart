@@ -65,6 +65,9 @@ class Entity extends ArchivePNGObject {
         }
     }
 
+    Entity.empty();
+
+
     Entity.fromDataString(String dataString){
         loadFromDataString(dataString);
     }
@@ -255,8 +258,10 @@ class Entity extends ArchivePNGObject {
 
   @override
   Future<void> loadFromSerialization(Map<String,dynamic > serialization) async{
+        print("serialization keys are ${serialization.keys}");
       name = serialization["name"];
-      setDollString(serialization["ORIGINALDOLLKEY"]);
+      setDollString(serialization[ORIGINALDOLLKEY]);
+      isActive = serialization["isActive"];
       prepacks = new List<Prepack>();
       for(Map<String,dynamic> subserialization in serialization["prepacks"]) {
           print("loading a subserialization");
@@ -271,7 +276,9 @@ class Entity extends ArchivePNGObject {
       Map<String,dynamic> ret = new Map<String,dynamic>();
       ret["name"] = name;
       ret[ORIGINALDOLLKEY] = _doll.toDataBytesX();
+      ret["isActive"] =isActive;
       ret["prepacks"] = prepacks.map((Prepack p) => p.getSerialization()).toList();
+      print("entity ret is $ret");
 
       return ret;
   }

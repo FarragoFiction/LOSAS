@@ -26,6 +26,7 @@ import '../TargetFilters/KeepIfRandomNumberLessThan.dart';
 import '../TargetFilters/KeepIfYouAreMe.dart';
 import 'ActionEffectTests.dart';
 import 'DollTests.dart';
+import 'EntityTests.dart';
 import 'GeneratorTests.dart';
 import 'IntegrationTests.dart';
 import '../Scenario.dart';
@@ -84,6 +85,7 @@ abstract class UnitTests {
         PrepackTests.run(element);
         SceneTests.run(element);
         ScenarioTests.run(element);
+        EntityTests.run(element);
         TargetFilterTests.run(element);
         ActionEffectTests.run(element);
         IntegrationTests.run(element);
