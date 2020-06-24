@@ -43,6 +43,27 @@ td{
    color:white;
 }
 
+.char_preview{
+    display: inline-block;
+}
+
+.char_name{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.prepack_pellet{
+    display: inline-block;
+    min-width: 50px;
+    height: 20px;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.3);
+}
+
 html:not([data-seerOf=void]) .void {
   display:none;
 }

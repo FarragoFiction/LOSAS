@@ -42,7 +42,6 @@ class ScenarioRunner {
 
     void curtainsUp(Element parent) {
         print("curtains are going up");
-        if(_entities.length == 0 ) batshitchars();
         game = new GameUI(scenario);
         print("made a new game");
         game.setup(parent);

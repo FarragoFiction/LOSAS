@@ -3,6 +3,8 @@ import 'dart:html';
 import 'package:ImageLib/Encoding.dart';
 import 'package:LoaderLib/Loader.dart';
 
+import '../Entity.dart';
+import '../Prepack.dart';
 import '../Scenario.dart';
 import 'GenericFormHelper.dart';
 
@@ -11,6 +13,7 @@ class GameRunner {
     Scenario scenario;
     int seed = 13;
     Element container;
+    Element charHolder;
 
     void makeUglyRunner(Element parent) {
         container =parent;
@@ -41,12 +44,41 @@ class GameRunner {
         await scenario.loadFromArchive(png);
         scenario.seed = seed;
         archiveUploaderHolder.append(scenario.externalForm.canvas);
+        displayChars(container);
         ButtonElement button = new ButtonElement()..text = "Run Batshit Mode";
         archiveUploaderHolder.append(button);
         button.onClick.listen((Event e) {
             archiveUploaderHolder.remove();
             scenario.curtainsUp(container);
         });
+    }
+
+    //TODO update this any time the seed  changes or a new scenario is uploaded
+    Future<void> displayChars(Element parent) async {
+        scenario.scenarioRunner.batshitchars();
+        if(charHolder == null) {
+            charHolder = new Element.div()..classes.add("subholder");
+            parent.append(charHolder);
+        }
+        charHolder.text = "";
+        for(Entity char in scenario.entitiesReadOnly) {
+            drawOneChar(char, charHolder);
+        }
+
+    }
+
+    Future<void> drawOneChar(Entity char,Element parent) async {
+        DivElement ce = new DivElement()..classes.add("char_preview");
+        parent.append(ce);
+        CanvasElement canvas = await char.canvas;
+        ce.append(canvas);
+        DivElement name = new DivElement()..text = char.name..classes.add("char_name");
+        ce.append(name);
+
+        for(Prepack p in char.prepacks) {
+            DivElement pelement = new DivElement()..classes.add("prepack_pellet")..text = p.name;
+            ce.append(pelement);
+        }
     }
 
 }

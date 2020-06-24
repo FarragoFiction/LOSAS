@@ -94,7 +94,7 @@ class Entity extends ArchivePNGObject {
             _initStringMemory[NAMEKEY]= this.name;
             _initStringMemory[ORIGINALNAMEKEY] =this.name;
         }
-        
+
         for(String key in _initStringMemory.keys) {
             setStringMemory(key, _initStringMemory[key]);
         }
