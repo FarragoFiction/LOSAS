@@ -20,6 +20,8 @@ class GameRunner {
         Element seedElement = attachNumberInputElement(parent, "Seed:", 13, (e)
         {
             seed = num.parse(e.target.value);
+            scenario.nukeTheOldSeed(seed);
+            displayChars(null);
         });
         handleLoadingScenarioFromImage();
 

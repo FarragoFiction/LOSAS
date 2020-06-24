@@ -142,8 +142,13 @@ class Scenario extends ArchivePNGObject {
         return ret;
     }
 
+    //fucking destroy the old runner because you don't care about existing entities
+    void nukeTheOldSeed(int seed) {
+        scenarioRunner = new ScenarioRunner(this,seed);
+    }
 
 
+//TODO future JR i'm warning you right now that there might be consequences if the scenario has any data that ISN'T murdered from this.
   @override
   Future<void>  loadFromSerialization(Map<String, dynamic > serialization) async {
       scenarioRunner = new ScenarioRunner(this,13);
