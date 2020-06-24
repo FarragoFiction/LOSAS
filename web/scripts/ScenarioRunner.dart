@@ -65,6 +65,8 @@ class ScenarioRunner {
 
     Entity spawnOneBatShitChar(Random rand) {
         Doll doll = new PigeonDoll();
+        doll.rand = scenario.rand;
+        doll.randomize();
         Entity ret = new Entity(doll.dollName,[],doll.toDataBytesX());
         int numberTraits = rand.nextInt(3)+1;
         Set<Prepack> traits = new Set<Prepack>();
