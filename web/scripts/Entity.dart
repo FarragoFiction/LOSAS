@@ -40,9 +40,14 @@ class Entity extends ArchivePNGObject {
     Scenario scenario;
     Random get rand => scenario.rand;
     Map<String,String> _stringMemory = new Map<String,String>();
+    //overrides prepacks and shit
+    Map<String,String> _initStringMemory = new Map<String,String>();
     Map<String,String> get readOnlyStringMemory => new Map<String,String>.from(_stringMemory);
     Map<String,dynamic> get debugMemory => new Map<String,dynamic>.from(_stringMemory)..addAll(_numMemory);
     Map<String,num> _numMemory = new Map<String, num>();
+    //overrides prepacks and shit
+    Map<String,num> _initialNumMemory = new Map<String, num>();
+
     Map<String,num> get readOnlyNumMemory => new Map<String,num>.from(_numMemory);
 
     //a generator will create a value for a given key and store it in either string memory or num memory based on what it is.
@@ -60,6 +65,8 @@ class Entity extends ArchivePNGObject {
     Entity(this.name, this.prepacks, optionalDollString) {
         setStringMemory(NAMEKEY,this.name);
         setStringMemory(ORIGINALNAMEKEY,this.name);
+
+
         if(optionalDollString != null) {
             setDollString(optionalDollString);
         }
@@ -74,6 +81,27 @@ class Entity extends ArchivePNGObject {
 
     Entity.fromSerialization(Map<String, dynamic> serialization){
         loadFromSerialization(serialization);
+    }
+
+    void init(Random rand) {
+        processPrepacks(rand);
+        overridePrepacks();
+    }
+
+    void overridePrepacks() {
+        //prepack can only set name if it was null originally
+        if(name != null) {
+            _initStringMemory[NAMEKEY]= this.name;
+            _initStringMemory[ORIGINALNAMEKEY] =this.name;
+        }
+        
+        for(String key in _initStringMemory.keys) {
+            setStringMemory(key, _initStringMemory[key]);
+        }
+
+        for(String key in _initialNumMemory.keys) {
+            setNumMemory(key, _initialNumMemory[key]);
+        }
     }
 
     void processPrepacks(Random rand) {
@@ -104,6 +132,9 @@ class Entity extends ArchivePNGObject {
     void setDollString(optionalDollString) {
       setStringMemory(ORIGINALDOLLKEY,optionalDollString);
       setStringMemory(CURRENTDOLLKEY,optionalDollString);
+      _initStringMemory[ORIGINALDOLLKEY]= optionalDollString;
+      _initStringMemory[CURRENTDOLLKEY]= optionalDollString;
+
       _doll = Doll.loadSpecificDoll(optionalDollString);
       cachedCanvas = null;
       setStringMemory(SPECIESKEY,_doll.name);

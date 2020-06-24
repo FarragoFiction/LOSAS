@@ -79,7 +79,7 @@ class ScenarioRunner {
     }
 
     void initializeEntities() {
-        _entities.forEach((Entity e) => e.processPrepacks(rand));
+        _entities.forEach((Entity e) => e.init(rand));
     }
 
     void addEntity(Entity entity) {
