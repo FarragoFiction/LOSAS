@@ -11,6 +11,7 @@ class CharBuilder {
     TextAreaElement dataStringElement;
     InputElement nameElement;
     Element dollHolder;
+    CheckboxInputElement activeElement;
 
 
     CharBuilder([this.entity]) {
@@ -39,6 +40,12 @@ class CharBuilder {
                 entity.name = e.target.value;
                 syncDataStringToEntity();
             });
+
+        activeElement = attachCheckInputElement(formHolder, "Spawns Active", entity.isActive, (e)
+        {
+            entity.isActive = e.target.checked;
+            syncDataStringToEntity();
+        });
         handleDolls(formHolder);
     }
 
@@ -83,6 +90,7 @@ class CharBuilder {
             window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
         }
         nameElement.value = entity.name;
+        activeElement.checked = entity.isActive;
         handleDolls(null);
 
     }
