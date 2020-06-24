@@ -146,7 +146,8 @@ class Scenario extends ArchivePNGObject {
 
   @override
   Future<void>  loadFromSerialization(Map<String, dynamic > serialization) async {
-    author = serialization["author"];
+      scenarioRunner = new ScenarioRunner(this,13);
+      author = serialization["author"];
     name = serialization["name"];
     description = serialization["description"];
     frameScenes = new List.from((serialization["frameScenes"] as List).map((subserialization) => Scene.fromSerialization(subserialization)));
