@@ -34,8 +34,6 @@ void main() async {
     await new ScenarioFormHelper().makeBuilder(output);
   }else if(Uri.base.queryParameters['mode'] == "betaGame") {
     await new GameRunner().makeUglyRunner(output);
-  }else if(Uri.base.queryParameters['mode'] == "charBuilder") {
-    await new CharBuilder().makeBuilder(output);
   }else {
     GameUI game = new GameUI(Scenario.testScenario());
     UnitTests.runTests(output);
@@ -50,7 +48,6 @@ void debugLinks(Element parent) {
   addDebugLink(parent, "${window.location.href}?mode=numGeneratorBuilder", "NumGeneratorBuilder");
   addDebugLink(parent, "${window.location.href}?mode=prepackBuilder", "PrepackBuilder");
   addDebugLink(parent, "${window.location.href}?mode=scenarioBuilder", "ScenarioBuilder");
-  addDebugLink(parent, "${window.location.href}?mode=charBuilder", "CharBuilder");
   addDebugLink(parent, "${window.location.href}?mode=betaGame", "BetaGame");
 
 

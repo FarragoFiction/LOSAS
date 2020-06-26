@@ -3,15 +3,20 @@ import 'dart:html';
 
 import '../Entity.dart';
 import '../Game.dart';
+import '../Prepack.dart';
+import '../Scenario.dart';
 import 'GenericFormHelper.dart';
 
 class CharBuilder {
     static String fileKey = "${GameUI.dataPngFolder}${Entity.dataPngFile}";
     Entity entity;
+    //slurp these from any scenarios uploaded
+    List<Prepack> prepacks = <Prepack>[];
     TextAreaElement dataStringElement;
     InputElement nameElement;
     Element dollHolder;
     CheckboxInputElement activeElement;
+    Element scenarioElement;
 
 
     CharBuilder([this.entity]) {
@@ -24,13 +29,8 @@ class CharBuilder {
 
     void makeBuilder(Element parent) async {
         DivElement formHolder = new DivElement()
-            ..classes.add("formHolder");
+            ..classes.add("charBuilder");
         parent.append(formHolder);
-        DivElement instructions = new DivElement()
-            ..setInnerHtml(
-                "A character is the basic unit of LOSAS. Whether a main character or a side one, they do things in the story and have things done to them.  They have a variety of traits which control their behavior.")
-            ..classes.add("instructions");
-        formHolder.append(instructions);
         dataStringElement = attachAreaElement(
             formHolder, "DataString:", "${entity.toDataString()}", (e) =>
             syncEntityToDataString(e.target.value));
@@ -41,13 +41,28 @@ class CharBuilder {
                 syncDataStringToEntity();
             });
 
+
         activeElement = attachCheckInputElement(formHolder, "Spawns Active", entity.isActive, (e)
         {
             entity.isActive = e.target.checked;
             syncDataStringToEntity();
         });
         handleDolls(formHolder);
+        handlePrepacks(formHolder);
     }
+
+    void handlePrepacks(Element parent) {
+        //TODO allow this to have a button to add a new prepack from a drop down based on all prepacks available in entities scenario
+        renderPrepacks(parent);
+    }
+
+    void renderPrepacks(Element parent) {
+        for(Prepack p in entity.prepacks) {
+            DivElement pelement = new DivElement()..classes.add("prepack_pellet")..text = p.name;
+            parent.append(pelement);
+        }
+    }
+
 
     void handleDolls(Element parent) {
         if(dollHolder == null) {
@@ -63,7 +78,7 @@ class CharBuilder {
 
     void displayDoll() async{
         print("cached canvas is ${entity.cachedCanvas}");
-        CanvasElement canvas = await entity.canvas;
+        CanvasElement canvas = await entity.thumbnail;
         dollHolder.append(canvas);
         attachAreaElement(
             dollHolder, "DollString:", "${entity.dollstring}", (e){

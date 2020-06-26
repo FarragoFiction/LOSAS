@@ -232,7 +232,6 @@ class ScenarioFormHelper {
     }
 
     void renderPrepacks() {
-        print("IN FORM: Rendering prepacks, there are ${scenario.prepacks.length} prepacks");
         scenario.prepacks.forEach((Prepack p)
         {
             print('rendering prepack ${p.name}');

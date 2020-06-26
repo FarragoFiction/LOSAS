@@ -37,6 +37,7 @@ class Entity extends ArchivePNGObject {
     Doll _doll;
     //used whefther doll or not
     CanvasElement cachedCanvas;
+    CanvasElement cachedThumbnail;
     Scenario scenario;
     Random get rand => scenario.rand;
     Map<String,String> _stringMemory = new Map<String,String>();
@@ -86,6 +87,9 @@ class Entity extends ArchivePNGObject {
     void init(Random rand) {
         processPrepacks(rand);
         overridePrepacks();
+        if(name == null) {
+            setStringMemory(NAMEKEY, _doll.dollName);
+        }
     }
 
     void overridePrepacks() {
@@ -136,7 +140,7 @@ class Entity extends ArchivePNGObject {
       _initStringMemory[CURRENTDOLLKEY]= optionalDollString;
 
       _doll = Doll.loadSpecificDoll(optionalDollString);
-      cachedCanvas = null;
+      invalidateCaches();
       setStringMemory(SPECIESKEY,_doll.name);
       name ??= _doll.dollName;
     }
@@ -144,6 +148,11 @@ class Entity extends ArchivePNGObject {
     @override
     String toString() {
         return name;
+    }
+
+    void invalidateCaches() {
+        cachedCanvas = null;
+        cachedThumbnail = null;
     }
 
     void restoreDollToOriginal() {
@@ -157,7 +166,7 @@ class Entity extends ArchivePNGObject {
                 Doll testDoll = Doll.loadSpecificDoll(dollString);
                 setStringMemory(CURRENTDOLLKEY,dollString);
                 //forces a reload later.
-                cachedCanvas = null;
+                invalidateCaches();
                 _doll = testDoll;
             }catch(e) {
                 print("Exception Caught: $e");
@@ -181,6 +190,21 @@ class Entity extends ArchivePNGObject {
             cachedCanvas.context2D.drawImageScaled(fullSizeCanvas,0,0, newWidth, newHeight);
         }
         return cachedCanvas;
+    }
+
+    Future<CanvasElement> get thumbnail async {
+        if(cachedThumbnail == null) {
+            CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
+            int newWidth = 100;
+            int newHeight = ((100/fullSizeCanvas.width*fullSizeCanvas.height)).round();
+            if(newHeight > Scene.stageHeight) {
+                newHeight = Scene.stageHeight;
+                newWidth = ((newHeight/fullSizeCanvas.height)*fullSizeCanvas.width).round();
+            }
+            cachedThumbnail = new CanvasElement(width: newWidth, height: newHeight);
+            cachedThumbnail.context2D.drawImageScaled(fullSizeCanvas,0,0, newWidth, newHeight);
+        }
+        return cachedThumbnail;
     }
 
     void addGenerator(Generator generator) {
