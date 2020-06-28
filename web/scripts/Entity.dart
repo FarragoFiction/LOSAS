@@ -93,12 +93,6 @@ class Entity extends ArchivePNGObject {
     }
 
     void overridePrepacks() {
-        //prepack can only set name if it was null originally
-        if(name != null) {
-            _initStringMemory[NAMEKEY]= this.name;
-            _initStringMemory[ORIGINALNAMEKEY] =this.name;
-        }
-
         for(String key in _initStringMemory.keys) {
             setStringMemory(key, _initStringMemory[key]);
         }
@@ -301,6 +295,10 @@ class Entity extends ArchivePNGObject {
         _stringMemory[key] = value;
     }
 
+    void setInitStringMemory(String key, String value) {
+        _initStringMemory[key] = value;
+    }
+
 
     num getNumMemory(String key) {
         if(_numMemory.containsKey(key)){
@@ -312,6 +310,10 @@ class Entity extends ArchivePNGObject {
 
     void setNumMemory(String key, num value) {
         _numMemory[key] = value;
+    }
+
+    void setInitNumMemory(String key, num value) {
+        _initialNumMemory[key] = value;
     }
 
 
