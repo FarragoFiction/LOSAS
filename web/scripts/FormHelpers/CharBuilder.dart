@@ -79,8 +79,8 @@ class CharBuilder {
     }
 
     void displayDoll() async{
-        print("cached canvas is ${entity.cachedCanvas}");
         CanvasElement canvas = await entity.thumbnail;
+        nameElement.value = entity.name;
         dollHolder.append(canvas);
         attachAreaElement(
             dollHolder, "DollString:", "${entity.dollstring}", (e){

@@ -173,6 +173,8 @@ class Entity extends ArchivePNGObject {
 
     Future<CanvasElement> get canvas async {
         if(cachedCanvas == null) {
+            if(name == null || name.trim().isEmpty) setStringMemory(NAMEKEY,_doll.dollName);
+            print("setting canvas for $name, their doll name is ${_doll.dollName}");
             CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
             int newWidth = maxCanvasWidth;
             int newHeight = ((maxCanvasWidth/fullSizeCanvas.width*fullSizeCanvas.height)).round();
@@ -187,7 +189,9 @@ class Entity extends ArchivePNGObject {
     }
 
     Future<CanvasElement> get thumbnail async {
-        if(cachedThumbnail == null) {
+        if(cachedThumbnail == null || name.isEmpty) {
+            print("setting canvas for $name, their doll name is ${_doll.dollName}");
+            if(name == null || name.trim().isEmpty) setStringMemory(NAMEKEY,_doll.dollName);
             CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
             int newWidth = 100;
             int newHeight = ((100/fullSizeCanvas.width*fullSizeCanvas.height)).round();

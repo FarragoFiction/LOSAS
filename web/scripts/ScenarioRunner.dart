@@ -76,7 +76,6 @@ class ScenarioRunner {
         ret.prepacks.addAll(traits);
         if(rand.nextBool()) ret.isActive = true;
         return ret;
-
     }
 
     void initializeEntities() {
