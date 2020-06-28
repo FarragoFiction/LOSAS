@@ -35,11 +35,13 @@ class CharBuilder {
             formHolder, "DataString:", "${entity.toDataString()}", (e) =>
             syncEntityToDataString(e.target.value));
         nameElement =
-            attachInputElement(formHolder, "Name:", "${entity.name}", (e) {
-                print("name is going to be ${e.target.value}");
+            attachInputElement(formHolder, "Name*: ", "${entity.name}", (e) {
                 entity.name = e.target.value;
+                entity.setInitStringMemory(Entity.NAMEKEY, entity.name);
                 syncDataStringToEntity();
             });
+        final DivElement note = new DivElement()..text = "* Note: Default name is the name for the current doll, may change if prepacks override this. ";
+            formHolder.append(note);
 
 
         activeElement = attachCheckInputElement(formHolder, "Spawns Active", entity.isActive, (e)
