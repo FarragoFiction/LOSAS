@@ -81,6 +81,7 @@ class CharBuilder {
     void displayDoll() async{
         CanvasElement canvas = await entity.thumbnail;
         nameElement.value = entity.name;
+        syncDataStringToEntity();
         dollHolder.append(canvas);
         attachAreaElement(
             dollHolder, "DollString:", "${entity.dollstring}", (e){

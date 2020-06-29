@@ -327,6 +327,13 @@ class Entity extends ArchivePNGObject {
       name = serialization["name"];
       setDollString(serialization[ORIGINALDOLLKEY]);
       isActive = serialization["isActive"];
+      if(serialization.containsKey("_initStringMemory")){
+          _initStringMemory = new Map<String,String>.from(serialization["_initStringMemory"]);
+      }
+
+        if(serialization.containsKey("_initialNumMemory")){
+            _initialNumMemory = new Map<String,num>.from(serialization["_initialNumMemory"]);
+        }
       prepacks = new List<Prepack>();
       for(Map<String,dynamic> subserialization in serialization["prepacks"]) {
           print("loading a subserialization");
@@ -343,6 +350,8 @@ class Entity extends ArchivePNGObject {
       ret[ORIGINALDOLLKEY] = _doll.toDataBytesX();
       ret["isActive"] =isActive;
       ret["prepacks"] = prepacks.map((Prepack p) => p.getSerialization()).toList();
+      ret["_initStringMemory"] = _initStringMemory;
+      ret["_initialNumMemory"] = _initialNumMemory;
 
       return ret;
   }
