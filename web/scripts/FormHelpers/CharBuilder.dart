@@ -17,6 +17,7 @@ class CharBuilder {
     Element dollHolder;
     CheckboxInputElement activeElement;
     Element scenarioElement;
+    Element prepackHolder;
 
 
     CharBuilder([this.entity]) {
@@ -54,14 +55,59 @@ class CharBuilder {
     }
 
     void handlePrepacks(Element parent) {
-        //TODO allow this to have a button to add a new prepack from a drop down based on all prepacks available in entities scenario
-        renderPrepacks(parent);
+        if(parent !=null) {
+            prepackHolder = new DivElement();
+            parent.append(prepackHolder);
+        }
+        prepackHolder.text = "";
+        renderPrepacks(prepackHolder);
     }
 
     void renderPrepacks(Element parent) {
         for(Prepack p in entity.prepacks) {
             DivElement pelement = new DivElement()..classes.add("prepack_pellet")..text = p.name;
             parent.append(pelement);
+            ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x")..style.display="inline-block";
+            pelement.append(remove);
+            remove.onClick.listen((Event e ) {
+                entity.prepacks.remove(p);
+                syncDataStringToEntity();
+                handlePrepacks(null);
+            });
+        }
+        DivElement pelement = new DivElement()..classes.add("prepack_pellet")..text = "+"..classes.add("plus");
+        parent.append(pelement);
+        pelement.onClick.listen((Event e) {
+            renderPrepackPicker(parent);
+        });
+    }
+
+    void renderPrepackPicker(Element parent) {
+        Element popup = new DivElement()..classes.add("popup");
+        Element header = HeadingElement.h1()..text = "Add prepack to ${entity.name}:";
+        popup.append(header);
+        parent.append(popup);
+        for(Prepack p in entity.scenario.prepacks) {
+            print('rendering prepack ${p.name}');
+            DivElement sub = new DivElement()..style.display = "inline-block";
+            DivElement text = new DivElement()..text = p.name;
+            popup.append(sub);
+
+            try {
+                CanvasElement element = p.externalForm.canvas
+                    ..classes.add("prepack-icon");
+                sub.append(element);
+
+            }catch(e) {
+                window.alert("some kind of error displaying prepack, are you sure it had an image?");
+            }
+            sub.append(text);
+            sub.onClick.listen((Event e) {
+                popup.remove();
+                entity.prepacks.add(p);
+                handlePrepacks(null);
+                syncDataStringToEntity();
+            });
         }
     }
 
@@ -96,7 +142,6 @@ class CharBuilder {
 
     void syncDataStringToEntity() {
         dataStringElement.value = entity.toDataString();
-        print("value is ${dataStringElement.value}");
     }
 
     void syncEntityToDataString(String dataString) async {
@@ -110,6 +155,7 @@ class CharBuilder {
         nameElement.value = entity.name;
         activeElement.checked = entity.isActive;
         handleDolls(null);
+        handlePrepacks(null);
 
     }
 

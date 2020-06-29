@@ -89,6 +89,25 @@
     margin: 5px;
 }
 
+.prepack_pellet .x{
+    display: inline-block;
+    background-color: red;
+    padding: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+
+.plus{
+    display: inline-block;
+    background-color: green;
+    min-width: 0px;
+    cursor: pointer;
+}
+
 .formHolder select{
     color: yellow;
     background-color: rgba(0,0,0,0.3);
