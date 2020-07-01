@@ -83,6 +83,8 @@ class Scenario extends ArchivePNGObject {
     void lookForNextScene() => scenarioRunner.lookForNextScene();
     void curtainsUp(Element parent) => scenarioRunner.curtainsUp(parent);
     void addEntity(Entity entity,[int index]) => scenarioRunner.addEntity(entity,index);
+    void removeEntity(Entity entity) => scenarioRunner.removeEntity(entity);
+
     int get seed => scenarioRunner.seed;
     set seed(int value) => scenarioRunner.seed =value;
 

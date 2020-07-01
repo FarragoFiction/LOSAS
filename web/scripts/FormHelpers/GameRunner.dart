@@ -94,7 +94,7 @@ class GameRunner {
 
     //TODO update this any time the seed  changes or a new scenario is uploaded
     Future<void> displayChars(Element parent) async {
-        scenario.scenarioRunner.batshitchars();
+        if(scenario.scenarioRunner.entitiesReadOnly.isEmpty) scenario.scenarioRunner.batshitchars();
         if(charHolder == null) {
             charHolder = new Element.div()..classes.add("subholder");
             parent.append(charHolder);
@@ -141,6 +141,12 @@ class GameRunner {
         DivElement ce = new DivElement()..classes.add("char_preview");
         parent.append(ce);
         CharBuilder cb = new CharBuilder(char);
+        ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x");
+        ce.append(remove);
+        remove.onClick.listen((Event e ) {
+            scenario.removeEntity(cb.entity);
+            displayChars(null);
+        });
         cb.makeBuilder(ce);
     }
 

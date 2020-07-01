@@ -41,24 +41,24 @@
     <li>action effect for killing, reviving or deleting (can not be revived, removed from scenario entirely) a char. dead chars can not take actions but can be acted upon.</li>
     <li>target filter for dead chars (but not deleted. dead are still targetable, deleted are just gone)</li>
     <li>make a few scenarios, play around, have fun</li>
-    <li>prepacks can specify a doll type to sample from? (not a generator, just a new field) (scenario will need this for char gen) (bastard prepack makes you a bro, alice/bob/carol make you pigeon? dqon makes you literally dqon, (might could just be a string generator for dqon) etc). in sburb player makes you a kid or whatever, denizen makes you a denizen, etc</li>
-    <li>make sure reference memory keys are a thing so that aspect sets associated good/bad stats (or wahtever) adn class can modify them
-   <li>maybe things like stored [TARGET.STRINGMEMORY.ASSOCIATEDGOODSTAT] as the key to add -13 to or whatever</li></li>
-    <li>SBURBSimple scenario (make as much sburb as you can with the current system)</li>
-    <li>make bro a bard of blood (he unites everyone to destroy him) test reference memory keys (he should lower everyones loyal value or whatever)</li>
-    <li>figure out how to detect if char should be facing left by default</li>
-
-    <li>action effect scromble scene priority (shuffle scene list)</li>
-    <li>make final game builder initial state (load a scenario from list, then scramble prepacks in suggested chars)</li>
-    <li>scenario generators should define defaults like "dollstring for moon" (moon generator will define palette, class will define layers), "dollstring for godtier" (aspect generator will define palette, class will define layers, caste will define wing layer?), "dollstring for dead" (player defined?), "dollstring for grimdark" (player defined?) that sort of thing.  Observers can redefine these defaults</li>
-    <li>make final game builder state 1: load a scenario from list, change suggest chars add/remove char slots</li>
-    <li>make final game builder state2: load a scenario from list, add prepacks from ANY scenario in that list </li>
-    <li>make final game builder state4: load a scenario from list OR FILE, add prepacks from ANY scenario in that list OR FILE </li>
-    <li>make final game builder state3: load a scenario from list OR INTERNET, add prepacks from ANY scenario in that list OR INTERNET </li>
-
-    <li>(useful for romance)filters for both target and owner having the same value stored to two given keys (checks both num and string for key)</li>
     <h1>Major TODO</h1>
     <br>
+ <li>prepacks can specify a doll type to sample from? (not a generator, just a new field) (scenario will need this for char gen) (bastard prepack makes you a bro, alice/bob/carol make you pigeon? dqon makes you literally dqon, (might could just be a string generator for dqon) etc). in sburb player makes you a kid or whatever, denizen makes you a denizen, etc</li>
+ <li>make sure reference memory keys are a thing so that aspect sets associated good/bad stats (or wahtever) adn class can modify them
+ <li>maybe things like stored [TARGET.STRINGMEMORY.ASSOCIATEDGOODSTAT] as the key to add -13 to or whatever</li></li>
+ <li>SBURBSimple scenario (make as much sburb as you can with the current system)</li>
+ <li>make bro a bard of blood (he unites everyone to destroy him) test reference memory keys (he should lower everyones loyal value or whatever)</li>
+ <li>figure out how to detect if char should be facing left by default</li>
+
+ <li>action effect scromble scene priority (shuffle scene list)</li>
+ <li>make final game builder initial state (load a scenario from list, then scramble prepacks in suggested chars)</li>
+ <li>scenario generators should define defaults like "dollstring for moon" (moon generator will define palette, class will define layers), "dollstring for godtier" (aspect generator will define palette, class will define layers, caste will define wing layer?), "dollstring for dead" (player defined?), "dollstring for grimdark" (player defined?) that sort of thing.  Observers can redefine these defaults</li>
+ <li>make final game builder state 1: load a scenario from list, change suggest chars add/remove char slots</li>
+ <li>make final game builder state2: load a scenario from list, add prepacks from ANY scenario in that list </li>
+ <li>make final game builder state4: load a scenario from list OR FILE, add prepacks from ANY scenario in that list OR FILE </li>
+ <li>make final game builder state3: load a scenario from list OR INTERNET, add prepacks from ANY scenario in that list OR INTERNET </li>
+
+ <li>(useful for romance)filters for both target and owner having the same value stored to two given keys (checks both num and string for key)</li>
 
     <li>refactor dollsim to have better doll builder maybe? modals with part previews?</li>
     <li>shareable sessions (scenario + char list + seed)</li>

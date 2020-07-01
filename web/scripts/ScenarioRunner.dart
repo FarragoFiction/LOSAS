@@ -91,6 +91,10 @@ class ScenarioRunner {
         entity.scenario = scenario;
     }
 
+    void removeEntity(Entity entity) {
+        _entities.remove(entity);
+    }
+
     void debugScenario() {
         entitiesReadOnly.forEach((Entity e)=> print(e.debugString()));
     }

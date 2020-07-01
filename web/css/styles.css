@@ -53,6 +53,20 @@ td{
     padding: 30px;
     background-color: rgba(0,0,0,0.3);
     box-shadow: 0px 0px 20px #000000;
+    position: relative;
+}
+
+.char_preview .x{
+        display: inline-block;
+        background-color: red;
+        padding: 0px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        padding-left: 3px;
+        padding-right: 3px;
+        cursor: pointer;
+        margin: 5px;
 }
 
 .char_name{
