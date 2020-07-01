@@ -82,7 +82,7 @@ class Scenario extends ArchivePNGObject {
     set numberTriesForScene(int val) => scenarioRunner.numberTriesForScene = val;
     void lookForNextScene() => scenarioRunner.lookForNextScene();
     void curtainsUp(Element parent) => scenarioRunner.curtainsUp(parent);
-    void addEntity(Entity entity) => scenarioRunner.addEntity(entity);
+    void addEntity(Entity entity,[int index]) => scenarioRunner.addEntity(entity,index);
     int get seed => scenarioRunner.seed;
     set seed(int value) => scenarioRunner.seed =value;
 

@@ -106,10 +106,35 @@ class GameRunner {
         charHolder.append(header);
         charHolder.append(instructions);
 
+        handleNewCharButton();
+
         for(Entity char in scenario.entitiesReadOnly) {
             drawOneChar(char, charHolder);
         }
 
+    }
+
+    void handleNewCharButton() {
+       DivElement div = new DivElement();
+       charHolder.append(div);
+      Entity c = CharBuilder.makeNewEntity();
+      attachAreaElement(div, "Add Char From DataString:", "${c.toDataString()}", (e)
+      {
+          try {
+              c.loadFromDataString(e.target.value);
+          }catch(e) {
+              window.console.error(e);
+              window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+          }
+
+      });
+
+      ButtonElement button = new ButtonElement()..text = "Add Char";
+      div.append(button);
+      button.onClick.listen((Event e) {
+          scenario.addEntity(c,0);
+          displayChars(null);
+      });
     }
 
     Future<void> drawOneChar(Entity char,Element parent) async {

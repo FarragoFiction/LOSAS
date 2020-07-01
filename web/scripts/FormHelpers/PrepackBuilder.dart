@@ -182,7 +182,7 @@ class PrepackBuilder {
          ButtonElement button = new ButtonElement()..text = "Add String Generator";
          stringGeneratorElement.append(button);
          button.onClick.listen((Event e) {
-             prepack.generators.add(g);
+             prepack.generators.insert(0,g);
              syncDataStringToPrepack();
              handleStringGenerators(null);
         });
@@ -217,10 +217,10 @@ class PrepackBuilder {
 
         });
 
-        ButtonElement button = new ButtonElement()..text = "Add String Generator";
+        ButtonElement button = new ButtonElement()..text = "Add Num Generator";
         numGeneratorElement.append(button);
         button.onClick.listen((Event e) {
-            prepack.generators.add(g);
+            prepack.generators.insert(0,g);
             syncDataStringToPrepack();
             handleNumGenerators(null);
         });
@@ -258,7 +258,7 @@ class PrepackBuilder {
         ButtonElement button = new ButtonElement()..text = "Add Scene";
         activationSceneElement.append(button);
         button.onClick.listen((Event e) {
-            prepack.activation_scenes.add(s);
+            prepack.activation_scenes.insert(0,s);
             syncDataStringToPrepack();
             handleActivationScenes(null);
         });
@@ -296,7 +296,7 @@ class PrepackBuilder {
         ButtonElement button = new ButtonElement()..text = "Add Scene";
         sceneElement.append(button);
         button.onClick.listen((Event e) {
-            prepack.scenes.add(s);
+            prepack.scenes.insert(0,s);
             syncDataStringToPrepack();
             handleScenes(null);
         });

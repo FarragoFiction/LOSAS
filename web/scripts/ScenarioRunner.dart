@@ -82,8 +82,12 @@ class ScenarioRunner {
         _entities.forEach((Entity e) => e.init(rand));
     }
 
-    void addEntity(Entity entity) {
-        _entities.add(entity);
+    void addEntity(Entity entity, [index]) {
+        if(index != null) {
+            _entities.insert(index,entity);
+        }else {
+            _entities.add(entity);
+        }
         entity.scenario = scenario;
     }
 
