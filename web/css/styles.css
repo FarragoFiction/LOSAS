@@ -56,7 +56,7 @@ td{
     position: relative;
 }
 
-.char_preview .x{
+.char_preview .remove{
         display: inline-block;
         background-color: red;
         padding: 0px;

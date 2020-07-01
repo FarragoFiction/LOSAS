@@ -141,7 +141,7 @@ class GameRunner {
         DivElement ce = new DivElement()..classes.add("char_preview");
         parent.append(ce);
         CharBuilder cb = new CharBuilder(char);
-        ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x");
+        ButtonElement remove = new ButtonElement()..text = "x"..classes.add("remove");
         ce.append(remove);
         remove.onClick.listen((Event e ) {
             scenario.removeEntity(cb.entity);
