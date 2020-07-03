@@ -4,6 +4,7 @@
 import 'dart:async';
 import 'dart:html';
 
+import 'package:DollLibCorrect/DollRenderer.dart';
 import 'package:ImageLib/Encoding.dart';
 
 import 'DataObject.dart';
@@ -18,6 +19,8 @@ class Prepack extends ArchivePNGObject {
     ArchivePng externalForm;
     @override
     String fileKey = "${GameUI.dataPngFolder}${Prepack.dataPngFile}";
+    int suggestedDollType;
+    String suggestedDollTypeName;
 
     List<Generator> generators;
     //an entity given this prepack is going to have these scenes at a prioritization based on what order you give the prepacks to em
@@ -63,10 +66,25 @@ class Prepack extends ArchivePNGObject {
         loadFromSerialization(serialization);
     }
 
+    void slurpDollTypeFromString(String dollString) {
+        Doll doll  = Doll.loadSpecificDoll(dollString);
+        if(doll != null) {
+            suggestedDollType = doll.renderingType;
+            suggestedDollTypeName = doll.name;
+        }
+    }
+
   @override
   Future<void> loadFromSerialization(Map<String, dynamic> serialization) async {
       author = serialization["author"];
       name = serialization["name"];
+      if(serialization.containsKey("suggestedDollType")){
+        suggestedDollType = serialization["suggestedDollType"];
+      }
+
+      if(serialization.containsKey("suggestedDollTypeName")){
+          suggestedDollTypeName = serialization["suggestedDollTypeName"];
+      }
       description = serialization["description"];
       initialKeysToGenerate = new List<String>.from(serialization["initialKeysToGenerate"]);
       scenes = new List.from((serialization["scenes"] as List).map((subserialization) => new Scene.fromSerialization(subserialization)));
@@ -89,6 +107,9 @@ class Prepack extends ArchivePNGObject {
       Map<String,dynamic> ret = new Map<String,dynamic>();
       ret["author"] = author;
       ret["name"] = name;
+      if(suggestedDollType != null) ret["suggestedDollType"] = suggestedDollType;
+      if(suggestedDollTypeName != null) ret["suggestedDollTypeName"] = suggestedDollTypeName;
+
       ret["description"] = description;
       ret["initialKeysToGenerate"] = initialKeysToGenerate;
       ret["scenes"] = scenes.map((Scene scene) => scene.getSerialization()).toList();

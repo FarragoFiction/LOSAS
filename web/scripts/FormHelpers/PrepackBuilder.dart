@@ -36,13 +36,16 @@ class PrepackBuilder {
     Element archiveSaveButton;
     Element imageUploaderHolder;
     Element archiveUploaderHolder;
+    TextAreaElement dollTypeElement;
+    Element dollTypeLabel;
 
+    String get dollTypeLabelText => "This prepack generates dolls of type: ${prepack.suggestedDollType} (${prepack.suggestedDollTypeName})";
 
     PrepackBuilder([this.prepack]) {
         this.prepack ??= makeNewPrepack();
     }
 
-    static makeNewPrepack() {
+    static Prepack makeNewPrepack() {
         return  new Prepack("Sample Prepack","Describe what kind of character would have this prepack, and what this prepack does.","???",[],[],[],[]);
     }
 
@@ -74,6 +77,16 @@ class PrepackBuilder {
             syncDataStringToPrepack();
         });
 
+
+        dollTypeLabel = new DivElement()..text = dollTypeLabelText;
+
+        dollTypeElement = attachAreaElement(formHolder, "Example DollString :", "", (e)
+        {
+            prepack.slurpDollTypeFromString(e.target.value);
+            dollTypeLabel.text = dollTypeLabelText;
+            syncDataStringToPrepack();
+        });
+        formHolder.append(dollTypeLabel);
         handleInitializers(formHolder);
         handleStringGenerators(formHolder);
         handleNumGenerators(formHolder);
@@ -422,6 +435,7 @@ class PrepackBuilder {
         authorElement.value = prepack.author;
         nameElement.value = prepack.name;
         descElement.value = prepack.description;
+        dollTypeLabel.text = dollTypeLabelText;
         handleInitializers(null);
         handleStringGenerators(null);
         handleNumGenerators(null);
