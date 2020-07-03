@@ -64,7 +64,7 @@ class ScenarioRunner {
     }
 
     Entity spawnOneBatShitChar(Random rand) {
-        Doll doll = new PigeonDoll();
+        Doll doll = new PigeonDoll(); //if a prepack doesn't do any overriding, this is just what the doll defaults to.
         doll.rand = scenario.rand;
         doll.randomize();
         Entity ret = new Entity(doll.dollName,[],doll.toDataBytesX());

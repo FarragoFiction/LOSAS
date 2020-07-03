@@ -104,7 +104,9 @@ class Entity extends ArchivePNGObject {
     }
 
     void processPrepacks(Random rand) {
+        List<int> possibleDollTypes = <int>[];
         for(Prepack p in prepacks) {
+            if(p.suggestedDollType != null) possibleDollTypes.add(p.suggestedDollType);
             for(Generator g in p.generators) {
                 addGenerator(g);
                 if(p.initialKeysToGenerate.contains(g.key)){
@@ -126,6 +128,15 @@ class Entity extends ArchivePNGObject {
             }
         }
 
+        if(possibleDollTypes.isNotEmpty) {
+            randomDollOfType(rand.pickFrom(possibleDollTypes));
+        }
+
+    }
+
+    void randomDollOfType(int type) {
+        Doll doll = Doll.randomDollOfType(type);
+        setDollString(doll.toDataBytesX);
     }
 
     void setDollString(optionalDollString) {
