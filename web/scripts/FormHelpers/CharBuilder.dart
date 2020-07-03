@@ -71,6 +71,7 @@ class CharBuilder {
             remove.onClick.listen((Event e ) {
                 entity.prepacks.remove(p);
                 entity.init();
+                handleDolls(null);
                 syncDataStringToEntity();
                 handlePrepacks(null);
             });
@@ -106,6 +107,7 @@ class CharBuilder {
                 popup.remove();
                 entity.prepacks.add(p);
                 entity.init();
+                handleDolls(null);
                 handlePrepacks(null);
                 syncDataStringToEntity();
             });

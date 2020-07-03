@@ -89,6 +89,8 @@ class Entity extends ArchivePNGObject {
 
     void clear() {
         rand = new Random(initial_seed);
+        cachedCanvas = null;
+        cachedThumbnail = null;
         _stringMemory.clear();
         _numMemory.clear();
         _scenes.clear();
