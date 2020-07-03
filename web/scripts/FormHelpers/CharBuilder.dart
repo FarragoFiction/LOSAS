@@ -25,7 +25,7 @@ class CharBuilder {
     }
 
     static makeNewEntity() {
-        return new Entity("Alice",[],"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true..facingRightByDefault=false;
+        return new Entity("Alice",[],"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true;
     }
 
     void makeBuilder(Element parent) async {

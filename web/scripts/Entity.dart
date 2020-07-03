@@ -30,7 +30,8 @@ class Entity extends ArchivePNGObject {
     @override
     String name;
     //todo load this from doll type
-    bool facingRightByDefault = true;
+    static bool defaultFaceRight =true;
+    bool get facingRightByDefault => _doll != null? _doll.facesRight : defaultFaceRight;
     int maxCanvasWidth  =400;
     List<Prepack> prepacks;
 
