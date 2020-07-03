@@ -13,10 +13,12 @@ import '../ActionEffects/AECopyNumToTarget.dart';
 import '../ActionEffects/AECopyStringFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
 import '../ActionEffects/AERemoveGeneratorsForKey.dart';
+import '../ActionEffects/AERestoreDoll.dart';
 import '../ActionEffects/AESetDollStringFromMyMemory.dart';
 import '../ActionEffects/AESetDollStringFromYourMemory.dart';
 import '../ActionEffects/AESetNumGenerator.dart';
 import '../ActionEffects/AESetStringGenerator.dart';
+import '../ActionEffects/AETransformDoll.dart';
 import '../DataStringHelper.dart';
 import 'UnitTests.dart';
 
@@ -44,6 +46,8 @@ abstract class ActionEffectTests {
         testCopyNumFrom(element);
         testDollStringFromMemory(element);
         testNoDoubles(element);
+        testRestoreDoll(element);
+        testTransformDoll(element);
         testSerialization(element);
 
     }
@@ -203,6 +207,34 @@ abstract class ActionEffectTests {
         scene.applyEffects();
         UnitTests.processTest("testDollStringFromMemory currentDollString does change if its a valid string.", "DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=", e.getStringMemory(Entity.CURRENTDOLLKEY), element);
     }
+
+    static void testTransformDoll(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AETransformDoll(null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        Entity e = scenario.entitiesReadOnly[1];
+        e.setDollStringAndOriginal(new EasterEggDoll().toDataBytesX());
+        String originalDollString = e.getStringMemory("originalDollString");
+        scene.applyEffects();
+        UnitTests.processTest("testTransformDoll currentDollString transforms ${e.getStringMemory(Entity.CURRENTDOLLKEY)} vs ${originalDollString}", true, e.getStringMemory(Entity.CURRENTDOLLKEY) != originalDollString, element);
+    }
+
+    static void testRestoreDoll(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AERestoreDoll(null);
+        scene.effects.add(effect);
+        scene.targets.add(scenario.entitiesReadOnly[1]);
+        Entity e = scenario.entitiesReadOnly[1];
+        String originalDollString = e.getStringMemory("originalDollString");
+        e.setNewDoll("DQ0N:___DYSQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDKklg=");
+
+        UnitTests.processTest("testRestoreDoll currentDollString starts out as not original.", true, originalDollString != e.getStringMemory(Entity.CURRENTDOLLKEY), element);
+        scene.applyEffects();
+        UnitTests.processTest("testRestoreDoll currentDollString is restored to original.", originalDollString, e.getStringMemory(Entity.CURRENTDOLLKEY), element);
+        }
 
     static void testUnSetString(element) {
         Scenario scenario = Scenario.testScenario();

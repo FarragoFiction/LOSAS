@@ -70,7 +70,7 @@ class Entity extends ArchivePNGObject {
         rand = new Random(initial_seed);
         setStringMemory(ORIGINALNAMEKEY,this.name);
         if(optionalDollString != null) {
-            setDollString(optionalDollString);
+            setDollStringAndOriginal(optionalDollString);
         }
     }
 
@@ -152,10 +152,11 @@ class Entity extends ArchivePNGObject {
         Doll doll = Doll.randomDollOfType(type);
         doll.rand = rand;
         doll.randomize();
-        setDollString(doll.toDataBytesX());
+        setDollStringAndOriginal(doll.toDataBytesX());
     }
 
-    void setDollString(optionalDollString) {
+    //does set original
+    void setDollStringAndOriginal(optionalDollString) {
       setStringMemory(ORIGINALDOLLKEY,optionalDollString);
       setStringMemory(CURRENTDOLLKEY,optionalDollString);
       _initStringMemory[ORIGINALDOLLKEY]= optionalDollString;
@@ -181,7 +182,18 @@ class Entity extends ArchivePNGObject {
         setNewDoll(getStringMemory("originalDollString"));
     }
 
+    void hatch() {
+        print("attempting to hatch $name");
+        if(_doll is HatchableDoll) {
+            print("$name is hatchable");
+            Doll hatched_chick = (_doll as HatchableDoll).hatch();
+            setNewDoll(hatched_chick.toDataBytesX());
+        }
+    }
+
+    //doesn't override original
     void setNewDoll(String dollString) {
+        print("trying to set new doll of $dollString for $name");
         if(dollString != getStringMemory("currentDollString") && dollString != null && dollString.isNotEmpty) {
 
             try{
@@ -353,7 +365,7 @@ class Entity extends ArchivePNGObject {
   Future<void> loadFromSerialization(Map<String,dynamic > serialization) async{
         print("serialization keys are ${serialization.keys}");
       name = serialization["name"];
-      setDollString(serialization[ORIGINALDOLLKEY]);
+      setDollStringAndOriginal(serialization[ORIGINALDOLLKEY]);
       isActive = serialization["isActive"];
       if(serialization.containsKey("_initStringMemory")){
           _initStringMemory = new Map<String,String>.from(serialization["_initStringMemory"]);

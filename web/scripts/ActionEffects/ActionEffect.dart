@@ -16,12 +16,14 @@ import 'AECopyNumToTarget.dart';
 import 'AECopyStringFromTarget.dart';
 import 'AECopyStringToTarget.dart';
 import 'AERemoveGeneratorsForKey.dart';
+import 'AERestoreDoll.dart';
 import 'AESetDollStringFromMyMemory.dart';
 import 'AESetDollStringFromYourMemory.dart';
 import 'AESetNum.dart';
 import 'AESetNumGenerator.dart';
 import 'AESetString.dart';
 import 'AESetStringGenerator.dart';
+import 'AETransformDoll.dart';
 import 'AEUnAppendString.dart';
 import 'AEUnSetString.dart';
 
@@ -77,7 +79,7 @@ abstract class ActionEffect {
     }
 
     static void setExamples() {
-      exampleOfAllEffects ??= <ActionEffect>[new AEAddGenerator(null), new AERemoveAllGeneratorsForKey(null),new AEUnSetString(null),new AEAddScene(null),new AEAddSceneFromOwner(null),new AEAddSceneFromTarget(null),new AEUnAppendString(null,null),new AESetStringGenerator(null,null),new AESetString(null,null),new AESetNumGenerator(null,null),new AESetNum(null,null),new AESetDollStringFromYourMemory(null),new AESetDollStringFromMyMemory(null),new AECopyStringToTarget(null,null),new AECopyStringFromTarget(null,null),new AECopyNumToTarget(null,null),new AECopyNumFromTarget(null,null),new AEAppendStringFront(null,null),new AEAppendString(null,null),new AEAddNum(null,null), new AEAddNumFromYourMemory(null,null),new AEAddNumFromMyMemory(null,null)];
+      exampleOfAllEffects ??= <ActionEffect>[new AETransformDoll(null),new AERestoreDoll(null), new AEAddGenerator(null), new AERemoveAllGeneratorsForKey(null),new AEUnSetString(null),new AEAddScene(null),new AEAddSceneFromOwner(null),new AEAddSceneFromTarget(null),new AEUnAppendString(null,null),new AESetStringGenerator(null,null),new AESetString(null,null),new AESetNumGenerator(null,null),new AESetNum(null,null),new AESetDollStringFromYourMemory(null),new AESetDollStringFromMyMemory(null),new AECopyStringToTarget(null,null),new AECopyStringFromTarget(null,null),new AECopyNumToTarget(null,null),new AECopyNumFromTarget(null,null),new AEAppendStringFront(null,null),new AEAppendString(null,null),new AEAddNum(null,null), new AEAddNumFromYourMemory(null,null),new AEAddNumFromMyMemory(null,null)];
     }
 
     void effectEntities(Entity effector, List<Entity> entities);

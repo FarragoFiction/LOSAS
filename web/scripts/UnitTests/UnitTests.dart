@@ -79,7 +79,6 @@ abstract class UnitTests {
             div.classes.add("failed");
             element.append(div);
         });
-        print("todo test VRISKA for one filter and one effect");
         UtilTests.run(element);
         GeneratorTests.run(element);
         PrepackTests.run(element);

@@ -88,9 +88,7 @@ abstract class UtilTests {
 
     static void testClusterFuck(Element element) {
         String text = "The [OWNER.STRINGMEMORY.name] text before things [TARGET.NUMMEMORY.name] happen. Uses [OWNER.STRINGMEMORY.name] markup like this [TARGET.STRINGMEMORY.name]. [OWNER.NUMMEMORY.name]";
-        print("gonna test target");
         List<String> targetStringTags = Util.getTagsForKey(text, Scene.TARGETSTRINGMEMORYREGEXP);
-        print("gonna test owner");
         List<String> ownerStringTags = Util.getTagsForKey(text, Scene.OWNERSTRINGMEMORYREGEXP);
         List<String> targetNumTags = Util.getTagsForKey(text, Scene.TARGETNUMMEMORYREGEXP);
         List<String> ownerNumTags = Util.getTagsForKey(text, Scene.OWNERNUMMEMORYREGEXP);

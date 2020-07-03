@@ -135,7 +135,7 @@ class CharBuilder {
         attachAreaElement(
             dollHolder, "DollString:", "${entity.dollstring}", (e){
                 print("going to change doll string to ${e.target.value}");
-            entity.setDollString(e.target.value);
+            entity.setDollStringAndOriginal(e.target.value);
             handleDolls(null);
             syncDataStringToEntity();
         });
