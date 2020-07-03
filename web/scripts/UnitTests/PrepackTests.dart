@@ -16,7 +16,7 @@ abstract class PrepackTests {
         UnitTests.processTest("Prepack Test: Entity, preinitialization should have no activation scenes.", 0, entity.readOnlyActivationScenes.length, element);
 
         entity.prepacks.add(prepack);
-        entity.processPrepacks(new Random());
+        entity.processPrepacks();
         UnitTests.processTest("Prepack Test: Entity, post initialization should have 1 generator.", 1, entity.readOnlyGenerators.keys.length, element);
         UnitTests.processTest("Prepack Test: Entity, preinitialization should have 1 scene.", 1, entity.readOnlyScenes.length, element);
         UnitTests.processTest("Prepack Test: Entity, preinitialization should have 1 activation scene.", 1, entity.readOnlyActivationScenes.length, element);

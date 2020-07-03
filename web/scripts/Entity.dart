@@ -100,7 +100,7 @@ class Entity extends ArchivePNGObject {
 
     void init() {
         clear();
-        processPrepacks(rand);
+        processPrepacks();
         overridePrepacks();
         if(name == null) {
             setStringMemory(NAMEKEY, _doll.dollName);
@@ -117,35 +117,52 @@ class Entity extends ArchivePNGObject {
         }
     }
 
-    void processPrepacks(Random rand) {
+    void processPrepacks() {
         List<int> possibleDollTypes = <int>[];
         for(Prepack p in prepacks) {
             if(p.suggestedDollType != null) possibleDollTypes.add(p.suggestedDollType);
-            for(Generator g in p.generators) {
-                addGenerator(g);
-                if(p.initialKeysToGenerate.contains(g.key)){
-                    //let god sort it out. if somehow you have both string and num generators keyed to the same value just...figure it out.
-                    if(g is StringGenerator){
-                        generateStringValueForKey(rand, g.key, "null");
-                    }else if(g is NumGenerator) {
-                        generateNumValueForKey(rand, g.key, 0);
-                    }
-                }
-            }
-
-            for(Scene s in p.scenes) {
-                addScene(s);
-            }
-
-            for(Scene s in p.activation_scenes) {
-                addActivationScene(s);
-            }
+            processSinglePrepack(p);
         }
 
         if(possibleDollTypes.isNotEmpty) {
             randomDollOfType(rand.pickFrom(possibleDollTypes));
         }
 
+    }
+
+    //mostly used as an action effect, if you want someone to, say, no longer count as a magical girl this is your function
+    void unprocessSinglePrepack(Prepack p) {
+        for(Generator g in p.generators) {
+            removeGenerator(g);
+        }
+
+        for(Scene s in p.scenes) {
+            removeScene(s);
+        }
+
+        for(Scene s in p.activation_scenes) {
+            removeActivationScene(s);
+        }
+    }
+
+    void processSinglePrepack(Prepack p) {
+      for(Generator g in p.generators) {
+          addGenerator(g);
+          if(p.initialKeysToGenerate.contains(g.key)){
+              //let god sort it out. if somehow you have both string and num generators keyed to the same value just...figure it out.
+              if(g is StringGenerator){
+                  generateStringValueForKey(rand, g.key, "null");
+              }else if(g is NumGenerator) {
+                  generateNumValueForKey(rand, g.key, 0);
+              }
+          }
+      }
+      for(Scene s in p.scenes) {
+          addScene(s);
+      }
+      for(Scene s in p.activation_scenes) {
+          addActivationScene(s);
+      }
     }
 
     void randomDollOfType(int type) {
@@ -189,6 +206,48 @@ class Entity extends ArchivePNGObject {
             Doll hatched_chick = (_doll as HatchableDoll).hatch();
             setNewDoll(hatched_chick.toDataBytesX());
         }
+    }
+
+    bool hasPrepack(Prepack p) {
+        for(Generator g in p.generators) {
+            bool found = hasGenerator(g);
+            if(!found) return false;
+        }
+        for(Scene s in p.scenes) {
+            bool found = hasScene(s);
+            if(!found) return false;        }
+        for(Scene s in p.activation_scenes) {
+            bool found = hasActivationScene(s);
+            if(!found) return false;        }
+        //if i haven't said no yet, this counts
+        return true;
+    }
+
+    bool hasActivationScene(Scene s) {
+        for(Scene s2 in _activationScenes) {
+            if(s2.toDataString() == s.toDataString()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool hasScene(Scene s) {
+        for(Scene s2 in _scenes) {
+            if(s2.toDataString() == s.toDataString()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool hasGenerator(Generator g) {
+       for(Generator g2 in _generators[g.key]) {
+          if(g2.toDataString() == g.toDataString()){
+              return true;
+          }
+      }
+       return false;
     }
 
     //doesn't override original
@@ -253,6 +312,19 @@ class Entity extends ArchivePNGObject {
         }
     }
 
+    void removeGenerator(Generator generator) {
+        if(_generators.containsKey(generator.key)){
+            List<Generator> toRemove = new List<Generator>();
+            _generators[generator.key].forEach((Generator g)
+            {
+                if(g.toDataString() == generator.toDataString()){
+                    toRemove.add(g);
+                }
+            });
+           toRemove.forEach((Generator item) => _generators[generator.key].remove(item));
+        }
+    }
+
     void removeGeneratorsForKey(String key) {
         _generators.remove(key);
     }
@@ -287,6 +359,34 @@ class Entity extends ArchivePNGObject {
     void addScene(Scene scene) {
         scene.owner = this;
         _scenes.add(scene);
+    }
+
+    //not as simple as just calling remove because it might be a clone
+    void removeScene(Scene scene) {
+        scene.owner = null;
+        List<Scene> toRemove = new List<Scene>();
+        _scenes.forEach((Scene s)
+        {
+            if(s.toDataString() == scene.toDataString()){
+                toRemove.add(s);
+            }
+        });
+        toRemove.forEach((Scene item) => _scenes.remove(item));
+
+    }
+
+    //not as simple as just calling remove because it might be a clone
+    void removeActivationScene(Scene scene) {
+        scene.owner = null;
+        List<Scene> toRemove = new List<Scene>();
+        _activationScenes.forEach((Scene s)
+        {
+            if(s.toDataString() == scene.toDataString()){
+                toRemove.add(s);
+            }
+        });
+        toRemove.forEach((Scene item) => _activationScenes.remove(item));
+
     }
 
     void addSceneFront(Scene scene) {
