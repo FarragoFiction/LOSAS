@@ -25,7 +25,7 @@ class CharBuilder {
     }
 
     static makeNewEntity() {
-        return new Entity("Alice",[],"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true;
+        return new Entity("Alice",[],13,"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true;
     }
 
     void makeBuilder(Element parent) async {
@@ -41,8 +41,7 @@ class CharBuilder {
                 entity.setInitStringMemory(Entity.NAMEKEY, entity.name);
                 syncDataStringToEntity();
             });
-        final DivElement note = new DivElement()..text = "* Note: Default name is the name for the current doll, may change if prepacks override this. ";
-            formHolder.append(note);
+
 
 
         activeElement = attachCheckInputElement(formHolder, "Spawns Active", entity.isActive, (e)
@@ -71,6 +70,7 @@ class CharBuilder {
             pelement.append(remove);
             remove.onClick.listen((Event e ) {
                 entity.prepacks.remove(p);
+                entity.init();
                 syncDataStringToEntity();
                 handlePrepacks(null);
             });
@@ -105,6 +105,7 @@ class CharBuilder {
             sub.onClick.listen((Event e) {
                 popup.remove();
                 entity.prepacks.add(p);
+                entity.init();
                 handlePrepacks(null);
                 syncDataStringToEntity();
             });

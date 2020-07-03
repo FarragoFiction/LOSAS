@@ -91,10 +91,10 @@ class Scenario extends ArchivePNGObject {
     Scenario.testScenario(){
         scenarioRunner = new ScenarioRunner(this,85);
         description = "A test scenario with a Pigeon/Bro/Doc ecosystem.";
-        final Entity alice = new Entity("Alice",[],"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true;
-        final Entity bob = new Entity("Bob",[],"Bob%3A___A5GM5n_EOD_AKS7_v1J1tYBKiJY%3D")..isActive = true;
-        final Entity eve = new Entity("Eve",[],"Eve%3A___A5GPGpdulkxChkWJS4sAAAALEeA%3D")..isActive = true;
-        final Entity carol = new Entity("Carol",[],"Carol%3A___A5GAAAAMzMzA1AOCEcR-NxXKvg%3D%3D");
+        final Entity alice = new Entity("Alice",[],13,"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true;
+        final Entity bob = new Entity("Bob",[],14,"Bob%3A___A5GM5n_EOD_AKS7_v1J1tYBKiJY%3D")..isActive = true;
+        final Entity eve = new Entity("Eve",[],15,"Eve%3A___A5GPGpdulkxChkWJS4sAAAALEeA%3D")..isActive = true;
+        final Entity carol = new Entity("Carol",[],16,"Carol%3A___A5GAAAAMzMzA1AOCEcR-NxXKvg%3D%3D");
 
         Generator messageGenerator = Generator.fromDataString("secretMessageDraft:___ N4Ig1gpgniBcIGcIGMBOEAuBZCCEEMBzCAEVXwDMMQAaEDKABwjhAGUAVAJQEkA5AOK0QjAPZ4AlgCMANhABq+GQFdccANogAwvlSiZAAnzIMypTKgGwEgHYATA6IoGEy5GAQA6b8J4vl6AYAFqLMBjp6hjYQAG4QqAYUtnYIjsoYBgDuEADkcQZSEBA2BhhK1jaERlKi6cHx3p7CEfpGJmYyFlbJjs6u7l4+dCSiNjkZULWlQbZg4br6OanGpuaW+AaEIQgZtgZ2EgiEyocQAPwgALoAvkA");
         Generator reactionGeneratorBob = Generator.fromDataString("reaction:___ N4Ig1gpgniBcICcIEMDGAXAlgewHYgBoR0oAHCOEAZQBUAlASQDkBxQkU7AZy8wCMANhABqyAQFcIXOAG0QMgPIB1JgFE6AOlqNWAWVW6FdAJobcyALYQAugAJOXdF1vJbfFAnaKV6rfWYs+oYmZpY2tgAm2FK4AOTotkhiAlCJKBgg1gC+QA");

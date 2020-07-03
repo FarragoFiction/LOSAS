@@ -29,6 +29,7 @@ class Entity extends ArchivePNGObject {
     String author;
     @override
     String name;
+    int initial_seed = 13;
     //todo load this from doll type
     static bool defaultFaceRight =true;
     bool get facingRightByDefault => _doll != null? _doll.facesRight : defaultFaceRight;
@@ -40,7 +41,7 @@ class Entity extends ArchivePNGObject {
     CanvasElement cachedCanvas;
     CanvasElement cachedThumbnail;
     Scenario scenario;
-    Random get rand => scenario.rand;
+    Random rand;
     Map<String,String> _stringMemory = new Map<String,String>();
     //overrides prepacks and shit
     Map<String,String> _initStringMemory = new Map<String,String>();
@@ -64,17 +65,18 @@ class Entity extends ArchivePNGObject {
     List<Scene> get readOnlyScenes => new List<Scene>.from(_scenes);
     List<Scene> get readOnlyActivationScenes => new List<Scene>.from(_activationScenes);
 
-    Entity(this.name, this.prepacks, optionalDollString) {
+    Entity(this.name, this.prepacks, this.initial_seed, optionalDollString) {
         setStringMemory(NAMEKEY,this.name);
+        rand = new Random(initial_seed);
         setStringMemory(ORIGINALNAMEKEY,this.name);
-
-
         if(optionalDollString != null) {
             setDollString(optionalDollString);
         }
     }
 
-    Entity.empty();
+    Entity.empty(this.initial_seed){
+        rand = new Random(initial_seed);
+    }
 
 
     Entity.fromDataString(String dataString){
@@ -85,7 +87,17 @@ class Entity extends ArchivePNGObject {
         loadFromSerialization(serialization);
     }
 
-    void init(Random rand) {
+    void clear() {
+        rand = new Random(initial_seed);
+        _stringMemory.clear();
+        _numMemory.clear();
+        _scenes.clear();
+        _activationScenes.clear();
+        _doll = new PigeonDoll()..rand=rand..randomize();
+    }
+
+    void init() {
+        clear();
         processPrepacks(rand);
         overridePrepacks();
         if(name == null) {
@@ -136,7 +148,9 @@ class Entity extends ArchivePNGObject {
 
     void randomDollOfType(int type) {
         Doll doll = Doll.randomDollOfType(type);
-        setDollString(doll.toDataBytesX);
+        doll.rand = rand;
+        doll.randomize();
+        setDollString(doll.toDataBytesX());
     }
 
     void setDollString(optionalDollString) {

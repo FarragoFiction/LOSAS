@@ -45,7 +45,6 @@ class ScenarioRunner {
         game = new GameUI(scenario);
         print("made a new game");
         game.setup(parent);
-        initializeEntities();
         Scene.attachDebugElement(parent, scenario, "test");
         print("setup the game");
         lookForNextScene();
@@ -67,7 +66,8 @@ class ScenarioRunner {
         Doll doll = new PigeonDoll(); //if a prepack doesn't do any overriding, this is just what the doll defaults to.
         doll.rand = scenario.rand;
         doll.randomize();
-        Entity ret = new Entity(doll.dollName,[],doll.toDataBytesX());
+        Entity ret = new Entity(doll.dollName,[],scenario.rand.nextInt(), doll.toDataBytesX());
+        ret.scenario = scenario;
         int numberTraits = rand.nextInt(3)+1;
         Set<Prepack> traits = new Set<Prepack>();
         for(int i = 0; i<numberTraits; i++) {
@@ -75,12 +75,10 @@ class ScenarioRunner {
         }
         ret.prepacks.addAll(traits);
         if(rand.nextBool()) ret.isActive = true;
+        ret.init();
         return ret;
     }
 
-    void initializeEntities() {
-        _entities.forEach((Entity e) => e.init(rand));
-    }
 
     void addEntity(Entity entity, [index]) {
         if(index != null) {
