@@ -22,6 +22,8 @@ abstract class DataObject {
         return DataStringHelper.serializationToDataString(name,getSerialization());
     }
 
+
+
     Future<void> loadFromSerialization(Map<String, dynamic> serialization);
 
     Future<void> loadFromDataString(String dataString) async {
@@ -33,7 +35,13 @@ abstract class ArchivePNGObject extends DataObject {
     //keep this around so you can render yourself as a black box
     ArchivePng externalForm;
     String fileKey; //override this plz
+    Map<String, dynamic> getSerializationWithoutImage() {
+        return getSerialization()..remove("externalForm");
+    }
 
+    String toDataStringWithoutImage() {
+        return DataStringHelper.serializationToDataString(name,getSerializationWithoutImage());
+    }
     Future<void> loadImage(Map<String, dynamic > serialization) async {
         if(serialization.containsKey("externalForm")){
             final ImageElement image = new ImageElement()..src = serialization["externalForm"];

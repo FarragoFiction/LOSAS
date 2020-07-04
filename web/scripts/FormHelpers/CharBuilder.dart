@@ -144,7 +144,7 @@ class CharBuilder {
 
 
     void syncDataStringToEntity() {
-        dataStringElement.value = entity.toDataString();
+        dataStringElement.value = entity.toDataStringWithoutImage();
     }
 
     void syncEntityToDataString(String dataString) async {

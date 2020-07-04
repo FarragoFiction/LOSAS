@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../DataStringHelper.dart';
+import '../TargetFilters/KeepIfHasPrepack.dart';
 import '../TargetFilters/KeepIfHasSceneThatSerializesToValue.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
 import '../TargetFilters/KeepIfRandomNumberLessThan.dart';
@@ -26,7 +27,19 @@ abstract class TargetFilterTests {
         testTFNameIsValueAndStringDoesntExist(element);
         testIfRandomNumberLessThan(element);
         testNoDoubles(element);
+        testHasPrepack(element);
         testSerialization(element);
+    }
+
+    static void testHasPrepack(element) {
+        Scenario scenario = Scenario.testScenario();
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        TargetFilter filter = new KeepIfHasPrepack("TODO");
+        throw("TODO");
+        scene.targetFilters.add(filter);
+        scenario.entitiesReadOnly.first.addScene(scene);
+        bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testTFNumExists Test1", false, result, element);
     }
 
     //needed because if i typo types and any double up i get hard to track down bugs

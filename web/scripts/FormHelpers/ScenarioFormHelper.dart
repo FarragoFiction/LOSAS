@@ -317,7 +317,7 @@ class ScenarioFormHelper {
 
 
     void syncDataStringToScenario() {
-        dataStringElement.value = scenario.toDataString();
+        dataStringElement.value = scenario.toDataStringWithoutImage();
     }
 
     Future<void> syncScenarioToDataString(String dataString) async{

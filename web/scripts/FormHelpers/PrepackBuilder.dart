@@ -419,7 +419,7 @@ class PrepackBuilder {
 
     void syncDataStringToPrepack() {
         print("syncing datastring to generator, scenes is ${prepack.scenes.join(",")}");
-        dataStringElement.value = prepack.toDataString();
+        dataStringElement.value = prepack.toDataStringWithoutImage();
         clearArchiveDownload();
     }
 
