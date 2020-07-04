@@ -140,6 +140,7 @@ class PrepackBuilder {
         String dataString = await png.getFile(fileKey);
         processing.remove();
         if(dataString != null) syncPrepackToDataString(dataString);
+        syncDataStringToPrepack();
     }
 
     void removeStringGenerator(Generator g) {

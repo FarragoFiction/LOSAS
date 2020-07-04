@@ -107,6 +107,7 @@ class ScenarioFormHelper {
         archiveUploaderHolder.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, syncScenarioToImage,caption: "Load Scenario From Image");
         archiveUploaderHolder.append(uploadElement);
+        syncDataStringToScenario();
     }
 
     Future syncScenarioToImage(ArchivePng png, String fileName) async {
