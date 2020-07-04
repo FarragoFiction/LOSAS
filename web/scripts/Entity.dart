@@ -242,6 +242,9 @@ class Entity extends ArchivePNGObject {
     }
 
     bool hasGenerator(Generator g) {
+        if(!_generators.containsKey(g.key)) {
+            return false;
+        }
        for(Generator g2 in _generators[g.key]) {
           if(g2.toDataString() == g.toDataString()){
               return true;

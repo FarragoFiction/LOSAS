@@ -1,4 +1,5 @@
 import '../Entity.dart';
+import '../Generator.dart';
 import '../Prepack.dart';
 import 'TargetFilter.dart';
 
@@ -16,7 +17,8 @@ class KeepIfHasPrepack extends TargetFilter {
   KeepIfHasPrepack(String inputValue) : super(<String,String>{INPUTVALUE:inputValue}, <String,num>{});
   @override
   bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    return possibleTarget.hasPrepack(Prepack.fromDataString(importantWords[INPUTVALUE]));
+    Prepack p = Prepack.fromDataString(importantWords[INPUTVALUE]);
+    return possibleTarget.hasPrepack(p);
   }
 
   @override

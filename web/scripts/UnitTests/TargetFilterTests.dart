@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../DataStringHelper.dart';
+import '../Prepack.dart';
 import '../TargetFilters/KeepIfHasPrepack.dart';
 import '../TargetFilters/KeepIfHasSceneThatSerializesToValue.dart';
 import '../TargetFilters/KeepIfNumIsGreaterThanValueFromMemory.dart';
@@ -34,12 +35,15 @@ abstract class TargetFilterTests {
     static void testHasPrepack(element) {
         Scenario scenario = Scenario.testScenario();
         Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
-        TargetFilter filter = new KeepIfHasPrepack("TODO");
-        throw("TODO");
+        TargetFilter filter = new KeepIfHasPrepack("Bastard:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgB2YAttiiAEJiFSmYi2EQA5oKJRcAETgAbKQBUAngAcWyAIwAGfkJFcJ0uUuwA5JivYI4fEDkJkEAS0VR7cOqwBiiAARgARoWlobC8OLh5CADorezp7ZzApAGlseUJZOABxbDoqMDEUAG0QBBIyZ1crWGxmAGVXQRAAXX4ybKJC0EhYRFYMHHwiEnJKGhBGCEJ7MgB5ADNZ4igUTRBfQQAZODI8lzoAUTpeVAz4CCkAehhIOjFMAH1fTmrsqAjFOgbaccmyTe3y-aHViMMCxMgASToAUYsTAZHOAFkEHcAFJUBDyO4I0GYRARODCSqkERQaY5FCzBLEWi+bCzRDYdxSMAAN0QsmwAA8lqgCtMAOpGPZ4CI1WR4cFGDIIvYI6Z4ACaEQYzEaXkIiiYhB8dC8AAFsCyqPJXNgojSNlsdq4DphkvJWFZvlM-tbAXaUo7aGBZmIEEzWeyuTyQAVZABBPAZPayUXiyXS2XypUq7Bq0jBOhwKBeRRSEjETARLyySjyLxXI0+QiTQQ5TBeWD2bV8wXCuMSqUyuWKiIa7BkexENVVRtxfNeOCzLwAclC3AQmBnxdbQpFYs7iZ7SpKcIBjWLAAlgmQ4Iw89gxFJy5T7FJtVA4F5tiVJwgvPnSLrQeX8zXXJEVipqwBpGhippEggJLuHefqEB0IBQIYrDJNgijgrMCpwBA4YlAiLC0CyDiEAA1mAFJUtgtBZjyUAIBAVEgPY56INwNz8ogmDwcgwAAL60MxiisaCUBGBAjC0gg3F8bxzQgHSswDlA3EFKASHKKw4aKMohw1HRMSCOk7gWDc0QsQgbFQBxi7SSAXCIGAIj2qwwH8PpHzpFpOlHOwnALg2ID8Ux5mWWJElUNJQVEc2ZEoHRDGybJ3plPYLJuncthtCpckiDkCB5IgKmgCRnqoLuKUVLQ6lmBuCZWEJNb2L4+YAGoJAxKmhgKa4dgm3bJsqphquVynUF4vjQB+9glT441+TwXgAO7YVIvC0Ku7a1V2Sa9qmapoBMOb5c2RA6l4KTYL4FiLVYG3rvG23boNqpeLe96Nk+L5UeNA6QMQFbYDO2pgHNYSLk0-HFaViGULU9SVMhqBbRk9VwI1zXYG1UgdYUYyglMkLQrC8I1GAigwPYJR3DUiiU0QdziM2j4Wbg+KEo0iVAA");
         scene.targetFilters.add(filter);
         scenario.entitiesReadOnly.first.addScene(scene);
         bool result = scene.checkIfActivated(scenario.entitiesReadOnly);
-        UnitTests.processTest("testTFNumExists Test1", false, result, element);
+        UnitTests.processTest("testHasPrepack no char has bastard prepack", false, result, element);
+        scenario.entitiesReadOnly.first.processSinglePrepack(Prepack.fromDataString("Bastard:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgB2YAttiiAEJiFSmYi2EQA5oKJRcAETgAbKQBUAngAcWyAIwAGfkJFcJ0uUuwA5JivYI4fEDkJkEAS0VR7cOqwBiiAARgARoWlobC8OLh5CADorezp7ZzApAGlseUJZOABxbDoqMDEUAG0QBBIyZ1crWGxmAGVXQRAAXX4ybKJC0EhYRFYMHHwiEnJKGhBGCEJ7MgB5ADNZ4igUTRBfQQAZODI8lzoAUTpeVAz4CCkAehhIOjFMAH1fTmrsqAjFOgbaccmyTe3y-aHViMMCxMgASToAUYsTAZHOAFkEHcAFJUBDyO4I0GYRARODCSqkERQaY5FCzBLEWi+bCzRDYdxSMAAN0QsmwAA8lqgCtMAOpGPZ4CI1WR4cFGDIIvYI6Z4ACaEQYzEaXkIiiYhB8dC8AAFsCyqPJXNgojSNlsdq4DphkvJWFZvlM-tbAXaUo7aGBZmIEEzWeyuTyQAVZABBPAZPayUXiyXS2XypUq7Bq0jBOhwKBeRRSEjETARLyySjyLxXI0+QiTQQ5TBeWD2bV8wXCuMSqUyuWKiIa7BkexENVVRtxfNeOCzLwAclC3AQmBnxdbQpFYs7iZ7SpKcIBjWLAAlgmQ4Iw89gxFJy5T7FJtVA4F5tiVJwgvPnSLrQeX8zXXJEVipqwBpGhippEggJLuHefqEB0IBQIYrDJNgijgrMCpwBA4YlAiLC0CyDiEAA1mAFJUtgtBZjyUAIBAVEgPY56INwNz8ogmDwcgwAAL60MxiisaCUBGBAjC0gg3F8bxzQgHSswDlA3EFKASHKKw4aKMohw1HRMSCOk7gWDc0QsQgbFQBxi7SSAXCIGAIj2qwwH8PpHzpFpOlHOwnALg2ID8Ux5mWWJElUNJQVEc2ZEoHRDGybJ3plPYLJuncthtCpckiDkCB5IgKmgCRnqoLuKUVLQ6lmBuCZWEJNb2L4+YAGoJAxKmhgKa4dgm3bJsqphquVynUF4vjQB+9glT441+TwXgAO7YVIvC0Ku7a1V2Sa9qmapoBMOb5c2RA6l4KTYL4FiLVYG3rvG23boNqpeLe96Nk+L5UeNA6QMQFbYDO2pgHNYSLk0-HFaViGULU9SVMhqBbRk9VwI1zXYG1UgdYUYyglMkLQrC8I1GAigwPYJR3DUiiU0QdziM2j4Wbg+KEo0iVAA"));
+        result = scene.checkIfActivated(scenario.entitiesReadOnly);
+        UnitTests.processTest("testHasPrepack one char has bastard prepack", true, result, element);
+
     }
 
     //needed because if i typo types and any double up i get hard to track down bugs

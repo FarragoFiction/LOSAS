@@ -9,9 +9,12 @@ abstract class Generator extends DataObject {
 
     String key;
 
+    @override
+    String get name => key;
     Generator(this.key);
     dynamic generateValue(Random rand);
     String values();
+    @override
     Map<String,dynamic> getSerialization();
     Future<void>  loadFromSerialization(Map<String,dynamic> serialization);
 
