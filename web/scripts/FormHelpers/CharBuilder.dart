@@ -133,9 +133,9 @@ class CharBuilder {
         syncDataStringToEntity();
         dollHolder.append(canvas);
         attachAreaElement(
-            dollHolder, "DollString:", "${entity.dollstring}", (e){
+            dollHolder, "DollString:", "${entity.dollstring}", (e) async {
                 print("going to change doll string to ${e.target.value}");
-            entity.setDollStringAndOriginal(e.target.value);
+            await entity.setDollStringAndOriginal(e.target.value);
             handleDolls(null);
             syncDataStringToEntity();
         });
