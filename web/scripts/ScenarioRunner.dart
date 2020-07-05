@@ -51,18 +51,18 @@ class ScenarioRunner {
         print("looked for a scene");
     }
 
-    Future batshitchars() async {
+    void batshitchars() {
         Random rand = new Random(seed);
         int numberChars = rand.nextInt(13)+1;
         for(int i = 0; i<numberChars; i++) {
-            addEntity(await spawnOneBatShitChar(rand));
+            addEntity(spawnOneBatShitChar(rand));
         }
         _entities.first.isActive = true;
 
 
     }
 
-    Future<Entity> spawnOneBatShitChar(Random rand) async{
+    Entity spawnOneBatShitChar(Random rand) {
         Doll doll = new PigeonDoll(); //if a prepack doesn't do any overriding, this is just what the doll defaults to.
         doll.rand = scenario.rand;
         doll.randomize();
@@ -75,7 +75,7 @@ class ScenarioRunner {
         }
         ret.prepacks.addAll(traits);
         if(rand.nextBool()) ret.isActive = true;
-        await ret.init();
+        ret.init();
         return ret;
     }
 

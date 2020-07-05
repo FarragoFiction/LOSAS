@@ -165,6 +165,11 @@ class Entity extends ArchivePNGObject {
       }
     }
 
+    Future<Null> generateName() async{
+        await _doll.setNameFromEngine();
+        setStringMemory(NAMEKEY,_doll.dollName);
+    }
+
     void randomDollOfType(int type) {
         Doll doll = Doll.randomDollOfType(type);
         doll.rand = rand;
@@ -182,7 +187,6 @@ class Entity extends ArchivePNGObject {
       _doll = Doll.loadSpecificDoll(optionalDollString);
       invalidateCaches();
       setStringMemory(SPECIESKEY,_doll.name);
-      name ??= _doll.dollName;
     }
 
     @override

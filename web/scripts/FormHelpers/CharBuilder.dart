@@ -128,6 +128,7 @@ class CharBuilder {
     }
 
     void displayDoll() async{
+        await generateName();
         CanvasElement canvas = await entity.thumbnail;
         nameElement.value = entity.name;
         syncDataStringToEntity();
@@ -139,6 +140,12 @@ class CharBuilder {
             handleDolls(null);
             syncDataStringToEntity();
         });
+    }
+
+    Future<Null> generateName() async {
+        await entity.generateName();
+        nameElement.value = entity.name;
+        syncDataStringToEntity();
     }
 
 

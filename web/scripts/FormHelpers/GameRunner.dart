@@ -95,6 +95,8 @@ class GameRunner {
     //TODO update this any time the seed  changes or a new scenario is uploaded
     Future<void> displayChars(Element parent) async {
         if(scenario.scenarioRunner.entitiesReadOnly.isEmpty) scenario.scenarioRunner.batshitchars();
+        print("going to display ${scenario.entitiesReadOnly.length} chars");
+
         if(charHolder == null) {
             charHolder = new Element.div()..classes.add("subholder");
             parent.append(charHolder);
