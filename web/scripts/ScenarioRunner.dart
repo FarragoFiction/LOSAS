@@ -71,7 +71,8 @@ class ScenarioRunner {
         int numberTraits = rand.nextInt(3)+1;
         Set<Prepack> traits = new Set<Prepack>();
         for(int i = 0; i<numberTraits; i++) {
-            traits.add(rand.pickFrom(scenario.prepacks));
+            //COPY the prepack, otherwise shit gets weird ( a scene can only be owned by one char), good catch by wizzardlylogger
+            traits.add(Prepack.fromDataString(rand.pickFrom(scenario.prepacks).toDataStringWithoutImage()));
         }
         ret.prepacks.addAll(traits);
         if(rand.nextBool()) ret.isActive = true;
