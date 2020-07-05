@@ -28,8 +28,8 @@ abstract class EntityTests {
     }
 
     static void testInit(element) {
-        final Entity alice = new Entity(null,[],13,"Alice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true;
-        UnitTests.processTest("testInit: Before init, alice should have the name of her doll, which is Alice", "Alice", alice.name,element);
+        final Entity alice = new Entity(null,[],13,"DefinitelyNotAlice%3A___A5G_5sA8JL__4cAf39_cnJyLpYA%3D")..isActive = true;
+        UnitTests.processTest("testInit: Before init, alice should have the name of her doll, which is DefinitelyNotAlice", "DefinitelyNotAlice", alice.name,element);
 
         alice.setInitStringMemory("name","Doop");
         alice.setInitStringMemory("reaction","not a bastards reaction");

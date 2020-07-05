@@ -181,8 +181,8 @@ class Entity extends ArchivePNGObject {
 
       _doll = Doll.loadSpecificDoll(optionalDollString);
       invalidateCaches();
-      setStringMemory(SPECIESKEY,_doll.dollName);
-      name ??= _doll.dollName;
+      setStringMemory(SPECIESKEY,_doll.name);
+      setStringMemory(NAMEKEY, _doll.dollName);
     }
 
     @override
