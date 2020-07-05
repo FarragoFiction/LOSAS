@@ -70,7 +70,6 @@ class Entity extends ArchivePNGObject {
         rand = new Random(initial_seed);
         setStringMemory(ORIGINALNAMEKEY,this.name);
         if(optionalDollString != null) {
-            //TODO Warning probably won't actually set name if its from text engine cuz async
             setDollStringAndOriginal(optionalDollString);
         }
     }
@@ -99,9 +98,9 @@ class Entity extends ArchivePNGObject {
         _doll = new PigeonDoll()..rand=rand..randomize();
     }
 
-    Future<Null> init() async {
+    void init() {
         clear();
-        await processPrepacks();
+        processPrepacks();
         overridePrepacks();
         if(name == null) {
             setStringMemory(NAMEKEY, _doll.dollName);
@@ -118,7 +117,7 @@ class Entity extends ArchivePNGObject {
         }
     }
 
-    Future<Null> processPrepacks() async {
+    void processPrepacks() {
         List<int> possibleDollTypes = <int>[];
         for(Prepack p in prepacks) {
             if(p.suggestedDollType != null) possibleDollTypes.add(p.suggestedDollType);
@@ -126,7 +125,7 @@ class Entity extends ArchivePNGObject {
         }
 
         if(possibleDollTypes.isNotEmpty) {
-            await randomDollOfType(rand.pickFrom(possibleDollTypes));
+            randomDollOfType(rand.pickFrom(possibleDollTypes));
         }
 
     }
@@ -166,25 +165,24 @@ class Entity extends ArchivePNGObject {
       }
     }
 
-    Future<Null> randomDollOfType(int type) async {
+    void randomDollOfType(int type) {
         Doll doll = Doll.randomDollOfType(type);
         doll.rand = rand;
         doll.randomize();
-        await setDollStringAndOriginal(doll.toDataBytesX());
+        setDollStringAndOriginal(doll.toDataBytesX());
     }
 
     //does set original
-    Future<void> setDollStringAndOriginal(optionalDollString) async {
+    void setDollStringAndOriginal(optionalDollString) {
       setStringMemory(ORIGINALDOLLKEY,optionalDollString);
       setStringMemory(CURRENTDOLLKEY,optionalDollString);
       _initStringMemory[ORIGINALDOLLKEY]= optionalDollString;
       _initStringMemory[CURRENTDOLLKEY]= optionalDollString;
 
       _doll = Doll.loadSpecificDoll(optionalDollString);
-      await _doll.setNameFromEngine();
       invalidateCaches();
       setStringMemory(SPECIESKEY,_doll.name);
-      setStringMemory(NAMEKEY, _doll.dollName);
+      name ??= _doll.dollName;
     }
 
     @override
@@ -470,7 +468,7 @@ class Entity extends ArchivePNGObject {
   Future<void> loadFromSerialization(Map<String,dynamic > serialization) async{
         print("serialization keys are ${serialization.keys}");
       name = serialization["name"];
-      await setDollStringAndOriginal(serialization[ORIGINALDOLLKEY]);
+      setDollStringAndOriginal(serialization[ORIGINALDOLLKEY]);
       isActive = serialization["isActive"];
       if(serialization.containsKey("_initStringMemory")){
           _initStringMemory = new Map<String,String>.from(serialization["_initStringMemory"]);
