@@ -4,6 +4,7 @@ import 'package:DollLibCorrect/DollRenderer.dart';
 
 import '../ActionEffects/AEAddGenerator.dart';
 import '../ActionEffects/AEAddNumFromYourMemory.dart';
+import '../ActionEffects/AEAddPrepack.dart';
 import '../ActionEffects/AEAddScene.dart';
 import '../ActionEffects/AEAddSceneFromOwner.dart';
 import '../ActionEffects/AEAddSceneFromTarget.dart';
@@ -13,6 +14,8 @@ import '../ActionEffects/AECopyNumToTarget.dart';
 import '../ActionEffects/AECopyStringFromTarget.dart';
 import '../ActionEffects/AECopyStringToTarget.dart';
 import '../ActionEffects/AERemoveGeneratorsForKey.dart';
+import '../ActionEffects/AERemovePrepack.dart';
+import '../ActionEffects/AERemoveScene.dart';
 import '../ActionEffects/AERestoreDoll.dart';
 import '../ActionEffects/AESetDollStringFromMyMemory.dart';
 import '../ActionEffects/AESetDollStringFromYourMemory.dart';
@@ -20,6 +23,7 @@ import '../ActionEffects/AESetNumGenerator.dart';
 import '../ActionEffects/AESetStringGenerator.dart';
 import '../ActionEffects/AETransformDoll.dart';
 import '../DataStringHelper.dart';
+import '../Prepack.dart';
 import 'UnitTests.dart';
 
 abstract class ActionEffectTests {
@@ -31,6 +35,9 @@ abstract class ActionEffectTests {
         testAddNumFromMemory(element);
         testSetString(element);
         testSetScene(element);
+        testRemoveScene(element);
+        testAddPrepack(element);
+        testRemovePrepack(element);
         testSetSceneFromOwner(element);
         testSetSceneFromTarget(element);
 
@@ -160,6 +167,54 @@ abstract class ActionEffectTests {
         int newNumberScenes = scenario.entitiesReadOnly[1].readOnlyScenes.length;
         UnitTests.processTest("testSetScene target has a new scene ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
     }
+
+    static void testRemoveScene(element) {
+        Scenario scenario = Scenario.testScenario();
+        String dataString = "Be Deacon:___ N4IghgrgLgFg9gJxALgHYQDYYDQgEYDmKIAKgPIAiZIuhAMnAMZhQCWcqAoqgCbF1kAygEFBACQCmjKBDAA6AA6oiuKGAQEJUMqgkooCCBNoSAZogkAxDGABuiEhIAeUYgG0yAdQBynAEpygiR+AJLeAOIAspyRZH4AmnKoYAC2EgC6AAQwYADOmTxSrIU8mbAsmW4kwn7hnCSBwWFRMXGJyWlZuTlYmXgSmRQAigAM3pl5mQDuElhyNOCmUBII1nYOzq7IIFU1dQ1BoRHRsQlJqRmZrPmocFODo97zuB162wBCAxQSYIwcC2oNFpLKwMMsELkUG5QFAAJ4KN4gADSEgkChCpj8YF4cBS3ggKX6CDoElyuRIOVQC1sCGuAGswChTGAMLljCBbltmaz2awUgpEGpUFBPIgeJDkMAAL64PkChBCqD4wkrCWgVioBTQWwsowoEZyACsUql6VwZlMUigEuhIDhCOIgi0FDgWEEBg1BEsCFxkVhkQkKUQsIWcsF2JFYrVIDSQYQsJRIe2jAgCAQEmFLrdHuUAGFKQRPS7Sd44LBPSAZSAwwqI8qiWqqzT6YzkNy2TKYfDEcIFAjeO7acoSHBvRxXLL+eHhaKEOKUKBclBEGBNIniK8FkuhwQR73+3xtsMxpXJ-LFfXVQum7TcgymSyO+kpUA";
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AERemoveScene(dataString);
+        scene.effects.add(effect);
+        var char = scenario.entitiesReadOnly[1];
+        scene.targets.add(char);
+        char.addScene(Scene.fromDataString(dataString));
+
+        int numberScenes = char.readOnlyScenes.length;
+        scene.applyEffects();
+        int newNumberScenes = char.readOnlyScenes.length;
+        UnitTests.processTest("testRemoveScene target has one less scene ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes-1, element);
+    }
+
+    static void testAddPrepack(element) {
+        Scenario scenario = Scenario.testScenario();
+        String dataString = "Bastard:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgB2YAttiiAEJiFSmYi2EQA5oKJRcAETgAbKQBUAngAcWyAIwAGfkJFcJ0uUuwA5JivYI4fEDkJkEAS0VR7cOqwBiiAARgARoWlobC8OLh5CADorezp7ZzApAGlseUJZOABxbDoqMDEUAG0QBBIyZ1crWGxmAGVXQRAAXX4ybKJC0EhYRFYMHHwiEnJKGhBGCEJ7MgB5ADNZ4igUTRBfQQAZODI8lzoAUTpeVAz4CCkAehhIOjFMAH1fTmrsqAjFOgbaccmyTe3y-aHViMMCxMgASToAUYsTAZHOAFkEHcAFJUBDyO4I0GYRARODCSqkERQaY5FCzBLEWi+bCzRDYdxSMAAN0QsmwAA8lqgCtMAOpGPZ4CI1WR4cFGDIIvYI6Z4ACaEQYzEaXkIiiYhB8dC8AAFsCyqPJXNgojSNlsdq4DphkvJWFZvlM-tbAXaUo7aGBZmIEEzWeyuTyQAVZABBPAZPayUXiyXS2XypUq7Bq0jBOhwKBeRRSEjETARLyySjyLxXI0+QiTQQ5TBeWD2bV8wXCuMSqUyuWKiIa7BkexENVVRtxfNeOCzLwAclC3AQmBnxdbQpFYs7iZ7SpKcIBjWLAAlgmQ4Iw89gxFJy5T7FJtVA4F5tiVJwgvPnSLrQeX8zXXJEVipqwBpGhippEggJLuHefqEB0IBQIYrDJNgijgrMCpwBA4YlAiLC0CyDiEAA1mAFJUtgtBZjyUAIBAVEgPY56INwNz8ogmDwcgwAAL60MxiisaCUBGBAjC0gg3F8bxzQgHSswDlA3EFKASHKKw4aKMohw1HRMSCOk7gWDc0QsQgbFQBxi7SSAXCIGAIj2qwwH8PpHzpFpOlHOwnALg2ID8Ux5mWWJElUNJQVEc2ZEoHRDGybJ3plPYLJuncthtCpckiDkCB5IgKmgCRnqoLuKUVLQ6lmBuCZWEJNb2L4+YAGoJAxKmhgKa4dgm3bJsqphquVynUF4vjQB+9glT441+TwXgAO7YVIvC0Ku7a1V2Sa9qmapoBMOb5c2RA6l4KTYL4FiLVYG3rvG23boNqpeLe96Nk+L5UeNA6QMQFbYDO2pgHNYSLk0-HFaViGULU9SVMhqBbRk9VwI1zXYG1UgdYUYyglMkLQrC8I1GAigwPYJR3DUiiU0QdziM2j4Wbg+KEo0iVAA";
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AEAddPrepack(dataString);
+        scene.effects.add(effect);
+        var char = scenario.entitiesReadOnly[1];
+        scene.targets.add(char);
+        int numberScenes = char.readOnlyScenes.length;
+        scene.applyEffects();
+        int newNumberScenes = char.readOnlyScenes.length;
+        UnitTests.processTest("testAddPrepack target has a new scene ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes+1, element);
+        UnitTests.processTest("testAddPrepack target has prepack", true,char.hasPrepack(Prepack.fromDataString(dataString)), element);
+    }
+
+    static void testRemovePrepack(element) {
+        Scenario scenario = Scenario.testScenario();
+        String dataString = "Bastard:___ N4IghgrgLgFg9gJxALhAKzAEwKaYErYDO2YCAxjNkgDQgB2YAttiiAEJiFSmYi2EQA5oKJRcAETgAbKQBUAngAcWyAIwAGfkJFcJ0uUuwA5JivYI4fEDkJkEAS0VR7cOqwBiiAARgARoWlobC8OLh5CADorezp7ZzApAGlseUJZOABxbDoqMDEUAG0QBBIyZ1crWGxmAGVXQRAAXX4ybKJC0EhYRFYMHHwiEnJKGhBGCEJ7MgB5ADNZ4igUTRBfQQAZODI8lzoAUTpeVAz4CCkAehhIOjFMAH1fTmrsqAjFOgbaccmyTe3y-aHViMMCxMgASToAUYsTAZHOAFkEHcAFJUBDyO4I0GYRARODCSqkERQaY5FCzBLEWi+bCzRDYdxSMAAN0QsmwAA8lqgCtMAOpGPZ4CI1WR4cFGDIIvYI6Z4ACaEQYzEaXkIiiYhB8dC8AAFsCyqPJXNgojSNlsdq4DphkvJWFZvlM-tbAXaUo7aGBZmIEEzWeyuTyQAVZABBPAZPayUXiyXS2XypUq7Bq0jBOhwKBeRRSEjETARLyySjyLxXI0+QiTQQ5TBeWD2bV8wXCuMSqUyuWKiIa7BkexENVVRtxfNeOCzLwAclC3AQmBnxdbQpFYs7iZ7SpKcIBjWLAAlgmQ4Iw89gxFJy5T7FJtVA4F5tiVJwgvPnSLrQeX8zXXJEVipqwBpGhippEggJLuHefqEB0IBQIYrDJNgijgrMCpwBA4YlAiLC0CyDiEAA1mAFJUtgtBZjyUAIBAVEgPY56INwNz8ogmDwcgwAAL60MxiisaCUBGBAjC0gg3F8bxzQgHSswDlA3EFKASHKKw4aKMohw1HRMSCOk7gWDc0QsQgbFQBxi7SSAXCIGAIj2qwwH8PpHzpFpOlHOwnALg2ID8Ux5mWWJElUNJQVEc2ZEoHRDGybJ3plPYLJuncthtCpckiDkCB5IgKmgCRnqoLuKUVLQ6lmBuCZWEJNb2L4+YAGoJAxKmhgKa4dgm3bJsqphquVynUF4vjQB+9glT441+TwXgAO7YVIvC0Ku7a1V2Sa9qmapoBMOb5c2RA6l4KTYL4FiLVYG3rvG23boNqpeLe96Nk+L5UeNA6QMQFbYDO2pgHNYSLk0-HFaViGULU9SVMhqBbRk9VwI1zXYG1UgdYUYyglMkLQrC8I1GAigwPYJR3DUiiU0QdziM2j4Wbg+KEo0iVAA";
+        Scene scene = new Scene("Alice Sends", "Alice sends a secret message to Bob.","");
+        ActionEffect effect = new AERemovePrepack(dataString);
+        scene.effects.add(effect);
+        var char = scenario.entitiesReadOnly[1];
+        scene.targets.add(char);
+        char.processSinglePrepack(Prepack.fromDataString(dataString));
+        int numberScenes = char.readOnlyScenes.length;
+        scene.applyEffects();
+        int newNumberScenes = char.readOnlyScenes.length;
+        UnitTests.processTest("testRemovePrepack target has less scenes ${numberScenes} vs ${newNumberScenes}", true,newNumberScenes==numberScenes-1, element);
+        UnitTests.processTest("testRemovePrepack target has prepack", false,char.hasPrepack(Prepack.fromDataString(dataString)), element);
+    }
+
 
     static void testSetSceneFromOwner(element) {
         Scenario scenario = Scenario.testScenario();
