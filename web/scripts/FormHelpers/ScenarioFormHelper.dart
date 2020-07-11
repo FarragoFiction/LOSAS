@@ -246,7 +246,7 @@ class ScenarioFormHelper {
                 sub.append(element);
                 sub.append(text);
 
-                Element dse = attachAreaElement(sub, "DataString:", "${p.toDataStringWithoutImage()}", (e)
+                Element dse = attachAreaElement(sub, "DataString (changing this keeps current image):", "${p.toDataStringWithoutImage()}", (e)
                 async {
                     try {
                         await p.loadFromDataString(e.target.value);
