@@ -244,6 +244,21 @@ class ScenarioFormHelper {
                 CanvasElement element = p.externalForm.canvas
                     ..classes.add("prepack-icon");
                 sub.append(element);
+                sub.append(text);
+
+                Element dse = attachAreaElement(sub, "DataString:", "${p.toDataStringWithoutImage()}", (e)
+                async {
+                    try {
+                        await p.loadFromDataString(e.target.value);
+                        handlePrepacks(null);
+                    }catch(e) {
+                        window.console.error(e);
+                        window.alert("Look. Don't waste this. Either copy and paste in a valid datastring, or don't touch this. $e");
+                    }
+
+                });
+                sub.append(dse);
+
                 ButtonElement remove = new ButtonElement()..text = "x"..classes.add("x")..style.display="block";
                 sub.append(remove);
                 remove.onClick.listen((Event e ) {
@@ -254,7 +269,6 @@ class ScenarioFormHelper {
             }catch(e) {
                 window.alert("some kind of error displaying prepack, are you sure it had an image?");
             }
-            sub.append(text);
         });
     }
 
