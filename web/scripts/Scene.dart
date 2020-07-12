@@ -269,7 +269,7 @@ class Scene extends DataObject {
 
     static void attachDebugElement(Element parent, Scenario scenario, String className) {
         DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add(className)..setInnerHtml("<h2>$className</h2>");
-        List<SentientObject> objects = new List.from(scenario.activeEntitiesReadOnly)..add(scenario);
+        List<SentientObject> objects = new List.from(scenario.activeEntitiesReadOnly)..insert(0,scenario);
         for(SentientObject entity in objects) {
             DivElement entityElement = new DivElement()..classes.add("debugEntity");
             String activeText = (entity is Entity)? "Active: ${entity.isActive}" : "Scenario is Always Active";
