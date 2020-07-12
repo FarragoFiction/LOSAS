@@ -4,6 +4,7 @@ import 'DataObject.dart';
 import 'DataStringHelper.dart';
 import 'Generator.dart';
 import 'Scenario.dart';
+import 'SentientObject.dart';
 import "TargetFilters/TargetFilter.dart";
 import 'Entity.dart';
 import 'Util.dart';
@@ -268,11 +269,15 @@ class Scene extends DataObject {
 
     static void attachDebugElement(Element parent, Scenario scenario, String className) {
         DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add(className)..setInnerHtml("<h2>$className</h2>");
-        for(Entity entity in scenario.activeEntitiesReadOnly) {
+        List<SentientObject> objects = new List.from(scenario.activeEntitiesReadOnly)..add(scenario);
+        for(SentientObject entity in objects) {
             DivElement entityElement = new DivElement()..classes.add("debugEntity");
-            Element header = new HeadingElement.h3()..text = "${entity.name}: Active: ${entity.isActive}";
+            String activeText = (entity is Entity)? "Active: ${entity.isActive}" : "Scenario is Always Active";
+            Element header = new HeadingElement.h3()..text = "${entity.name}: $activeText";
             entityElement.append(header);
-            DivElement scenes = new DivElement()..text = "Scenes: ${entity.readOnlyScenes.join(",")}, ActivationScenes: ${entity.readOnlyActivationScenes.join(",")}";
+            String activationeText = (entity is Entity)? "ActivationScenes: ${entity.readOnlyActivationScenes.join(",")}" : "";
+
+            DivElement scenes = new DivElement()..text = "Scenes: ${entity.readOnlyScenes.join(",")}, $activationeText}";
             debug.append(entityElement);
             entityElement.append(scenes);
             TableElement stringMemoryElement = new TableElement();
@@ -321,17 +326,22 @@ class Scene extends DataObject {
             Element th3g = new Element.th()..text = "Generator Values Post Scene";
             tr2g.append(th3g);
 
-            Map<String, List<Generator>> generators = entity.readOnlyGenerators;
-            for(String key in generators.keys) {
+            if(entity is Entity) {
+                Map<String, List<Generator>> generators = entity
+                    .readOnlyGenerators;
+                for (String key in generators.keys) {
+                    TableRowElement tr_key = new TableRowElement();
+                    generatorElement.append(tr_key);
+                    Element td = new Element.td()
+                        ..text = key;
+                    tr_key.append(td);
 
-                TableRowElement tr_key = new TableRowElement();
-                generatorElement.append(tr_key);
-                Element td = new Element.td()..text = key;
-                tr_key.append(td);
-
-                Iterable<String> values = generators[key].map((Generator g) => g.values());
-                Element td2 = new Element.td()..setInnerHtml("${values.join("")}");
-                tr_key.append(td2);
+                    Iterable<String> values = generators[key].map((
+                        Generator g) => g.values());
+                    Element td2 = new Element.td()
+                        ..setInnerHtml("${values.join("")}");
+                    tr_key.append(td2);
+                }
             }
 
         }
@@ -340,7 +350,6 @@ class Scene extends DataObject {
 
 
     //asyncly renders to the element, lets the canvas go on screen asap
-    //TODO render name underneath birb?
     Future<Null> renderStageFrame(bool before) async {
         CanvasElement canvas = new CanvasElement(width: stageWidth, height: stageHeight);
         if(before) {
