@@ -12,6 +12,7 @@ import 'Generator.dart';
 import 'Prepack.dart';
 import 'ScenarioRunner.dart';
 import 'Scene.dart';
+import 'SentientObject.dart';
 import 'TargetFilters/KeepIfNumIsGreaterThanValue.dart';
 import 'TargetFilters/TargetFilter.dart';
 /*
@@ -36,7 +37,7 @@ Then you’re allowed to use any prepacks from the internet
 Then you’er allowed to just use any prepack at all you can upload
 
  */
-class Scenario extends ArchivePNGObject {
+class Scenario extends SentientObject {
     static String dataPngFile = "scenario.txt";
     ArchivePng externalForm;
     @override
@@ -154,6 +155,7 @@ class Scenario extends ArchivePNGObject {
   @override
   Future<void>  loadFromSerialization(Map<String, dynamic > serialization) async {
       scenarioRunner = new ScenarioRunner(this,13);
+      super.loadFromSerialization(serialization);
       author = serialization["author"];
     name = serialization["name"];
     description = serialization["description"];
@@ -173,7 +175,7 @@ class Scenario extends ArchivePNGObject {
 
   @override
   Map<String,dynamic > getSerialization() {
-      Map<String,dynamic> ret = new Map<String,dynamic>();
+      Map<String,dynamic> ret = super.getSerialization();
       ret["author"] = author;
       ret["name"] = name;
       ret["description"] = description;
