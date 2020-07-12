@@ -15,11 +15,11 @@ import 'Generator.dart';
 import 'Prepack.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
+import 'SentientObject.dart';
 
-class Entity extends ArchivePNGObject {
+class Entity extends SentientObject {
     static const String CURRENTDOLLKEY = "currentDollStringChangingDoesNothing";
     static const String ORIGINALDOLLKEY = "originalDollString";
-    static const String NAMEKEY = "name";
     static const String ORIGINALNAMEKEY = "originalName";
     static const String SPECIESKEY = "species";
     static String dataPngFile = "entity.txt";
@@ -42,31 +42,20 @@ class Entity extends ArchivePNGObject {
     CanvasElement cachedThumbnail;
     Scenario scenario;
     Random rand;
-    Map<String,String> _stringMemory = new Map<String,String>();
-    //overrides prepacks and shit
-    Map<String,String> _initStringMemory = new Map<String,String>();
-    Map<String,String> get readOnlyStringMemory => new Map<String,String>.from(_stringMemory);
-    Map<String,dynamic> get debugMemory => new Map<String,dynamic>.from(_stringMemory)..addAll(_numMemory);
-    Map<String,num> _numMemory = new Map<String, num>();
-    //overrides prepacks and shit
-    Map<String,num> _initialNumMemory = new Map<String, num>();
 
-    Map<String,num> get readOnlyNumMemory => new Map<String,num>.from(_numMemory);
 
     //a generator will create a value for a given key and store it in either string memory or num memory based on what it is.
     Map<String, List<Generator>> _generators = new Map<String, List<Generator>>();
     Map<String, List<Generator>> get readOnlyGenerators => new Map<String, List<Generator>>.from(_generators);
     bool isActive = false;
-    //once active, these will be checked each tick
-    List<Scene> _scenes = new List<Scene>();
+
     //before activation, these will be checked each tick, will activate once fired, you don't need to do this explicitly
     List<Scene> _activationScenes = new List<Scene>();
 
-    List<Scene> get readOnlyScenes => new List<Scene>.from(_scenes);
     List<Scene> get readOnlyActivationScenes => new List<Scene>.from(_activationScenes);
 
     Entity(this.name, this.prepacks, this.initial_seed, optionalDollString) {
-        setStringMemory(NAMEKEY,this.name);
+        setStringMemory(SentientObject.NAMEKEY,this.name);
         rand = new Random(initial_seed);
         setStringMemory(ORIGINALNAMEKEY,this.name);
         if(optionalDollString != null) {
@@ -87,13 +76,12 @@ class Entity extends ArchivePNGObject {
         loadFromSerialization(serialization);
     }
 
+    @override
     void clear() {
+        super.clear();
         rand = new Random(initial_seed);
         cachedCanvas = null;
         cachedThumbnail = null;
-        _stringMemory.clear();
-        _numMemory.clear();
-        _scenes.clear();
         _activationScenes.clear();
         _doll = new PigeonDoll()..rand=rand..randomize();
     }
@@ -101,19 +89,9 @@ class Entity extends ArchivePNGObject {
     void init() {
         clear();
         processPrepacks();
-        overridePrepacks();
+        overRideOtherMemory();
         if(name == null) {
-            setStringMemory(NAMEKEY, _doll.dollName);
-        }
-    }
-
-    void overridePrepacks() {
-        for(String key in _initStringMemory.keys) {
-            setStringMemory(key, _initStringMemory[key]);
-        }
-
-        for(String key in _initialNumMemory.keys) {
-            setNumMemory(key, _initialNumMemory[key]);
+            setStringMemory(SentientObject.NAMEKEY, _doll.dollName);
         }
     }
 
@@ -167,7 +145,7 @@ class Entity extends ArchivePNGObject {
 
     Future<Null> generateName() async{
         await _doll.setNameFromEngine();
-        setStringMemory(NAMEKEY,_doll.dollName);
+        setStringMemory(SentientObject.NAMEKEY,_doll.dollName);
     }
 
     void randomDollOfType(int type) {
@@ -181,8 +159,8 @@ class Entity extends ArchivePNGObject {
     void setDollStringAndOriginal(optionalDollString) {
       setStringMemory(ORIGINALDOLLKEY,optionalDollString);
       setStringMemory(CURRENTDOLLKEY,optionalDollString);
-      _initStringMemory[ORIGINALDOLLKEY]= optionalDollString;
-      _initStringMemory[CURRENTDOLLKEY]= optionalDollString;
+      setInitStringMemory(ORIGINALDOLLKEY,optionalDollString);
+      setInitStringMemory(CURRENTDOLLKEY,optionalDollString);
 
       _doll = Doll.loadSpecificDoll(optionalDollString);
       invalidateCaches();
@@ -236,14 +214,7 @@ class Entity extends ArchivePNGObject {
         return false;
     }
 
-    bool hasScene(Scene s) {
-        for(Scene s2 in _scenes) {
-            if(s2.toDataString() == s.toDataString()){
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     bool hasGenerator(Generator g) {
         if(!_generators.containsKey(g.key)) {
@@ -279,7 +250,7 @@ class Entity extends ArchivePNGObject {
 
     Future<CanvasElement> get canvas async {
         if(cachedCanvas == null) {
-            if(name == null || name.trim().isEmpty) setStringMemory(NAMEKEY,_doll.dollName);
+            if(name == null || name.trim().isEmpty) setStringMemory(SentientObject.NAMEKEY,_doll.dollName);
             print("setting canvas for $name, their doll name is ${_doll.dollName}");
             CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
             int newWidth = maxCanvasWidth;
@@ -297,7 +268,7 @@ class Entity extends ArchivePNGObject {
     Future<CanvasElement> get thumbnail async {
         if(cachedThumbnail == null || name.isEmpty) {
             print("setting canvas for $name, their doll name is ${_doll.dollName}");
-            if(name == null || name.trim().isEmpty) setStringMemory(NAMEKEY,_doll.dollName);
+            if(name == null || name.trim().isEmpty) setStringMemory(SentientObject.NAMEKEY,_doll.dollName);
             CanvasElement fullSizeCanvas = await _doll.getNewCanvas();
             int newWidth = 100;
             int newHeight = ((100/fullSizeCanvas.width*fullSizeCanvas.height)).round();
@@ -363,24 +334,7 @@ class Entity extends ArchivePNGObject {
         }
     }
 
-    void addScene(Scene scene) {
-        scene.owner = this;
-        _scenes.add(scene);
-    }
 
-    //not as simple as just calling remove because it might be a clone
-    void removeScene(Scene scene) {
-        scene.owner = null;
-        List<Scene> toRemove = new List<Scene>();
-        _scenes.forEach((Scene s)
-        {
-            if(s.toDataString() == scene.toDataString()){
-                toRemove.add(s);
-            }
-        });
-        toRemove.forEach((Scene item) => _scenes.remove(item));
-
-    }
 
     //not as simple as just calling remove because it might be a clone
     void removeActivationScene(Scene scene) {
@@ -396,27 +350,15 @@ class Entity extends ArchivePNGObject {
 
     }
 
-    void addSceneFront(Scene scene) {
-        scene.owner = this;
-        _scenes.insert(0,scene);
-    }
+
 
     void addActivationScene(Scene scene) {
         scene.owner = this;
         _activationScenes.add(scene);
     }
 
-    //if no scene can be performed, thems the breaks kids
-    Scene performScene(List<Entity> everyone) {
-        for(Scene scene in _scenes) {
-            if(scene.checkIfActivated(everyone)){
-                return scene;
-            }
-        }
-    }
-
     String debugString() {
-        return "Entity Name: $name, Memory: $debugMemory, Scenes: ${_scenes.map((Scene s)=> s.debugString())}";
+        return "Entity Name: $name, Memory: $debugMemory, Scenes: ${readOnlyActivationScenes.map((Scene s)=> s.debugString())}";
     }
 
     Scene checkForActivationScenes(List<Entity> everyone) {
@@ -428,59 +370,14 @@ class Entity extends ArchivePNGObject {
         }
     }
 
-    bool hasStringKey(String key) => _stringMemory.containsKey(key);
-    bool hasNumKey(String key) => _numMemory.containsKey(key);
-
-    String getStringMemory(String key) {
-        return _stringMemory[key];
-    }
-
-    String removeStringMemoryKey(String key) {
-        return _stringMemory.remove(key);
-    }
-
-    void setStringMemory(String key, String value) {
-        if(key == NAMEKEY) {
-            name = value;
-        }
-        _stringMemory[key] = value;
-    }
-
-    void setInitStringMemory(String key, String value) {
-        _initStringMemory[key] = value;
-    }
-
-
-    num getNumMemory(String key) {
-        if(_numMemory.containsKey(key)){
-        return _numMemory[key];
-        }else{
-            return 0; //null isn't a real thing for numbers for display purposes.
-        }
-    }
-
-    void setNumMemory(String key, num value) {
-        _numMemory[key] = value;
-    }
-
-    void setInitNumMemory(String key, num value) {
-        _initialNumMemory[key] = value;
-    }
 
 
   @override
   Future<void> loadFromSerialization(Map<String,dynamic > serialization) async{
-        print("serialization keys are ${serialization.keys}");
+      super.loadFromSerialization(serialization);
       name = serialization["name"];
       setDollStringAndOriginal(serialization[ORIGINALDOLLKEY]);
       isActive = serialization["isActive"];
-      if(serialization.containsKey("_initStringMemory")){
-          _initStringMemory = new Map<String,String>.from(serialization["_initStringMemory"]);
-      }
-
-        if(serialization.containsKey("_initialNumMemory")){
-            _initialNumMemory = new Map<String,num>.from(serialization["_initialNumMemory"]);
-        }
       prepacks = new List<Prepack>();
       for(Map<String,dynamic> subserialization in serialization["prepacks"]) {
           print("loading a subserialization");
@@ -492,17 +389,12 @@ class Entity extends ArchivePNGObject {
 
   @override
   Map<String,dynamic > getSerialization() {
-      Map<String,dynamic> ret = new Map<String,dynamic>();
+      Map<String,dynamic> ret = super.getSerialization();
       ret["name"] = name;
       ret[ORIGINALDOLLKEY] = _doll.toDataBytesX();
       ret["isActive"] =isActive;
       ret["prepacks"] = prepacks.map((Prepack p) => p.getSerialization()).toList();
-      ret["_initStringMemory"] = _initStringMemory;
-      ret["_initialNumMemory"] = _initialNumMemory;
-
       return ret;
   }
-
-
 
 }

@@ -5,6 +5,7 @@ import '../Entity.dart';
 import '../Game.dart';
 import '../Prepack.dart';
 import '../Scenario.dart';
+import '../SentientObject.dart';
 import 'GenericFormHelper.dart';
 
 class CharBuilder {
@@ -38,7 +39,7 @@ class CharBuilder {
         nameElement =
             attachInputElement(formHolder, "Name*: ", "${entity.name}", (e) {
                 entity.name = e.target.value;
-                entity.setInitStringMemory(Entity.NAMEKEY, entity.name);
+                entity.setInitStringMemory(SentientObject.NAMEKEY, entity.name);
                 syncDataStringToEntity();
             });
 
