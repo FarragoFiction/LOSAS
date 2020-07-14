@@ -56,7 +56,7 @@ class Scene extends DataObject {
         }
     }
     Scenario scenario;
-    Entity owner; //can be null, in the case of intro/outro scenes.
+    SentientObject owner; //can be null, in the case of intro/outro scenes.
     //target everything that meets this condition, or just a single one?
     bool targetOne = false;
     String beforeFlavorText;
@@ -411,13 +411,17 @@ class Scene extends DataObject {
     }
 
     Future renderOwner(CanvasElement canvas) async {
-      CanvasElement ownerCanvas = await owner.canvas;
-      if(ownerCanvas != null && !owner.facingRightByDefault) {
-          ownerCanvas = Util.turnwaysCanvas(ownerCanvas);
-          canvas.context2D.drawImage(ownerCanvas, 0, canvas.height-ownerCanvas.height);
-      }else {
-          canvas.context2D.drawImage(ownerCanvas, 0,  canvas.height-ownerCanvas.height);
-      }
+        if(owner is Entity) {
+            CanvasElement ownerCanvas = await (owner as Entity).canvas;
+            if (ownerCanvas != null && !(owner as Entity).facingRightByDefault) {
+                ownerCanvas = Util.turnwaysCanvas(ownerCanvas);
+                canvas.context2D.drawImage(
+                    ownerCanvas, 0, canvas.height - ownerCanvas.height);
+            } else {
+                canvas.context2D.drawImage(
+                    ownerCanvas, 0, canvas.height - ownerCanvas.height);
+            }
+        }
     }
 
     void applyEffects() {

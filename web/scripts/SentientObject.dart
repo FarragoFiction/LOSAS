@@ -127,6 +127,9 @@ abstract class SentientObject extends ArchivePNGObject {
         if(serialization.containsKey("_initialNumMemory")){
             _initialNumMemory = new Map<String,num>.from(serialization["_initialNumMemory"]);
         }
+
+        _scenes = new List.from((serialization["scenes"] as List).map((subserialization) => Scene.fromSerialization(subserialization)));
+
     }
 
     @override
@@ -134,6 +137,8 @@ abstract class SentientObject extends ArchivePNGObject {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["_initStringMemory"] = _initStringMemory;
         ret["_initialNumMemory"] = _initialNumMemory;
+        ret["scenes"] = _scenes.map((Scene s) => s.getSerialization()).toList();
+
         return ret;
     }
 }

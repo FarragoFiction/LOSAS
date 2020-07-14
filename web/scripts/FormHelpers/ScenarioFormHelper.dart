@@ -178,7 +178,7 @@ class ScenarioFormHelper {
             regularSceneHolder = new Element.div()..classes.add("subholder");
             parent.append(regularSceneHolder);
         }
-        handleScenes(regularSceneHolder,"Regular Scenes",scenario.writeableScenes, handleRegularScenes, renderRegularScenes, "Scenarios are capable of creating their own scenes mid simulation(complete with shadow graphics). <br>Examples might be deciding when its time for the reckoning, or reacting to global changes in data (such as the destruction level of a city).");
+        handleScenes(regularSceneHolder,"Regular",scenario.writeableScenes, handleRegularScenes, renderRegularScenes, "Scenarios are capable of creating their own scenes mid simulation(complete with shadow graphics). <br>Examples might be deciding when its time for the reckoning, or reacting to global changes in data (such as the destruction level of a city).<br>Note: Scenarios do NOT have generators. Deal with it.");
 
 
     }
