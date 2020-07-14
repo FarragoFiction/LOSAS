@@ -20,6 +20,7 @@ class ScenarioFormHelper {
     InputElement authorElement;
     TextAreaElement descElement;
     Element introHolder;
+    Element regularSceneHolder;
     Element outroHolder;
     Element prepackHolder;
     Element archiveSaveButton;
@@ -70,6 +71,7 @@ class ScenarioFormHelper {
         });
 
         handleIntroScenes(formHolder);
+        handleRegularScenes(formHolder);
         handleOutroScenes(formHolder);
         handlePrepacks(formHolder);
         handleDebugHelpers(formHolder);
@@ -171,6 +173,16 @@ class ScenarioFormHelper {
 
     }
 
+    void handleRegularScenes(Element parent) {
+        if(regularSceneHolder == null) {
+            regularSceneHolder = new Element.div()..classes.add("subholder");
+            parent.append(regularSceneHolder);
+        }
+        handleScenes(regularSceneHolder,"Regular Scenes",scenario.writeableScenes, handleRegularScenes, renderRegularScenes, "Scenarios are capable of creating their own scenes mid simulation(complete with shadow graphics). <br>Examples might be deciding when its time for the reckoning, or reacting to global changes in data (such as the destruction level of a city).");
+
+
+    }
+
     void handleOutroScenes(Element parent) {
         if(outroHolder == null) {
             outroHolder = new Element.div()..classes.add("subholder");
@@ -216,8 +228,18 @@ class ScenarioFormHelper {
         renderScenes(scenario.frameScenes, introHolder, removeIntroScene);
     }
 
+    void renderRegularScenes() {
+        renderScenes(scenario.writeableScenes, regularSceneHolder, removeRegularScene);
+    }
+
     void removeIntroScene(Scene s) {
         scenario.frameScenes.remove(s);
+        syncDataStringToScenario();
+        handleIntroScenes(null);
+    }
+
+    void removeRegularScene(Scene s) {
+        scenario.removeScene(s);
         syncDataStringToScenario();
         handleIntroScenes(null);
     }

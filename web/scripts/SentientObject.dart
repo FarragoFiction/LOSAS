@@ -16,7 +16,7 @@ abstract class SentientObject extends ArchivePNGObject {
     //once active, these will be checked each tick
     List<Scene> _scenes = new List<Scene>();
     List<Scene> get readOnlyScenes => new List<Scene>.from(_scenes);
-
+    List<Scene> get writeableScenes => _scenes;
 
     Map<String,num> get readOnlyNumMemory => new Map<String,num>.from(_numMemory);
 
@@ -27,7 +27,7 @@ abstract class SentientObject extends ArchivePNGObject {
     }
 
     void addScene(Scene scene) {
-        scene.owner = this;
+        if(this is Entity) scene.owner = this;
         _scenes.add(scene);
     }
 
