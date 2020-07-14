@@ -119,6 +119,7 @@ class ScenarioFormHelper {
         String dataString = await png.getFile(fileKey);
         processing.remove();
         if(dataString != null) syncScenarioToDataString(dataString);
+        syncDataStringToScenario();
     }
 
 
@@ -369,6 +370,7 @@ class ScenarioFormHelper {
         nameElement.value = scenario.name;
         descElement.value = scenario.description;
         handleIntroScenes(null);
+        handleRegularScenes(null);
         handleOutroScenes(null);
         handlePrepacks(null);
         handleDebugHelpers(null);
