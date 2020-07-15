@@ -8,6 +8,7 @@ import 'Game.dart';
 import 'Prepack.dart';
 import 'Scenario.dart';
 import 'Scene.dart';
+import 'SentientObject.dart';
 
 class ScenarioRunner {
     int _seed;
@@ -32,7 +33,7 @@ class ScenarioRunner {
     List<Entity> get entitiesReadOnly  => _entities;
 
     //the person in the spotlight is on screen right now
-    Entity spotLightEntity;
+    SentientObject spotLightEntity;
     //if not entities are active on spawn, nothing can happen. I advise having at least an invisible entity, like "Skaia".
     List<Entity> get activeEntitiesReadOnly => _entities.where((Entity entity) =>entity.isActive).toList();
 
@@ -132,19 +133,11 @@ class ScenarioRunner {
             return;
         }
         Scene spotlightScene;
-        List<Entity> entitiesToCheck = null;
-        if(spotLightEntity != null) {
-            entitiesToCheck = entitiesReadOnly.sublist(entitiesReadOnly.indexOf(spotLightEntity)+1);
-        }else {
-            //every time we get to the start of entities, we shuffle so its not so samey
-            _entities.shuffle(rand);
-            entitiesToCheck = entitiesReadOnly;
-        }
+        final List<SentientObject> entitiesToCheck = getEntitiesToCheck();
         spotlightScene = checkEntitiesForScene(entitiesToCheck);
         if(spotlightScene != null) {
             game.showScene(spotlightScene);
         }else {
-            print("Time to check stop scenes");
             spotlightScene = checkStopScenes();
             if(spotlightScene == null) {
                 numberTriesForScene ++;
@@ -155,6 +148,21 @@ class ScenarioRunner {
                 game.showScene(spotlightScene);
             }
         }
+    }
+
+    List<SentientObject> getEntitiesToCheck() {
+        List<SentientObject> entitiesToCheck;
+        //if an actual entity was picked, grab everything after them in the list
+      if(spotLightEntity != null && spotLightEntity is Entity) {
+          entitiesToCheck = new List<SentientObject>.from(entitiesReadOnly.sublist(entitiesReadOnly.indexOf(spotLightEntity)+1));
+      }else if(!(spotLightEntity is Entity)) { //if it was the scenario, it was first thing, so just pick the actual entities
+          entitiesToCheck = new List<SentientObject>.from(entitiesReadOnly);
+      }else { //we're starting over, so grab the entity list and shoehorn the scenario at the front of it
+          //every time we get to the start of entities, we shuffle so its not so samey
+          _entities.shuffle(rand);
+          entitiesToCheck = new List<SentientObject>.from(entitiesReadOnly)..insert(0,scenario);
+      }
+      return entitiesToCheck;
     }
 
     Scene checkStopScenes() {
