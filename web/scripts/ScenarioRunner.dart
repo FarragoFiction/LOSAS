@@ -151,11 +151,13 @@ class ScenarioRunner {
     }
 
     List<SentientObject> getEntitiesToCheck() {
+        print("making entity list spotLightEntity is $spotLightEntity");
         List<SentientObject> entitiesToCheck;
         //if an actual entity was picked, grab everything after them in the list
       if(spotLightEntity != null && spotLightEntity is Entity) {
+          print("grabbbing everything after $spotLightEntity");
           entitiesToCheck = new List<SentientObject>.from(entitiesReadOnly.sublist(entitiesReadOnly.indexOf(spotLightEntity)+1));
-      }else if(!(spotLightEntity is Entity)) { //if it was the scenario, it was first thing, so just pick the actual entities
+      }else if(spotLightEntity != null && !(spotLightEntity is Entity)) { //if it was the scenario, it was first thing, so just pick the actual entities
           entitiesToCheck = new List<SentientObject>.from(entitiesReadOnly);
       }else { //we're starting over, so grab the entity list and shoehorn the scenario at the front of it
           //every time we get to the start of entities, we shuffle so its not so samey
@@ -178,10 +180,11 @@ class ScenarioRunner {
         return null;
     }
 
-    Scene checkEntitiesForScene(List<Entity> entitiesToCheck) {
+    Scene checkEntitiesForScene(List<SentientObject> entitiesToCheck) {
         Scene ret;
-        for(final Entity e in entitiesToCheck) {
-            if(e.isActive) {
+        print("checking $entitiesToCheck for scenes");
+        for(final SentientObject e in entitiesToCheck) {
+            if(!(e is Entity) || (e as Entity).isActive) {
                 //yes it includes yourself, what if you're gonna buff your party or something
                 ret = e.performScene(activeEntitiesReadOnly);
                 if(ret != null) {
@@ -189,7 +192,7 @@ class ScenarioRunner {
                     ret.scenario ??=scenario;
                     return ret;
                 }
-            }else{
+            }else if(e is Entity){
                 ret = e.checkForActivationScenes(activeEntitiesReadOnly);
                 if(ret != null) {
                     spotLightEntity = e;

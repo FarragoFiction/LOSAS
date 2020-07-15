@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'TargetFilter.dart';
+import '../SentientObject.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfNumIsValue extends TargetFilter {
@@ -16,7 +17,7 @@ class KeepIfNumIsValue extends TargetFilter {
 
   KeepIfNumIsValue(String memoryKey, num inputValue) : super(<String,String>{MEMORYKEY:memoryKey}, <String,num>{INPUTVALUE: inputValue});
   @override
-  bool conditionForKeep(Entity actor, Entity possibleTarget) {
+  bool conditionForKeep(SentientObject actor, SentientObject possibleTarget) {
     num currentValue = possibleTarget.getNumMemory(importantWords[MEMORYKEY]);
     if(currentValue == null) {
         return false;

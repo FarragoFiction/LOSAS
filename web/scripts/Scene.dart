@@ -269,7 +269,7 @@ class Scene extends DataObject {
 
     static void attachDebugElement(Element parent, Scenario scenario, String className) {
         DivElement debug = new DivElement()..classes.add("void")..classes.add("debug")..classes.add(className)..setInnerHtml("<h2>$className</h2>");
-        List<SentientObject> objects = new List.from(scenario.activeEntitiesReadOnly)..insert(0,scenario);
+        List<SentientObject> objects = new List.from(scenario.entitiesReadOnly)..insert(0,scenario);
         for(SentientObject entity in objects) {
             DivElement entityElement = new DivElement()..classes.add("debugEntity");
             String activeText = (entity is Entity)? "Active: ${entity.isActive}" : "Scenario is Always Active";
@@ -432,6 +432,7 @@ class Scene extends DataObject {
     }
 
     bool checkIfActivated(List<Entity> entities) {
+        print("checking if $name is activated");
         targets.clear();
         targets = new Set.from(entities);
         if(targetFilters.isEmpty) {
@@ -443,6 +444,7 @@ class Scene extends DataObject {
             targets = new Set<Entity>.from(tc.filter(this,targets.toList()));
 
         }
+        print("found ${targets.length} targets");
         return targets.isNotEmpty;
     }
 

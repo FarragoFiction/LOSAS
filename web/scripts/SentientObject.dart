@@ -38,7 +38,9 @@ abstract class SentientObject extends ArchivePNGObject {
 
     //if no scene can be performed, thems the breaks kids
     Scene performScene(List<Entity> everyone) {
+        print("$name is looking for a scene to perform");
         for(Scene scene in _scenes) {
+            if(scene.owner != this) scene.owner = this;
             if(scene.checkIfActivated(everyone)){
                 return scene;
             }

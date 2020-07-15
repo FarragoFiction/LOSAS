@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'TargetFilter.dart';
+import '../SentientObject.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfNumIsGreaterThanValue extends TargetFilter {
@@ -13,7 +14,7 @@ class KeepIfNumIsGreaterThanValue extends TargetFilter {
   String explanation = "If the target has a number stored to a given key, and its bigger than a supplied value";
   KeepIfNumIsGreaterThanValue(String memoryKey, num inputValue) : super(<String,String>{MEMORYKEY:memoryKey}, <String,num>{INPUTVALUE:inputValue});
   @override
-  bool conditionForKeep(Entity actor, Entity possibleTarget) {
+  bool conditionForKeep(SentientObject actor, SentientObject possibleTarget) {
     final num currentValue = possibleTarget.getNumMemory(importantWords[MEMORYKEY]);
     if(currentValue == null) return false; //filter me i don't even have this
     return currentValue > importantNumbers[INPUTVALUE];

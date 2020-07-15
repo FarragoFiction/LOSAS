@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'TargetFilter.dart';
+import '../SentientObject.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfStringContainsValue extends TargetFilter {
@@ -17,7 +18,7 @@ class KeepIfStringContainsValue extends TargetFilter {
 
   KeepIfStringContainsValue(String memoryKey, String inputValue) : super(<String,String>{MEMORYKEY:memoryKey, INPUTVALUE: inputValue}, <String,num>{});
   @override
-  bool conditionForKeep(Entity actor, Entity possibleTarget) {
+  bool conditionForKeep(SentientObject actor, SentientObject possibleTarget) {
     String currentValue = possibleTarget.getStringMemory(importantWords[MEMORYKEY]);
     if(currentValue == null) return false;
     return currentValue.toLowerCase().contains(importantWords[INPUTVALUE].toLowerCase());

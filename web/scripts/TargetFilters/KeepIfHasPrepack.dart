@@ -1,6 +1,7 @@
 import '../Entity.dart';
 import '../Generator.dart';
 import '../Prepack.dart';
+import '../SentientObject.dart';
 import 'TargetFilter.dart';
 
 //essentially a test condition, but could use it for bullshit.
@@ -16,9 +17,9 @@ class KeepIfHasPrepack extends TargetFilter {
   //name cannot be forgotten or changed. we can copy it to the memory store sure, but this is a True Name kind of deal.
   KeepIfHasPrepack(String inputValue) : super(<String,String>{INPUTVALUE:inputValue}, <String,num>{});
   @override
-  bool conditionForKeep(Entity actor, Entity possibleTarget) {
+  bool conditionForKeep(SentientObject actor, SentientObject possibleTarget) {
     Prepack p = Prepack.fromDataString(importantWords[INPUTVALUE]);
-    return possibleTarget.hasPrepack(p);
+    return possibleTarget is Entity? possibleTarget.hasPrepack(p):false;
   }
 
   @override

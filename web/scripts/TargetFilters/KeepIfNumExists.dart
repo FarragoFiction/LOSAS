@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'TargetFilter.dart';
+import '../SentientObject.dart';
 
 //essentially a test condition, but could use it for bullshit.
 class KeepIfNumExists extends TargetFilter {
@@ -13,7 +14,7 @@ class KeepIfNumExists extends TargetFilter {
   KeepIfNumExists(String memoryKey) : super(<String,String>{MEMORYKEY:memoryKey}, <String,num>{});
 
   @override
-  bool conditionForKeep(Entity actor, Entity possibleTarget) {
+  bool conditionForKeep(SentientObject actor, SentientObject possibleTarget) {
     return possibleTarget.getNumMemory(importantWords[MEMORYKEY]) != 0;
   }
 

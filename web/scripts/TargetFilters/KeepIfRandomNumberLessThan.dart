@@ -1,7 +1,9 @@
 import 'package:CommonLib/Random.dart';
 
 import '../Entity.dart';
+import '../Scenario.dart';
 import 'TargetFilter.dart';
+import '../SentientObject.dart';
 
 //random number is between 0 and 1, so if you pick more than 1 you're being redundant
 class KeepIfRandomNumberLessThan extends TargetFilter {
@@ -14,8 +16,8 @@ class KeepIfRandomNumberLessThan extends TargetFilter {
   KeepIfRandomNumberLessThan(num inputValue) : super(<String,String>{}, <String,num>{INPUTVALUE: inputValue});
 
   @override
-  bool conditionForKeep(Entity actor, Entity possibleTarget) {
-    Random rand = possibleTarget.scenario.rand;
+  bool conditionForKeep(SentientObject actor, SentientObject possibleTarget) {
+    Random rand = (possibleTarget is Entity)?possibleTarget.scenario.rand : (possibleTarget as Scenario).rand;
     return rand.nextDouble() <= importantNumbers[INPUTVALUE];
   }
 
