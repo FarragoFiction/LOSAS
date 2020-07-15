@@ -2,6 +2,7 @@ import '../Entity.dart';
 import '../Prepack.dart';
 import '../Scene.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AERemoveScene extends ActionEffect {
     static const String INPUTVALUE = "sceneDataString";
@@ -14,8 +15,8 @@ class AERemoveScene extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AERemoveScene(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.removeScene(Scene.fromDataString((importantWords[INPUTVALUE]))));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => e.removeScene(Scene.fromDataString((importantWords[INPUTVALUE]))));
   }
 
 }

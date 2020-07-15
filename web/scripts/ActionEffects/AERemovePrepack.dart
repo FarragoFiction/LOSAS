@@ -2,6 +2,7 @@ import '../Entity.dart';
 import '../Prepack.dart';
 import '../Scene.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AERemovePrepack extends ActionEffect {
     static const String INPUTVALUE = "prepackDataString";
@@ -14,8 +15,8 @@ class AERemovePrepack extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AERemovePrepack(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.unprocessSinglePrepack(Prepack.fromDataString((importantWords[INPUTVALUE]))));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => (e is Entity) ? e.unprocessSinglePrepack(Prepack.fromDataString((importantWords[INPUTVALUE]))): null);
   }
 
 }

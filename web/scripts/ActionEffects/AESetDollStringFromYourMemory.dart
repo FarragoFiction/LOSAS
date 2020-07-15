@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AESetDollStringFromYourMemory extends ActionEffect {
     static const String SHAREDKEY = "memoryKey";
@@ -15,9 +16,8 @@ class AESetDollStringFromYourMemory extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AESetDollStringFromYourMemory(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-      print("I'm going to set $entities dollstrings to ${entities.first.getStringMemory(importantWords[SHAREDKEY])}");
-    entities.forEach((Entity e) => e.setNewDoll(e.getStringMemory(importantWords[SHAREDKEY])));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => (e is Entity) ? e.setNewDoll(e.getStringMemory(importantWords[SHAREDKEY])) : null);
   }
 
 }

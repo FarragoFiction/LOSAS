@@ -1,5 +1,9 @@
+import 'package:CommonLib/Random.dart';
+
 import '../Entity.dart';
+import '../Scenario.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AESetStringGenerator extends ActionEffect {
     static const String GENERATORKEY = "generatorKey";
@@ -18,8 +22,9 @@ class AESetStringGenerator extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AESetStringGenerator(null,null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.generateStringValueForKey(effector.rand,importantWords[GENERATORKEY], importantWords[DEFAULTVALUE]));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+      Random rand = effector is Entity? effector.rand: (effector as Scenario).rand;
+      entities.forEach((SentientObject e) => (e is Entity) ? e.generateStringValueForKey(rand,importantWords[GENERATORKEY], importantWords[DEFAULTVALUE]):null);
   }
 
 }

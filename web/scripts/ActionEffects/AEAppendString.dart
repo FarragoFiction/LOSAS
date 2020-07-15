@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AEAppendString extends ActionEffect {
   @override
@@ -18,8 +19,8 @@ class AEAppendString extends ActionEffect {
   ActionEffect makeNewOfSameType() => new AEAppendString(null,null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    for(final Entity e in entities) {
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    for(final SentientObject e in entities) {
       String oldValue = e.getStringMemory(importantWords[STORAGEKEY]);
       oldValue ??="";
       e.setStringMemory(importantWords[STORAGEKEY],"$oldValue${importantWords[STRINGKEY]}");

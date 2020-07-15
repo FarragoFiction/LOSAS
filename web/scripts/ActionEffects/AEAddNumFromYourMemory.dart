@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AEAddNumFromYourMemory extends ActionEffect {
   @override
@@ -18,8 +19,8 @@ class AEAddNumFromYourMemory extends ActionEffect {
   ActionEffect makeNewOfSameType() => new AEAddNumFromYourMemory(null,null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    for(Entity e in entities) {
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    for(SentientObject e in entities) {
       num oldValue = e.getNumMemory(importantWords[RESULTNUM]);
       num toAdd = e.getNumMemory(importantWords[ADDOR]);
       oldValue ??=0;

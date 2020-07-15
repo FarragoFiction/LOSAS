@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AEAppendStringFront extends ActionEffect {
   @override
@@ -17,8 +18,8 @@ class AEAppendStringFront extends ActionEffect {
   ActionEffect makeNewOfSameType() => new AEAppendStringFront(null,null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    for(final Entity e in entities) {
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    for(final SentientObject e in entities) {
       String oldValue = e.getStringMemory(importantWords[STORAGEKEY]);
       oldValue ??="";
       e.setStringMemory(importantWords[STORAGEKEY],"${importantWords[STRINGKEY]}$oldValue");

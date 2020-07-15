@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AERestoreDoll extends ActionEffect {
     @override
@@ -14,8 +15,8 @@ class AERestoreDoll extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AERestoreDoll(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.restoreDollToOriginal());
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => (e is Entity) ? e.restoreDollToOriginal() : null);
   }
 
 }

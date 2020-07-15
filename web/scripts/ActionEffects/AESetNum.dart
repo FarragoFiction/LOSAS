@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AESetNum extends ActionEffect {
   static const String KEY = "memoryKey";
@@ -17,8 +18,8 @@ class AESetNum extends ActionEffect {
   ActionEffect makeNewOfSameType() => new AESetNum(null,null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.setNumMemory(importantWords[KEY], importantNumbers[NUM]));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => e.setNumMemory(importantWords[KEY], importantNumbers[NUM]));
   }
 
 }

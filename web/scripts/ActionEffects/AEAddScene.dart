@@ -1,6 +1,7 @@
 import '../Entity.dart';
 import '../Scene.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AEAddScene extends ActionEffect {
     static const String INPUTVALUE = "sceneDataString";
@@ -13,8 +14,8 @@ class AEAddScene extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AEAddScene(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.addSceneFront(new Scene.fromDataString((importantWords[INPUTVALUE]))));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => e.addSceneFront(new Scene.fromDataString((importantWords[INPUTVALUE]))));
   }
 
 }

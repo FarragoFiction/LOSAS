@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AEUnAppendString extends ActionEffect {
   static const String STOREDSTRING = "storedString";
@@ -18,8 +19,8 @@ class AEUnAppendString extends ActionEffect {
   ActionEffect makeNewOfSameType() => new AEUnAppendString(null,null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    for(final Entity e in entities) {
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    for(final SentientObject e in entities) {
       String oldValue = e.getStringMemory(importantWords[STOREDSTRING]);
       oldValue ??="";
       String newValue = oldValue.replaceAll(importantWords[STRINGTOAPPEND],"");

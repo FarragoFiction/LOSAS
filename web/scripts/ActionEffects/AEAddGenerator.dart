@@ -2,6 +2,7 @@ import '../Entity.dart';
 import '../Generator.dart';
 import '../Scene.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AEAddGenerator extends ActionEffect {
     static const String INPUTVALUE = "generatorDataString";
@@ -15,8 +16,8 @@ class AEAddGenerator extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AEAddGenerator(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.addGenerator(Generator.fromDataString((importantWords[INPUTVALUE]))));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => (e is Entity) ? e.addGenerator(Generator.fromDataString((importantWords[INPUTVALUE]))):null);
   }
 
 }

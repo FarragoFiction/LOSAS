@@ -1,4 +1,5 @@
 import '../Entity.dart';
+import '../SentientObject.dart';
 import 'ActionEffect.dart';
 
 class AEUnSetString extends ActionEffect {
@@ -15,8 +16,8 @@ class AEUnSetString extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AEUnSetString(null);
 
     @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.removeStringMemoryKey(importantWords[KEY]));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => e.removeStringMemoryKey(importantWords[KEY]));
   }
 
 }

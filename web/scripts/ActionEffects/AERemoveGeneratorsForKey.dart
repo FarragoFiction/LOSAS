@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AERemoveAllGeneratorsForKey extends ActionEffect {
   static const String STORAGEKEY = "generatorKey";
@@ -15,8 +16,8 @@ class AERemoveAllGeneratorsForKey extends ActionEffect {
   ActionEffect makeNewOfSameType() => new AERemoveAllGeneratorsForKey(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.removeGeneratorsForKey(importantWords[STORAGEKEY]));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => (e is Entity) ? e.removeGeneratorsForKey(importantWords[STORAGEKEY]): null);
   }
 
 }

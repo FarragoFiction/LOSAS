@@ -2,6 +2,7 @@ import 'package:CommonLib/Random.dart';
 
 import '../Entity.dart';
 import '../Scene.dart';
+import '../SentientObject.dart';
 import 'AEAddGenerator.dart';
 import 'AEAddNum.dart';
 import 'AEAddNumFromMyMemory.dart';
@@ -85,7 +86,7 @@ abstract class ActionEffect {
       exampleOfAllEffects ??= <ActionEffect>[new AERemoveScene(null), new AERemovePrepack(null), new AEAddPrepack(null), new AETransformDoll(null),new AERestoreDoll(null), new AEAddGenerator(null), new AERemoveAllGeneratorsForKey(null),new AEUnSetString(null),new AEAddScene(null),new AEAddSceneFromOwner(null),new AEAddSceneFromTarget(null),new AEUnAppendString(null,null),new AESetStringGenerator(null,null),new AESetString(null,null),new AESetNumGenerator(null,null),new AESetNum(null,null),new AESetDollStringFromYourMemory(null),new AESetDollStringFromMyMemory(null),new AECopyStringToTarget(null,null),new AECopyStringFromTarget(null,null),new AECopyNumToTarget(null,null),new AECopyNumFromTarget(null,null),new AEAppendStringFront(null,null),new AEAppendString(null,null),new AEAddNum(null,null), new AEAddNumFromYourMemory(null,null),new AEAddNumFromMyMemory(null,null)];
     }
 
-    void effectEntities(Entity effector, List<Entity> entities);
+    void effectEntities(SentientObject effector, List<SentientObject> entities);
 
     Map<String,dynamic> getSerialization() {
         Map<String,dynamic> ret = new Map<String,dynamic>();
@@ -103,9 +104,9 @@ abstract class ActionEffect {
 
 
     void applyEffect(Scene scene) {
-        List<Entity> targets;
+        List<SentientObject> targets;
         if(vriska) {
-            targets = new List<Entity>();
+            targets = new List<SentientObject>();
             targets.add(scene.owner);
         }else {
             targets = new List.from(scene.finalTargets);

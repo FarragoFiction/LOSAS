@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AECopyNumFromTarget extends ActionEffect {
   static const String THEIRKEY = "theirNumKey";
@@ -17,8 +18,8 @@ class AECopyNumFromTarget extends ActionEffect {
   ActionEffect makeNewOfSameType() => new AECopyNumFromTarget(null,null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => effector.setNumMemory(importantWords[MYKEY], e.getNumMemory(importantWords[THEIRKEY])));
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => effector.setNumMemory(importantWords[MYKEY], e.getNumMemory(importantWords[THEIRKEY])));
   }
 
 }

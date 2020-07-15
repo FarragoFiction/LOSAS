@@ -1,5 +1,6 @@
 import '../Entity.dart';
 import 'ActionEffect.dart';
+import '../SentientObject.dart';
 
 class AETransformDoll extends ActionEffect {
     @override
@@ -14,8 +15,8 @@ class AETransformDoll extends ActionEffect {
     ActionEffect makeNewOfSameType() => new AETransformDoll(null);
 
   @override
-  void effectEntities(Entity effector, List<Entity> entities) {
-    entities.forEach((Entity e) => e.hatch());
+  void effectEntities(SentientObject effector, List<SentientObject> entities) {
+    entities.forEach((SentientObject e) => (e is Entity) ? e.hatch():null);
   }
 
 }
