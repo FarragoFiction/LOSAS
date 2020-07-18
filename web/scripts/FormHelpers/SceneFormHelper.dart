@@ -355,6 +355,12 @@ class SceneFormHelper {
             syncDataStringToScene();
         });
 
+        CheckboxInputElement scenarioElement = attachCheckInputElement(container, "Apply to Scenario,Not Target", item.scenario, (e)
+        {
+            item.scenario = e.target.checked;
+            syncDataStringToScene();
+        });
+
         CheckboxInputElement notElement = attachCheckInputElement(container, "Invert Filter", item.not, (e)
         {
             item.not = e.target.checked;
@@ -398,6 +404,12 @@ class SceneFormHelper {
         CheckboxInputElement vriskaElement = attachCheckInputElement(container, "Apply to Self,Not Target", item.vriska, (e)
         {
             item.vriska = e.target.checked;
+            syncDataStringToScene();
+        });
+
+        CheckboxInputElement scenarioElement = attachCheckInputElement(container, "Apply to Scenario,Not Target", item.scenario, (e)
+        {
+            item.scenario = e.target.checked;
             syncDataStringToScene();
         });
 
