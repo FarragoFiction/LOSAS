@@ -39,6 +39,8 @@ import 'AEUnSetString.dart';
 abstract class ActionEffect {
     //are we applying this to my targets, or to myself?
     bool vriska = false;
+    bool scenario = false;
+
     //each subclass MUST implement this
     String type;
     String explanation;
@@ -75,6 +77,7 @@ abstract class ActionEffect {
                 newEffect.importantWords = new Map<String,String>.from(serialization["importantWords"]);
                 newEffect.importantNumbers = new Map<String,num>.from(serialization["importantNumbers"]);
                 newEffect.vriska = serialization["vriska"];
+                newEffect.scenario = serialization.containsKey("scenario")? serialization["scenario"] : false;
                 return newEffect;
             }
         }
@@ -94,6 +97,8 @@ abstract class ActionEffect {
         ret["importantWords"] = importantWords;
         ret["importantNumbers"] = importantNumbers;
         ret["vriska"] = vriska;
+        ret["scenario"] = scenario;
+
         return ret;
     }
 
@@ -108,6 +113,9 @@ abstract class ActionEffect {
         if(vriska) {
             targets = new List<SentientObject>();
             targets.add(scene.owner);
+        }else if(scenario) {
+            targets = new List<SentientObject>();
+            targets.add(scene.scenario);
         }else {
             targets = new List.from(scene.finalTargets);
         }
