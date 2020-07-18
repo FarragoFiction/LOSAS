@@ -26,6 +26,8 @@ abstract class TargetFilter {
     bool not = false;
     //should I apply my condition to myself, rather than my targets? (i.e. if I meet the condition I allow all targets to pass through to the next condition).
     bool vriska = false;
+    //is this filter actually meant to check the scenario instead of targets?
+    bool scenario = false;
     bool conditionForKeep(SentientObject actor, SentientObject possibleTarget);
     Map<String,String> importantWords = new Map<String,String>();
     Map<String, num> importantNumbers = new Map<String,num>();
@@ -45,6 +47,7 @@ abstract class TargetFilter {
         Map<String,dynamic> ret = new Map<String,dynamic>();
         ret["type"] = type;
         ret["vriska"] = vriska;
+        ret["scenario"] = scenario;
         ret["not"] = not;
         ret["importantWords"] = importantWords;
         ret["importantNumbers"] = importantNumbers;
@@ -76,6 +79,8 @@ abstract class TargetFilter {
                 newFilter.importantWords = new Map<String,String>.from(serialization["importantWords"]);
                 newFilter.importantNumbers = new Map<String,num>.from(serialization["importantNumbers"]);
                 newFilter.vriska = serialization["vriska"];
+                newFilter.scenario = serialization.containsKey("scenario")? serialization["scenario"] : false;
+
                 newFilter.not = serialization["not"];
                 return newFilter;
             }
@@ -96,6 +101,8 @@ abstract class TargetFilter {
             if(vriska) {
                 //reject all if my condition isn't met
                 if(conditionForKeep(scene.owner,scene.owner)) entities.clear();
+            }else if(scenario) {
+                if(conditionForKeep(scene.owner,scene.scenario)) entities.clear();
             }else {
                 entities.removeWhere((SentientObject item) => conditionForKeep(scene.owner,item));
             }
@@ -104,6 +111,9 @@ abstract class TargetFilter {
             if(vriska) {
                 //reject all if my condition is met
                 if(!conditionForKeep(scene.owner,scene.owner)) entities.clear();
+            }else if(scenario) {
+                if(!conditionForKeep(scene.owner,scene.scenario)) entities.clear();
+
             }else {
                 entities.removeWhere((SentientObject item) => !conditionForKeep(scene.owner,item));
             }
