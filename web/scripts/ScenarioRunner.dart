@@ -186,17 +186,15 @@ class ScenarioRunner {
         for(final SentientObject e in entitiesToCheck) {
             if(!(e is Entity) || (e as Entity).isActive) {
                 //yes it includes yourself, what if you're gonna buff your party or something
-                ret = e.performScene(activeEntitiesReadOnly);
+                ret = e.performScene(activeEntitiesReadOnly, scenario);
                 if(ret != null) {
                     spotLightEntity = e;
-                    ret.scenario ??=scenario;
                     return ret;
                 }
             }else if(e is Entity){
-                ret = e.checkForActivationScenes(activeEntitiesReadOnly);
+                ret = e.checkForActivationScenes(activeEntitiesReadOnly, scenario);
                 if(ret != null) {
                     spotLightEntity = e;
-                    ret.scenario ??=scenario;
                     return ret;
                 }
             }

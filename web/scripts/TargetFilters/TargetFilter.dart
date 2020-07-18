@@ -96,7 +96,7 @@ abstract class TargetFilter {
 
     List<SentientObject> filter(Scene scene, List<SentientObject> readOnlyEntities) {
         List<SentientObject> entities = new List<SentientObject>.from(readOnlyEntities);
-        print("checking if ${scene.name} should activate, entities is $entities");
+        print("checking if ${scene.name} should activate, entities is $entities and scenario is ${scene.scenario}");
         if(not) {
             if(vriska) {
                 //reject all if my condition isn't met

@@ -361,8 +361,9 @@ class Entity extends SentientObject {
         return "Entity Name: $name, Memory: $debugMemory, Scenes: ${readOnlyActivationScenes.map((Scene s)=> s.debugString())}";
     }
 
-    Scene checkForActivationScenes(List<Entity> everyone) {
+    Scene checkForActivationScenes(List<Entity> everyone, Scenario givenScenario) {
         for(Scene scene in _activationScenes) {
+            scene.scenario ??= givenScenario;
             if(scene.checkIfActivated(everyone)){
                 isActive = true;
                 return scene;

@@ -1,6 +1,7 @@
 //sentient objects have memory and can take actions
 import 'DataObject.dart';
 import 'Entity.dart';
+import 'Scenario.dart';
 import 'Scene.dart';
 
 abstract class SentientObject extends ArchivePNGObject {
@@ -37,9 +38,10 @@ abstract class SentientObject extends ArchivePNGObject {
     }
 
     //if no scene can be performed, thems the breaks kids
-    Scene performScene(List<Entity> everyone) {
+    Scene performScene(List<Entity> everyone, Scenario scenario) {
         print("$name is looking for a scene to perform");
         for(Scene scene in _scenes) {
+            scene.scenario ??= scenario;
             if(scene.owner != this) scene.owner = this;
             if(scene.checkIfActivated(everyone)){
                 return scene;
