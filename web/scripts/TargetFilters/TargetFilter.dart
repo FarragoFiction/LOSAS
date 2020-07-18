@@ -89,7 +89,7 @@ abstract class TargetFilter {
     }
 
 
-    List<Entity> filter(Scene scene, List<Entity> readOnlyEntities) {
+    List<SentientObject> filter(Scene scene, List<SentientObject> readOnlyEntities) {
         List<SentientObject> entities = new List<SentientObject>.from(readOnlyEntities);
         print("checking if ${scene.name} should activate, entities is $entities");
         if(not) {
