@@ -26,6 +26,7 @@ class Scene extends DataObject {
     num musicOffset = 0;
 
     static String bgLocationFront = "images/BGs/";
+    //a metal box on LOSAS
     static String musicLocationFront = "Music/";
 
     DivElement stageHolder;
