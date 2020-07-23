@@ -97,7 +97,6 @@ abstract class TargetFilter {
 
     List<SentientObject> filter(Scene scene, List<SentientObject> readOnlyEntities) {
         List<SentientObject> entities = new List<SentientObject>.from(readOnlyEntities);
-        if(scene.owner is Scenario) print("I am a filter named $type, my string memory is $importantWords, my num memory is $importantNumbers, checking if ${scene.name} should activate,vriska is $vriska, invert is $not, scenario is $scenario, owner is ${scene.owner}} entities is $entities and scenario is ${scene.scenario}");
         if(not) {
             if(vriska) {
                 //reject all if my condition isn't met

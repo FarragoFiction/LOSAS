@@ -433,7 +433,6 @@ class Scene extends DataObject {
     }
 
     bool checkIfActivated(List<Entity> entities) {
-        if(owner is Scenario) print("checking if $name is activated");
         targets.clear();
         targets = new Set.from(entities);
         if(targetFilters.isEmpty) {
@@ -445,7 +444,6 @@ class Scene extends DataObject {
             targets = new Set<Entity>.from(tc.filter(this,targets.toList()));
 
         }
-        print("found ${targets.length} targets");
         return targets.isNotEmpty;
     }
 
