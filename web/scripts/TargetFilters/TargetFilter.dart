@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../Entity.dart';
+import '../Scenario.dart';
 import '../Scene.dart';
 import '../SentientObject.dart';
 import 'KeepIfHasSceneThatSerializesToValue.dart';
@@ -96,7 +97,7 @@ abstract class TargetFilter {
 
     List<SentientObject> filter(Scene scene, List<SentientObject> readOnlyEntities) {
         List<SentientObject> entities = new List<SentientObject>.from(readOnlyEntities);
-        print("checking if ${scene.name} should activate, entities is $entities and scenario is ${scene.scenario}");
+        if(scene.owner is Scenario) print("I am a filter named $type, my string memory is $importantWords, my num memory is $importantNumbers, checking if ${scene.name} should activate,vriska is $vriska, invert is $not, scenario is $scenario, owner is ${scene.owner}} entities is $entities and scenario is ${scene.scenario}");
         if(not) {
             if(vriska) {
                 //reject all if my condition isn't met

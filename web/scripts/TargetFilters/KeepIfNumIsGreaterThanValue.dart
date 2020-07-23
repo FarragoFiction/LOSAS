@@ -1,4 +1,5 @@
 import '../Entity.dart';
+import '../Scenario.dart';
 import 'TargetFilter.dart';
 import '../SentientObject.dart';
 
@@ -16,7 +17,11 @@ class KeepIfNumIsGreaterThanValue extends TargetFilter {
   @override
   bool conditionForKeep(SentientObject actor, SentientObject possibleTarget) {
     final num currentValue = possibleTarget.getNumMemory(importantWords[MEMORYKEY]);
+    if(actor is Scenario) {
+      print("Scenario is asking if $currentValue is bigger than ${importantNumbers[INPUTVALUE]} ");
+    }
     if(currentValue == null) return false; //filter me i don't even have this
+
     return currentValue > importantNumbers[INPUTVALUE];
   }
 

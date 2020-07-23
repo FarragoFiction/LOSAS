@@ -433,7 +433,7 @@ class Scene extends DataObject {
     }
 
     bool checkIfActivated(List<Entity> entities) {
-        print("checking if $name is activated");
+        if(owner is Scenario) print("checking if $name is activated");
         targets.clear();
         targets = new Set.from(entities);
         if(targetFilters.isEmpty) {
