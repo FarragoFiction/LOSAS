@@ -54,6 +54,7 @@ class SceneFormHelper {
 
 
     void makeBuilder(Element parent, Lambda<Scene> remove) async {
+        print("JR NOTE making scene builder with bg image ${scene.bgLocation}");
         DivElement formHolder = new DivElement()..classes.add("formHolder");
         parent.append(formHolder);
         if(remove != null) {
@@ -142,7 +143,7 @@ class SceneFormHelper {
         }
         String selected = scene.bgLocationEnd;
         selected ??= options.first;
-        scene.bgLocationEnd = options.first;
+        scene.bgLocationEnd = selected;
         bgPreviewElement = new ImageElement()..style.width="620px";
         bgPreviewElement.src = "${Scene.bgLocationFront}$selected";
         holder.append(bgPreviewElement);
@@ -279,7 +280,7 @@ class SceneFormHelper {
     }
 
      void syncDataStringToScene() {
-        print("syncing datastring to scene callback is $callback");
+        print("syncing datastring to scene callback is $callback, and JR NOTE: bg image is ${scene.bgLocation}");
         wireUpDebug(null);
         dataStringElement.value = scene.toDataString();
         if(callback !=null) callback();
@@ -301,6 +302,7 @@ class SceneFormHelper {
         beforeTextElement.value = scene.beforeFlavorText;
         afterTextElement.value = scene.afterFlavorText;
         targetOneElement.checked = scene.targetOne;
+        print("JR NOTE: loading new scene, bg location is ${scene.bgLocation}");
         doBGS();
         doMusic();
         makeFilters(null);
@@ -311,8 +313,10 @@ class SceneFormHelper {
      }
 
      void doBGS() {
+
         bgPreviewElement.src = "${scene.bgLocation}";
         bgElement.options.forEach((OptionElement option) => option.selected = option.value ==scene.bgLocationEnd);
+        print("JR NOTE: after doing bgs, bg location is ${scene.bgLocation}");
     }
 
      void doMusic() {
