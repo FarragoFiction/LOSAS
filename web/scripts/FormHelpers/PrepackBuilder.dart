@@ -107,13 +107,14 @@ class PrepackBuilder {
 
     }
 
+
     void handleWritingPrepackToPng(ArchivePng png, String fileName) async {
         //doing it this way in case theres data already in it. don't copy to context.
         archiveSaveButton = new DivElement()..text = "Processing...";
         imageUploaderHolder.append(archiveSaveButton);
         await png.archive.setFile(fileKey, prepack.toDataString());
         clearArchiveDownload();
-        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, ()=> png, filename: ()=>"${prepack.name}.png", caption: "Download Prepack Archive Image (Be Patient)");
+        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, () async=> png, filename: ()=>"${prepack.name}.png", caption: "Download Prepack Archive Image (Be Patient)");
         imageUploaderHolder.append(archiveSaveButton);
         //TODO if ppl complain about having to reupload their image cache it and have a button explicitly for reexporting. not worth it rn
     }

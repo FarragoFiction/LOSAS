@@ -96,7 +96,7 @@ class ScenarioFormHelper {
         imageUploaderHolder.append(archiveSaveButton);
         await png.archive.setFile(fileKey, scenario.toDataString());
         clearArchiveDownload();
-        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, ()=> png, filename: ()=>"${scenario.name}.png", caption: "Download Scenario Archive Image (Be Patient)");
+        archiveSaveButton = FileFormat.saveButton(ArchivePng.format, () async=> png, filename: ()=>"${scenario.name}.png", caption: "Download Scenario Archive Image (Be Patient)");
         imageUploaderHolder.append(archiveSaveButton);
         //TODO if ppl complain about having to reupload their image cache it and have a button explicitly for reexporting. not worth it rn
     }
