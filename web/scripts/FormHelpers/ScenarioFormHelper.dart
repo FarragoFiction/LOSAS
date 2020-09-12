@@ -170,8 +170,6 @@ class ScenarioFormHelper {
             parent.append(introHolder);
         }
         handleScenes(introHolder,"Intro",scenario.frameScenes, handleIntroScenes, renderIntroScenes, "Scenarios have a list of possible intro scenes (complete with shadow graphics). <br>Examples might be a different opening for an all troll session vs an all human one, vs a mixed one. ");
-
-
     }
 
     void handleRegularScenes(Element parent) {
@@ -194,16 +192,31 @@ class ScenarioFormHelper {
 
     void handleScenes(Element holder, String label, List<Scene> sceneArray, Lambda<Element> handleCallBack, Action renderCallBack,String instruction) {
         holder.text = "";
-      Element header = HeadingElement.h1()..text = "Associated ${label} Scenes:";
+        DivElement toggleContainer = new DivElement();
+        holder.append(toggleContainer);
+      Element header = HeadingElement.h1()..text = "Associated ${label} Scenes:"..style.display="inline-block";
+      DivElement contents = new DivElement()..style.display = "none";
+      holder.append(contents);
       DivElement instructions = new DivElement()..setInnerHtml(instruction)..classes.add("instructions");
-        holder.append(header);
+      toggleContainer.append(header);
+      Element toggle = HeadingElement.h1()..text = "v"..style.float="right";
+      toggleContainer.append(toggle);
 
-        holder.append(instructions);
-
-
+        contents.append(instructions);
+        bool toggled = false;
+      toggleContainer.onClick.listen((Event e) {
+          toggled = !toggled;
+        if(toggled) {
+            toggle.text = "^";
+            contents.style.display = "block";
+        }else {
+            toggle.text = "v";
+            contents.style.display = "none";
+        }
+      });
 
       Scene s = SceneFormHelper.makeTestScene();
-      attachAreaElement(holder, "Add Scene From DataString:", "${s.toDataString()}", (e)
+      attachAreaElement(contents, "Add Scene From DataString:", "${s.toDataString()}", (e)
       {
           try {
               s.loadFromDataString(e.target.value);
@@ -215,7 +228,7 @@ class ScenarioFormHelper {
       });
 
       ButtonElement button = new ButtonElement()..text = "Add ${label} Scene";
-        holder.append(button);
+        contents.append(button);
       button.onClick.listen((Event e) {
           sceneArray.add(s);
           syncDataStringToScenario();
