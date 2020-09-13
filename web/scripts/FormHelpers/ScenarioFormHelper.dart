@@ -212,7 +212,7 @@ class ScenarioFormHelper {
         });
     }
 
-    void handleScenes(Element holder, String label, List<Scene> sceneArray, Lambda<Element> handleCallBack, Action renderCallBack,String instruction) {
+    void handleScenes(Element holder, String label, List<Scene> sceneArray, Lambda<Element> handleCallBack, Lambda<Element> renderCallBack,String instruction) {
         holder.text = "";
         DivElement toggleContainer = new DivElement();
         holder.append(toggleContainer);
@@ -246,15 +246,15 @@ class ScenarioFormHelper {
           handleCallBack(null);
       });
 
-      renderCallBack();
+      renderCallBack(contents);
     }
 
-    void renderIntroScenes() {
-        renderScenes(scenario.frameScenes, introHolder, removeIntroScene);
+    void renderIntroScenes(Element parent) {
+        renderScenes(scenario.frameScenes, parent, removeIntroScene);
     }
 
-    void renderRegularScenes() {
-        renderScenes(scenario.writeableScenes, regularSceneHolder, removeRegularScene);
+    void renderRegularScenes(Element parent) {
+        renderScenes(scenario.writeableScenes, parent, removeRegularScene);
     }
 
     void removeIntroScene(Scene s) {
@@ -275,8 +275,8 @@ class ScenarioFormHelper {
         handleOutroScenes(null);
     }
 
-    void renderOutroScenes() {
-        renderScenes(scenario.stopScenes, outroHolder, removeOutroScene);
+    void renderOutroScenes(Element parent) {
+        renderScenes(scenario.stopScenes, parent, removeOutroScene);
     }
 
     void renderPrepacks(Element parent) {
@@ -333,12 +333,19 @@ class ScenarioFormHelper {
             parent.append(debugHelperElement);
         }
         debugHelperElement.text = "";
-        Element header = HeadingElement.h1()..text = "Memory Keys' Info:";
+        DivElement toggleContainer = new DivElement();
+        debugHelperElement.append(toggleContainer);
+        Element header = HeadingElement.h1()..text = "Memory Key Debug Info:"..style.display="inline-block";
+        DivElement contents = new DivElement()..style.display = "none";
+        debugHelperElement.append(contents);
+        Element toggle = HeadingElement.h1()..text = "v"..style.float="right";
+        toggleContainer.append(header);
+        toggleContainer.append(toggle);
+        wrapToggle(toggleContainer, contents, toggle);
         DivElement instructions = new DivElement()..setInnerHtml("Here you can review all memory keys known by the scenario, separated into those referenced by generators, those referenced by scenes.<br><br>NOTE: will not catch errors such as thinking a key is a string when its a num or whatever. sorry.<br><br>NOTE: anything weird you do like nested keys or pointers or whatever won't show up here. Probably.")..classes.add("instructions");
-        debugHelperElement.append(header);
-        debugHelperElement.append(instructions);
-        handleGenDebug(debugHelperElement);
-        handleSceneDebug(debugHelperElement);
+        contents.append(instructions);
+        handleGenDebug(contents);
+        handleSceneDebug(contents);
 
     }
 
