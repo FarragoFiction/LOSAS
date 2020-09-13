@@ -134,13 +134,20 @@ class ScenarioFormHelper {
             parent.append(prepackHolder);
         }
         prepackHolder.text = "";
-        Element header = HeadingElement.h1()..text = "Associated Prepacks:";
+        DivElement toggleContainer = new DivElement();
+        prepackHolder.append(toggleContainer);
+        Element header = HeadingElement.h1()..text = "Associated Prepacks: (${scenario.prepacks.length})"..style.display="inline-block";
+        DivElement contents = new DivElement()..style.display = "none";
+        prepackHolder.append(contents);
+        Element toggle = HeadingElement.h1()..text = "v"..style.float="right";
+        toggleContainer.append(header);
+        toggleContainer.append(toggle);
+        wrapToggle(toggleContainer, contents, toggle);
         DivElement instructions = new DivElement()..setInnerHtml("The prepacks you add here will be the *only* prepacks available for characters in this scenario to be created from. They should use similar memory keys and flow well together, having been created specifically for this scenario. <br><br>NOTE: Prepacks can *only* be added from ArchiveImage, as prepacks are represented as images to the Observer. Thems the breaks.")..classes.add("instructions");
-        prepackHolder.append(header);
-        prepackHolder.append(instructions);
+        contents.append(instructions);
         Element uploadElement = FileFormat.loadButton(ArchivePng.format, loadPrepackFromImage,caption: "Load Prepack From Archive Image");
-        prepackHolder.append(uploadElement);
-        renderPrepacks();
+        contents.append(uploadElement);
+        renderPrepacks(contents);
     }
     Future loadPrepackFromImage(ArchivePng png, String fileName) async {
         print("IN FORM: I'm loading a prepack from image $fileName");
@@ -190,31 +197,35 @@ class ScenarioFormHelper {
         handleScenes(outroHolder,"Outro",scenario.stopScenes, handleOutroScenes, renderOutroScenes, "Scenarios have optional ending conditions (such as party wipes) that can trigger at any time. If no ending happens, eventually the simulation will time out (possibly abruptly). ");
     }
 
+    //useful for the variou subelements to call
+    void wrapToggle(Element toggleActivator, Element toggleTarget, Element toggleText) {
+        bool toggled = false;
+        toggleActivator.onClick.listen((Event e) {
+            toggled = !toggled;
+            if (toggled) {
+                toggleText.text = "^";
+                toggleTarget.style.display = "block";
+            } else {
+                toggleText.text = "v";
+                toggleTarget.style.display = "none";
+            }
+        });
+    }
+
     void handleScenes(Element holder, String label, List<Scene> sceneArray, Lambda<Element> handleCallBack, Action renderCallBack,String instruction) {
         holder.text = "";
         DivElement toggleContainer = new DivElement();
         holder.append(toggleContainer);
-      Element header = HeadingElement.h1()..text = "Associated ${label} Scenes:"..style.display="inline-block";
+      Element header = HeadingElement.h1()..text = "Associated ${label} Scenes: (${sceneArray.length})"..style.display="inline-block";
       DivElement contents = new DivElement()..style.display = "none";
       holder.append(contents);
+      Element toggle = HeadingElement.h1()..text = "v"..style.float="right";
       DivElement instructions = new DivElement()..setInnerHtml(instruction)..classes.add("instructions");
       toggleContainer.append(header);
-      Element toggle = HeadingElement.h1()..text = "v"..style.float="right";
       toggleContainer.append(toggle);
+      wrapToggle(toggleContainer, contents, toggle);
 
-        contents.append(instructions);
-        bool toggled = false;
-      toggleContainer.onClick.listen((Event e) {
-          toggled = !toggled;
-        if(toggled) {
-            toggle.text = "^";
-            contents.style.display = "block";
-        }else {
-            toggle.text = "v";
-            contents.style.display = "none";
-        }
-      });
-
+      contents.append(instructions);
       Scene s = SceneFormHelper.makeTestScene();
       attachAreaElement(contents, "Add Scene From DataString:", "${s.toDataString()}", (e)
       {
@@ -268,13 +279,13 @@ class ScenarioFormHelper {
         renderScenes(scenario.stopScenes, outroHolder, removeOutroScene);
     }
 
-    void renderPrepacks() {
+    void renderPrepacks(Element parent) {
         scenario.prepacks.forEach((Prepack p)
         {
             print('rendering prepack ${p.name}');
             DivElement sub = new DivElement()..style.display = "inline-block";
             DivElement text = new DivElement()..text = p.name;
-            prepackHolder.append(sub);
+            parent.append(sub);
 
             try {
                 CanvasElement element = p.externalForm.canvas
