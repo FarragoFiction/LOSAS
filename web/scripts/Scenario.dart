@@ -127,6 +127,14 @@ class Scenario extends SentientObject {
         return ret;
     }
 
+    Prepack findTraitNamed(String name) {
+        Iterable<Prepack> ret =  prepacks.where((Prepack p) => p.name == name);
+        if(ret != null && ret.isNotEmpty) {
+            return ret.first;
+        }
+        return null;
+    }
+
 
     //don't forget intro/outro
     Set<String> get allMemoryKeysRefScenes {
