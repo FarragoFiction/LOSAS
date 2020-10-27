@@ -7,6 +7,8 @@ import 'Scenario.dart';
 class Archetype extends DataObject{
     Scenario scenario;
     String name;
+    int min = 0; //there must be at least two players
+    int max = 1; //there can't be more than 12
     List<TraitPool> traitPool =  new List<TraitPool>();
 
     Archetype(Scenario this.scenario);
@@ -16,12 +18,16 @@ class Archetype extends DataObject{
       Map<String,dynamic> ret = new Map<String,dynamic>();
       ret["traitPool"] = traitPool.map((TraitPool p) => p.getSerialization()).toList();
       ret["name"] = name;
+      ret["min"] = min;
+      ret["max"] = max;
       return ret;
   }
 
   @override
   Future<void> loadFromSerialization(Map<String, dynamic> serialization) {
       name = serialization["name"];
+      min = serialization["min"];
+      max = serialization["max"];
       traitPool = new List<TraitPool>();
       for(Map<String,dynamic> subserialization in serialization["traitPool"]) {
           final TraitPool p = new TraitPool(scenario);
@@ -40,7 +46,7 @@ class TraitPool extends DataObject {
     WeightedList<Prepack> traits = new WeightedList<Prepack>();
     Scenario scenario;
     int min = 0;
-    int max = 0;
+    int max = 1;
     TraitPool(Scenario this.scenario);
 
   @override
