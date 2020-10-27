@@ -9,14 +9,15 @@ class Archetype extends DataObject{
 
   @override
   Map<String, dynamic> getSerialization() {
-    // TODO: implement getSerialization
-    throw UnimplementedError();
+      Map<String,dynamic> ret = new Map<String,dynamic>();
+      ret["todo"] = "trait pool";
+      ret["name"] = name;
+      return ret;
   }
 
   @override
   Future<void> loadFromSerialization(Map<String, dynamic> serialization) {
-    // TODO: implement loadFromSerialization
-    throw UnimplementedError();
+      name = serialization["name"];
   }
 
 }
@@ -31,8 +32,9 @@ class TraitPool extends DataObject {
 
   @override
   Map<String, dynamic> getSerialization() {
-    // TODO: implement getSerialization
-    throw UnimplementedError();
+      Map<String,dynamic> ret = new Map<String,dynamic>();
+      ret["todo"] = "prepack";
+      return ret;
   }
 
   @override
