@@ -246,8 +246,14 @@ class Scene extends DataObject {
         stageHolder = new DivElement()..classes.add("stageholder");
         stageHolder.style.width ="${stageWidth}px";
         stageHolder.style.height ="${stageHeight}px";
+        container.style.width ="${stageWidth}px";
+        container.style.height ="${stageHeight}px";
         container.append(stageHolder);
         await renderStageFrame(true);
+        ImageElement stageBG = new ImageElement(src: "images/stage.PNG")..classes.add("stage-bg");
+        ImageElement curtainBG = new ImageElement(src: "images/curtains.PNG")..classes.add("curtains-bg");
+        container.append(stageBG);
+        container.append(curtainBG);
         SpanElement beforeSpan= new SpanElement()..setInnerHtml(proccessedBeforeText);
 
         applyEffects(); //that way we can talk about things before someone died and after, or whatever

@@ -154,11 +154,33 @@ html:not([data-seerOf=void]) .void {
 
 .stage{
     display: block;
-    border: 3px solid black;
+}
+
+.stageholder{
+    z-index: 3;
+    position: absolute;
+    top: 167px;
+    left: 18px;
+}
+
+.stage-bg{
+    position: absolute;
+    top: 0px;
+    left: -100px;
+    z-index: 2;
+}
+
+.curtains-bg{
+    position: absolute;
+    top: 0px;
+    left: -100px;
+    z-index: 4;
 }
 
 .scene{
     padding: 10px;
+    position: relative;
+
 }
 
 .passed{
