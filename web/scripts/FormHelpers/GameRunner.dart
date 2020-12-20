@@ -49,8 +49,8 @@ class GameRunner {
         await scenario.loadFromArchive(png);
         scenario.seed = seed;
         archiveUploaderHolder.append(scenario.externalForm.canvas);
-        displayFacts(container);
-        displayChars(container);
+        displayFacts(archiveUploaderHolder);
+        displayChars(archiveUploaderHolder);
         ButtonElement button = new ButtonElement()..text = "Run Batshit Mode";
         archiveUploaderHolder.append(button);
         button.onClick.listen((Event e) {

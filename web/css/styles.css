@@ -177,6 +177,14 @@ html:not([data-seerOf=void]) .void {
     z-index: 4;
 }
 
+.narration{
+    position: absolute;
+    bottom: -160px;
+    font-weight: 900;
+    color: black;
+    z-index: 5;
+}
+
 .scene{
     padding: 10px;
     position: relative;
