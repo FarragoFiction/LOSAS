@@ -192,8 +192,8 @@ html:not([data-seerOf=void]) .void {
 .volour{
     position: absolute;
     top: 485px;
-    left: -273px;
-    z-index: 5;
+    left: -255px;
+    z-index: 11;
 }
 
 .scene{
