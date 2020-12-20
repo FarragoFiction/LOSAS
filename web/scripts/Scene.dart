@@ -252,6 +252,9 @@ class Scene extends DataObject {
         await renderStageFrame(true);
         ImageElement stageBG = new ImageElement(src: "images/stage.PNG")..classes.add("stage-bg");
         ImageElement curtainBG = new ImageElement(src: "images/curtains.PNG")..classes.add("curtains-bg");
+        ImageElement volour = new ImageElement(src: "images/Volour/Volour.png")..classes.add("volour");
+        container.append(volour);
+
         container.append(stageBG);
         container.append(curtainBG);
         SpanElement beforeSpan= new SpanElement()..setInnerHtml(proccessedBeforeText);
