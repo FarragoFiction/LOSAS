@@ -143,6 +143,15 @@ html:not([data-seerOf=void]) .void {
    0% { background-position: 0px; }
 }
 
+@keyframes hopAnimation {
+    from, to {
+        transform: translateY(-10px);
+      }
+      50% {
+        transform: translateY(10px);
+      }
+}
+
 .turnways{
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
@@ -194,6 +203,14 @@ html:not([data-seerOf=void]) .void {
     top: 485px;
     left: -255px;
     z-index: 11;
+}
+
+.silly-rabbit{
+    position: absolute;
+    top: 485px;
+    left: -255px;
+    z-index: 11;
+    animation: hopAnimation 0.2s steps(1) infinite;
 }
 
 .scene{

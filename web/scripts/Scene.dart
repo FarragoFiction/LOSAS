@@ -1,5 +1,6 @@
 import "dart:html";
 import 'ActionEffects/ActionEffect.dart';
+import 'package:CommonLib/Random.dart';
 import 'DataObject.dart';
 import 'DataStringHelper.dart';
 import 'Generator.dart';
@@ -249,19 +250,15 @@ class Scene extends DataObject {
         container.style.width ="${stageWidth}px";
         container.style.height ="${stageHeight}px";
         container.append(stageHolder);
-        await renderStageFrame(true);
-        ImageElement stageBG = new ImageElement(src: "images/stage.PNG")..classes.add("stage-bg");
-        ImageElement curtainBG = new ImageElement(src: "images/curtains.PNG")..classes.add("curtains-bg");
-        ImageElement volour = new ImageElement(src: "images/Volour/Volour.png")..classes.add("volour");
-        container.append(volour);
-
-        container.append(stageBG);
-        container.append(curtainBG);
+        await renderStageAnimationFrame(true);
         SpanElement beforeSpan= new SpanElement()..setInnerHtml(proccessedBeforeText);
 
         applyEffects(); //that way we can talk about things before someone died and after, or whatever
 
-        await renderStageFrame(false);
+        await renderStageAnimationFrame(false);
+        renderStage();
+        renderBard();
+        renderAudience();
         final SpanElement afterSpan = new SpanElement()..setInnerHtml(" $proccessedAfterText");
 
         //TODO have simple css animations that switch between before and after stage every second (i.e. put them as the bg of the on screen element);
@@ -275,6 +272,42 @@ class Scene extends DataObject {
         //always do this, never know when people will want to debug their shit
         attachDebugElement(container, scenario, className);
         return container;
+    }
+
+    void renderStage() {
+        ImageElement stageBG = new ImageElement(src: "images/stage.PNG")..classes.add("stage-bg");
+        ImageElement curtainBG = new ImageElement(src: "images/curtains.PNG")..classes.add("curtains-bg");
+        container.append(stageBG);
+        container.append(curtainBG);
+
+    }
+
+    void renderBard() {
+        ImageElement volour = new ImageElement(src: "images/Volour/Volour.png")..classes.add("volour");
+        container.append(volour);
+    }
+
+    void renderAudience() {
+        int start_x = -200;
+        Random rand = new Random();
+        int x = -250;
+        int rabbit_width = 150;
+        int y = 913;
+        for(int i = 0; i<23; i++) {
+            if(x>800) {
+                x = start_x;
+                y+= rabbit_width;
+            }else {
+                x += rabbit_width;
+            }
+            ImageElement sillyRabbit = new ImageElement(src: "images/Rabbits/placeholder.png")..classes.add("silly-rabbit");
+            sillyRabbit.style.left = "${x + rand.nextIntRange(0,100)}px";
+            sillyRabbit.style.top = "${y + rand.nextIntRange(0,19)}px";
+            sillyRabbit.style.animationDelay="${rand.nextDouble()}s";
+
+            container.append(sillyRabbit);
+        }
+
     }
 
     static void attachDebugElement(Element parent, Scenario scenario, String className) {
@@ -360,7 +393,7 @@ class Scene extends DataObject {
 
 
     //asyncly renders to the element, lets the canvas go on screen asap
-    Future<Null> renderStageFrame(bool before) async {
+    Future<Null> renderStageAnimationFrame(bool before) async {
         CanvasElement canvas = new CanvasElement(width: stageWidth, height: stageHeight);
         if(before) {
             beforeCanvas = canvas;
