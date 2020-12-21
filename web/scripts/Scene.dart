@@ -304,7 +304,6 @@ class Scene extends DataObject {
             sillyRabbit.style.left = "${x + rand.nextIntRange(0,100)}px";
             sillyRabbit.style.top = "${y + rand.nextIntRange(0,19)}px";
             sillyRabbit.style.animationDelay="${rand.nextDouble()}s";
-
             container.append(sillyRabbit);
         }
 
